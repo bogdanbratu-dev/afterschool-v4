@@ -337,7 +337,7 @@ export default function AdminPage() {
   if (!authenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
-        <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-sm">
+        <div className="bg-[var(--color-card)] rounded-xl shadow-lg p-8 w-full max-w-sm">
           <h1 className="text-2xl font-bold text-center mb-6 text-[var(--color-primary)]">Admin Login</h1>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -346,7 +346,7 @@ export default function AdminPage() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]"
               />
             </div>
             <div>
@@ -355,7 +355,7 @@ export default function AdminPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]"
               />
             </div>
             {loginError && <p className="text-sm text-[var(--color-danger)]">{loginError}</p>}
@@ -377,7 +377,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
       {/* Admin Header */}
-      <header className="bg-white shadow-sm border-b border-[var(--color-border)]">
+      <header className="bg-[var(--color-card)] shadow-sm border-b border-[var(--color-border)]">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-[var(--color-primary)]">Admin Panel</h1>
@@ -443,7 +443,7 @@ export default function AdminPage() {
         {showForm && (
           <div className="fixed inset-0 z-50 flex items-start justify-center pt-10 px-4">
             <div className="absolute inset-0 bg-black/50" onClick={() => setShowForm(false)} />
-            <div className="relative bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6">
+            <div className="relative bg-[var(--color-card)] rounded-xl shadow-xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6">
               <h3 className="text-lg font-bold mb-4">
                 {editing ? 'Editeaza After School' : 'Adauga After School Nou'}
               </h3>
@@ -452,12 +452,12 @@ export default function AdminPage() {
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium mb-1">Nume *</label>
                     <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})}
-                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium mb-1">Adresa *</label>
                     <input required value={form.address} onChange={e => setForm({...form, address: e.target.value})}
-                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Sector</label>
@@ -540,7 +540,7 @@ export default function AdminPage() {
                       <div className="relative mb-2">
                         <img src={form.banner_url} alt="Banner" className="w-full h-28 object-cover rounded-lg border border-[var(--color-border)]" />
                         <button type="button" onClick={() => setForm(f => ({ ...f, banner_url: null }))}
-                          className="absolute top-1 right-1 bg-white/80 hover:bg-white text-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow">
+                          className="absolute top-1 right-1 bg-[var(--color-card)]/80 hover:bg-[var(--color-card)] text-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow">
                           ✕
                         </button>
                       </div>
@@ -589,7 +589,7 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-6">
                 {/* Total + grafic vizite pe zi */}
-                <div className="bg-white rounded-xl border border-[var(--color-border)] p-5">
+                <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-semibold text-base">Vizite pe zi</h3>
                     <span className="text-2xl font-bold text-[var(--color-primary)]">{analyticsData.total} total</span>
@@ -615,7 +615,7 @@ export default function AdminPage() {
 
                 {/* Pagini + Dispozitive */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-white rounded-xl border border-[var(--color-border)] p-5">
+                  <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
                     <h3 className="font-semibold text-base mb-4">Pagini vizitate</h3>
                     {(() => {
                       const total = Object.values(analyticsData.pageBreakdown).reduce((a, b) => a + b, 0) || 1;
@@ -632,7 +632,7 @@ export default function AdminPage() {
                       ));
                     })()}
                   </div>
-                  <div className="bg-white rounded-xl border border-[var(--color-border)] p-5">
+                  <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
                     <h3 className="font-semibold text-base mb-4">Dispozitive</h3>
                     {(() => {
                       const total = Object.values(analyticsData.deviceBreakdown).reduce((a, b) => a + b, 0) || 1;
@@ -655,7 +655,7 @@ export default function AdminPage() {
 
                 {/* Top cautari + click-uri */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-white rounded-xl border border-[var(--color-border)] p-5">
+                  <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
                     <h3 className="font-semibold text-base mb-4">Top căutări</h3>
                     {analyticsData.topSearches.length === 0 ? (
                       <p className="text-sm text-[var(--color-text-light)]">Nicio căutare înregistrată.</p>
@@ -669,7 +669,7 @@ export default function AdminPage() {
                       </div>
                     ))}
                   </div>
-                  <div className="bg-white rounded-xl border border-[var(--color-border)] p-5">
+                  <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
                     <h3 className="font-semibold text-base mb-4">Top click-uri pe rezultate</h3>
                     {analyticsData.topClicks.length === 0 ? (
                       <p className="text-sm text-[var(--color-text-light)]">Niciun click înregistrat.</p>
@@ -695,7 +695,7 @@ export default function AdminPage() {
         )}
 
         {/* Business Mode Panel */}
-        <div className="bg-white rounded-xl shadow-sm border border-[var(--color-border)] p-5 mb-6">
+        <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] p-5 mb-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-semibold text-base">Mod Business</h3>
@@ -721,7 +721,7 @@ export default function AdminPage() {
 
         {/* Cron Panel */}
         {cronStatus && (
-          <div className="bg-white rounded-xl shadow-sm border border-[var(--color-border)] p-5 mb-6">
+          <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] p-5 mb-6">
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div>
@@ -855,7 +855,7 @@ export default function AdminPage() {
         {showClubForm && (
           <div className="fixed inset-0 z-50 flex items-start justify-center pt-10 px-4">
             <div className="absolute inset-0 bg-black/50" onClick={() => setShowClubForm(false)} />
-            <div className="relative bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6">
+            <div className="relative bg-[var(--color-card)] rounded-xl shadow-xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6">
               <h3 className="text-lg font-bold mb-4">{editingClub ? 'Editeaza Activitate' : 'Adauga Activitate Noua'}</h3>
               <form onSubmit={handleSaveClub} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -869,12 +869,12 @@ export default function AdminPage() {
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium mb-1">Nume *</label>
                     <input required value={clubForm.name} onChange={e => setClubForm({...clubForm, name: e.target.value})}
-                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium mb-1">Adresa *</label>
                     <input required value={clubForm.address} onChange={e => setClubForm({...clubForm, address: e.target.value})}
-                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Sector</label>
@@ -955,7 +955,7 @@ export default function AdminPage() {
                       <div className="relative mb-2">
                         <img src={(clubForm as any).banner_url} alt="Banner" className="w-full h-28 object-cover rounded-lg border border-[var(--color-border)]" />
                         <button type="button" onClick={() => setClubForm(f => ({ ...f, banner_url: null } as any))}
-                          className="absolute top-1 right-1 bg-white/80 hover:bg-white text-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow">
+                          className="absolute top-1 right-1 bg-[var(--color-card)]/80 hover:bg-[var(--color-card)] text-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow">
                           ✕
                         </button>
                       </div>
@@ -981,7 +981,7 @@ export default function AdminPage() {
 
         {/* Table */}
         {activeTab === 'clubs' ? (
-          <div className="bg-white rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+          <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b border-[var(--color-border)]">
@@ -1025,7 +1025,7 @@ export default function AdminPage() {
             </div>
           </div>
         ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+        <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-[var(--color-border)]">
