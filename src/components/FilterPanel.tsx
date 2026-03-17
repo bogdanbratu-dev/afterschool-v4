@@ -51,7 +51,7 @@ export default function FilterPanel({ filters, onFilterChange, hasLocation }: Fi
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
               !filters.radiusKm
                 ? 'bg-[var(--color-primary)] text-white'
-                : 'bg-gray-100 text-[var(--color-text-light)] hover:bg-gray-200'
+                : 'bg-[var(--color-bg)] text-[var(--color-text-main)] hover:bg-[var(--color-border)]'
             } disabled:opacity-40 disabled:cursor-not-allowed`}
           >
             Oricare
@@ -64,7 +64,7 @@ export default function FilterPanel({ filters, onFilterChange, hasLocation }: Fi
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 filters.radiusKm === km
                   ? 'bg-[var(--color-primary)] text-white'
-                  : 'bg-gray-100 text-[var(--color-text-light)] hover:bg-gray-200'
+                  : 'bg-[var(--color-bg)] text-[var(--color-text-main)] hover:bg-[var(--color-border)]'
               } disabled:opacity-40 disabled:cursor-not-allowed`}
             >
               {km} km
@@ -105,7 +105,7 @@ export default function FilterPanel({ filters, onFilterChange, hasLocation }: Fi
         <select
           value={filters.pickupTime}
           onChange={(e) => onFilterChange({ ...filters, pickupTime: e.target.value })}
-          className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]"
         >
           <option value="">Oricare</option>
           <option value="11:00">11:00</option>
@@ -127,7 +127,7 @@ export default function FilterPanel({ filters, onFilterChange, hasLocation }: Fi
         <select
           value={filters.endTimeMin}
           onChange={(e) => onFilterChange({ ...filters, endTimeMin: e.target.value })}
-          className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]"
         >
           <option value="">Oricare</option>
           <option value="16:00">16:00</option>
@@ -148,7 +148,7 @@ export default function FilterPanel({ filters, onFilterChange, hasLocation }: Fi
         <select
           value={filters.sector}
           onChange={(e) => onFilterChange({ ...filters, sector: e.target.value })}
-          className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text-main)]"
         >
           <option value="">Toate sectoarele</option>
           <option value="1">Sector 1</option>
@@ -191,7 +191,7 @@ export default function FilterPanel({ filters, onFilterChange, hasLocation }: Fi
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 filters.activities.includes(activity)
                   ? 'bg-[var(--color-primary)] text-white'
-                  : 'bg-gray-100 text-[var(--color-text-light)] hover:bg-gray-200'
+                  : 'bg-[var(--color-bg)] text-[var(--color-text-main)] hover:bg-[var(--color-border)]'
               }`}
             >
               {activity}
