@@ -190,14 +190,14 @@ export default function Home() {
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm font-medium hover:bg-gray-50 active:bg-gray-100 transition-colors md:hidden flex-shrink-0"
+            className="flex items-center gap-2 px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] active:opacity-90 text-white rounded-xl text-sm font-semibold shadow-md transition-all md:hidden flex-shrink-0"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
             Filtre
             {(filters.priceMax || filters.pickupTime || filters.endTimeMin || filters.activities.length > 0 || filters.sector || filters.radiusKm || filters.onlyAvailable) && (
-              <span className="w-2 h-2 rounded-full bg-[var(--color-primary)]" />
+              <span className="w-2 h-2 rounded-full bg-white" />
             )}
           </button>
         </div>
