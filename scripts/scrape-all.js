@@ -26,6 +26,38 @@ function log(...args) {
 
 async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+// ─── NORMALIZE & SIMILARITY ─────────────────────────────────────────────────
+
+function normalize(name) {
+  return name.toLowerCase()
+    .replace(/[ăâ]/g, 'a').replace(/[îí]/g, 'i').replace(/[șş]/g, 's').replace(/[țţ]/g, 't')
+    .replace(/[^a-z0-9]/g, '');
+}
+
+function similarity(a, b) {
+  const na = normalize(a), nb = normalize(b);
+  if (na === nb) return 1;
+  const longer = na.length > nb.length ? na : nb;
+  const shorter = na.length > nb.length ? nb : na;
+  if (longer.length === 0) return 1;
+  // Levenshtein distance
+  const costs = [];
+  for (let i = 0; i <= longer.length; i++) {
+    let lastVal = i;
+    for (let j = 0; j <= shorter.length; j++) {
+      if (i === 0) { costs[j] = j; }
+      else if (j > 0) {
+        let newVal = costs[j - 1];
+        if (longer[i - 1] !== shorter[j - 1]) newVal = Math.min(newVal, lastVal, costs[j]) + 1;
+        costs[j - 1] = lastVal;
+        lastVal = newVal;
+      }
+    }
+    if (i > 0) costs[shorter.length] = lastVal;
+  }
+  return (longer.length - costs[shorter.length]) / longer.length;
+}
+
 // ─── HTTP ────────────────────────────────────────────────────────────────────
 
 async function fetchPage(url, timeout = 10000) {
@@ -181,6 +213,27 @@ async function scrapePrices(baseUrl) {
   return [...allPrices].sort((a, b) => a - b);
 }
 
+async function scrapeName(baseUrl) {
+  const html = await fetchPage(baseUrl + '/');
+  if (!html) return null;
+  // Try <title> first
+  const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+  if (titleMatch) {
+    let title = titleMatch[1].trim()
+      .replace(/\s*[-–—|·]\s*.*/g, '') // Remove suffix after separator
+      .replace(/\s*(acasa|home|pagina principala)\s*/gi, '')
+      .trim();
+    if (title.length >= 4 && title.length <= 100) return title;
+  }
+  // Try <h1>
+  const h1Match = html.match(/<h1[^>]*>([^<]+)<\/h1>/i);
+  if (h1Match) {
+    const h1 = h1Match[1].trim();
+    if (h1.length >= 4 && h1.length <= 100) return h1;
+  }
+  return null;
+}
+
 async function scrapeSchedule(baseUrl) {
   for (const p of ['/', '/program', '/despre', '/servicii']) {
     const html = await fetchPage(baseUrl + p);
@@ -234,7 +287,9 @@ async function main() {
     UPDATE afterschools SET availability = ?, last_checked = ? WHERE id = ?
   `);
 
-  let changedAvail = 0, changedPrice = 0, changedSchedule = 0, errors = 0;
+  const updateName = db.prepare(`UPDATE afterschools SET name = ? WHERE id = ?`);
+
+  let changedAvail = 0, changedPrice = 0, changedSchedule = 0, changedName = 0, errors = 0;
 
   for (let i = 0; i < rows.length; i++) {
     // Verifica daca s-a cerut oprirea
@@ -254,10 +309,11 @@ async function main() {
       const changes = [];
 
       if (needsFullCheck) {
-        const [availability, prices, schedule] = await Promise.all([
+        const [availability, prices, schedule, scrapedName] = await Promise.all([
           scrapeAvailability(baseUrl),
           scrapePrices(baseUrl),
           scrapeSchedule(baseUrl),
+          scrapeName(baseUrl),
         ]);
 
         const newPriceMin = prices.length > 0 ? prices[0] : null;
@@ -266,6 +322,23 @@ async function main() {
         if (availability !== row.availability) { changes.push(`disponibilitate: ${row.availability}→${availability}`); changedAvail++; }
         if (newPriceMin && newPriceMin !== row.price_min) { changes.push(`pret: ${row.price_min ?? '?'}→${newPriceMin}`); changedPrice++; }
         if (schedule.pickupTime && schedule.pickupTime !== row.pickup_time) { changes.push(`preluare: ${row.pickup_time ?? '?'}→${schedule.pickupTime}`); changedSchedule++; }
+
+        // Smart name comparison
+        if (scrapedName && scrapedName !== row.name) {
+          const sim = similarity(row.name, scrapedName);
+          if (sim < 0.5) {
+            // Major change / possible rebrand — update + flag
+            updateName.run(scrapedName, row.id);
+            changes.push(`REBRAND: "${row.name}" → "${scrapedName}" (sim=${(sim * 100).toFixed(0)}%)`);
+            changedName++;
+          } else if (sim < 0.85) {
+            // Significant change — update
+            updateName.run(scrapedName, row.id);
+            changes.push(`nume: "${row.name}" → "${scrapedName}" (sim=${(sim * 100).toFixed(0)}%)`);
+            changedName++;
+          }
+          // sim >= 0.85 → minor change (typo, comma, space) → skip
+        }
 
         updateFull.run(availability, newPriceMin, newPriceMax, schedule.pickupTime, schedule.endTime, now, row.id);
         log(changes.length > 0 ? `✏️  ${changes.join(' | ')}` : `✓ neschimbat (full)`);
@@ -289,8 +362,26 @@ async function main() {
   log(`Modificari disponibilitate: ${changedAvail}`);
   log(`Modificari pret:            ${changedPrice}`);
   log(`Modificari orar:            ${changedSchedule}`);
+  log(`Modificari nume:            ${changedName}`);
   log(`Erori:                      ${errors}`);
   log('═'.repeat(65) + '\n');
+
+  // ─── Faza 2: Discovery (o data pe luna) ───────────────────────────────
+  const lastDiscovery = getSetting('last_discovery');
+  const daysSinceDiscovery = lastDiscovery ? (Date.now() - parseInt(lastDiscovery)) / 86400000 : 999;
+
+  if (daysSinceDiscovery >= 30) {
+    log(`\n🔎 Ultima descoperire: acum ${Math.round(daysSinceDiscovery)} zile — se lanseaza discovery...`);
+    try {
+      const discover = require('./discover-new.js');
+      const result = await discover();
+      log(`✅ Discovery finalizat: ${result.newAfterSchools} afterschool-uri noi, ${result.newClubs} cluburi noi`);
+    } catch (e) {
+      log(`❌ Eroare discovery: ${e.message?.substring(0, 100)}`);
+    }
+  } else {
+    log(`ℹ️  Discovery: ultima rulare acum ${Math.round(daysSinceDiscovery)} zile (se ruleaza la 30+ zile)`);
+  }
 
   setSetting('cron_running', 'false');
   setSetting('cron_stop_requested', 'false');
