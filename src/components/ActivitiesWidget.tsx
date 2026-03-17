@@ -22,19 +22,20 @@ interface Props {
   lat: number;
   lng: number;
   label: string;
+  radiusKm?: number;
 }
 
-export default function ActivitiesWidget({ lat, lng, label }: Props) {
+export default function ActivitiesWidget({ lat, lng, label, radiusKm = 5 }: Props) {
   const [counts, setCounts] = useState<Partial<Record<ClubCategory, number>>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/api/clubs/counts?lat=${lat}&lng=${lng}&radiusKm=5`)
+    fetch(`/api/clubs/counts?lat=${lat}&lng=${lng}&radiusKm=${radiusKm}`)
       .then(r => r.json())
       .then(data => { setCounts(data); setLoading(false); })
       .catch(() => setLoading(false));
-  }, [lat, lng]);
+  }, [lat, lng, radiusKm]);
 
   return (
     <div className="bg-white border-b border-[var(--color-border)]">

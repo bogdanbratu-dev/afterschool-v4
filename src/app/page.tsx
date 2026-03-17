@@ -165,6 +165,7 @@ export default function Home() {
           lat={searchLocation.lat}
           lng={searchLocation.lng}
           label={searchLocation.label}
+          radiusKm={filters.radiusKm ? parseFloat(filters.radiusKm) : undefined}
         />
       )}
 
