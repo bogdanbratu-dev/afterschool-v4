@@ -38,7 +38,7 @@ export default function ActivitiesWidget({ lat, lng, label, radiusKm = 5 }: Prop
   }, [lat, lng, radiusKm]);
 
   return (
-    <div className="bg-white border-b border-[var(--color-border)]">
+    <div className="bg-[var(--color-card)] border-b border-[var(--color-border)]">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <p className="text-sm font-medium text-[var(--color-text-light)] mb-3">
           Și alte activități pentru copilul tău în zonă:

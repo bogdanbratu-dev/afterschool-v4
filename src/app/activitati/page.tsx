@@ -149,7 +149,7 @@ function ActivitatiPageContent() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-[var(--color-border)]">
+      <header className="bg-[var(--color-card)] shadow-sm border-b border-[var(--color-border)]">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-[var(--color-primary)]">Activități pentru Copii</h1>
@@ -195,7 +195,7 @@ function ActivitatiPageContent() {
                 onChange={e => setAddressInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleAddressSearch()}
                 placeholder="Adresa sau zona (ex: Floreasca, Drumul Taberei...)"
-                className="w-full pl-12 pr-4 py-3.5 bg-white text-gray-900 rounded-xl shadow-sm text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-purple-300 placeholder:text-gray-400"
+                className="w-full pl-12 pr-4 py-3.5 bg-[var(--color-card)] text-[var(--color-text-main)] rounded-xl shadow-sm text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-purple-300 placeholder:text-gray-400"
               />
             </div>
             <button
@@ -218,7 +218,7 @@ function ActivitatiPageContent() {
                   onClick={() => setRadiusKm(km)}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                     radiusKm === km
-                      ? 'bg-white text-purple-700'
+                      ? 'bg-[var(--color-card)] text-purple-700'
                       : 'bg-purple-700/50 hover:bg-purple-700 text-white'
                   }`}
                 >
@@ -236,7 +236,7 @@ function ActivitatiPageContent() {
               onClick={() => setSelectedCategory('')}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 selectedCategory === ''
-                  ? 'bg-white text-purple-700'
+                  ? 'bg-[var(--color-card)] text-purple-700'
                   : 'bg-purple-700/50 hover:bg-purple-700 text-white'
               }`}
             >
@@ -248,7 +248,7 @@ function ActivitatiPageContent() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === cat
-                    ? 'bg-white text-purple-700'
+                    ? 'bg-[var(--color-card)] text-purple-700'
                     : 'bg-purple-700/50 hover:bg-purple-700 text-white'
                 }`}
               >
@@ -313,7 +313,7 @@ function ActivitatiPageContent() {
         )}
       </main>
 
-      <footer className="bg-white border-t border-[var(--color-border)] mt-8 py-5">
+      <footer className="bg-[var(--color-card)] border-t border-[var(--color-border)] mt-8 py-5">
         <div className="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm text-[var(--color-text-light)]">
           AfterSchool Finder - Activități pentru copii în București
         </div>

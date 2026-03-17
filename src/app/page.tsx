@@ -102,7 +102,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-[var(--color-border)]">
+      <header className="bg-[var(--color-card)] shadow-sm border-b border-[var(--color-border)]">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-[var(--color-primary)]">
@@ -271,7 +271,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-[var(--color-border)] mt-8 sm:mt-12 py-5">
+      <footer className="bg-[var(--color-card)] border-t border-[var(--color-border)] mt-8 sm:mt-12 py-5">
         <div className="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm text-[var(--color-text-light)]">
           AfterSchool Finder - Platforma pentru parinti din Bucuresti
         </div>

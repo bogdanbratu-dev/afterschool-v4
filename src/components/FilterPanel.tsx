@@ -33,7 +33,7 @@ export default function FilterPanel({ filters, onFilterChange, hasLocation }: Fi
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-[var(--color-border)] p-5">
+    <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] p-5">
       <h3 className="font-semibold text-lg mb-4 text-[var(--color-text-main)]">Filtre</h3>
 
       {/* Radius - only relevant when a location is selected */}

@@ -140,7 +140,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   return (
     <div className="w-full max-w-2xl mx-auto">
       {/* Mode Toggle */}
-      <div className="flex mb-4 bg-white rounded-lg shadow-sm border border-[var(--color-border)] overflow-hidden">
+      <div className="flex mb-4 bg-[var(--color-card)] rounded-lg shadow-sm border border-[var(--color-border)] overflow-hidden">
         <button
           onClick={() => setMode('school')}
           className={`flex-1 py-3 px-2 text-xs sm:text-sm font-medium transition-colors flex flex-col sm:flex-row items-center justify-center gap-1 ${
@@ -190,11 +190,11 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Introduceti numarul scolii (ex: 17, 170, 195...)"
-              className="w-full pl-12 pr-4 py-4 bg-white text-gray-900 border border-[var(--color-border)] rounded-xl shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
+              className="w-full pl-12 pr-4 py-4 bg-[var(--color-card)] text-[var(--color-text-main)] border border-[var(--color-border)] rounded-xl shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
             />
           </div>
           {showDropdown && (
-            <div className="absolute z-50 w-full mt-1 bg-white border border-[var(--color-border)] rounded-xl shadow-lg max-h-64 overflow-y-auto">
+            <div className="absolute z-50 w-full mt-1 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl shadow-lg max-h-64 overflow-y-auto">
               {schools.length > 0 ? (
                 schools.map((school) => (
                   <button
@@ -226,11 +226,11 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
               value={afterschoolQuery}
               onChange={(e) => setAfterschoolQuery(e.target.value)}
               placeholder="Introduceti numele afterschool-ului (ex: Young Academics...)"
-              className="w-full pl-12 pr-4 py-4 bg-white text-gray-900 border border-[var(--color-border)] rounded-xl shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
+              className="w-full pl-12 pr-4 py-4 bg-[var(--color-card)] text-[var(--color-text-main)] border border-[var(--color-border)] rounded-xl shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
             />
           </div>
           {showAfterSchoolDropdown && (
-            <div className="absolute z-50 w-full mt-1 bg-white border border-[var(--color-border)] rounded-xl shadow-lg max-h-64 overflow-y-auto">
+            <div className="absolute z-50 w-full mt-1 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl shadow-lg max-h-64 overflow-y-auto">
               {afterschools.length > 0 ? (
                 afterschools.map((as) => (
                   <button
@@ -263,7 +263,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
               onChange={(e) => setAddress(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleAddressSearch()}
               placeholder="Introduceti adresa sau zona (ex: Piata Victoriei, Drumul Taberei...)"
-              className="w-full pl-12 pr-4 py-4 bg-white text-gray-900 border border-[var(--color-border)] rounded-xl shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
+              className="w-full pl-12 pr-4 py-4 bg-[var(--color-card)] text-[var(--color-text-main)] border border-[var(--color-border)] rounded-xl shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
             />
           </div>
           <button

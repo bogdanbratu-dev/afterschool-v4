@@ -46,7 +46,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden hover:shadow-md transition-shadow">
       {businessMode && data.banner_url && (
         <img
           src={data.banner_url}
