@@ -7,6 +7,8 @@ interface AfterSchoolData {
   name: string;
   address: string;
   sector: number;
+  lat: number;
+  lng: number;
   phone: string | null;
   email: string | null;
   website: string | null;
