@@ -164,7 +164,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
             {activities.map((activity, i) => (
               <span
                 key={i}
-                className="px-2.5 py-1 bg-gray-100 text-[var(--color-text-light)] rounded-full text-xs"
+                className="px-2.5 py-1 bg-[var(--color-bg)] text-[var(--color-text-main)] border border-[var(--color-border)] rounded-full text-xs"
               >
                 {activity}
               </span>
