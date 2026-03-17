@@ -163,9 +163,6 @@ function ActivitatiPageContent() {
               <span className="hidden sm:inline">After School</span>
               <span className="sm:hidden">AfterSchool</span>
             </a>
-            <a href="/admin" className="text-sm text-[var(--color-text-light)] hover:text-[var(--color-primary)] transition-colors">
-              Admin
-            </a>
           </div>
         </div>
       </header>

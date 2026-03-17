@@ -366,9 +366,6 @@ export default function AdminPage() {
               Intra in admin
             </button>
           </form>
-          <p className="text-xs text-[var(--color-text-light)] text-center mt-4">
-            Default: admin / admin123
-          </p>
           <div className="text-center mt-4">
             <a href="/" className="text-sm text-[var(--color-primary)] hover:underline">Inapoi la site</a>
           </div>

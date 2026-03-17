@@ -115,9 +115,6 @@ export default function Home() {
               <span className="hidden sm:inline-flex gap-1">⚽💃🏊🥋</span>
               <span>Activități</span>
             </a>
-            <a href="/admin" className="text-sm text-[var(--color-text-light)] hover:text-[var(--color-primary)] transition-colors">
-              Admin
-            </a>
           </div>
         </div>
       </header>
