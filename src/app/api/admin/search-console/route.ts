@@ -44,18 +44,42 @@ export async function GET(request: Request) {
     const endDate = new Date().toISOString().slice(0, 10);
     const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
-    const siteUrl = process.env.SEARCH_CONSOLE_SITE_URL || 'https://activkids.ro';
+    // Try multiple site URL formats
+    const siteUrls = process.env.SEARCH_CONSOLE_SITE_URL
+      ? [process.env.SEARCH_CONSOLE_SITE_URL]
+      : ['sc-domain:activkids.ro', 'https://activkids.ro/', 'https://activkids.ro', 'http://activkids.ro/'];
 
-    // Top queries
-    const queriesRes = await searchconsole.searchanalytics.query({
-      siteUrl,
-      requestBody: {
-        startDate,
-        endDate,
-        dimensions: ['query'],
-        rowLimit: 20,
-      },
-    });
+    let siteUrl = siteUrls[0];
+    let queriesRes = null;
+    let lastError = '';
+
+    for (const url of siteUrls) {
+      try {
+        queriesRes = await searchconsole.searchanalytics.query({
+          siteUrl: url,
+          requestBody: {
+            startDate,
+            endDate,
+            dimensions: ['query'],
+            rowLimit: 20,
+          },
+        });
+        siteUrl = url;
+        break;
+      } catch (e) {
+        lastError = e instanceof Error ? e.message : String(e);
+        queriesRes = null;
+      }
+    }
+
+    if (!queriesRes) {
+      return NextResponse.json({
+        configured: true,
+        error: `Nu s-a putut accesa Search Console. Verifică că email-ul Service Account are acces pe proprietatea activkids.ro. Eroare: ${lastError.substring(0, 150)}`,
+        queries: [],
+        pages: [],
+      });
+    }
 
     const queries = (queriesRes.data.rows || []).map(row => ({
       query: row.keys?.[0] || '',
