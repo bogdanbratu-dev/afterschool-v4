@@ -86,7 +86,7 @@ export default function Home() {
     fetch('/api/analytics/pageview', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page: '/', device: window.innerWidth < 768 ? 'mobile' : 'desktop' }),
+      body: JSON.stringify({ page: '/', device: window.innerWidth < 768 ? 'mobile' : 'desktop', referrer: document.referrer || '' }),
     });
   }, []);
 

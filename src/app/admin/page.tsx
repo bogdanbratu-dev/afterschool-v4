@@ -79,9 +79,18 @@ export default function AdminPage() {
     visitsByDay: { date: string; count: number }[];
     pageBreakdown: Record<string, number>;
     deviceBreakdown: Record<string, number>;
+    sourceBreakdown: Record<string, number>;
+    topCountries: { country: string; count: number }[];
+    topCities: { city: string; count: number }[];
     topSearches: { query: string; count: number }[];
     topClicks: { name: string; type: string; count: number }[];
     total: number;
+  } | null>(null);
+  const [searchConsoleData, setSearchConsoleData] = useState<{
+    configured: boolean;
+    error?: string;
+    queries: { query: string; clicks: number; impressions: number; ctr: number; position: number }[];
+    pages: { page: string; clicks: number; impressions: number }[];
   } | null>(null);
   const [analyticsDays, setAnalyticsDays] = useState(7);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
@@ -191,8 +200,12 @@ export default function AdminPage() {
 
   const loadAnalytics = async (days: number) => {
     setAnalyticsLoading(true);
-    const res = await fetch(`/api/admin/analytics?days=${days}`);
+    const [res, gscRes] = await Promise.all([
+      fetch(`/api/admin/analytics?days=${days}`),
+      fetch(`/api/admin/search-console?days=${days}`),
+    ]);
     if (res.ok) setAnalyticsData(await res.json());
+    if (gscRes.ok) setSearchConsoleData(await gscRes.json());
     setAnalyticsLoading(false);
   };
 
@@ -653,6 +666,67 @@ export default function AdminPage() {
                   </div>
                 </div>
 
+                {/* Surse trafic + Locatii */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
+                    <h3 className="font-semibold text-base mb-4">Surse de trafic</h3>
+                    {(() => {
+                      const sourceLabels: Record<string, string> = {
+                        google: 'Google', bing: 'Bing', yahoo: 'Yahoo', facebook: 'Facebook',
+                        instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube',
+                        direct: 'Direct', other: 'Altele',
+                      };
+                      const sourceColors: Record<string, string> = {
+                        google: 'bg-blue-500', bing: 'bg-cyan-500', yahoo: 'bg-purple-500',
+                        facebook: 'bg-indigo-500', instagram: 'bg-pink-500', tiktok: 'bg-gray-700',
+                        youtube: 'bg-red-500', direct: 'bg-green-500', other: 'bg-gray-400',
+                      };
+                      const entries = Object.entries(analyticsData.sourceBreakdown || {}).sort((a, b) => b[1] - a[1]);
+                      const total = entries.reduce((sum, [, count]) => sum + count, 0) || 1;
+                      return entries.length === 0 ? (
+                        <p className="text-sm text-[var(--color-text-light)]">Nicio vizită înregistrată.</p>
+                      ) : entries.map(([source, count]) => (
+                        <div key={source} className="mb-3">
+                          <div className="flex justify-between text-sm mb-1">
+                            <span className="font-medium">{sourceLabels[source] || source}</span>
+                            <span className="text-[var(--color-text-light)]">{count} ({Math.round(count / total * 100)}%)</span>
+                          </div>
+                          <div className="w-full bg-[var(--color-bg)] rounded-full h-2">
+                            <div className={`${sourceColors[source] || 'bg-gray-400'} h-2 rounded-full`} style={{ width: `${count / total * 100}%` }} />
+                          </div>
+                        </div>
+                      ));
+                    })()}
+                  </div>
+                  <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
+                    <h3 className="font-semibold text-base mb-4">Locații vizitatori</h3>
+                    {(analyticsData.topCountries || []).length === 0 ? (
+                      <p className="text-sm text-[var(--color-text-light)]">Nicio locație detectată.</p>
+                    ) : (
+                      <>
+                        <p className="text-xs font-medium text-[var(--color-text-light)] mb-2 uppercase tracking-wide">Țări</p>
+                        {(analyticsData.topCountries || []).map((c, i) => (
+                          <div key={i} className="flex items-center justify-between py-1.5 border-b border-[var(--color-border)] last:border-0">
+                            <span className="text-sm">{c.country}</span>
+                            <span className="px-2 py-0.5 bg-[var(--color-bg)] text-[var(--color-text-main)] text-xs font-bold rounded-full">{c.count}</span>
+                          </div>
+                        ))}
+                        {(analyticsData.topCities || []).length > 0 && (
+                          <>
+                            <p className="text-xs font-medium text-[var(--color-text-light)] mb-2 mt-4 uppercase tracking-wide">Orașe</p>
+                            {(analyticsData.topCities || []).map((c, i) => (
+                              <div key={i} className="flex items-center justify-between py-1.5 border-b border-[var(--color-border)] last:border-0">
+                                <span className="text-sm">{c.city}</span>
+                                <span className="px-2 py-0.5 bg-[var(--color-bg)] text-[var(--color-text-main)] text-xs font-bold rounded-full">{c.count}</span>
+                              </div>
+                            ))}
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+
                 {/* Top cautari + click-uri */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
@@ -688,6 +762,49 @@ export default function AdminPage() {
                       </div>
                     ))}
                   </div>
+                </div>
+
+                {/* Google Search Console */}
+                <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
+                  <h3 className="font-semibold text-base mb-4">Cuvinte cheie Google (Search Console)</h3>
+                  {!searchConsoleData || !searchConsoleData.configured ? (
+                    <div className="text-center py-6">
+                      <p className="text-sm text-[var(--color-text-light)] mb-2">Google Search Console nu este configurat.</p>
+                      <p className="text-xs text-[var(--color-text-light)]">
+                        Pentru a vedea cuvintele cheie din Google, configurează un Service Account
+                        și plasează credentials.json în directorul proiectului.
+                      </p>
+                    </div>
+                  ) : searchConsoleData.error ? (
+                    <p className="text-sm text-[var(--color-danger)]">{searchConsoleData.error}</p>
+                  ) : searchConsoleData.queries.length === 0 ? (
+                    <p className="text-sm text-[var(--color-text-light)]">Nicio dată disponibilă pentru perioada selectată.</p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-[var(--color-border)]">
+                            <th className="text-left py-2 pr-4 font-medium text-[var(--color-text-light)]">Cuvânt cheie</th>
+                            <th className="text-right py-2 px-2 font-medium text-[var(--color-text-light)]">Click-uri</th>
+                            <th className="text-right py-2 px-2 font-medium text-[var(--color-text-light)]">Impresii</th>
+                            <th className="text-right py-2 px-2 font-medium text-[var(--color-text-light)]">CTR</th>
+                            <th className="text-right py-2 pl-2 font-medium text-[var(--color-text-light)]">Poziție</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {searchConsoleData.queries.map((q, i) => (
+                            <tr key={i} className="border-b border-[var(--color-border)] last:border-0">
+                              <td className="py-2 pr-4 truncate max-w-[200px]">{q.query}</td>
+                              <td className="py-2 px-2 text-right font-semibold text-[var(--color-primary)]">{q.clicks}</td>
+                              <td className="py-2 px-2 text-right text-[var(--color-text-light)]">{q.impressions}</td>
+                              <td className="py-2 px-2 text-right text-[var(--color-text-light)]">{q.ctr}%</td>
+                              <td className="py-2 pl-2 text-right text-[var(--color-text-light)]">{q.position}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

@@ -104,7 +104,11 @@ function initializeDb(db: Database.Database) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       page TEXT NOT NULL,
       device TEXT NOT NULL,
-      timestamp INTEGER NOT NULL
+      timestamp INTEGER NOT NULL,
+      referrer TEXT,
+      source TEXT,
+      country TEXT,
+      city TEXT
     );
     CREATE TABLE IF NOT EXISTS searches (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -119,6 +123,12 @@ function initializeDb(db: Database.Database) {
       timestamp INTEGER NOT NULL
     );
   `);
+
+  // Migration: adauga coloane noi in pageviews (pentru DB-uri existente)
+  try { db.exec(`ALTER TABLE pageviews ADD COLUMN referrer TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE pageviews ADD COLUMN source TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE pageviews ADD COLUMN country TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE pageviews ADD COLUMN city TEXT`); } catch {}
 }
 
 export interface School {

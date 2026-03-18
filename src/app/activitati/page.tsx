@@ -109,7 +109,7 @@ function ActivitatiPageContent() {
     fetch('/api/analytics/pageview', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page: '/activitati', device: window.innerWidth < 768 ? 'mobile' : 'desktop' }),
+      body: JSON.stringify({ page: '/activitati', device: window.innerWidth < 768 ? 'mobile' : 'desktop', referrer: document.referrer || '' }),
     });
   }, []);
 
