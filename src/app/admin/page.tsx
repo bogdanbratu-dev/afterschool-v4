@@ -1158,7 +1158,7 @@ export default function AdminPage() {
               </table>
             </div>
           </div>
-        ) : (
+        ) : activeTab === 'afterschools' ? (
         <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -1226,7 +1226,7 @@ export default function AdminPage() {
             </table>
           </div>
         </div>
-        )}
+        ) : null}
         {/* Reports Tab */}
         {activeTab === 'reports' && (
           <div>
