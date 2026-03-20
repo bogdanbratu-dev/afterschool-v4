@@ -9,7 +9,6 @@
  */
 
 const Database = require('better-sqlite3');
-const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
 
@@ -255,96 +254,30 @@ function getSetting(key) {
   return db.prepare("SELECT value FROM settings WHERE key = ?").get(key)?.value;
 }
 
-// ─── EMAIL RAPORT ────────────────────────────────────────────────────────────
+// ─── SALVARE RAPORT ──────────────────────────────────────────────────────────
 
-const EMAIL_CONFIG = {
-  from: 'sculevopsitorie@gmail.com',
-  to: 'sculevopsitorie@gmail.com',
-  pass: 'nbwc ckyb amye lhga',
-};
-
-async function sendReport(report) {
+function saveReport(report) {
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: EMAIL_CONFIG.from, pass: EMAIL_CONFIG.pass },
-    });
-
-    const totalChanges = report.changedAvail + report.changedPrice + report.changedSchedule + report.changedName;
-    const statusEmoji = report.errors > 0 ? '⚠️' : totalChanges > 0 ? '✏️' : '✅';
-    const subject = `${statusEmoji} AfterSchool Verificare — ${totalChanges} modificări, ${report.errors} erori`;
-
-    const totalAS = db.prepare('SELECT COUNT(*) as c FROM afterschools').get().c;
-    const totalClubs = db.prepare('SELECT COUNT(*) as c FROM clubs').get().c;
-
-    let html = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 10px;">
-          Raport Verificare AfterSchool
-        </h2>
-        <p style="color: #666;">📅 ${report.date}</p>
-
-        <h3 style="color: #1e293b;">Verificare conținut</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-          <tr style="background: #f1f5f9;">
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Afterschool-uri verificate</td>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: bold;">${report.total}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Modificări disponibilitate</td>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: bold; color: ${report.changedAvail ? '#f59e0b' : '#10b981'};">${report.changedAvail}</td>
-          </tr>
-          <tr style="background: #f1f5f9;">
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Modificări preț</td>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: bold; color: ${report.changedPrice ? '#f59e0b' : '#10b981'};">${report.changedPrice}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Modificări orar</td>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: bold; color: ${report.changedSchedule ? '#f59e0b' : '#10b981'};">${report.changedSchedule}</td>
-          </tr>
-          <tr style="background: #f1f5f9;">
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Modificări nume</td>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: bold; color: ${report.changedName ? '#f59e0b' : '#10b981'};">${report.changedName}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Erori</td>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: bold; color: ${report.errors ? '#ef4444' : '#10b981'};">${report.errors}</td>
-          </tr>
-        </table>`;
-
-    if (report.discoveryRan) {
-      html += `
-        <h3 style="color: #1e293b;">Descoperire automată</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-          <tr style="background: #f1f5f9;">
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Afterschool-uri noi găsite</td>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: bold; color: ${report.discoveryAS ? '#3b82f6' : '#666'};">${report.discoveryAS}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0;">Cluburi noi găsite</td>
-            <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-weight: bold; color: ${report.discoveryClubs ? '#3b82f6' : '#666'};">${report.discoveryClubs}</td>
-          </tr>
-        </table>`;
-    }
-
-    html += `
-        <h3 style="color: #1e293b;">Total în baza de date</h3>
-        <p style="color: #475569;">📦 ${totalAS} afterschool-uri · ${totalClubs} cluburi</p>
-
-        <hr style="border: 1px solid #e2e8f0; margin: 20px 0;">
-        <p style="color: #94a3b8; font-size: 12px;">Trimis automat de AfterSchool Finder · activkids.ro</p>
-      </div>`;
-
-    await transporter.sendMail({
-      from: `"AfterSchool Finder" <${EMAIL_CONFIG.from}>`,
-      to: EMAIL_CONFIG.to,
-      subject,
-      html,
-    });
-
-    log('📧 Raport trimis pe email');
+    db.prepare(`
+      INSERT INTO verification_reports
+        (timestamp, total_checked, changed_avail, changed_price, changed_schedule, changed_name, errors, discovery_ran, discovery_as, discovery_clubs, details)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      Date.now(),
+      report.total,
+      report.changedAvail,
+      report.changedPrice,
+      report.changedSchedule,
+      report.changedName,
+      report.errors,
+      report.discoveryRan ? 1 : 0,
+      report.discoveryAS,
+      report.discoveryClubs,
+      JSON.stringify(report.details || [])
+    );
+    log('💾 Raport salvat in baza de date');
   } catch (e) {
-    log(`❌ Eroare trimitere email: ${e.message?.substring(0, 80)}`);
+    log(`❌ Eroare salvare raport: ${e.message?.substring(0, 80)}`);
   }
 }
 
@@ -495,8 +428,8 @@ async function main() {
     log(`ℹ️  Discovery: ultima rulare acum ${Math.round(daysSinceDiscovery)} zile (se ruleaza la 30+ zile)`);
   }
 
-  // ─── Faza 3: Email raport ─────────────────────────────────────────────
-  await sendReport(report);
+  // ─── Faza 3: Salvare raport ───────────────────────────────────────────
+  saveReport(report);
 
   setSetting('cron_running', 'false');
   setSetting('cron_stop_requested', 'false');

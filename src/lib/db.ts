@@ -129,6 +129,24 @@ function initializeDb(db: Database.Database) {
   try { db.exec(`ALTER TABLE pageviews ADD COLUMN source TEXT`); } catch {}
   try { db.exec(`ALTER TABLE pageviews ADD COLUMN country TEXT`); } catch {}
   try { db.exec(`ALTER TABLE pageviews ADD COLUMN city TEXT`); } catch {}
+
+  // Tabela rapoarte verificare
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS verification_reports (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      timestamp INTEGER NOT NULL,
+      total_checked INTEGER NOT NULL DEFAULT 0,
+      changed_avail INTEGER NOT NULL DEFAULT 0,
+      changed_price INTEGER NOT NULL DEFAULT 0,
+      changed_schedule INTEGER NOT NULL DEFAULT 0,
+      changed_name INTEGER NOT NULL DEFAULT 0,
+      errors INTEGER NOT NULL DEFAULT 0,
+      discovery_ran INTEGER NOT NULL DEFAULT 0,
+      discovery_as INTEGER NOT NULL DEFAULT 0,
+      discovery_clubs INTEGER NOT NULL DEFAULT 0,
+      details TEXT
+    );
+  `);
 }
 
 export interface School {

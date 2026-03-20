@@ -74,7 +74,13 @@ export default function AdminPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics'>('afterschools');
+  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'reports'>('afterschools');
+  const [reports, setReports] = useState<{
+    id: number; timestamp: number; total_checked: number;
+    changed_avail: number; changed_price: number; changed_schedule: number;
+    changed_name: number; errors: number; discovery_ran: number;
+    discovery_as: number; discovery_clubs: number;
+  }[]>([]);
   const [analyticsData, setAnalyticsData] = useState<{
     visitsByDay: { date: string; count: number }[];
     pageBreakdown: Record<string, number>;
@@ -207,6 +213,11 @@ export default function AdminPage() {
     if (res.ok) setAnalyticsData(await res.json());
     if (gscRes.ok) setSearchConsoleData(await gscRes.json());
     setAnalyticsLoading(false);
+  };
+
+  const loadReports = async () => {
+    const res = await fetch('/api/admin/reports');
+    if (res.ok) setReports(await res.json());
   };
 
   const toggleBusinessMode = async () => {
@@ -430,6 +441,12 @@ export default function AdminPage() {
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'analytics' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
             📊 Analytics
+          </button>
+          <button
+            onClick={() => { setActiveTab('reports'); loadReports(); }}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'reports' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            📋 Rapoarte
           </button>
         </div>
 
@@ -1209,6 +1226,64 @@ export default function AdminPage() {
             </table>
           </div>
         </div>
+        )}
+        {/* Reports Tab */}
+        {activeTab === 'reports' && (
+          <div>
+            <h2 className="text-lg font-semibold mb-6">Istoricul verificărilor automate</h2>
+            {reports.length === 0 ? (
+              <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-12 text-center text-[var(--color-text-light)]">
+                Nu există rapoarte încă. Rapoartele apar după prima verificare automată.
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {reports.map(r => {
+                  const totalChanges = r.changed_avail + r.changed_price + r.changed_schedule + r.changed_name;
+                  const status = r.errors > 0 ? '⚠️' : totalChanges > 0 ? '✏️' : '✅';
+                  const date = new Date(r.timestamp).toLocaleString('ro-RO');
+                  return (
+                    <div key={r.id} className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl">{status}</span>
+                          <div>
+                            <div className="font-semibold">{date}</div>
+                            <div className="text-xs text-[var(--color-text-light)]">{r.total_checked} afterschool-uri verificate</div>
+                          </div>
+                        </div>
+                        {totalChanges > 0 && (
+                          <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">
+                            {totalChanges} modificări
+                          </span>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        {[
+                          { label: 'Disponibilitate', val: r.changed_avail },
+                          { label: 'Preț', val: r.changed_price },
+                          { label: 'Orar', val: r.changed_schedule },
+                          { label: 'Nume', val: r.changed_name },
+                          { label: 'Erori', val: r.errors, isError: true },
+                        ].map(item => (
+                          <div key={item.label} className="bg-[var(--color-bg)] rounded-lg p-3 text-center">
+                            <div className={`text-2xl font-bold ${item.isError && item.val > 0 ? 'text-[var(--color-danger)]' : item.val > 0 ? 'text-amber-500' : 'text-[var(--color-success)]'}`}>
+                              {item.val}
+                            </div>
+                            <div className="text-xs text-[var(--color-text-light)] mt-1">{item.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                      {r.discovery_ran === 1 && (
+                        <div className="mt-3 pt-3 border-t border-[var(--color-border)] flex gap-4 text-sm text-[var(--color-text-light)]">
+                          <span>🔎 Discovery: <strong className="text-[var(--color-primary)]">{r.discovery_as}</strong> afterschool-uri noi, <strong className="text-[var(--color-primary)]">{r.discovery_clubs}</strong> cluburi noi</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         )}
       </main>
     </div>
