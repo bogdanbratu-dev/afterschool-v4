@@ -1,0 +1,238 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
+// ANALYTICS SECTION JETPACK STYLE REFACTOR
+export function AnalyticsSection({ 
+  activeTab, 
+  analyticsDays, 
+  setAnalyticsDays,
+  analyticsLoading,
+  analyticsData,
+  dayDetails,
+  setDayDetails,
+  loadAnalytics,
+  loadDayDetails,
+  searchConsoleData
+}: any) {
+  return (
+    <>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-[var(--color-primary)]">📊 Traffic Analytics</h2>
+          <p className="text-sm text-[var(--color-text-light)] mt-1">Jetpack-style analytics dashboard</p>
+        </div>
+        <div className="flex gap-2">
+          {[7, 30, 90].map(d => (
+            <button key={d} onClick={() => { setAnalyticsDays(d); loadAnalytics(d); }}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                analyticsDays === d 
+                  ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}>
+              {d} days
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {analyticsLoading ? (
+        <div className="flex items-center justify-center py-16">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : !analyticsData ? (
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-8 text-center">
+          <p className="text-blue-700">No analytics data yet</p>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {/* 🎯 STAT CARDS - JETPACK STYLE */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { label: 'Total Visits', value: analyticsData.total, icon: '📈', color: 'from-blue-50 to-blue-100', textColor: 'text-blue-700', borderColor: 'border-blue-200' },
+              { label: 'Avg/Day', value: Math.round(analyticsData.total / analyticsDays), icon: '📊', color: 'from-purple-50 to-purple-100', textColor: 'text-purple-700', borderColor: 'border-purple-200' },
+              { label: 'Best Day', value: Math.max(...analyticsData.visitsByDay.map((d: any) => d.count), 0), icon: '🔥', color: 'from-orange-50 to-orange-100', textColor: 'text-orange-700', borderColor: 'border-orange-200' },
+              { label: 'Top Pages', value: Object.keys(analyticsData.pageBreakdown).length, icon: '📄', color: 'from-green-50 to-green-100', textColor: 'text-green-700', borderColor: 'border-green-200' }
+            ].map(stat => (
+              <div key={stat.label} className={`bg-gradient-to-br ${stat.color} rounded-xl border ${stat.borderColor} p-5 shadow-sm hover:shadow-md transition-shadow`}>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-widest text-gray-600 mb-1">{stat.label}</p>
+                    <p className={`text-3xl font-bold ${stat.textColor}`}>{stat.value}</p>
+                  </div>
+                  <span className="text-2xl">{stat.icon}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* 📈 CHART */}
+          <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-bold text-[var(--color-primary)]">Visits Timeline</h3>
+                <p className="text-sm text-[var(--color-text-light)]">Click bars for daily details</p>
+              </div>
+            </div>
+
+            {(() => {
+              const max = Math.max(...analyticsData.visitsByDay.map((d: any) => d.count), 1);
+              return (
+                <div className="flex items-end gap-2 h-48">
+                  {analyticsData.visitsByDay.map((d: any) => (
+                    <div key={d.date} className="flex-1 flex flex-col items-center gap-2 group">
+                      <span className="text-xs font-semibold text-[var(--color-text-main)] opacity-0 group-hover:opacity-100 transition-opacity h-5">
+                        {d.count}
+                      </span>
+                      <div
+                        className="w-full rounded-t-lg opacity-70 transition-all cursor-pointer hover:opacity-100 hover:shadow-lg group-hover:shadow-xl bg-gradient-to-t from-blue-500 to-blue-400"
+                        style={{ height: `${Math.max((d.count / max) * 160, d.count > 0 ? 8 : 2)}px` }}
+                        onClick={() => loadDayDetails(d.date)}
+                        title={`Click for details: ${d.date}`}
+                      />
+                      <span className="text-xs font-medium text-[var(--color-text-light)]">{d.date.slice(5)}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* 📱 GRID WITH BREAKDOWNS */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Pages */}
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">📄 Top Pages</h3>
+              {(() => {
+                const entries = Object.entries(analyticsData.pageBreakdown).sort((a: any, b: any) => b[1] - a[1]);
+                const total = entries.reduce((sum, [, count]: any) => sum + count, 0) || 1;
+                return entries.slice(0, 5).map(([page, count]: any, i) => (
+                  <div key={page} className="flex items-center justify-between py-3 border-b border-[var(--color-border)] last:border-0">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="text-sm font-bold text-[var(--color-primary)]">#{i + 1}</span>
+                      <span className="text-sm truncate">{page}</span>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="w-16 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-blue-400 to-blue-500" style={{ width: `${count / total * 100}%` }} />
+                      </div>
+                      <span className="text-sm font-bold text-gray-600 w-10 text-right">{count}</span>
+                    </div>
+                  </div>
+                ));
+              })()}
+            </div>
+
+            {/* Devices */}
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">📱 Devices</h3>
+              {(() => {
+                const total: number = Object.values(analyticsData.deviceBreakdown).reduce((a: number, b: unknown) => a + (b as number), 0) || 1;
+                const labels: Record<string, string> = { mobile: '📱 Mobile', desktop: '💻 Desktop' };
+                const colors = { mobile: 'from-purple-400 to-purple-500', desktop: 'from-blue-400 to-blue-500' };
+                return Object.entries(analyticsData.deviceBreakdown).map(([device, count]) => (
+                  <div key={device} className="py-3 border-b border-[var(--color-border)] last:border-0">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold">{labels[device]}</span>
+                      <span className="text-sm font-bold">{Math.round((count as number) / total * 100)}%</span>
+                    </div>
+                    <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+                      <div className={`h-full bg-gradient-to-r ${colors[device as keyof typeof colors] || 'from-gray-400 to-gray-500'}`} style={{ width: `${(count as number) / total * 100}%` }} />
+                    </div>
+                  </div>
+                ));
+              })()}
+            </div>
+          </div>
+
+          {/* 🔗 SOURCES & LOCATIONS */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Traffic Sources */}
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">🔗 Traffic Sources</h3>
+              {(() => {
+                const entries = Object.entries(analyticsData.sourceBreakdown || {}).sort((a: any, b: any) => b[1] - a[1]);
+                const total = entries.reduce((sum, [, count]: any) => sum + count, 0) || 1;
+                const icons: Record<string, string> = { google: '🔍', direct: '⭐', facebook: '👍', instagram: '📸', other: '🌐' };
+                return entries.length === 0 ? (
+                  <p className="text-sm text-[var(--color-text-light)]">No visits yet</p>
+                ) : entries.slice(0, 5).map(([source, count]: any, i) => (
+                  <div key={source} className="flex items-center justify-between py-3 border-b border-[var(--color-border)] last:border-0">
+                    <div className="flex items-center gap-2">
+                      <span>{icons[source] || '🌐'}</span>
+                      <span className="text-sm font-medium capitalize">{source}</span>
+                    </div>
+                    <span className="text-sm font-bold text-gray-600">{count}</span>
+                  </div>
+                ));
+              })()}
+            </div>
+
+            {/* Locations */}
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">🗺️ Top Countries</h3>
+              {(analyticsData.topCountries || []).length === 0 ? (
+                <p className="text-sm text-[var(--color-text-light)]">No location data</p>
+              ) : (
+                <>
+                  {(analyticsData.topCountries || []).slice(0, 5).map((c: any, i: number) => (
+                    <div key={i} className="flex items-center justify-between py-3 border-b border-[var(--color-border)] last:border-0">
+                      <span className="text-sm">{c.country}</span>
+                      <span className="px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-xs font-bold rounded-full">{c.count}</span>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* 🔍 SEARCH TERMS */}
+          <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+            <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">🔍 Top Searches</h3>
+            {analyticsData.topSearches.length === 0 ? (
+              <p className="text-sm text-[var(--color-text-light)]">No searches yet</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {analyticsData.topSearches.slice(0, 8).map((s: any, i: number) => (
+                  <div key={i} className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg border border-green-200 p-4">
+                    <p className="text-sm font-semibold text-gray-700 truncate mb-2">{s.query}</p>
+                    <p className="text-2xl font-bold text-green-600">{s.count}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Daily Details Panel */}
+          {dayDetails && (
+            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-200 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-[var(--color-primary)]">📅 Details for {dayDetails.date}</h3>
+                <button onClick={() => setDayDetails(null)} className="text-xl text-gray-500 hover:text-gray-700">✕</button>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-3xl font-bold text-blue-600">{dayDetails.totalVisits}</p>
+                  <p className="text-xs text-gray-600 mt-1">Visits</p>
+                </div>
+                <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-3xl font-bold text-purple-600">{dayDetails.totalClicks}</p>
+                  <p className="text-xs text-gray-600 mt-1">Clicks</p>
+                </div>
+                <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-3xl font-bold text-green-600">{dayDetails.totalSearches}</p>
+                  <p className="text-xs text-gray-600 mt-1">Searches</p>
+                </div>
+                <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-3xl font-bold text-orange-600">{Object.keys(dayDetails.countryBreakdown).length}</p>
+                  <p className="text-xs text-gray-600 mt-1">Countries</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+}

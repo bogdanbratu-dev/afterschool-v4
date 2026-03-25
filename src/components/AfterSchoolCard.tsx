@@ -1,6 +1,7 @@
 'use client';
 
 import { formatDistance } from '@/lib/distance';
+import { toSlug } from '@/lib/slug';
 
 interface AfterSchoolData {
   id: number;
@@ -65,7 +66,9 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
             )}
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-bold text-base sm:text-lg text-[var(--color-text-main)] leading-tight">{data.name}</h3>
+                <h3 className="font-bold text-base sm:text-lg text-[var(--color-text-main)] leading-tight">
+                  <a href={`/afterschool/${toSlug(data.name, data.id)}`} className="hover:text-[var(--color-primary)] transition-colors">{data.name}</a>
+                </h3>
                 {data.is_premium === 1 && (
                   <span className="inline-flex items-center gap-1 bg-amber-400 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                     ★ Premium
