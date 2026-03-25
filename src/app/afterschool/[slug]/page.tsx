@@ -3,6 +3,7 @@ import { getDb } from '@/lib/db';
 import { idFromSlug, toSlug } from '@/lib/slug';
 import type { Metadata } from 'next';
 import type { AfterSchool } from '@/lib/db';
+import AfterSchoolsNearby from '@/components/AfterSchoolsNearby';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -194,6 +195,8 @@ export default async function AfterSchoolPage({ params }: Props) {
               ← Inapoi la lista de after school-uri
             </a>
           </div>
+
+          <AfterSchoolsNearby lat={as.lat} lng={as.lng} currentId={as.id} />
         </main>
       </div>
     </>

@@ -4,6 +4,7 @@ import { idFromSlug, toSlug } from '@/lib/slug';
 import { CLUB_CATEGORY_LABELS } from '@/lib/clubs';
 import type { Metadata } from 'next';
 import type { Club } from '@/lib/db';
+import ClubsNearby from '@/components/ClubsNearby';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -186,6 +187,8 @@ export default async function ClubPage({ params }: Props) {
               ← Inapoi la activitati
             </a>
           </div>
+
+          <ClubsNearby lat={club.lat} lng={club.lng} currentId={club.id} defaultCategory={club.category} />
         </main>
       </div>
     </>
