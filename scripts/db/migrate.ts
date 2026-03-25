@@ -26,11 +26,33 @@ db.exec(`
   )
 `);
 
-console.log('✓ pageviews table created or already exists');
+// Create searches table if it doesn't exist
+db.exec(`
+  CREATE TABLE IF NOT EXISTS searches (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    query TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+  )
+`);
 
-console.log('\nCurrent pageviews schema:');
-const schema = db.prepare('PRAGMA table_info(pageviews)').all() as ColumnInfo[];
-console.log(schema.map(c => `${c.name} (${c.type})`).join('\n'));
+// Create result_clicks table if it doesn't exist
+db.exec(`
+  CREATE TABLE IF NOT EXISTS result_clicks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER,
+    item_name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+  )
+`);
+
+console.log('✓ pageviews table created or already exists');
+console.log('✓ searches table created or already exists');
+console.log('✓ result_clicks table created or already exists');
+
+console.log('\nCurrent tables:');
+const tables = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all() as any[];
+console.log(tables.map(t => t.name).join(', '));
 
 console.log('\n✅ Migration complete');
 db.close();

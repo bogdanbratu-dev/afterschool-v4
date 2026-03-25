@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 
   // Get all clicks for this day
   const clickRows = db.prepare(
-    `SELECT name, type, timestamp FROM clicks
+    `SELECT item_name as name, type, timestamp FROM result_clicks
      WHERE timestamp >= ? AND timestamp <= ?
      ORDER BY timestamp DESC`
   ).all(startTimestamp, endTimestamp) as {
