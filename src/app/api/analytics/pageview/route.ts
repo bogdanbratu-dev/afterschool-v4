@@ -40,15 +40,24 @@ async function getGeoFromIp(ip: string): Promise<{ country: string | null; city:
   }
 }
 
+const BOT_PATTERNS = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|sogou|exabot|facebot|ia_archiver|crawler|spider|bot\/|robot|headless|prerender|lighthouse|pingdom|uptimerobot|semrushbot|ahrefsbot|mj12bot|dotbot|petalbot|dataforseobot|gptbot|claudebot/i;
+
 export async function POST(request: Request) {
   try {
     const { page, device, referrer } = await request.json();
+
+    // Filtreaza botii
+    const headersList = await headers();
+    const ua = headersList.get('user-agent') || '';
+    if (BOT_PATTERNS.test(ua)) {
+      return NextResponse.json({ ok: true });
+    }
+
     const db = getDb();
 
     const source = detectSource(referrer || '');
 
     // Extract IP from headers
-    const headersList = await headers();
     const forwarded = headersList.get('x-forwarded-for');
     const realIp = headersList.get('x-real-ip');
     const ip = (forwarded?.split(',')[0]?.trim()) || realIp || '';
