@@ -15,11 +15,13 @@ export async function GET(request: Request) {
 
   const db = getDb();
 
-  // Parse date range for the day
-  const startDate = new Date(date + 'T00:00:00.000Z');
-  const endDate = new Date(date + 'T23:59:59.999Z');
+  // Parse date in UTC and get the full day range (00:00 - 23:59:59 UTC)
+  const startDate = new Date(date + 'T00:00:00Z'); // UTC start of day
+  const endDate = new Date(date + 'T23:59:59.999Z'); // UTC end of day
   const startTimestamp = startDate.getTime();
   const endTimestamp = endDate.getTime();
+
+  console.log(`Analytics for ${date}: ${new Date(startTimestamp).toISOString()} to ${new Date(endTimestamp).toISOString()}`);
 
   // Get all pageviews for this day
   const pageviewRows = db.prepare(
