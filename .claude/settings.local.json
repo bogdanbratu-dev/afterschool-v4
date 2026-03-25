@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh root@178.104.69.193 \"cd /var/www/afterschool-v4 && git pull && npm run build && pm2 restart afterschool\")"
+    ]
+  }
+}

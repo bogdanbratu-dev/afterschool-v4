@@ -92,6 +92,21 @@ export default function AdminPage() {
     topClicks: { name: string; type: string; count: number }[];
     total: number;
   } | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [dayDetails, setDayDetails] = useState<{
+    date: string;
+    totalVisits: number;
+    pageviews: any[];
+    sourceBreakdown: Record<string, number>;
+    referrerBreakdown: Record<string, number>;
+    searchEngineBreakdown: Record<string, number>;
+    countryBreakdown: Record<string, number>;
+    cityBreakdown: Record<string, number>;
+    topSearches: { query: string; count: number }[];
+    topClicks: { name: string; type: string; count: number }[];
+    totalClicks: number;
+    totalSearches: number;
+  } | null>(null);
   const [searchConsoleData, setSearchConsoleData] = useState<{
     configured: boolean;
     error?: string;
@@ -212,6 +227,19 @@ export default function AdminPage() {
     ]);
     if (res.ok) setAnalyticsData(await res.json());
     if (gscRes.ok) setSearchConsoleData(await gscRes.json());
+    setAnalyticsLoading(false);
+  };
+
+  const loadDayDetails = async (date: string) => {
+    setSelectedDay(date);
+    setAnalyticsLoading(true);
+    try {
+      const res = await fetch(`/api/admin/analytics/day?date=${date}`);
+      if (res.ok) setDayDetails(await res.json());
+    } catch (error) {
+      console.error('Error loading day details:', error);
+      setDayDetails(null);
+    }
     setAnalyticsLoading(false);
   };
 
@@ -631,8 +659,12 @@ export default function AdminPage() {
                         {analyticsData.visitsByDay.map(d => (
                           <div key={d.date} className="flex-1 flex flex-col items-center gap-1">
                             <span className="text-xs text-[var(--color-text-light)]">{d.count || ''}</span>
-                            <div className="w-full bg-[var(--color-primary)] rounded-t opacity-80 transition-all"
-                              style={{ height: `${Math.max((d.count / max) * 96, d.count > 0 ? 4 : 0)}px` }} />
+                            <div
+                              className="w-full bg-[var(--color-primary)] rounded-t opacity-80 transition-all cursor-pointer hover:opacity-100"
+                              style={{ height: `${Math.max((d.count / max) * 96, d.count > 0 ? 4 : 0)}px` }}
+                              onClick={() => loadDayDetails(d.date)}
+                              title={`Click pentru detalii ${d.date}`}
+                            />
                             <span className="text-xs text-[var(--color-text-light)] rotate-0" style={{ fontSize: '10px' }}>
                               {d.date.slice(5)}
                             </span>
@@ -642,6 +674,120 @@ export default function AdminPage() {
                     );
                   })()}
                 </div>
+
+                {/* Detalii zi selectată */}
+                {dayDetails && (
+                  <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-semibold text-base">Detalii pentru {dayDetails.date}</h3>
+                      <button
+                        onClick={() => setDayDetails(null)}
+                        className="text-sm text-[var(--color-text-light)] hover:text-[var(--color-text-main)]"
+                      >
+                        ✕ Închide
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-[var(--color-primary)]">{dayDetails.totalVisits}</div>
+                        <div className="text-sm text-[var(--color-text-light)]">Vizite totale</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-blue-500">{dayDetails.totalClicks}</div>
+                        <div className="text-sm text-[var(--color-text-light)]">Click-uri</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-500">{dayDetails.totalSearches}</div>
+                        <div className="text-sm text-[var(--color-text-light)]">Căutări</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-purple-500">{Object.keys(dayDetails.countryBreakdown).length}</div>
+                        <div className="text-sm text-[var(--color-text-light)]">Țări</div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Surse trafic */}
+                      <div>
+                        <h4 className="font-medium mb-3">Surse trafic</h4>
+                        <div className="space-y-2">
+                          {Object.entries(dayDetails.sourceBreakdown).map(([source, count]) => (
+                            <div key={source} className="flex justify-between text-sm">
+                              <span className="capitalize">{source}</span>
+                              <span className="font-medium">{count}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {Object.keys(dayDetails.searchEngineBreakdown).length > 0 && (
+                          <div className="mt-4">
+                            <h5 className="font-medium mb-2 text-sm">Motoare căutare</h5>
+                            <div className="space-y-1">
+                              {Object.entries(dayDetails.searchEngineBreakdown).map(([engine, count]) => (
+                                <div key={engine} className="flex justify-between text-sm">
+                                  <span className="capitalize">{engine}</span>
+                                  <span>{count}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Locații */}
+                      <div>
+                        <h4 className="font-medium mb-3">Locații</h4>
+                        {Object.keys(dayDetails.countryBreakdown).length > 0 ? (
+                          <div className="space-y-2">
+                            <h5 className="font-medium text-sm mb-2">Țări</h5>
+                            {Object.entries(dayDetails.countryBreakdown).slice(0, 5).map(([country, count]) => (
+                              <div key={country} className="flex justify-between text-sm">
+                                <span>{country}</span>
+                                <span>{count}</span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-[var(--color-text-light)]">Nu sunt disponibile date de locație</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Click-uri recente */}
+                    {dayDetails.topClicks.length > 0 && (
+                      <div className="mt-6">
+                        <h4 className="font-medium mb-3">Click-uri populare</h4>
+                        <div className="space-y-2">
+                          {dayDetails.topClicks.slice(0, 5).map((click, i) => (
+                            <div key={i} className="flex justify-between text-sm">
+                              <span>{click.name} ({click.type})</span>
+                              <span className="font-medium">{click.count}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Vizite detaliate */}
+                    <div className="mt-6">
+                      <h4 className="font-medium mb-3">Ultimele vizite ({dayDetails.pageviews.length})</h4>
+                      <div className="max-h-40 overflow-y-auto space-y-1">
+                        {dayDetails.pageviews.slice(0, 10).map((pv, i) => (
+                          <div key={i} className="text-xs bg-gray-50 p-2 rounded flex justify-between">
+                            <span>{new Date(pv.timestamp).toLocaleTimeString()} - {pv.page}</span>
+                            <span className="text-[var(--color-text-light)]">{pv.source || 'direct'}</span>
+                          </div>
+                        ))}
+                        {dayDetails.pageviews.length > 10 && (
+                          <div className="text-xs text-[var(--color-text-light)] text-center py-1">
+                            ... și încă {dayDetails.pageviews.length - 10} vizite
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Pagini + Dispozitive */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
