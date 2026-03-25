@@ -1,11 +1,19 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 
+interface ColumnInfo {
+  name: string;
+  type: string;
+  notnull: number;
+  dflt_value: unknown;
+  pk: number;
+}
+
 const dbPath = path.join(process.cwd(), 'data', 'afterschool.db');
 const db = new Database(dbPath);
 
 // Check what columns exist
-const columns = db.prepare('PRAGMA table_info(pageviews)').all() as any[];
+const columns = db.prepare('PRAGMA table_info(pageviews)').all() as ColumnInfo[];
 const hasSource = columns.some(c => c.name === 'source');
 const hasCountry = columns.some(c => c.name === 'country');
 const hasCity = columns.some(c => c.name === 'city');
@@ -45,7 +53,7 @@ for (let day = 0; day < 7; day++) {
   const pageviewCount = Math.floor(Math.random() * 20) + 30;
   for (let i = 0; i < pageviewCount; i++) {
     const timestamp = dayStart + Math.random() * (dayEnd - dayStart);
-    const row: any[] = [
+    const row: unknown[] = [
       pages[Math.floor(Math.random() * pages.length)],
       devices[Math.floor(Math.random() * devices.length)],
       Math.floor(timestamp)
