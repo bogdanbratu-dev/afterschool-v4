@@ -30,8 +30,8 @@ export async function GET(request: Request) {
 
   // Vizite pe zi
   const pageviewRows = db.prepare(
-    `SELECT page, device, timestamp, source, country, city FROM pageviews WHERE timestamp >= ? AND timestamp <= ?`
-  ).all(fromTs, toTs) as { page: string; device: string; timestamp: number; source: string | null; country: string | null; city: string | null }[];
+    `SELECT page, device, timestamp, source, country, city, referrer FROM pageviews WHERE timestamp >= ? AND timestamp <= ?`
+  ).all(fromTs, toTs) as { page: string; device: string; timestamp: number; source: string | null; country: string | null; city: string | null; referrer: string | null }[];
 
   const visitsByDayMap: Record<string, number> = {};
   const pageMap: Record<string, number> = {};
@@ -39,6 +39,8 @@ export async function GET(request: Request) {
   const sourceMap: Record<string, number> = {};
   const countryMap: Record<string, number> = {};
   const cityMap: Record<string, number> = {};
+  const referrerMap: Record<string, number> = {};
+  const keywordMap: Record<string, number> = {};
 
   for (const row of pageviewRows) {
     const date = new Date(row.timestamp).toISOString().slice(0, 10);
@@ -51,6 +53,22 @@ export async function GET(request: Request) {
 
     if (row.country) countryMap[row.country] = (countryMap[row.country] || 0) + 1;
     if (row.city) cityMap[row.city] = (cityMap[row.city] || 0) + 1;
+
+    // Referrer domain
+    if (row.referrer) {
+      try {
+        const url = new URL(row.referrer);
+        const domain = url.hostname.replace(/^www\./, '');
+        if (!domain.includes('activkids.ro')) {
+          referrerMap[domain] = (referrerMap[domain] || 0) + 1;
+        }
+        // Cuvinte cheie din Bing, Yahoo, DuckDuckGo (Google le ascunde)
+        const q = url.searchParams.get('q') || url.searchParams.get('p');
+        if (q && (domain.includes('bing') || domain.includes('yahoo') || domain.includes('duckduckgo'))) {
+          keywordMap[q.toLowerCase()] = (keywordMap[q.toLowerCase()] || 0) + 1;
+        }
+      } catch {}
+    }
   }
 
   // Genereaza toate zilele din interval (inclusiv cele fara vizite)
@@ -82,6 +100,14 @@ export async function GET(request: Request) {
     .sort((a, b) => b[1] - a[1]).slice(0, 10)
     .map(([city, count]) => ({ city, count }));
 
+  const topReferrers = Object.entries(referrerMap)
+    .sort((a, b) => b[1] - a[1]).slice(0, 10)
+    .map(([domain, count]) => ({ domain, count }));
+
+  const topKeywords = Object.entries(keywordMap)
+    .sort((a, b) => b[1] - a[1]).slice(0, 10)
+    .map(([keyword, count]) => ({ keyword, count }));
+
   return NextResponse.json({
     visitsByDay,
     pageBreakdown: pageMap,
@@ -89,6 +115,8 @@ export async function GET(request: Request) {
     sourceBreakdown: sourceMap,
     topCountries,
     topCities,
+    topReferrers,
+    topKeywords,
     topSearches,
     topClicks,
     total: pageviewRows.length,

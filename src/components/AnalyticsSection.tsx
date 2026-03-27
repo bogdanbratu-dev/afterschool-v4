@@ -239,62 +239,160 @@ export function AnalyticsSection({
             </div>
           </div>
 
-          {/* 🔗 SOURCES & LOCATIONS */}
+          {/* 🔗 SOURCES & REFERRERS */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Traffic Sources */}
             <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
-              <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">🔗 Traffic Sources</h3>
+              <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">🔗 Surse trafic</h3>
               {(() => {
                 const entries = Object.entries(analyticsData.sourceBreakdown || {}).sort((a: any, b: any) => b[1] - a[1]);
                 const total = entries.reduce((sum, [, count]: any) => sum + count, 0) || 1;
-                const icons: Record<string, string> = { google: '🔍', direct: '⭐', facebook: '👍', instagram: '📸', other: '🌐' };
+                const icons: Record<string, string> = { google: '🔍', direct: '⭐', facebook: '👍', instagram: '📸', bing: '🔎', yahoo: '🟣', tiktok: '🎵', youtube: '▶️', other: '🌐' };
+                const labels: Record<string, string> = { google: 'Google', direct: 'Direct / bookmark', facebook: 'Facebook', instagram: 'Instagram', bing: 'Bing', yahoo: 'Yahoo', tiktok: 'TikTok', youtube: 'YouTube', other: 'Altele' };
                 return entries.length === 0 ? (
-                  <p className="text-sm text-[var(--color-text-light)]">No visits yet</p>
-                ) : entries.slice(0, 5).map(([source, count]: any, i) => (
-                  <div key={source} className="flex items-center justify-between py-3 border-b border-[var(--color-border)] last:border-0">
-                    <div className="flex items-center gap-2">
-                      <span>{icons[source] || '🌐'}</span>
-                      <span className="text-sm font-medium capitalize">{source}</span>
+                  <p className="text-sm text-[var(--color-text-light)]">Nicio vizita inca</p>
+                ) : entries.map(([source, count]: any) => (
+                  <div key={source} className="py-2.5 border-b border-[var(--color-border)] last:border-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <span>{icons[source] || '🌐'}</span>
+                        <span className="text-sm font-medium">{labels[source] || source}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-400">{Math.round(count / total * 100)}%</span>
+                        <span className="text-sm font-bold text-gray-600 w-8 text-right">{count}</span>
+                      </div>
                     </div>
-                    <span className="text-sm font-bold text-gray-600">{count}</span>
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full" style={{ width: `${count / total * 100}%` }} />
+                    </div>
                   </div>
                 ));
               })()}
             </div>
 
-            {/* Locations */}
+            {/* Top Referrers */}
             <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
-              <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">🗺️ Top Countries</h3>
-              {(analyticsData.topCountries || []).length === 0 ? (
-                <p className="text-sm text-[var(--color-text-light)]">No location data</p>
-              ) : (
-                <>
-                  {(analyticsData.topCountries || []).slice(0, 5).map((c: any, i: number) => (
-                    <div key={i} className="flex items-center justify-between py-3 border-b border-[var(--color-border)] last:border-0">
-                      <span className="text-sm">{c.country}</span>
-                      <span className="px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-xs font-bold rounded-full">{c.count}</span>
+              <h3 className="text-lg font-bold mb-1 text-[var(--color-primary)]">🌐 Referrers</h3>
+              <p className="text-xs text-[var(--color-text-light)] mb-4">Site-uri care au trimis vizitatori</p>
+              {(analyticsData.topReferrers || []).length === 0 ? (
+                <p className="text-sm text-[var(--color-text-light)]">Niciun referrer extern inca</p>
+              ) : (() => {
+                const total = (analyticsData.topReferrers || []).reduce((s: number, r: any) => s + r.count, 0) || 1;
+                return (analyticsData.topReferrers || []).map((r: any) => (
+                  <div key={r.domain} className="py-2.5 border-b border-[var(--color-border)] last:border-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium truncate max-w-[180px]">{r.domain}</span>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span className="text-xs text-gray-400">{Math.round(r.count / total * 100)}%</span>
+                        <span className="text-sm font-bold text-gray-600 w-8 text-right">{r.count}</span>
+                      </div>
                     </div>
-                  ))}
-                </>
-              )}
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-purple-400 to-purple-500 rounded-full" style={{ width: `${r.count / total * 100}%` }} />
+                    </div>
+                  </div>
+                ));
+              })()}
             </div>
           </div>
 
-          {/* 🔍 SEARCH TERMS */}
-          <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
-            <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">🔍 Top Searches</h3>
-            {analyticsData.topSearches.length === 0 ? (
-              <p className="text-sm text-[var(--color-text-light)]">No searches yet</p>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {analyticsData.topSearches.slice(0, 8).map((s: any, i: number) => (
-                  <div key={i} className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg border border-green-200 p-4">
-                    <p className="text-sm font-semibold text-gray-700 truncate mb-2">{s.query}</p>
-                    <p className="text-2xl font-bold text-green-600">{s.count}</p>
+          {/* LOCATIONS */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Countries */}
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-4 text-[var(--color-primary)]">🗺️ Tari</h3>
+              {(analyticsData.topCountries || []).length === 0 ? (
+                <p className="text-sm text-[var(--color-text-light)]">Nicio locatie inca</p>
+              ) : (() => {
+                const total = (analyticsData.topCountries || []).reduce((s: number, c: any) => s + c.count, 0) || 1;
+                return (analyticsData.topCountries || []).slice(0, 6).map((c: any) => (
+                  <div key={c.country} className="py-2.5 border-b border-[var(--color-border)] last:border-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm">{c.country}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-400">{Math.round(c.count / total * 100)}%</span>
+                        <span className="text-sm font-bold text-gray-600 w-8 text-right">{c.count}</span>
+                      </div>
+                    </div>
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full" style={{ width: `${c.count / total * 100}%` }} />
+                    </div>
                   </div>
-                ))}
-              </div>
-            )}
+                ));
+              })()}
+            </div>
+
+            {/* Top Clicks in site */}
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-1 text-[var(--color-primary)]">👆 Click-uri in site</h3>
+              <p className="text-xs text-[var(--color-text-light)] mb-4">Cele mai accesate afterschool-uri si activitati</p>
+              {(analyticsData.topClicks || []).length === 0 ? (
+                <p className="text-sm text-[var(--color-text-light)]">Niciun click inregistrat inca</p>
+              ) : (() => {
+                const total = (analyticsData.topClicks || []).reduce((s: number, c: any) => s + c.count, 0) || 1;
+                const typeIcon: Record<string, string> = { afterschool: '🏫', club: '⚽' };
+                return (analyticsData.topClicks || []).slice(0, 6).map((c: any) => (
+                  <div key={c.name + c.type} className="py-2.5 border-b border-[var(--color-border)] last:border-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="flex-shrink-0">{typeIcon[c.type] || '📌'}</span>
+                        <span className="text-sm truncate max-w-[160px]">{c.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span className="text-xs text-gray-400">{Math.round(c.count / total * 100)}%</span>
+                        <span className="text-sm font-bold text-gray-600 w-8 text-right">{c.count}</span>
+                      </div>
+                    </div>
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full" style={{ width: `${c.count / total * 100}%` }} />
+                    </div>
+                  </div>
+                ));
+              })()}
+            </div>
+          </div>
+
+          {/* 🔍 SEARCHES & KEYWORDS */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Cautari in site */}
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-1 text-[var(--color-primary)]">🔍 Cautari in site</h3>
+              <p className="text-xs text-[var(--color-text-light)] mb-4">Ce au cautat utilizatorii in bara de cautare</p>
+              {analyticsData.topSearches.length === 0 ? (
+                <p className="text-sm text-[var(--color-text-light)]">Nicio cautare inca</p>
+              ) : (
+                <div className="space-y-2">
+                  {analyticsData.topSearches.slice(0, 8).map((s: any, i: number) => (
+                    <div key={i} className="flex items-center justify-between py-2 border-b border-[var(--color-border)] last:border-0">
+                      <span className="text-sm font-medium truncate max-w-[200px]">{s.query}</span>
+                      <span className="text-sm font-bold text-green-600 flex-shrink-0">{s.count}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Cuvinte cheie motoare de cautare */}
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-1 text-[var(--color-primary)]">🗝️ Cuvinte cheie</h3>
+              <p className="text-xs text-[var(--color-text-light)] mb-4">Din Bing/Yahoo/DuckDuckGo — Google le ascunde</p>
+              {(analyticsData.topKeywords || []).length === 0 ? (
+                <div>
+                  <p className="text-sm text-[var(--color-text-light)]">Niciun cuvant cheie disponibil</p>
+                  <p className="text-xs text-gray-400 mt-2">Google nu permite accesul la cuvintele cheie organice. Datele apar doar daca cineva vine de pe Bing, Yahoo sau DuckDuckGo.</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {analyticsData.topKeywords.map((k: any, i: number) => (
+                    <div key={i} className="flex items-center justify-between py-2 border-b border-[var(--color-border)] last:border-0">
+                      <span className="text-sm font-medium truncate max-w-[200px]">{k.keyword}</span>
+                      <span className="text-sm font-bold text-purple-600 flex-shrink-0">{k.count}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Daily Details Panel */}
