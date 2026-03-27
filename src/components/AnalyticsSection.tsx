@@ -1,12 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-// ANALYTICS SECTION JETPACK STYLE REFACTOR
-export function AnalyticsSection({ 
-  activeTab, 
-  analyticsDays, 
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+function yesterdayStr() {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
+export function AnalyticsSection({
+  activeTab,
+  analyticsDays,
   setAnalyticsDays,
+  analyticsFrom,
+  setAnalyticsFrom,
+  analyticsTo,
+  setAnalyticsTo,
   analyticsLoading,
   analyticsData,
   dayDetails,
@@ -15,26 +27,107 @@ export function AnalyticsSection({
   loadDayDetails,
   searchConsoleData
 }: any) {
+  const [showCustom, setShowCustom] = useState(false);
+  const [customFrom, setCustomFrom] = useState('');
+  const [customTo, setCustomTo] = useState('');
+
+  const quickPresets = [
+    { label: 'Azi', days: 1, from: todayStr(), to: todayStr() },
+    { label: 'Ieri', days: 1, from: yesterdayStr(), to: yesterdayStr() },
+    { label: '7 zile', days: 7, from: null, to: null },
+    { label: '30 zile', days: 30, from: null, to: null },
+    { label: '90 zile', days: 90, from: null, to: null },
+  ];
+
+  const isPresetActive = (p: typeof quickPresets[0]) => {
+    if (p.from) return analyticsFrom === p.from && analyticsTo === p.to;
+    return !analyticsFrom && analyticsDays === p.days;
+  };
+
+  const applyPreset = (p: typeof quickPresets[0]) => {
+    setShowCustom(false);
+    if (p.from) {
+      setAnalyticsFrom(p.from);
+      setAnalyticsTo(p.to);
+      setAnalyticsDays(p.days);
+      loadAnalytics(p.days, p.from, p.to);
+    } else {
+      setAnalyticsFrom('');
+      setAnalyticsTo('');
+      setAnalyticsDays(p.days);
+      loadAnalytics(p.days);
+    }
+  };
+
+  const applyCustom = () => {
+    if (!customFrom || !customTo || customFrom > customTo) return;
+    const days = Math.max(1, Math.round((new Date(customTo).getTime() - new Date(customFrom).getTime()) / 86400000) + 1);
+    setAnalyticsFrom(customFrom);
+    setAnalyticsTo(customTo);
+    setAnalyticsDays(days);
+    loadAnalytics(days, customFrom, customTo);
+    setShowCustom(false);
+  };
+
   return (
     <>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div>
-          <h2 className="text-2xl font-bold text-[var(--color-primary)]">📊 Traffic Analytics</h2>
-          <p className="text-sm text-[var(--color-text-light)] mt-1">Jetpack-style analytics dashboard</p>
-        </div>
-        <div className="flex gap-2">
-          {[7, 30, 90].map(d => (
-            <button key={d} onClick={() => { setAnalyticsDays(d); loadAnalytics(d); }}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-                analyticsDays === d 
-                  ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' 
+      <div className="flex flex-col gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h2 className="text-2xl font-bold text-[var(--color-primary)]">📊 Traffic Analytics</h2>
+            {analyticsFrom && analyticsTo ? (
+              <p className="text-sm text-[var(--color-text-light)] mt-1">{analyticsFrom} → {analyticsTo}</p>
+            ) : (
+              <p className="text-sm text-[var(--color-text-light)] mt-1">Ultimele {analyticsDays} zile</p>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-2 items-center">
+            {quickPresets.map(p => (
+              <button key={p.label} onClick={() => applyPreset(p)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
+                  isPresetActive(p)
+                    ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}>
+                {p.label}
+              </button>
+            ))}
+            <button
+              onClick={() => setShowCustom(!showCustom)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
+                showCustom
+                  ? 'bg-blue-100 text-blue-700'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}>
-              {d} days
+              Perioada custom
             </button>
-          ))}
+          </div>
         </div>
+
+        {/* Custom date range picker */}
+        {showCustom && (
+          <div className="flex flex-wrap items-end gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4">
+            <div>
+              <label className="block text-xs font-semibold text-gray-600 mb-1">De la</label>
+              <input type="date" value={customFrom} onChange={e => setCustomFrom(e.target.value)}
+                max={todayStr()}
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Pana la</label>
+              <input type="date" value={customTo} onChange={e => setCustomTo(e.target.value)}
+                min={customFrom} max={todayStr()}
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            </div>
+            <button
+              onClick={applyCustom}
+              disabled={!customFrom || !customTo || customFrom > customTo}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white rounded-lg text-sm font-semibold transition-all">
+              Aplica
+            </button>
+          </div>
+        )}
       </div>
 
       {analyticsLoading ? (
@@ -51,7 +144,7 @@ export function AnalyticsSection({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { label: 'Total Visits', value: analyticsData.total, icon: '📈', color: 'from-blue-50 to-blue-100', textColor: 'text-blue-700', borderColor: 'border-blue-200' },
-              { label: 'Avg/Day', value: Math.round(analyticsData.total / analyticsDays), icon: '📊', color: 'from-purple-50 to-purple-100', textColor: 'text-purple-700', borderColor: 'border-purple-200' },
+              { label: 'Avg/Day', value: Math.round(analyticsData.total / (analyticsData.days || analyticsDays)), icon: '📊', color: 'from-purple-50 to-purple-100', textColor: 'text-purple-700', borderColor: 'border-purple-200' },
               { label: 'Best Day', value: Math.max(...analyticsData.visitsByDay.map((d: any) => d.count), 0), icon: '🔥', color: 'from-orange-50 to-orange-100', textColor: 'text-orange-700', borderColor: 'border-orange-200' },
               { label: 'Top Pages', value: Object.keys(analyticsData.pageBreakdown).length, icon: '📄', color: 'from-green-50 to-green-100', textColor: 'text-green-700', borderColor: 'border-green-200' }
             ].map(stat => (

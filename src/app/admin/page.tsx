@@ -115,6 +115,8 @@ export default function AdminPage() {
     pages: { page: string; clicks: number; impressions: number }[];
   } | null>(null);
   const [analyticsDays, setAnalyticsDays] = useState(7);
+  const [analyticsFrom, setAnalyticsFrom] = useState('');
+  const [analyticsTo, setAnalyticsTo] = useState('');
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
   const [afterschools, setAfterschools] = useState<AfterSchoolData[]>([]);
   const [editing, setEditing] = useState<AfterSchoolData | null>(null);
@@ -220,10 +222,11 @@ export default function AdminPage() {
     if (res.ok) setCronStatus(await res.json());
   };
 
-  const loadAnalytics = async (days: number) => {
+  const loadAnalytics = async (days: number, from?: string, to?: string) => {
     setAnalyticsLoading(true);
+    const params = from && to ? `from=${from}&to=${to}` : `days=${days}`;
     const [res, gscRes] = await Promise.all([
-      fetch(`/api/admin/analytics?days=${days}`),
+      fetch(`/api/admin/analytics?${params}`),
       fetch(`/api/admin/search-console?days=${days}`),
     ]);
     if (res.ok) setAnalyticsData(await res.json());
@@ -626,10 +629,14 @@ export default function AdminPage() {
         {/* Analytics Tab */}
         {activeTab === 'analytics' && (
           <div className="space-y-6">
-            <AnalyticsSection 
+            <AnalyticsSection
               activeTab={activeTab}
               analyticsDays={analyticsDays}
               setAnalyticsDays={setAnalyticsDays}
+              analyticsFrom={analyticsFrom}
+              setAnalyticsFrom={setAnalyticsFrom}
+              analyticsTo={analyticsTo}
+              setAnalyticsTo={setAnalyticsTo}
               analyticsLoading={analyticsLoading}
               analyticsData={analyticsData}
               dayDetails={dayDetails}
