@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ro">
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-Z9ZET3FJSG" strategy="afterInteractive" />
+      <Script id="ga-init" strategy="afterInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-Z9ZET3FJSG');
+      `}</Script>
       <body className="antialiased">{children}</body>
     </html>
   );
