@@ -4,6 +4,7 @@ import { idFromSlug, toSlug } from '@/lib/slug';
 import type { Metadata } from 'next';
 import type { AfterSchool } from '@/lib/db';
 import AfterSchoolsNearby from '@/components/AfterSchoolsNearby';
+import PageviewTracker from '@/components/PageviewTracker';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -65,6 +66,7 @@ export default async function AfterSchoolPage({ params }: Props) {
 
   return (
     <>
+      <PageviewTracker page={`/afterschool/${slug}`} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="min-h-screen bg-[var(--color-bg)]">
         <header className="bg-[var(--color-card)] shadow-sm border-b border-[var(--color-border)]">

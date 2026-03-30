@@ -5,6 +5,7 @@ import { CLUB_CATEGORY_LABELS } from '@/lib/clubs';
 import type { Metadata } from 'next';
 import type { Club } from '@/lib/db';
 import ClubsNearby from '@/components/ClubsNearby';
+import PageviewTracker from '@/components/PageviewTracker';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -73,6 +74,7 @@ export default async function ClubPage({ params }: Props) {
 
   return (
     <>
+      <PageviewTracker page={`/activitati/${slug}`} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="min-h-screen bg-[var(--color-bg)]">
         <header className="bg-[var(--color-card)] shadow-sm border-b border-[var(--color-border)]">
