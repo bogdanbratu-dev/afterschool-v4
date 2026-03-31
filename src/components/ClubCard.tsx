@@ -37,6 +37,40 @@ interface ClubData {
   contacts_hidden: number;
   banner_url?: string | null;
   distance?: number;
+  rating?: number | null;
+  reviews_count?: number | null;
+  maps_url?: string | null;
+}
+
+function StarRating({ rating, count, mapsUrl }: { rating: number; count: number; mapsUrl?: string | null }) {
+  const stars = Array.from({ length: 5 }, (_, i) => {
+    const fill = Math.min(Math.max(rating - i, 0), 1);
+    return fill >= 0.75 ? 'full' : fill >= 0.25 ? 'half' : 'empty';
+  });
+  const content = (
+    <span className="inline-flex items-center gap-1">
+      <span className="flex">
+        {stars.map((s, i) => (
+          <svg key={i} className="w-3.5 h-3.5" viewBox="0 0 20 20">
+            {s === 'full' && <polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7" fill="#FBBF24" />}
+            {s === 'half' && (
+              <>
+                <defs><linearGradient id={`h${i}`}><stop offset="50%" stopColor="#FBBF24"/><stop offset="50%" stopColor="#D1D5DB"/></linearGradient></defs>
+                <polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7" fill={`url(#h${i})`} />
+              </>
+            )}
+            {s === 'empty' && <polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7" fill="#D1D5DB" />}
+          </svg>
+        ))}
+      </span>
+      <span className="text-xs font-semibold text-gray-700">{rating.toFixed(1)}</span>
+      <span className="text-xs text-gray-400">({count})</span>
+    </span>
+  );
+  if (mapsUrl) {
+    return <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">{content}</a>;
+  }
+  return <>{content}</>;
 }
 
 interface ClubCardProps {
@@ -85,6 +119,11 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
                   </span>
                 )}
               </div>
+              {data.rating && data.reviews_count ? (
+                <div className="mt-0.5 mb-0.5">
+                  <StarRating rating={data.rating} count={data.reviews_count} mapsUrl={data.maps_url} />
+                </div>
+              ) : null}
               <p className="text-xs sm:text-sm text-[var(--color-text-light)] flex items-start gap-1 mt-0.5">
                 <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
