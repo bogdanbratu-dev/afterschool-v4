@@ -14,8 +14,8 @@ interface Props {
 
 export default function TrackedLink({ href, type, itemId, itemName, linkType, target, rel, className, children }: Props) {
   const track = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const isBlank = target === '_blank';
-    if (href.startsWith('tel:') || href.startsWith('mailto:') || isBlank) {
+    const isTelOrMail = href.startsWith('tel:') || href.startsWith('mailto:');
+    if (isTelOrMail) {
       e.preventDefault();
       fetch('/api/analytics/click', {
         method: 'POST',
@@ -23,11 +23,7 @@ export default function TrackedLink({ href, type, itemId, itemName, linkType, ta
         body: JSON.stringify({ type, item_id: itemId, item_name: itemName, link_type: linkType }),
         keepalive: true,
       }).catch(() => {}).finally(() => {
-        if (isBlank) {
-          window.open(href, '_blank', 'noopener,noreferrer');
-        } else {
-          window.location.href = href;
-        }
+        window.location.href = href;
       });
     } else {
       fetch('/api/analytics/click', {

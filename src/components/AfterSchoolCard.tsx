@@ -75,9 +75,9 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
   const trackClick = (e: React.MouseEvent<HTMLAnchorElement>, link_type: string) => {
     const el = e.currentTarget as HTMLAnchorElement;
     const href = el.href;
-    const isBlank = el.target === '_blank';
-    const isExternal = href.startsWith('tel:') || href.startsWith('mailto:') || isBlank;
-    if (isExternal) {
+    const isTelOrMail = href.startsWith('tel:') || href.startsWith('mailto:');
+    if (isTelOrMail) {
+      // Prevent immediate navigation so fetch can fire first
       e.preventDefault();
       fetch('/api/analytics/click', {
         method: 'POST',
@@ -85,13 +85,11 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
         body: JSON.stringify({ type: 'afterschool', item_id: data.id, item_name: data.name, link_type }),
         keepalive: true,
       }).catch(() => {}).finally(() => {
-        if (isBlank) {
-          window.open(href, '_blank', 'noopener,noreferrer');
-        } else {
-          window.location.href = href;
-        }
+        window.location.href = href;
       });
     } else {
+      // _blank links: don't prevent default (iOS Safari blocks window.open in async),
+      // keepalive ensures fetch completes while new tab opens
       fetch('/api/analytics/click', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
