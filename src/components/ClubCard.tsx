@@ -83,12 +83,12 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
   const contactHidden = businessMode && !data.is_premium && data.contacts_hidden;
 
   const trackClick = (link_type: string) => {
-    const body = JSON.stringify({ type: 'club', item_id: data.id, item_name: data.name, link_type });
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon('/api/analytics/click', new Blob([body], { type: 'application/json' }));
-    } else {
-      fetch('/api/analytics/click', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
-    }
+    fetch('/api/analytics/click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'club', item_id: data.id, item_name: data.name, link_type }),
+      keepalive: true,
+    }).catch(() => {});
   };
 
   return (
