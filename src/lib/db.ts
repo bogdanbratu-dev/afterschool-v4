@@ -185,6 +185,8 @@ export interface AfterSchool {
   rating?: number | null;
   reviews_count?: number | null;
   maps_url?: string | null;
+  editorial_summary?: string | null;
+  photo_urls?: string | null;
 }
 
 export type { ClubCategory } from './clubs';
@@ -215,4 +217,6 @@ export interface Club {
   rating?: number | null;
   reviews_count?: number | null;
   maps_url?: string | null;
+  editorial_summary?: string | null;
+  photo_urls?: string | null;
 }

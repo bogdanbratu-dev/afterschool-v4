@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import type { AfterSchool } from '@/lib/db';
 import AfterSchoolsNearby from '@/components/AfterSchoolsNearby';
 import PageviewTracker from '@/components/PageviewTracker';
+import PhotoCarousel from '@/components/PhotoCarousel';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -133,8 +134,24 @@ export default async function AfterSchoolPage({ params }: Props) {
                 </div>
               )}
 
-              {as.description && (
-                <p className="text-sm text-[var(--color-text-main)] mb-5 leading-relaxed">{as.description}</p>
+              {as.photo_urls && (
+                <PhotoCarousel photos={JSON.parse(as.photo_urls)} name={as.name} />
+              )}
+
+              {(as.description || as.editorial_summary) && (
+                <div className="mb-5">
+                  {as.description && (
+                    <p className="text-sm text-[var(--color-text-main)] leading-relaxed">{as.description}</p>
+                  )}
+                  {as.editorial_summary && as.editorial_summary !== as.description && (
+                    <p className="text-sm text-[var(--color-text-main)] leading-relaxed mt-2">{as.editorial_summary}</p>
+                  )}
+                  {as.website && (
+                    <a href={as.website} target="_blank" rel="noopener noreferrer nofollow" className="inline-block mt-2 text-sm text-[var(--color-primary)] hover:underline">
+                      Citeste mai mult →
+                    </a>
+                  )}
+                </div>
               )}
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">

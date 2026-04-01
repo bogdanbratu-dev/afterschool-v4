@@ -6,6 +6,7 @@ import type { Metadata } from 'next';
 import type { Club } from '@/lib/db';
 import ClubsNearby from '@/components/ClubsNearby';
 import PageviewTracker from '@/components/PageviewTracker';
+import PhotoCarousel from '@/components/PhotoCarousel';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -144,8 +145,24 @@ export default async function ClubPage({ params }: Props) {
                 )}
               </div>
 
-              {club.description && (
-                <p className="text-sm text-[var(--color-text-main)] mb-5 leading-relaxed">{club.description}</p>
+              {club.photo_urls && (
+                <PhotoCarousel photos={JSON.parse(club.photo_urls)} name={club.name} />
+              )}
+
+              {(club.description || club.editorial_summary) && (
+                <div className="mb-5">
+                  {club.description && (
+                    <p className="text-sm text-[var(--color-text-main)] leading-relaxed">{club.description}</p>
+                  )}
+                  {club.editorial_summary && club.editorial_summary !== club.description && (
+                    <p className="text-sm text-[var(--color-text-main)] leading-relaxed mt-2">{club.editorial_summary}</p>
+                  )}
+                  {club.website && (
+                    <a href={club.website} target="_blank" rel="noopener noreferrer nofollow" className="inline-block mt-2 text-sm text-[var(--color-primary)] hover:underline">
+                      Citeste mai mult →
+                    </a>
+                  )}
+                </div>
               )}
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
