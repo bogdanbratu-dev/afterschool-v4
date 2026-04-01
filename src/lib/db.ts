@@ -182,6 +182,9 @@ export interface AfterSchool {
   is_premium: number;
   contacts_hidden: number;
   distance?: number;
+  rating?: number | null;
+  reviews_count?: number | null;
+  maps_url?: string | null;
 }
 
 export type { ClubCategory } from './clubs';
@@ -209,4 +212,7 @@ export interface Club {
   is_premium: number;
   contacts_hidden: number;
   distance?: number;
+  rating?: number | null;
+  reviews_count?: number | null;
+  maps_url?: string | null;
 }

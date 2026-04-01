@@ -57,7 +57,7 @@ function StarRating({ rating, count, mapsUrl }: { rating: number; count: number;
     </span>
   );
   if (mapsUrl) {
-    return <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">{content}</a>;
+    return <a href={mapsUrl} target="_blank" rel="noopener noreferrer nofollow" className="hover:opacity-80 transition-opacity">{content}</a>;
   }
   return <>{content}</>;
 }
@@ -248,7 +248,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.lng}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer nofollow"
                   className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -262,7 +262,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.lng}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer nofollow"
                   className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -287,7 +287,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
                   </a>
                 )}
                 {data.website && (
-                  <a href={data.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                  <a href={data.website} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                     </svg>

@@ -94,6 +94,27 @@ export default async function ClubPage({ params }: Props) {
               <div className="flex items-start justify-between gap-4 mb-3">
                 <div>
                   <h1 className="text-2xl font-bold text-[var(--color-text-main)]">{club.name}</h1>
+                  {club.rating && club.reviews_count ? (
+                    <div className="mt-1 mb-1">
+                      <a href={club.maps_url ?? undefined} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1 hover:opacity-80">
+                        <span className="flex">
+                          {Array.from({ length: 5 }, (_, i) => {
+                            const fill = Math.min(Math.max(club.rating! - i, 0), 1);
+                            const type = fill >= 0.75 ? 'full' : fill >= 0.25 ? 'half' : 'empty';
+                            return (
+                              <svg key={i} className="w-4 h-4" viewBox="0 0 20 20">
+                                {type === 'full' && <polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7" fill="#FBBF24" />}
+                                {type === 'half' && (<><defs><linearGradient id={`hc${i}`}><stop offset="50%" stopColor="#FBBF24"/><stop offset="50%" stopColor="#D1D5DB"/></linearGradient></defs><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7" fill={`url(#hc${i})`} /></>)}
+                                {type === 'empty' && <polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7" fill="#D1D5DB" />}
+                              </svg>
+                            );
+                          })}
+                        </span>
+                        <span className="text-sm font-semibold text-gray-700">{club.rating.toFixed(1)}</span>
+                        <span className="text-sm text-gray-400">({club.reviews_count} recenzii Google)</span>
+                      </a>
+                    </div>
+                  ) : null}
                   <p className="text-sm text-[var(--color-text-light)] mt-1 flex items-center gap-1">
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -158,7 +179,7 @@ export default async function ClubPage({ params }: Props) {
                     <a
                       href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(club.address + ', Bucuresti')}`}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener noreferrer nofollow"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors"
                     >
                       Cum ajung aici
@@ -174,7 +195,7 @@ export default async function ClubPage({ params }: Props) {
                       </a>
                     )}
                     {club.website && (
-                      <a href={club.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                      <a href={club.website} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
                         Website
                       </a>
                     )}
