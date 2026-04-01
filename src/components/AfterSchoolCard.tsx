@@ -72,25 +72,8 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
   const activities = data.activities?.split(',').map(a => a.trim()) || [];
   const contactHidden = businessMode && !data.is_premium;
 
-  const trackClick = (e: React.MouseEvent<HTMLAnchorElement>, link_type: string) => {
-    const el = e.currentTarget as HTMLAnchorElement;
-    const href = el.href;
-    const isBlank = el.target === '_blank';
-    const isTelOrMail = href.startsWith('tel:') || href.startsWith('mailto:');
-    e.preventDefault();
-    if (isBlank) {
-      // Open new tab synchronously (within user gesture) to avoid iOS popup blocker
-      window.open(href, '_blank', 'noopener,noreferrer');
-    }
-    fetch('/api/analytics/click', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'afterschool', item_id: data.id, item_name: data.name, link_type }),
-      keepalive: true,
-    }).catch(() => {}).finally(() => {
-      if (isTelOrMail) window.location.href = href;
-    });
-  };
+  const trackUrl = (lt: string, dest: string) =>
+    `/api/track?type=afterschool&id=${data.id}&name=${encodeURIComponent(data.name)}&lt=${lt}&url=${encodeURIComponent(dest)}`;
 
   return (
     <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden hover:shadow-md transition-shadow">
@@ -247,8 +230,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
               <div className="flex sm:hidden gap-2 mb-2">
                 {data.phone && (
                   <a
-                    href={`tel:${data.phone}`}
-                    onClick={(e) => trackClick(e, 'phone')}
+                    href={trackUrl('phone', `tel:${data.phone}`)}
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--color-primary)] text-white rounded-lg text-sm font-semibold active:bg-[var(--color-primary-dark)] transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -258,10 +240,9 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
                   </a>
                 )}
                 <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.lng}`}
+                  href={trackUrl('maps', `https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.lng}`)}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
-                  onClick={(e) => trackClick(e, 'maps')}
                   className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -273,10 +254,9 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
               {/* Linkuri desktop + secundare */}
               <div className="flex flex-wrap gap-3">
                 <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.lng}`}
+                  href={trackUrl('maps', `https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.lng}`)}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
-                  onClick={(e) => trackClick(e, 'maps')}
                   className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -285,7 +265,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
                   Cum ajung aici
                 </a>
                 {data.phone && (
-                  <a href={`tel:${data.phone}`} onClick={(e) => trackClick(e, 'phone')} className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                  <a href={trackUrl('phone', `tel:${data.phone}`)} className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
@@ -293,7 +273,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
                   </a>
                 )}
                 {data.email && (
-                  <a href={`mailto:${data.email}`} onClick={(e) => trackClick(e, 'email')} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                  <a href={trackUrl('email', `mailto:${data.email}`)} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
@@ -301,7 +281,7 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
                   </a>
                 )}
                 {data.website && (
-                  <a href={data.website} target="_blank" rel="noopener noreferrer nofollow" onClick={(e) => trackClick(e, 'website')} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                  <a href={trackUrl('website', data.website)} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                     </svg>
