@@ -59,6 +59,8 @@ interface AfterSchoolData {
   is_premium?: number;
   contacts_hidden?: number;
   banner_url?: string | null;
+  editorial_summary?: string | null;
+  photo_urls?: string | null;
 }
 
 const emptyForm: Omit<AfterSchoolData, 'id'> = {
@@ -69,6 +71,8 @@ const emptyForm: Omit<AfterSchoolData, 'id'> = {
   age_min: null, age_max: null,
   description: '', activities: '',
   banner_url: null,
+  editorial_summary: null as string | null,
+  photo_urls: null as string | null,
 };
 
 export default function AdminPage() {
@@ -198,7 +202,7 @@ export default function AdminPage() {
 
   const handleEditClub = (c: ClubData) => {
     setEditingClub(c);
-    setClubForm({ name: c.name, address: c.address, sector: c.sector, lat: c.lat, lng: c.lng, phone: c.phone || '', email: c.email || '', website: c.website || '', price_min: c.price_min, price_max: c.price_max, schedule: c.schedule || '', age_min: c.age_min, age_max: c.age_max, description: c.description || '', category: c.category, availability: c.availability, banner_url: (c as any).banner_url || null });
+    setClubForm({ name: c.name, address: c.address, sector: c.sector, lat: c.lat, lng: c.lng, phone: c.phone || '', email: c.email || '', website: c.website || '', price_min: c.price_min, price_max: c.price_max, schedule: c.schedule || '', age_min: c.age_min, age_max: c.age_max, description: c.description || '', category: c.category, availability: c.availability, banner_url: (c as any).banner_url || null, editorial_summary: (c as any).editorial_summary || '', photo_urls: (c as any).photo_urls || null } as any);
     setShowClubForm(true);
   };
 
@@ -357,6 +361,8 @@ export default function AdminPage() {
       description: as.description || '',
       activities: as.activities || '',
       banner_url: as.banner_url || null,
+      editorial_summary: (as as any).editorial_summary || null,
+      photo_urls: (as as any).photo_urls || null,
     });
     setShowForm(true);
   };
@@ -618,6 +624,36 @@ export default function AdminPage() {
                       onChange={e => { const f = e.target.files?.[0]; if (f) handleBannerUpload(f); e.target.value = ''; }}
                       className="w-full text-sm text-[var(--color-text-light)] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:rounded-lg file:bg-[var(--color-primary)] file:text-white file:text-sm file:cursor-pointer" />
                     {bannerUploading && <p className="text-xs text-[var(--color-text-light)] mt-1">Se incarca...</p>}
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-1">Descriere Google (editorial summary)</label>
+                    <textarea rows={2} value={(form as any).editorial_summary || ''} onChange={e => setForm(f => ({ ...f, editorial_summary: e.target.value }))}
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg resize-none text-sm" />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-1">Poze carusel (max 3 URL-uri)</label>
+                    {((form as any).photo_urls ? JSON.parse((form as any).photo_urls) : []).map((url: string, i: number) => (
+                      <div key={i} className="flex gap-2 items-center mb-2">
+                        <img src={url} alt={`Foto ${i+1}`} className="w-16 h-12 object-cover rounded border border-[var(--color-border)] flex-shrink-0" />
+                        <input value={url} onChange={e => {
+                          const arr = JSON.parse((form as any).photo_urls || '[]');
+                          arr[i] = e.target.value;
+                          setForm(f => ({ ...f, photo_urls: JSON.stringify(arr) }));
+                        }} className="flex-1 px-2 py-1 border border-[var(--color-border)] rounded text-xs" />
+                        <button type="button" onClick={() => {
+                          const arr = JSON.parse((form as any).photo_urls || '[]').filter((_: string, j: number) => j !== i);
+                          setForm(f => ({ ...f, photo_urls: arr.length ? JSON.stringify(arr) : null }));
+                        }} className="text-red-500 hover:text-red-700 font-bold text-sm px-1">✕</button>
+                      </div>
+                    ))}
+                    {((form as any).photo_urls ? JSON.parse((form as any).photo_urls) : []).length < 3 && (
+                      <button type="button" onClick={() => {
+                        const url = prompt('URL poza:');
+                        if (!url) return;
+                        const arr = (form as any).photo_urls ? JSON.parse((form as any).photo_urls) : [];
+                        setForm(f => ({ ...f, photo_urls: JSON.stringify([...arr, url]) }));
+                      }} className="text-sm text-[var(--color-primary)] hover:underline">+ Adauga poza</button>
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-3 pt-2">
@@ -933,6 +969,36 @@ export default function AdminPage() {
                       onChange={e => { const f = e.target.files?.[0]; if (f) handleClubBannerUpload(f); e.target.value = ''; }}
                       className="w-full text-sm text-[var(--color-text-light)] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:rounded-lg file:bg-[var(--color-primary)] file:text-white file:text-sm file:cursor-pointer" />
                     {clubBannerUploading && <p className="text-xs text-[var(--color-text-light)] mt-1">Se incarca...</p>}
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-1">Descriere Google (editorial summary)</label>
+                    <textarea rows={2} value={(clubForm as any).editorial_summary || ''} onChange={e => setClubForm(f => ({ ...f, editorial_summary: e.target.value } as any))}
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg resize-none text-sm" />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-1">Poze carusel (max 3 URL-uri)</label>
+                    {((clubForm as any).photo_urls ? JSON.parse((clubForm as any).photo_urls) : []).map((url: string, i: number) => (
+                      <div key={i} className="flex gap-2 items-center mb-2">
+                        <img src={url} alt={`Foto ${i+1}`} className="w-16 h-12 object-cover rounded border border-[var(--color-border)] flex-shrink-0" />
+                        <input value={url} onChange={e => {
+                          const arr = JSON.parse((clubForm as any).photo_urls || '[]');
+                          arr[i] = e.target.value;
+                          setClubForm(f => ({ ...f, photo_urls: JSON.stringify(arr) } as any));
+                        }} className="flex-1 px-2 py-1 border border-[var(--color-border)] rounded text-xs" />
+                        <button type="button" onClick={() => {
+                          const arr = JSON.parse((clubForm as any).photo_urls || '[]').filter((_: string, j: number) => j !== i);
+                          setClubForm(f => ({ ...f, photo_urls: arr.length ? JSON.stringify(arr) : null } as any));
+                        }} className="text-red-500 hover:text-red-700 font-bold text-sm px-1">✕</button>
+                      </div>
+                    ))}
+                    {((clubForm as any).photo_urls ? JSON.parse((clubForm as any).photo_urls) : []).length < 3 && (
+                      <button type="button" onClick={() => {
+                        const url = prompt('URL poza:');
+                        if (!url) return;
+                        const arr = (clubForm as any).photo_urls ? JSON.parse((clubForm as any).photo_urls) : [];
+                        setClubForm(f => ({ ...f, photo_urls: JSON.stringify([...arr, url]) } as any));
+                      }} className="text-sm text-[var(--color-primary)] hover:underline">+ Adauga poza</button>
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-3 pt-2">

@@ -18,7 +18,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       schedule = ?, age_min = ?, age_max = ?,
       description = ?, category = ?,
       availability = ?, is_premium = ?, contacts_hidden = ?,
-      banner_url = ?
+      banner_url = ?,
+      editorial_summary = ?, photo_urls = ?
     WHERE id = ?
   `).run(
     body.name, body.address, body.sector || null, body.lat || 0, body.lng || 0,
@@ -29,6 +30,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     body.availability || 'unknown',
     body.is_premium ?? 0, body.contacts_hidden ?? 0,
     body.banner_url || null,
+    body.editorial_summary || null, body.photo_urls || null,
     id
   );
 

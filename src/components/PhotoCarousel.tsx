@@ -1,12 +1,26 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function PhotoCarousel({ photos, name }: { photos: string[]; name: string }) {
   const [idx, setIdx] = useState(0);
+  const hovered = useRef(false);
+
+  useEffect(() => {
+    if (photos.length <= 1) return;
+    const interval = setInterval(() => {
+      if (!hovered.current) setIdx(i => (i + 1) % photos.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [photos.length]);
+
   if (!photos.length) return null;
 
   return (
-    <div className="relative rounded-xl overflow-hidden bg-gray-100 mb-5">
+    <div
+      className="relative rounded-xl overflow-hidden bg-gray-100 mb-5"
+      onMouseEnter={() => { hovered.current = true; }}
+      onMouseLeave={() => { hovered.current = false; }}
+    >
       <img
         src={photos[idx]}
         alt={`${name} — foto ${idx + 1}`}
