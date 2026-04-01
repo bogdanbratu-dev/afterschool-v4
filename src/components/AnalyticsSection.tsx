@@ -330,29 +330,37 @@ export function AnalyticsSection({
               {(analyticsData.topClicks || []).length === 0 ? (
                 <p className="text-sm text-[var(--color-text-light)]">Niciun click inregistrat inca</p>
               ) : (() => {
-                const total = (analyticsData.topClicks || []).reduce((s: number, c: any) => s + c.count, 0) || 1;
-                const typeIcon: Record<string, string> = { afterschool: '🏫', club: '⚽' };
                 const linkIcon: Record<string, string> = { phone: '📞', website: '🌐', maps: '🗺️', email: '✉️' };
                 const linkLabel: Record<string, string> = { phone: 'Telefon', website: 'Website', maps: 'Harta', email: 'Email' };
-                return (analyticsData.topClicks || []).slice(0, 10).map((c: any, i: number) => (
-                  <div key={i} className="py-2.5 border-b border-[var(--color-border)] last:border-0">
-                    <div className="flex items-center justify-between mb-1">
+                const typeIcon: Record<string, string> = { afterschool: '🏫', club: '⚽' };
+                // Group by item name
+                const grouped: Record<string, { type: string; total: number; byLink: Record<string, number> }> = {};
+                for (const c of (analyticsData.topClicks || [])) {
+                  if (!grouped[c.name]) grouped[c.name] = { type: c.type, total: 0, byLink: {} };
+                  grouped[c.name].total += c.count;
+                  const lt = c.link_type || 'altele';
+                  grouped[c.name].byLink[lt] = (grouped[c.name].byLink[lt] || 0) + c.count;
+                }
+                const sorted = Object.entries(grouped).sort((a, b) => b[1].total - a[1].total);
+                const grandTotal = sorted.reduce((s, [, v]) => s + v.total, 0) || 1;
+                return sorted.slice(0, 8).map(([name, item]) => (
+                  <div key={name} className="py-3 border-b border-[var(--color-border)] last:border-0">
+                    <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5 min-w-0">
-                        <span className="flex-shrink-0">{typeIcon[c.type] || '📌'}</span>
-                        <span className="text-sm truncate max-w-[120px]">{c.name}</span>
-                        {c.link_type && (
-                          <span className="flex-shrink-0 inline-flex items-center gap-0.5 text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full">
-                            {linkIcon[c.link_type] || '🔗'} {linkLabel[c.link_type] || c.link_type}
-                          </span>
-                        )}
+                        <span className="flex-shrink-0">{typeIcon[item.type] || '📌'}</span>
+                        <span className="text-sm font-semibold truncate max-w-[180px]">{name}</span>
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className="text-xs text-gray-400">{Math.round(c.count / total * 100)}%</span>
-                        <span className="text-sm font-bold text-gray-600 w-6 text-right">{c.count}</span>
-                      </div>
+                      <span className="text-sm font-bold text-gray-700 flex-shrink-0">{item.total} click-uri</span>
                     </div>
-                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full" style={{ width: `${c.count / total * 100}%` }} />
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden mb-2">
+                      <div className="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full" style={{ width: `${item.total / grandTotal * 100}%` }} />
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {Object.entries(item.byLink).sort((a, b) => b[1] - a[1]).map(([lt, cnt]) => (
+                        <span key={lt} className="inline-flex items-center gap-1 text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
+                          {linkIcon[lt] || '🔗'} {linkLabel[lt] || lt}: <strong>{cnt}</strong>
+                        </span>
+                      ))}
                     </div>
                   </div>
                 ));
