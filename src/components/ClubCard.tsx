@@ -82,12 +82,13 @@ interface ClubCardProps {
 export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
   const contactHidden = businessMode && !data.is_premium && data.contacts_hidden;
 
-  const trackClick = () => {
-    fetch('/api/analytics/click', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'club', item_id: data.id, item_name: data.name }),
-    });
+  const trackClick = (link_type: string) => {
+    const body = JSON.stringify({ type: 'club', item_id: data.id, item_name: data.name, link_type });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/analytics/click', new Blob([body], { type: 'application/json' }));
+    } else {
+      fetch('/api/analytics/click', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
+    }
   };
 
   return (
@@ -221,7 +222,7 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
                 {data.phone && (
                   <a
                     href={`tel:${data.phone}`}
-                    onClick={trackClick}
+                    onClick={() => trackClick('phone')}
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--color-primary)] text-white rounded-lg text-sm font-semibold active:bg-[var(--color-primary-dark)] transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -234,6 +235,7 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
                   href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address + ', Bucuresti')}`}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
+                  onClick={() => trackClick('maps')}
                   className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -247,6 +249,7 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
                   href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(data.address + ', Bucuresti')}`}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
+                  onClick={() => trackClick('maps')}
                   className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -255,7 +258,7 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
                   Cum ajung aici
                 </a>
                 {data.phone && (
-                  <a href={`tel:${data.phone}`} onClick={trackClick} className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                  <a href={`tel:${data.phone}`} onClick={() => trackClick('phone')} className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
@@ -263,7 +266,7 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
                   </a>
                 )}
                 {data.email && (
-                  <a href={`mailto:${data.email}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                  <a href={`mailto:${data.email}`} onClick={() => trackClick('email')} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
@@ -271,7 +274,7 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
                   </a>
                 )}
                 {data.website && (
-                  <a href={data.website} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                  <a href={data.website} target="_blank" rel="noopener noreferrer nofollow" onClick={() => trackClick('website')} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                     </svg>
