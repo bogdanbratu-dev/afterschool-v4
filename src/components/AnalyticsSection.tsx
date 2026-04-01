@@ -332,16 +332,23 @@ export function AnalyticsSection({
               ) : (() => {
                 const total = (analyticsData.topClicks || []).reduce((s: number, c: any) => s + c.count, 0) || 1;
                 const typeIcon: Record<string, string> = { afterschool: '🏫', club: '⚽' };
-                return (analyticsData.topClicks || []).slice(0, 6).map((c: any) => (
-                  <div key={c.name + c.type} className="py-2.5 border-b border-[var(--color-border)] last:border-0">
+                const linkIcon: Record<string, string> = { phone: '📞', website: '🌐', maps: '🗺️', email: '✉️' };
+                const linkLabel: Record<string, string> = { phone: 'Telefon', website: 'Website', maps: 'Harta', email: 'Email' };
+                return (analyticsData.topClicks || []).slice(0, 10).map((c: any, i: number) => (
+                  <div key={i} className="py-2.5 border-b border-[var(--color-border)] last:border-0">
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-1.5 min-w-0">
                         <span className="flex-shrink-0">{typeIcon[c.type] || '📌'}</span>
-                        <span className="text-sm truncate max-w-[160px]">{c.name}</span>
+                        <span className="text-sm truncate max-w-[120px]">{c.name}</span>
+                        {c.link_type && (
+                          <span className="flex-shrink-0 inline-flex items-center gap-0.5 text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full">
+                            {linkIcon[c.link_type] || '🔗'} {linkLabel[c.link_type] || c.link_type}
+                          </span>
+                        )}
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
                         <span className="text-xs text-gray-400">{Math.round(c.count / total * 100)}%</span>
-                        <span className="text-sm font-bold text-gray-600 w-8 text-right">{c.count}</span>
+                        <span className="text-sm font-bold text-gray-600 w-6 text-right">{c.count}</span>
                       </div>
                     </div>
                     <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -352,6 +359,29 @@ export function AnalyticsSection({
               })()}
             </div>
           </div>
+
+          {/* Tip link clicks */}
+          {analyticsData.linkTypeBreakdown && Object.keys(analyticsData.linkTypeBreakdown).length > 0 && (
+            <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+              <h3 className="text-lg font-bold mb-1 text-[var(--color-primary)]">📲 Tipuri de click-uri</h3>
+              <p className="text-xs text-[var(--color-text-light)] mb-4">Pe ce au dat click utilizatorii</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {Object.entries(analyticsData.linkTypeBreakdown)
+                  .sort((a: any, b: any) => b[1] - a[1])
+                  .map(([lt, count]: any) => {
+                    const icons: Record<string, string> = { phone: '📞', website: '🌐', maps: '🗺️', email: '✉️', necunoscut: '❓' };
+                    const labels: Record<string, string> = { phone: 'Telefon', website: 'Website', maps: 'Harta', email: 'Email', necunoscut: 'Altele' };
+                    return (
+                      <div key={lt} className="bg-[var(--color-bg)] rounded-lg p-3 text-center">
+                        <div className="text-2xl mb-1">{icons[lt] || '❓'}</div>
+                        <div className="text-xl font-bold text-[var(--color-text-main)]">{count}</div>
+                        <div className="text-xs text-[var(--color-text-light)]">{labels[lt] || lt}</div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
 
           {/* 🔍 SEARCHES & KEYWORDS */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

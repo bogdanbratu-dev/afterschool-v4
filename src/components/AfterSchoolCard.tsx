@@ -75,28 +75,21 @@ export default function AfterSchoolCard({ data, rank, businessMode }: AfterSchoo
   const trackClick = (e: React.MouseEvent<HTMLAnchorElement>, link_type: string) => {
     const el = e.currentTarget as HTMLAnchorElement;
     const href = el.href;
+    const isBlank = el.target === '_blank';
     const isTelOrMail = href.startsWith('tel:') || href.startsWith('mailto:');
-    if (isTelOrMail) {
-      // Prevent immediate navigation so fetch can fire first
-      e.preventDefault();
-      fetch('/api/analytics/click', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'afterschool', item_id: data.id, item_name: data.name, link_type }),
-        keepalive: true,
-      }).catch(() => {}).finally(() => {
-        window.location.href = href;
-      });
-    } else {
-      // _blank links: don't prevent default (iOS Safari blocks window.open in async),
-      // keepalive ensures fetch completes while new tab opens
-      fetch('/api/analytics/click', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'afterschool', item_id: data.id, item_name: data.name, link_type }),
-        keepalive: true,
-      }).catch(() => {});
+    e.preventDefault();
+    if (isBlank) {
+      // Open new tab synchronously (within user gesture) to avoid iOS popup blocker
+      window.open(href, '_blank', 'noopener,noreferrer');
     }
+    fetch('/api/analytics/click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'afterschool', item_id: data.id, item_name: data.name, link_type }),
+      keepalive: true,
+    }).catch(() => {}).finally(() => {
+      if (isTelOrMail) window.location.href = href;
+    });
   };
 
   return (

@@ -87,10 +87,19 @@ export async function GET(request: Request) {
     `SELECT query, COUNT(*) as count FROM searches WHERE timestamp >= ? AND timestamp <= ? GROUP BY query ORDER BY count DESC LIMIT 10`
   ).all(fromTs, toTs) as { query: string; count: number }[];
 
-  // Top click-uri
+  // Top click-uri cu breakdown pe link_type
   const topClicks = db.prepare(
-    `SELECT item_name as name, type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? GROUP BY item_id, type ORDER BY count DESC LIMIT 10`
-  ).all(fromTs, toTs) as { name: string; type: string; count: number }[];
+    `SELECT item_name as name, type, link_type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? GROUP BY item_id, link_type ORDER BY count DESC LIMIT 20`
+  ).all(fromTs, toTs) as { name: string; type: string; link_type: string | null; count: number }[];
+
+  // Breakdown pe tip de link
+  const linkTypeRows = db.prepare(
+    `SELECT link_type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? GROUP BY link_type ORDER BY count DESC`
+  ).all(fromTs, toTs) as { link_type: string | null; count: number }[];
+  const linkTypeBreakdown: Record<string, number> = {};
+  for (const row of linkTypeRows) {
+    linkTypeBreakdown[row.link_type ?? 'necunoscut'] = row.count;
+  }
 
   const topCountries = Object.entries(countryMap)
     .sort((a, b) => b[1] - a[1]).slice(0, 10)
@@ -119,6 +128,7 @@ export async function GET(request: Request) {
     topKeywords,
     topSearches,
     topClicks,
+    linkTypeBreakdown,
     total: pageviewRows.length,
     days,
   });

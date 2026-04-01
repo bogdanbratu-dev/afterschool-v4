@@ -85,25 +85,20 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
   const trackClick = (e: React.MouseEvent<HTMLAnchorElement>, link_type: string) => {
     const el = e.currentTarget as HTMLAnchorElement;
     const href = el.href;
+    const isBlank = el.target === '_blank';
     const isTelOrMail = href.startsWith('tel:') || href.startsWith('mailto:');
-    if (isTelOrMail) {
-      e.preventDefault();
-      fetch('/api/analytics/click', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'club', item_id: data.id, item_name: data.name, link_type }),
-        keepalive: true,
-      }).catch(() => {}).finally(() => {
-        window.location.href = href;
-      });
-    } else {
-      fetch('/api/analytics/click', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'club', item_id: data.id, item_name: data.name, link_type }),
-        keepalive: true,
-      }).catch(() => {});
+    e.preventDefault();
+    if (isBlank) {
+      window.open(href, '_blank', 'noopener,noreferrer');
     }
+    fetch('/api/analytics/click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'club', item_id: data.id, item_name: data.name, link_type }),
+      keepalive: true,
+    }).catch(() => {}).finally(() => {
+      if (isTelOrMail) window.location.href = href;
+    });
   };
 
   return (
