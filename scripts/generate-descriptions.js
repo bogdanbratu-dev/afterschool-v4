@@ -63,13 +63,14 @@ function generateClub(club) {
   return parts.join(' ');
 }
 
-// Only generate for entries that have NO editorial_summary AND NO website
+// For afterschools: generate only if no editorial_summary AND no website (they have scraped descriptions)
 const afterschools = db.prepare(
   `SELECT * FROM afterschools WHERE editorial_summary IS NULL AND (website IS NULL OR website = '')`
 ).all();
 
+// For clubs: generate for ALL without editorial_summary (clubs have no scraped descriptions)
 const clubs = db.prepare(
-  `SELECT * FROM clubs WHERE editorial_summary IS NULL AND (website IS NULL OR website = '')`
+  `SELECT * FROM clubs WHERE editorial_summary IS NULL`
 ).all();
 
 console.log(`After school-uri fără descriere și fără website: ${afterschools.length}`);
