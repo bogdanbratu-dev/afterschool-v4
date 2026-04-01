@@ -83,8 +83,10 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
   const contactHidden = businessMode && !data.is_premium && data.contacts_hidden;
 
   const trackClick = (e: React.MouseEvent<HTMLAnchorElement>, link_type: string) => {
-    const href = (e.currentTarget as HTMLAnchorElement).href;
-    const isExternal = href.startsWith('tel:') || href.startsWith('mailto:') || e.currentTarget.target === '_blank';
+    const el = e.currentTarget as HTMLAnchorElement;
+    const href = el.href;
+    const isBlank = el.target === '_blank';
+    const isExternal = href.startsWith('tel:') || href.startsWith('mailto:') || isBlank;
     if (isExternal) {
       e.preventDefault();
       fetch('/api/analytics/click', {
@@ -93,7 +95,7 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
         body: JSON.stringify({ type: 'club', item_id: data.id, item_name: data.name, link_type }),
         keepalive: true,
       }).catch(() => {}).finally(() => {
-        if (e.currentTarget?.target === '_blank') {
+        if (isBlank) {
           window.open(href, '_blank', 'noopener,noreferrer');
         } else {
           window.location.href = href;
