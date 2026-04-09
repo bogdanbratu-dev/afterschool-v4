@@ -17,6 +17,7 @@ export async function GET(request: Request) {
 
   const fromParam = searchParams.get('from');
   const toParam = searchParams.get('to');
+  const pageFilter = searchParams.get('page') || '';
 
   if (fromParam && toParam) {
     fromTs = new Date(fromParam + 'T00:00:00').getTime();
@@ -28,10 +29,21 @@ export async function GET(request: Request) {
     fromTs = toTs - days * 24 * 60 * 60 * 1000;
   }
 
-  // Vizite pe zi
-  const pageviewRows = db.prepare(
-    `SELECT page, device, timestamp, source, country, city, referrer FROM pageviews WHERE timestamp >= ? AND timestamp <= ?`
-  ).all(fromTs, toTs) as { page: string; device: string; timestamp: number; source: string | null; country: string | null; city: string | null; referrer: string | null }[];
+  // Extrage item_id din slug pentru pagini de detaliu (/afterschool/name-123 sau /activitati/name-123)
+  let itemIdFilter: number | null = null;
+  if (pageFilter) {
+    const match = pageFilter.match(/\/(?:afterschool|activitati)\/[^/]+-(\d+)$/);
+    if (match) itemIdFilter = parseInt(match[1]);
+  }
+
+  // Vizite pe zi (filtrat dupa pagina daca e selectata)
+  const pageviewRows = pageFilter
+    ? db.prepare(
+        `SELECT page, device, timestamp, source, country, city, referrer FROM pageviews WHERE timestamp >= ? AND timestamp <= ? AND page = ?`
+      ).all(fromTs, toTs, pageFilter) as { page: string; device: string; timestamp: number; source: string | null; country: string | null; city: string | null; referrer: string | null }[]
+    : db.prepare(
+        `SELECT page, device, timestamp, source, country, city, referrer FROM pageviews WHERE timestamp >= ? AND timestamp <= ?`
+      ).all(fromTs, toTs) as { page: string; device: string; timestamp: number; source: string | null; country: string | null; city: string | null; referrer: string | null }[];
 
   const visitsByDayMap: Record<string, number> = {};
   const pageMap: Record<string, number> = {};
@@ -82,20 +94,30 @@ export async function GET(request: Request) {
     cur.setDate(cur.getDate() + 1);
   }
 
-  // Top cautari
-  const topSearches = db.prepare(
-    `SELECT query, COUNT(*) as count FROM searches WHERE timestamp >= ? AND timestamp <= ? GROUP BY query ORDER BY count DESC LIMIT 10`
-  ).all(fromTs, toTs) as { query: string; count: number }[];
+  // Top cautari (filtrate dupa pagina daca e o pagina de lista, altfel toate)
+  const topSearches = (!pageFilter || !itemIdFilter)
+    ? db.prepare(
+        `SELECT query, COUNT(*) as count FROM searches WHERE timestamp >= ? AND timestamp <= ? GROUP BY query ORDER BY count DESC LIMIT 10`
+      ).all(fromTs, toTs) as { query: string; count: number }[]
+    : [];
 
-  // Top click-uri cu breakdown pe link_type
-  const topClicks = db.prepare(
-    `SELECT item_name as name, type, link_type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? GROUP BY item_id, link_type ORDER BY count DESC LIMIT 20`
-  ).all(fromTs, toTs) as { name: string; type: string; link_type: string | null; count: number }[];
+  // Top click-uri cu breakdown pe link_type (filtrate dupa item_id daca e pagina de detaliu)
+  const topClicks = itemIdFilter
+    ? db.prepare(
+        `SELECT item_name as name, type, link_type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? AND item_id = ? GROUP BY item_id, link_type ORDER BY count DESC LIMIT 20`
+      ).all(fromTs, toTs, itemIdFilter) as { name: string; type: string; link_type: string | null; count: number }[]
+    : db.prepare(
+        `SELECT item_name as name, type, link_type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? GROUP BY item_id, link_type ORDER BY count DESC LIMIT 20`
+      ).all(fromTs, toTs) as { name: string; type: string; link_type: string | null; count: number }[];
 
-  // Breakdown pe tip de link
-  const linkTypeRows = db.prepare(
-    `SELECT link_type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? GROUP BY link_type ORDER BY count DESC`
-  ).all(fromTs, toTs) as { link_type: string | null; count: number }[];
+  // Breakdown pe tip de link (filtrat la fel)
+  const linkTypeRows = itemIdFilter
+    ? db.prepare(
+        `SELECT link_type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? AND item_id = ? GROUP BY link_type ORDER BY count DESC`
+      ).all(fromTs, toTs, itemIdFilter) as { link_type: string | null; count: number }[]
+    : db.prepare(
+        `SELECT link_type, COUNT(*) as count FROM result_clicks WHERE timestamp >= ? AND timestamp <= ? GROUP BY link_type ORDER BY count DESC`
+      ).all(fromTs, toTs) as { link_type: string | null; count: number }[];
   const linkTypeBreakdown: Record<string, number> = {};
   for (const row of linkTypeRows) {
     linkTypeBreakdown[row.link_type ?? 'necunoscut'] = row.count;
@@ -131,5 +153,6 @@ export async function GET(request: Request) {
     linkTypeBreakdown,
     total: pageviewRows.length,
     days,
+    pageFilter,
   });
 }

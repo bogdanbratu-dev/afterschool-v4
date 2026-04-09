@@ -30,6 +30,7 @@ export function AnalyticsSection({
   const [showCustom, setShowCustom] = useState(false);
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
+  const [selectedPage, setSelectedPage] = useState('');
 
   const quickPresets = [
     { label: 'Azi', days: 1, from: todayStr(), to: todayStr() },
@@ -50,12 +51,12 @@ export function AnalyticsSection({
       setAnalyticsFrom(p.from);
       setAnalyticsTo(p.to);
       setAnalyticsDays(p.days);
-      loadAnalytics(p.days, p.from, p.to);
+      loadAnalytics(p.days, p.from, p.to, selectedPage || undefined);
     } else {
       setAnalyticsFrom('');
       setAnalyticsTo('');
       setAnalyticsDays(p.days);
-      loadAnalytics(p.days);
+      loadAnalytics(p.days, undefined, undefined, selectedPage || undefined);
     }
   };
 
@@ -65,8 +66,17 @@ export function AnalyticsSection({
     setAnalyticsFrom(customFrom);
     setAnalyticsTo(customTo);
     setAnalyticsDays(days);
-    loadAnalytics(days, customFrom, customTo);
+    loadAnalytics(days, customFrom, customTo, selectedPage || undefined);
     setShowCustom(false);
+  };
+
+  const applyPageFilter = (page: string) => {
+    setSelectedPage(page);
+    if (analyticsFrom && analyticsTo) {
+      loadAnalytics(analyticsDays, analyticsFrom, analyticsTo, page || undefined);
+    } else {
+      loadAnalytics(analyticsDays, undefined, undefined, page || undefined);
+    }
   };
 
   return (
@@ -76,11 +86,19 @@ export function AnalyticsSection({
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <h2 className="text-2xl font-bold text-[var(--color-primary)]">📊 Traffic Analytics</h2>
-            {analyticsFrom && analyticsTo ? (
-              <p className="text-sm text-[var(--color-text-light)] mt-1">{analyticsFrom} → {analyticsTo}</p>
-            ) : (
-              <p className="text-sm text-[var(--color-text-light)] mt-1">Ultimele {analyticsDays} zile</p>
-            )}
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
+              {analyticsFrom && analyticsTo ? (
+                <p className="text-sm text-[var(--color-text-light)]">{analyticsFrom} → {analyticsTo}</p>
+              ) : (
+                <p className="text-sm text-[var(--color-text-light)]">Ultimele {analyticsDays} zile</p>
+              )}
+              {selectedPage && (
+                <span className="inline-flex items-center gap-1 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                  📄 {selectedPage}
+                  <button onClick={() => applyPageFilter('')} className="ml-1 hover:text-blue-900">✕</button>
+                </span>
+              )}
+            </div>
           </div>
           <div className="flex flex-wrap gap-2 items-center">
             {quickPresets.map(p => (
@@ -126,6 +144,24 @@ export function AnalyticsSection({
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white rounded-lg text-sm font-semibold transition-all">
               Aplica
             </button>
+          </div>
+        )}
+        {/* Filtru pagina */}
+        {analyticsData && Object.keys(analyticsData.pageBreakdown || {}).length > 0 && (
+          <div className="flex items-center gap-3 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl px-4 py-3">
+            <span className="text-sm font-semibold text-[var(--color-text-light)] flex-shrink-0">📄 Filtreaza pagina:</span>
+            <select
+              value={selectedPage}
+              onChange={e => applyPageFilter(e.target.value)}
+              className="flex-1 text-sm bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="">— Toate paginile —</option>
+              {Object.entries(analyticsData.pageBreakdown)
+                .sort((a: any, b: any) => b[1] - a[1])
+                .map(([page, count]: any) => (
+                  <option key={page} value={page}>{page} ({count})</option>
+                ))}
+            </select>
           </div>
         )}
       </div>

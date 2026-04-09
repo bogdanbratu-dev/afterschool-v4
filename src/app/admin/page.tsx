@@ -227,9 +227,10 @@ export default function AdminPage() {
     if (res.ok) setCronStatus(await res.json());
   };
 
-  const loadAnalytics = async (days: number, from?: string, to?: string) => {
+  const loadAnalytics = async (days: number, from?: string, to?: string, page?: string) => {
     setAnalyticsLoading(true);
-    const params = from && to ? `from=${from}&to=${to}` : `days=${days}`;
+    let params = from && to ? `from=${from}&to=${to}` : `days=${days}`;
+    if (page) params += `&page=${encodeURIComponent(page)}`;
     const [res, gscRes] = await Promise.all([
       fetch(`/api/admin/analytics?${params}`),
       fetch(`/api/admin/search-console?days=${days}`),
