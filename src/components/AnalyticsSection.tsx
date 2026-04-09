@@ -2,6 +2,109 @@
 
 import { useState } from 'react';
 
+function exportToPdf(analyticsData: any, selectedPage: string, analyticsDays: number, analyticsFrom: string, analyticsTo: string) {
+  const linkIcon: Record<string, string> = { phone: '📞', website: '🌐', maps: '🗺️', email: '✉️' };
+  const linkLabel: Record<string, string> = { phone: 'Telefon', website: 'Website', maps: 'Harta', email: 'Email' };
+  const typeIcon: Record<string, string> = { afterschool: '🏫', club: '⚽' };
+  const period = analyticsFrom && analyticsTo ? `${analyticsFrom} → ${analyticsTo}` : `Ultimele ${analyticsDays} zile`;
+
+  // Group clicks by item
+  const grouped: Record<string, { type: string; total: number; byLink: Record<string, number> }> = {};
+  for (const c of (analyticsData.topClicks || [])) {
+    if (!grouped[c.name]) grouped[c.name] = { type: c.type, total: 0, byLink: {} };
+    grouped[c.name].total += c.count;
+    const lt = c.link_type || 'altele';
+    grouped[c.name].byLink[lt] = (grouped[c.name].byLink[lt] || 0) + c.count;
+  }
+  const sortedClicks = Object.entries(grouped).sort((a, b) => b[1].total - a[1].total);
+
+  const html = `<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Raport Analytics${selectedPage ? ' - ' + selectedPage : ''} - ${period}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 12px; color: #111; background: white; padding: 24px; }
+  h1 { font-size: 20px; color: #1d4ed8; margin-bottom: 4px; }
+  h2 { font-size: 14px; color: #1d4ed8; margin: 20px 0 8px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+  .meta { color: #6b7280; font-size: 11px; margin-bottom: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+  .card { background: #f3f4f6; border-radius: 8px; padding: 10px; text-align: center; }
+  .card .val { font-size: 22px; font-weight: bold; color: #1d4ed8; }
+  .card .lbl { font-size: 10px; color: #6b7280; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  th { background: #f3f4f6; text-align: left; padding: 6px 8px; font-size: 11px; color: #6b7280; }
+  td { padding: 6px 8px; border-bottom: 1px solid #f3f4f6; font-size: 12px; }
+  .badge { display: inline-block; background: #e5e7eb; border-radius: 9999px; padding: 2px 8px; font-size: 10px; margin: 1px; }
+  .bar-wrap { background: #f3f4f6; border-radius: 4px; height: 6px; margin-top: 3px; }
+  .bar { background: #f97316; border-radius: 4px; height: 6px; }
+  @media print { body { padding: 16px; } }
+</style>
+</head>
+<body>
+<h1>📊 Raport Analytics</h1>
+<p class="meta">Perioada: ${period}${selectedPage ? ' · Pagina: ' + selectedPage : ''} · Generat: ${new Date().toLocaleString('ro-RO')}</p>
+
+<div class="grid">
+  <div class="card"><div class="val">${analyticsData.total}</div><div class="lbl">Total vizite</div></div>
+  <div class="card"><div class="val">${Math.round(analyticsData.total / (analyticsData.days || analyticsDays))}</div><div class="lbl">Medie/zi</div></div>
+  <div class="card"><div class="val">${Math.max(...(analyticsData.visitsByDay || []).map((d: any) => d.count), 0)}</div><div class="lbl">Cea mai buna zi</div></div>
+  <div class="card"><div class="val">${Object.keys(analyticsData.pageBreakdown || {}).length}</div><div class="lbl">Pagini unice</div></div>
+</div>
+
+<h2>👆 Click-uri pe rezultate</h2>
+<table>
+  <tr><th>Rezultat</th><th>Total</th><th>Detaliu</th></tr>
+  ${sortedClicks.map(([name, item]) => `
+  <tr>
+    <td>${typeIcon[item.type] || '📌'} <strong>${name}</strong></td>
+    <td><strong>${item.total}</strong></td>
+    <td>${Object.entries(item.byLink).map(([lt, cnt]) => `<span class="badge">${linkIcon[lt] || '🔗'} ${linkLabel[lt] || lt}: ${cnt}</span>`).join('')}</td>
+  </tr>`).join('')}
+</table>
+
+<h2>📄 Top Pagini</h2>
+<table>
+  <tr><th>#</th><th>Pagina</th><th>Vizite</th></tr>
+  ${Object.entries(analyticsData.pageBreakdown || {}).sort((a: any, b: any) => b[1] - a[1]).slice(0, 15).map(([page, count]: any, i) => `
+  <tr><td>${i + 1}</td><td>${page}</td><td>${count}</td></tr>`).join('')}
+</table>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+<div>
+<h2>🔗 Surse trafic</h2>
+<table>
+  <tr><th>Sursa</th><th>Vizite</th></tr>
+  ${Object.entries(analyticsData.sourceBreakdown || {}).sort((a: any, b: any) => b[1] - a[1]).map(([src, cnt]: any) => `
+  <tr><td>${src}</td><td>${cnt}</td></tr>`).join('')}
+</table>
+</div>
+<div>
+<h2>🗺️ Tari</h2>
+<table>
+  <tr><th>Tara</th><th>Vizite</th></tr>
+  ${(analyticsData.topCountries || []).slice(0, 8).map((c: any) => `
+  <tr><td>${c.country}</td><td>${c.count}</td></tr>`).join('')}
+</table>
+</div>
+</div>
+
+${(analyticsData.topSearches || []).length > 0 ? `
+<h2>🔍 Cautari in site</h2>
+<table>
+  <tr><th>Cautare</th><th>Nr.</th></tr>
+  ${analyticsData.topSearches.map((s: any) => `<tr><td>${s.query}</td><td>${s.count}</td></tr>`).join('')}
+</table>` : ''}
+
+<script>window.onload = () => window.print();</script>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  if (win) { win.document.write(html); win.document.close(); }
+}
+
 function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -101,6 +204,14 @@ export function AnalyticsSection({
             </div>
           </div>
           <div className="flex flex-wrap gap-2 items-center">
+            {analyticsData && (
+              <button
+                onClick={() => exportToPdf(analyticsData, selectedPage, analyticsDays, analyticsFrom, analyticsTo)}
+                className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-green-600 hover:bg-green-700 text-white transition-all flex items-center gap-1.5"
+              >
+                ⬇️ Export PDF
+              </button>
+            )}
             {quickPresets.map(p => (
               <button key={p.label} onClick={() => applyPreset(p)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
