@@ -80,7 +80,7 @@ export default function AdminPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'ga' | 'reports'>('afterschools');
+  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'reports'>('afterschools');
   const [reports, setReports] = useState<{
     id: number; timestamp: number; total_checked: number;
     changed_avail: number; changed_price: number; changed_schedule: number;
@@ -482,12 +482,6 @@ export default function AdminPage() {
             📊 Analytics
           </button>
           <button
-            onClick={() => setActiveTab('ga')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'ga' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📈 Google Analytics
-          </button>
-          <button
             onClick={() => { setActiveTab('reports'); loadReports(); }}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'reports' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
@@ -688,13 +682,7 @@ export default function AdminPage() {
               loadDayDetails={loadDayDetails}
               searchConsoleData={searchConsoleData}
             />
-          </div>
-        )}
-
-
-        {/* Google Analytics Tab */}
-        {activeTab === 'ga' && (
-          <div className="space-y-6">
+            <hr className="border-[var(--color-border)]" />
             <GASection />
           </div>
         )}
