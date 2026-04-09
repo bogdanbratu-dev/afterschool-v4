@@ -20,8 +20,12 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
+  const from = searchParams.get('from');
+  const to = searchParams.get('to');
   const days = searchParams.get('days') || '7';
-  const dateRange = { startDate: `${days}daysAgo`, endDate: 'today' };
+  const dateRange = from && to
+    ? { startDate: from, endDate: to }
+    : { startDate: `${days}daysAgo`, endDate: 'today' };
 
   try {
     const client = getClient();

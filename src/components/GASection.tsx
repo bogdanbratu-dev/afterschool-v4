@@ -29,17 +29,26 @@ function fmtPct(rate: number) {
   return `${Math.round(rate * 100)}%`;
 }
 
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+function yesterdayStr() { const d = new Date(); d.setDate(d.getDate() - 1); return d.toISOString().slice(0, 10); }
+
 export default function GASection() {
   const [data, setData] = useState<GAData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [days, setDays] = useState(7);
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [showCustom, setShowCustom] = useState(false);
+  const [customFrom, setCustomFrom] = useState('');
+  const [customTo, setCustomTo] = useState('');
 
-  const load = async (d: number) => {
+  const load = async (d: number, f?: string, t?: string) => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`/api/admin/ga?days=${d}`);
+      const url = f && t ? `/api/admin/ga?from=${f}&to=${t}` : `/api/admin/ga?days=${d}`;
+      const res = await fetch(url);
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Eroare');
       setData(json);
@@ -51,26 +60,86 @@ export default function GASection() {
 
   useEffect(() => { load(days); }, []);
 
-  const applyDays = (d: number) => { setDays(d); load(d); };
+  const quickPresets = [
+    { label: 'Azi', days: 1, from: todayStr(), to: todayStr() },
+    { label: 'Ieri', days: 1, from: yesterdayStr(), to: yesterdayStr() },
+    { label: '7 zile', days: 7, from: null, to: null },
+    { label: '30 zile', days: 30, from: null, to: null },
+    { label: '90 zile', days: 90, from: null, to: null },
+  ];
+
+  const isPresetActive = (p: typeof quickPresets[0]) => {
+    if (p.from) return from === p.from && to === p.to;
+    return !from && days === p.days;
+  };
+
+  const applyPreset = (p: typeof quickPresets[0]) => {
+    setShowCustom(false);
+    if (p.from) {
+      setFrom(p.from); setTo(p.to!); setDays(p.days);
+      load(p.days, p.from, p.to!);
+    } else {
+      setFrom(''); setTo(''); setDays(p.days);
+      load(p.days);
+    }
+  };
+
+  const applyCustom = () => {
+    if (!customFrom || !customTo || customFrom > customTo) return;
+    const d = Math.max(1, Math.round((new Date(customTo).getTime() - new Date(customFrom).getTime()) / 86400000) + 1);
+    setFrom(customFrom); setTo(customTo); setDays(d);
+    load(d, customFrom, customTo);
+    setShowCustom(false);
+  };
 
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <div>
-          <h2 className="text-2xl font-bold text-[var(--color-primary)]">📊 Google Analytics</h2>
-          <p className="text-sm text-[var(--color-text-light)] mt-1">Date reale din GA4</p>
-        </div>
-        <div className="flex gap-2">
-          {[1, 7, 30, 90].map(d => (
-            <button key={d} onClick={() => applyDays(d)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-                days === d ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}>
-              {d === 1 ? 'Azi' : `${d}z`}
+      <div className="flex flex-col gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h2 className="text-2xl font-bold text-[var(--color-primary)]">📊 Google Analytics</h2>
+            {from && to
+              ? <p className="text-sm text-[var(--color-text-light)] mt-1">{from} → {to}</p>
+              : <p className="text-sm text-[var(--color-text-light)] mt-1">Ultimele {days} zile</p>
+            }
+          </div>
+          <div className="flex flex-wrap gap-2 items-center">
+            {quickPresets.map(p => (
+              <button key={p.label} onClick={() => applyPreset(p)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
+                  isPresetActive(p) ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}>
+                {p.label}
+              </button>
+            ))}
+            <button onClick={() => setShowCustom(!showCustom)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${showCustom ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>
+              Perioada custom
             </button>
-          ))}
+          </div>
         </div>
+        {showCustom && (
+          <div className="flex flex-wrap items-end gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4">
+            <div>
+              <label className="block text-xs font-semibold text-gray-600 mb-1">De la</label>
+              <input type="date" value={customFrom} onChange={e => setCustomFrom(e.target.value)}
+                max={todayStr()}
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-900" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Pana la</label>
+              <input type="date" value={customTo} onChange={e => setCustomTo(e.target.value)}
+                min={customFrom} max={todayStr()}
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-900" />
+            </div>
+            <button onClick={applyCustom}
+              disabled={!customFrom || !customTo || customFrom > customTo}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white rounded-lg text-sm font-semibold transition-all">
+              Aplica
+            </button>
+          </div>
+        )}
       </div>
 
       {loading && (
@@ -143,7 +212,7 @@ export default function GASection() {
                 <p className="text-sm text-[var(--color-text-light)]">Nicio data inca</p>
               ) : (() => {
                 const max = Math.max(...data.landingPages.map(p => p.sessions), 1);
-                return data.landingPages.map((p, i) => (
+                return data.landingPages.map((p) => (
                   <div key={p.page} className="py-2.5 border-b border-[var(--color-border)] last:border-0">
                     <div className="flex items-center justify-between mb-1 gap-2">
                       <span className="text-sm truncate min-w-0">{p.page || '/'}</span>

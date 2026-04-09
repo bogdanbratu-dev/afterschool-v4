@@ -112,13 +112,13 @@ export function AnalyticsSection({
               <label className="block text-xs font-semibold text-gray-600 mb-1">De la</label>
               <input type="date" value={customFrom} onChange={e => setCustomFrom(e.target.value)}
                 max={todayStr()}
-                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-900" />
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">Pana la</label>
               <input type="date" value={customTo} onChange={e => setCustomTo(e.target.value)}
                 min={customFrom} max={todayStr()}
-                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-900" />
             </div>
             <button
               onClick={applyCustom}
