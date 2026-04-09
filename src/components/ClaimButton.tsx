@@ -8,7 +8,6 @@ interface Props {
 }
 
 export default function ClaimButton({ listingType, listingId, listingName }: Props) {
-  const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -36,60 +35,54 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
   );
 
   return (
-    <div className="mt-8 border-t border-[var(--color-border)] pt-6">
-      {!open ? (
-        <button
-          onClick={() => setOpen(true)}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-[var(--color-border)] rounded-xl text-sm text-[var(--color-text-light)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
-        >
-          🏢 Esti proprietarul acestei companii? Apasa pentru optiuni de promovare
-        </button>
-      ) : (
-        <div className="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl p-4">
-          <h3 className="font-bold mb-1">Revendica aceasta listare</h3>
-          <p className="text-sm text-[var(--color-text-light)] mb-4">
-            Dupa verificare, vei putea actualiza informatiile si accesa optiunile Premium.
-          </p>
+    <div className="mt-8 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-5">
+      <div className="flex items-center gap-2 mb-1">
+        <span className="text-lg">🏢</span>
+        <h3 className="font-bold text-[var(--color-text-main)]">Esti proprietarul acestei companii?</h3>
+      </div>
+      <p className="text-sm text-[var(--color-text-light)] mb-4">
+        Revendica listarea pentru a o actualiza si a accesa optiunile de promovare Premium.
+      </p>
 
-          {notLoggedIn ? (
-            <div className="text-sm">
-              <p className="text-amber-700 bg-amber-50 rounded-lg px-3 py-2 mb-3">
-                Trebuie sa ai cont pentru a revendica o listare.
-              </p>
-              <div className="flex gap-3">
-                <a href={`/login?next=/afterschool/${listingId}`}
-                  className="flex-1 text-center py-2 bg-[var(--color-primary)] text-white rounded-xl text-sm font-semibold">
-                  Conecteaza-te
-                </a>
-                <a href="/register"
-                  className="flex-1 text-center py-2 border border-[var(--color-border)] rounded-xl text-sm font-semibold">
-                  Creeaza cont
-                </a>
-              </div>
-            </div>
-          ) : (
-            <>
-              <textarea
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                placeholder="Optional: descrie pe scurt cum poti dovedi ca esti proprietarul (site oficial, CUI firma etc.)"
-                rows={3}
-                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-card)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none mb-3"
-              />
-              {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
-              <div className="flex gap-3">
-                <button onClick={submit} disabled={loading}
-                  className="flex-1 py-2 bg-[var(--color-primary)] text-white rounded-xl text-sm font-semibold disabled:opacity-50">
-                  {loading ? 'Se trimite...' : 'Trimite cererea'}
-                </button>
-                <button onClick={() => setOpen(false)}
-                  className="px-4 py-2 border border-[var(--color-border)] rounded-xl text-sm">
-                  Anuleaza
-                </button>
-              </div>
-            </>
-          )}
+      {notLoggedIn ? (
+        <div className="text-sm">
+          <p className="text-amber-700 bg-amber-50 rounded-lg px-3 py-2 mb-3">
+            Trebuie sa ai cont pentru a revendica o listare.
+          </p>
+          <div className="flex gap-3">
+            <a href={`/login?next=/${listingType === 'afterschool' ? 'afterschool' : 'activitati'}/${listingId}`}
+              className="flex-1 text-center py-2 bg-[var(--color-primary)] text-white rounded-xl text-sm font-semibold">
+              Conecteaza-te
+            </a>
+            <a href="/register"
+              className="flex-1 text-center py-2 border border-[var(--color-border)] rounded-xl text-sm font-semibold">
+              Creeaza cont
+            </a>
+          </div>
         </div>
+      ) : (
+        <>
+          <textarea
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            placeholder="Optional: descrie pe scurt cum poti dovedi ca esti proprietarul (site oficial, CUI firma etc.)"
+            rows={3}
+            className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none mb-3"
+          />
+          {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button onClick={submit} disabled={loading}
+              className="flex-1 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-colors">
+              {loading ? 'Se trimite...' : 'Trimite cererea de revendicare'}
+            </button>
+            <button disabled
+              title="In curand"
+              className="flex-1 py-2.5 bg-amber-400 text-white rounded-xl text-sm font-semibold opacity-50 cursor-not-allowed">
+              ★ Upgrade la Premium — plateste
+            </button>
+          </div>
+          <p className="text-xs text-[var(--color-text-light)] mt-2">Toate campurile sunt optionale. Cererea va fi revizuita manual.</p>
+        </>
       )}
     </div>
   );
