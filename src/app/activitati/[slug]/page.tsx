@@ -7,6 +7,8 @@ import type { Club } from '@/lib/db';
 import ClubsNearby from '@/components/ClubsNearby';
 import PageviewTracker from '@/components/PageviewTracker';
 import PhotoCarousel from '@/components/PhotoCarousel';
+import TrackedLink from '@/components/TrackedLink';
+import ClaimButton from '@/components/ClaimButton';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -47,7 +49,7 @@ export default async function ClubPage({ params }: Props) {
   const { slug } = await params;
   const id = idFromSlug(slug);
   const db = getDb();
-  const club = db.prepare('SELECT * FROM clubs WHERE id = ?').get(id) as (Club & { banner_url?: string | null }) | undefined;
+  const club = db.prepare('SELECT * FROM clubs WHERE id = ?').get(id) as (Club & { banner_url?: string | null; video_urls?: string | null; reviews_url?: string | null }) | undefined;
   if (!club) notFound();
 
   const bMode = (db.prepare("SELECT value FROM settings WHERE key = 'business_mode'").get() as { value: string } | undefined)?.value === 'true';
@@ -149,6 +151,31 @@ export default async function ClubPage({ params }: Props) {
                 <PhotoCarousel photos={JSON.parse(club.photo_urls)} name={club.name} />
               )}
 
+              {club.video_urls && (() => {
+                const videos: string[] = JSON.parse(club.video_urls);
+                const getYtId = (url: string) => {
+                  const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+                  return m ? m[1] : null;
+                };
+                const ids = videos.map(getYtId).filter(Boolean) as string[];
+                if (!ids.length) return null;
+                return (
+                  <div className="mb-5 space-y-3">
+                    {ids.map(id => (
+                      <div key={id} className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingBottom: '56.25%' }}>
+                        <iframe
+                          className="absolute inset-0 w-full h-full"
+                          src={`https://www.youtube.com/embed/${id}`}
+                          title="Video"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+
               {(club.description || club.editorial_summary) && (
                 <div className="mb-5">
                   {club.description && (
@@ -193,28 +220,28 @@ export default async function ClubPage({ params }: Props) {
                   <p className="text-sm text-[var(--color-text-light)]">Contactul este disponibil doar pentru listari premium.</p>
                 ) : (
                   <div className="flex flex-wrap gap-3">
-                    <a
-                      href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(club.address + ', Bucuresti')}`}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors"
-                    >
+                    <TrackedLink href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(club.address + ', Bucuresti')}`} type="club" itemId={club.id} itemName={club.name} linkType="maps" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors">
                       Cum ajung aici
-                    </a>
+                    </TrackedLink>
                     {club.phone && (
-                      <a href={`tel:${club.phone}`} className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                      <TrackedLink href={`tel:${club.phone}`} type="club" itemId={club.id} itemName={club.name} linkType="phone" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                         {club.phone}
-                      </a>
+                      </TrackedLink>
                     )}
                     {club.email && (
-                      <a href={`mailto:${club.email}`} className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                      <TrackedLink href={`mailto:${club.email}`} type="club" itemId={club.id} itemName={club.name} linkType="email" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                         {club.email}
-                      </a>
+                      </TrackedLink>
                     )}
                     {club.website && (
-                      <a href={club.website} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                      <TrackedLink href={club.website} type="club" itemId={club.id} itemName={club.name} linkType="website" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
                         Website
-                      </a>
+                      </TrackedLink>
+                    )}
+                    {club.reviews_url && (
+                      <TrackedLink href={club.reviews_url} type="club" itemId={club.id} itemName={club.name} linkType="reviews" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-500 text-white text-sm font-semibold rounded-lg transition-colors">
+                        ⭐ Recenzii
+                      </TrackedLink>
                     )}
                   </div>
                 )}
@@ -228,6 +255,7 @@ export default async function ClubPage({ params }: Props) {
             </a>
           </div>
 
+          <ClaimButton listingType="club" listingId={club.id} listingName={club.name} />
           <ClubsNearby lat={club.lat} lng={club.lng} currentId={club.id} defaultCategory={club.category} />
         </main>
       </div>

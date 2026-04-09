@@ -129,6 +129,7 @@ function initializeDb(db: Database.Database) {
   try { db.exec(`ALTER TABLE pageviews ADD COLUMN source TEXT`); } catch {}
   try { db.exec(`ALTER TABLE pageviews ADD COLUMN country TEXT`); } catch {}
   try { db.exec(`ALTER TABLE pageviews ADD COLUMN city TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE result_clicks ADD COLUMN link_type TEXT`); } catch {}
 
   // Tabela rapoarte verificare
   db.exec(`
@@ -147,6 +148,77 @@ function initializeDb(db: Database.Database) {
       details TEXT
     );
   `);
+
+  // Utilizatori (proprietari de listari)
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT NOT NULL UNIQUE,
+      password_hash TEXT NOT NULL,
+      name TEXT NOT NULL,
+      phone TEXT,
+      created_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+      is_premium INTEGER NOT NULL DEFAULT 0,
+      premium_until INTEGER
+    );
+
+    CREATE TABLE IF NOT EXISTS user_sessions (
+      id TEXT PRIMARY KEY,
+      user_id INTEGER NOT NULL,
+      created_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS pending_listings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      listing_type TEXT NOT NULL,
+      name TEXT NOT NULL,
+      address TEXT NOT NULL,
+      lat REAL NOT NULL,
+      lng REAL NOT NULL,
+      sector INTEGER,
+      category TEXT,
+      price_min INTEGER,
+      price_max INTEGER,
+      age_min INTEGER,
+      age_max INTEGER,
+      availability TEXT NOT NULL DEFAULT 'unknown',
+      phone TEXT,
+      email TEXT,
+      website TEXT,
+      description TEXT,
+      photo_urls TEXT,
+      video_urls TEXT,
+      reviews_url TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      submitted_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+      reviewed_at INTEGER,
+      admin_note TEXT,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS claim_requests (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      listing_type TEXT NOT NULL,
+      listing_id INTEGER NOT NULL,
+      listing_name TEXT NOT NULL,
+      message TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      submitted_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+      reviewed_at INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+  `);
+
+  // Coloane noi pe afterschools si clubs
+  try { db.exec(`ALTER TABLE afterschools ADD COLUMN owner_user_id INTEGER`); } catch {}
+  try { db.exec(`ALTER TABLE afterschools ADD COLUMN video_urls TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE afterschools ADD COLUMN reviews_url TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE clubs ADD COLUMN owner_user_id INTEGER`); } catch {}
+  try { db.exec(`ALTER TABLE clubs ADD COLUMN video_urls TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE clubs ADD COLUMN reviews_url TEXT`); } catch {}
 }
 
 export interface School {
@@ -187,6 +259,8 @@ export interface AfterSchool {
   maps_url?: string | null;
   editorial_summary?: string | null;
   photo_urls?: string | null;
+  video_urls?: string | null;
+  reviews_url?: string | null;
 }
 
 export type { ClubCategory } from './clubs';
@@ -219,4 +293,6 @@ export interface Club {
   maps_url?: string | null;
   editorial_summary?: string | null;
   photo_urls?: string | null;
+  video_urls?: string | null;
+  reviews_url?: string | null;
 }

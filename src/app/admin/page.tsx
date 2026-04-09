@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { AnalyticsSection } from '@/components/AnalyticsSection';
 import GASection from '@/components/GASection';
+import AdminListings from '@/components/AdminListings';
 
 const CLUB_CATEGORIES = [
   { value: 'inot', label: '🏊 Înot' },
@@ -80,7 +81,7 @@ export default function AdminPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'reports'>('afterschools');
+  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'reports' | 'listings'>('afterschools');
   const [reports, setReports] = useState<{
     id: number; timestamp: number; total_checked: number;
     changed_avail: number; changed_price: number; changed_schedule: number;
@@ -488,26 +489,34 @@ export default function AdminPage() {
           >
             📋 Rapoarte
           </button>
+          <button
+            onClick={() => setActiveTab('listings')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'listings' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🏢 Listari
+          </button>
         </div>
 
         {/* Add Button */}
-        <div className="flex justify-between items-center mb-6">
-          {activeTab === 'afterschools' ? (
-            <>
-              <h2 className="text-lg font-semibold">After School-uri</h2>
-              <button onClick={() => { setEditing(null); setForm(emptyForm); setShowForm(true); }} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] text-sm font-medium">
-                + Adauga After School
-              </button>
-            </>
-          ) : (
-            <>
-              <h2 className="text-lg font-semibold">Activități</h2>
-              <button onClick={() => { setEditingClub(null); setClubForm({ name: '', address: '', sector: 1, lat: 44.4268, lng: 26.1025, phone: '', email: '', website: '', price_min: null, price_max: null, schedule: '', age_min: null, age_max: null, description: '', category: 'inot', availability: 'unknown', banner_url: null }); setShowClubForm(true); }} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] text-sm font-medium">
-                + Adauga Activitate
-              </button>
-            </>
-          )}
-        </div>
+        {(activeTab === 'afterschools' || activeTab === 'clubs') && (
+          <div className="flex justify-between items-center mb-6">
+            {activeTab === 'afterschools' ? (
+              <>
+                <h2 className="text-lg font-semibold">After School-uri</h2>
+                <button onClick={() => { setEditing(null); setForm(emptyForm); setShowForm(true); }} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] text-sm font-medium">
+                  + Adauga After School
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-lg font-semibold">Activități</h2>
+                <button onClick={() => { setEditingClub(null); setClubForm({ name: '', address: '', sector: 1, lat: 44.4268, lng: 26.1025, phone: '', email: '', website: '', price_min: null, price_max: null, schedule: '', age_min: null, age_max: null, description: '', category: 'inot', availability: 'unknown', banner_url: null }); setShowClubForm(true); }} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] text-sm font-medium">
+                  + Adauga Activitate
+                </button>
+              </>
+            )}
+          </div>
+        )}
 
         {/* Form Modal */}
         {showForm && (
@@ -1175,6 +1184,8 @@ export default function AdminPage() {
             )}
           </div>
         )}
+
+        {activeTab === 'listings' && <AdminListings />}
       </main>
     </div>
   );
