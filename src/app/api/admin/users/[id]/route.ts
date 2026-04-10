@@ -6,6 +6,8 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
   if (!(await isAuthenticated())) return NextResponse.json({ error: 'Neautorizat' }, { status: 401 });
   const { id } = await params;
   const db = getDb();
+  db.prepare('UPDATE afterschools SET is_premium = 0, owner_user_id = NULL WHERE owner_user_id = ?').run(parseInt(id));
+  db.prepare('UPDATE clubs SET is_premium = 0, owner_user_id = NULL WHERE owner_user_id = ?').run(parseInt(id));
   db.prepare('DELETE FROM user_sessions WHERE user_id = ?').run(parseInt(id));
   db.prepare('DELETE FROM claim_requests WHERE user_id = ?').run(parseInt(id));
   db.prepare('DELETE FROM pending_listings WHERE user_id = ?').run(parseInt(id));
