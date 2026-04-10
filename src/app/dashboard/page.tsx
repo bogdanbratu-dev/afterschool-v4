@@ -189,10 +189,17 @@ export default function DashboardPage() {
                     <div><span className="text-[var(--color-text-light)] text-xs">Locuri</span><p>{AVAILABILITY_LABELS[listing.availability] || listing.availability}</p></div>
                   </div>
                   {listing.description && <p className="text-sm text-[var(--color-text-light)]">{listing.description}</p>}
-                  <button onClick={() => setEditing(true)}
-                    className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold transition-colors">
-                    ✏️ Editeaza informatiile
-                  </button>
+                  {user.is_premium === 1 ? (
+                    <button onClick={() => setEditing(true)}
+                      className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold transition-colors">
+                      ✏️ Editeaza informatiile
+                    </button>
+                  ) : (
+                    <button onClick={() => setShowPayModal(true)}
+                      className="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-sm font-semibold transition-colors">
+                      🔒 Premium necesar pentru editare
+                    </button>
+                  )}
                 </div>
               ) : (
                 <div className="p-5 space-y-3">
@@ -350,8 +357,9 @@ export default function DashboardPage() {
       {showPayModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-[var(--color-card)] rounded-2xl shadow-xl max-w-sm w-full p-6">
-            <h2 className="text-lg font-bold mb-1">Abonament Premium</h2>
-            <p className="text-sm text-[var(--color-text-light)] mb-5">50 RON / lună · activare manuală în câteva ore</p>
+            <h2 className="text-lg font-bold mb-1">Abonament Premium necesar</h2>
+            <p className="text-sm text-[var(--color-text-light)] mb-2">Ca să poți edita și actualiza informațiile listării tale, ai nevoie de un abonament Premium.</p>
+            <p className="text-sm font-semibold text-amber-600 mb-5">50 RON / lună · activare în câteva ore</p>
 
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5 space-y-3">
               <p className="text-sm font-semibold text-amber-800">Cum funcționează:</p>
