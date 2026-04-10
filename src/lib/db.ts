@@ -212,6 +212,9 @@ function initializeDb(db: Database.Database) {
     );
   `);
 
+  // Coloane premium_pending pe users
+  try { db.exec(`ALTER TABLE users ADD COLUMN premium_pending INTEGER NOT NULL DEFAULT 0`); } catch {}
+
   // Coloane noi pe afterschools si clubs
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN owner_user_id INTEGER`); } catch {}
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN video_urls TEXT`); } catch {}

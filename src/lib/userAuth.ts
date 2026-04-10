@@ -13,7 +13,7 @@ export function generateSessionId(): string {
   return crypto.randomBytes(32).toString('hex');
 }
 
-export async function getUserSession(): Promise<{ id: number; email: string; name: string; is_premium: number } | null> {
+export async function getUserSession(): Promise<{ id: number; email: string; name: string; is_premium: number; premium_pending: number } | null> {
   try {
     const cookieStore = await cookies();
     const sessionId = cookieStore.get(SESSION_COOKIE)?.value;
@@ -21,11 +21,11 @@ export async function getUserSession(): Promise<{ id: number; email: string; nam
 
     const db = getDb();
     const row = db.prepare(`
-      SELECT u.id, u.email, u.name, u.is_premium
+      SELECT u.id, u.email, u.name, u.is_premium, u.premium_pending
       FROM user_sessions s
       JOIN users u ON u.id = s.user_id
       WHERE s.id = ? AND s.created_at > ?
-    `).get(sessionId, Date.now() - SESSION_DURATION) as { id: number; email: string; name: string; is_premium: number } | undefined;
+    `).get(sessionId, Date.now() - SESSION_DURATION) as { id: number; email: string; name: string; is_premium: number; premium_pending: number } | undefined;
 
     return row || null;
   } catch {

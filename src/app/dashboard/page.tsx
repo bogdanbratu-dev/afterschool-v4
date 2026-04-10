@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-interface UserData { id: number; name: string; email: string; is_premium: number; }
+interface UserData { id: number; name: string; email: string; is_premium: number; premium_pending: number; }
 interface Listing {
   id: number; name: string; address: string; phone: string | null; email: string | null;
   website: string | null; description: string | null; price_min: number | null; price_max: number | null;
@@ -29,6 +29,9 @@ export default function DashboardPage() {
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [ytUrl, setYtUrl] = useState('');
   const [reportMonth, setReportMonth] = useState(() => new Date().toISOString().slice(0, 7));
+  const [showPayModal, setShowPayModal] = useState(false);
+  const [payLoading, setPayLoading] = useState(false);
+  const [payDone, setPayDone] = useState(false);
   const [form, setForm] = useState<Partial<Listing>>({});
 
   useEffect(() => {
@@ -120,6 +123,14 @@ export default function DashboardPage() {
   };
 
   const downloadReport = () => window.open(`/api/user/report?month=${reportMonth}`, '_blank');
+
+  const sendPaymentRequest = async () => {
+    setPayLoading(true);
+    await fetch('/api/user/payment-request', { method: 'POST' });
+    setPayLoading(false);
+    setPayDone(true);
+    setUser(u => u ? { ...u, premium_pending: 1 } : u);
+  };
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
@@ -308,9 +319,77 @@ export default function DashboardPage() {
                 </div>
               </div>
             )}
+
+            {/* Sectiune Premium */}
+            {user.is_premium === 0 && (
+              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl border border-amber-200 p-5">
+                <div className="flex items-start gap-3 mb-3">
+                  <span className="text-2xl">★</span>
+                  <div>
+                    <h2 className="font-bold text-amber-800">Devino Premium</h2>
+                    <p className="text-sm text-amber-700">50 RON / lună — poze, video, rapoarte clickuri și vizibilitate prioritară</p>
+                  </div>
+                </div>
+                {user.premium_pending === 1 ? (
+                  <div className="bg-amber-100 border border-amber-300 rounded-xl px-4 py-3 text-sm text-amber-800">
+                    ⏳ Cererea ta a fost trimisă. Vei fi activat Premium după ce confirmăm plata (de obicei în câteva ore).
+                  </div>
+                ) : (
+                  <button onClick={() => setShowPayModal(true)}
+                    className="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-sm font-semibold transition-colors">
+                    Plătește Premium — 50 RON/lună
+                  </button>
+                )}
+              </div>
+            )}
           </>
         )}
       </div>
+
+      {/* Modal plata */}
+      {showPayModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[var(--color-card)] rounded-2xl shadow-xl max-w-sm w-full p-6">
+            <h2 className="text-lg font-bold mb-1">Abonament Premium</h2>
+            <p className="text-sm text-[var(--color-text-light)] mb-5">50 RON / lună · activare manuală în câteva ore</p>
+
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5 space-y-3">
+              <p className="text-sm font-semibold text-amber-800">Cum funcționează:</p>
+              <ol className="text-sm text-amber-700 space-y-1.5 list-decimal list-inside">
+                <li>Trimite <strong>50 RON</strong> pe Revolut la <strong>@bogdanmxn</strong></li>
+                <li>Adaugă mesajul: <strong>Premium {user?.name}</strong></li>
+                <li>Apasă "Am plătit" mai jos — te activăm în câteva ore</li>
+              </ol>
+            </div>
+
+            <a
+              href="https://revolut.me/bogdanmxn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 bg-[#191C1F] hover:bg-black text-white rounded-xl text-sm font-semibold mb-3 transition-colors"
+            >
+              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white"><path d="M14.04 0H3v24h4.5V14.5h5.1l4.9 9.5H22l-5.1-9.8C19.5 13 21 10.8 21 8c0-4.4-3.1-8-6.96-8zm.46 10.5H7.5V4h6.5c1.9 0 3 1.2 3 3.2s-1 3.3-2.5 3.3z"/></svg>
+              Deschide Revolut
+            </a>
+
+            {payDone ? (
+              <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-800 text-center">
+                ✅ Mulțumim! Vei fi activat Premium în câteva ore.
+              </div>
+            ) : (
+              <button onClick={sendPaymentRequest} disabled={payLoading}
+                className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-colors">
+                {payLoading ? 'Se trimite...' : '✓ Am plătit pe Revolut'}
+              </button>
+            )}
+
+            <button onClick={() => setShowPayModal(false)}
+              className="w-full mt-2 py-2 text-sm text-[var(--color-text-light)] hover:text-[var(--color-text-main)]">
+              Închide
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

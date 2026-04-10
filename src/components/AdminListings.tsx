@@ -54,6 +54,7 @@ interface User {
   email: string;
   phone: string | null;
   is_premium: number;
+  premium_pending: number;
   created_at: number;
 }
 
@@ -143,15 +144,29 @@ export default function AdminListings() {
     load();
   };
 
+  const approvePremium = async (id: number) => {
+    setActing(id);
+    await fetch(`/api/admin/users/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'approve_premium' }),
+    });
+    setActing(null);
+    load();
+  };
+
+  const pendingPayments = users.filter(u => u.premium_pending === 1 && u.is_premium === 0);
+
   const pending = listings.filter(l => l.status === 'pending');
   const pendingClaims = claims.filter(c => c.status === 'pending');
+  const pendingPay = users.filter(u => u.premium_pending === 1 && u.is_premium === 0);
 
   if (loading) return <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-6">
       {/* Badge-uri pendinge */}
-      {(pending.length > 0 || pendingClaims.length > 0) && (
+      {(pending.length > 0 || pendingClaims.length > 0 || pendingPay.length > 0) && (
         <div className="flex flex-wrap gap-3">
           {pending.length > 0 && (
             <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-2">
@@ -163,6 +178,12 @@ export default function AdminListings() {
             <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-xl px-4 py-2">
               <span className="w-6 h-6 bg-blue-500 text-white rounded-full text-xs font-bold flex items-center justify-center">{pendingClaims.length}</span>
               <span className="text-sm font-medium text-blue-800">Cereri de revendicare</span>
+            </div>
+          )}
+          {pendingPay.length > 0 && (
+            <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2">
+              <span className="w-6 h-6 bg-amber-500 text-white rounded-full text-xs font-bold flex items-center justify-center">{pendingPay.length}</span>
+              <span className="text-sm font-medium text-amber-800">Plăți Premium de confirmat</span>
             </div>
           )}
         </div>
@@ -304,6 +325,32 @@ export default function AdminListings() {
           </div>
         )}
       </div>
+
+      {/* Plati Premium in asteptare */}
+      {pendingPayments.length > 0 && (
+        <div className="bg-amber-50 rounded-xl border border-amber-200 p-6">
+          <h2 className="text-lg font-bold mb-4 text-amber-800">💰 Plăți Premium de confirmat ({pendingPayments.length})</h2>
+          <p className="text-xs text-amber-700 mb-3">Verifică în Revolut (@bogdanmxn) că a venit plata de 50 RON, apoi aprobă.</p>
+          <div className="space-y-2">
+            {pendingPayments.map(u => (
+              <div key={u.id} className="flex items-center justify-between gap-3 p-3 bg-white border border-amber-200 rounded-xl">
+                <div className="min-w-0 flex-1">
+                  <span className="font-semibold text-sm">{u.name}</span>
+                  <div className="flex gap-3 mt-0.5">
+                    <a href={`mailto:${u.email}`} className="text-xs text-[var(--color-primary)] hover:underline">✉ {u.email}</a>
+                    {u.phone && <span className="text-xs text-[var(--color-text-light)]">📞 {u.phone}</span>}
+                  </div>
+                  <p className="text-xs text-amber-600 font-medium mt-0.5">Mesaj Revolut așteptat: "Premium {u.name}"</p>
+                </div>
+                <button onClick={() => approvePremium(u.id)} disabled={acting === u.id}
+                  className="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold disabled:opacity-50 flex-shrink-0">
+                  {acting === u.id ? '...' : '★ Activează Premium'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Conturi utilizatori */}
       <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
