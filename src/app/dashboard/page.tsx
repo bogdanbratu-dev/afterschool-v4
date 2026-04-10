@@ -336,24 +336,52 @@ export default function DashboardPage() {
 
             {/* Sectiune Premium */}
             {user.is_premium === 0 && (
-              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl border border-amber-200 p-5">
-                <div className="flex items-start gap-3 mb-3">
-                  <span className="text-2xl">★</span>
-                  <div>
-                    <h2 className="font-bold text-amber-800">Devino Premium</h2>
-                    <p className="text-sm text-amber-700">50 RON / lună — poze, video, rapoarte clickuri și vizibilitate prioritară</p>
+              <div className="rounded-2xl overflow-hidden border border-amber-300 shadow-sm">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-amber-500 to-yellow-500 px-5 py-4 text-white">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide opacity-80 mb-0.5">Listare Premium</p>
+                      <h2 className="text-xl font-bold">Devino Premium ★</h2>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold">50 RON</p>
+                      <p className="text-xs opacity-80">pe lună</p>
+                    </div>
                   </div>
                 </div>
-                {user.premium_pending === 1 ? (
-                  <div className="bg-amber-100 border border-amber-300 rounded-xl px-4 py-3 text-sm text-amber-800">
-                    ⏳ Cererea ta a fost trimisă. Vei fi activat Premium după ce confirmăm plata (de obicei în câteva ore).
-                  </div>
-                ) : (
-                  <button onClick={() => setShowPayModal(true)}
-                    className="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-sm font-semibold transition-colors">
-                    Plătește Premium — 50 RON/lună
-                  </button>
-                )}
+
+                {/* Beneficii */}
+                <div className="bg-white px-5 py-4">
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Ce primești</p>
+                  <ul className="space-y-2.5 mb-5">
+                    {[
+                      { icon: '✏️', text: 'Editare și actualizare informații oricând', highlight: true },
+                      { icon: '📸', text: 'Până la 20 de poze în caruselul listării' },
+                      { icon: '🎬', text: 'Până la 5 videoclipuri (YouTube sau upload direct)' },
+                      { icon: '📊', text: 'Raport lunar de clickuri și statistici' },
+                      { icon: '⭐', text: 'Badge Premium vizibil pe card și pagina listării' },
+                      { icon: '🔝', text: 'Vizibilitate prioritară față de listările gratuite' },
+                    ].map(({ icon, text, highlight }) => (
+                      <li key={text} className="flex items-start gap-2.5">
+                        <span className="text-base flex-shrink-0 mt-0.5">{icon}</span>
+                        <span className={`text-sm ${highlight ? 'font-semibold text-amber-700' : 'text-gray-700'}`}>{text}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {user.premium_pending === 1 ? (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-800 flex items-center gap-2">
+                      <span>⏳</span>
+                      <span>Cererea ta a fost trimisă. Vei fi activat după ce confirmăm plata (de obicei în câteva ore).</span>
+                    </div>
+                  ) : (
+                    <button onClick={() => setShowPayModal(true)}
+                      className="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-xl text-sm font-bold transition-all shadow-sm">
+                      Activează Premium — 50 RON/lună
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </>
