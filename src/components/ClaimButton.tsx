@@ -11,7 +11,6 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
-  const [accountCreated, setAccountCreated] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({
     first_name: '', last_name: '', company_name: '', email: '', phone: '', website: '',
@@ -44,7 +43,6 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
     setLoading(false);
     if (!res.ok) { setError(data.error || 'A aparut o eroare.'); return; }
     setDone(true);
-    setAccountCreated(data.accountCreated);
   };
 
   return (
@@ -73,18 +71,17 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
             {done ? (
               <div className="text-center py-4">
                 <div className="text-4xl mb-3">✅</div>
-                <h3 className="font-bold text-lg mb-2">Cerere trimisa!</h3>
-                <p className="text-sm text-[var(--color-text-light)] mb-2">
-                  Te vom contacta in curand pentru verificare.
+                <h3 className="font-bold text-lg mb-2">Cont creat cu succes!</h3>
+                <p className="text-sm text-[var(--color-text-light)] mb-4">
+                  Ești logat automat. Accesează dashboard-ul pentru a completa informațiile și a activa Premium.
                 </p>
-                {accountCreated && (
-                  <p className="text-sm bg-blue-50 border border-blue-200 rounded-xl px-3 py-2 text-blue-800 mt-3">
-                    Un cont a fost creat automat pe emailul tau. Vei primi datele de acces pe email.
-                  </p>
-                )}
-                <button onClick={() => setOpen(false)} className="mt-4 px-6 py-2 bg-[var(--color-primary)] text-white rounded-xl text-sm font-semibold">
-                  Inchide
-                </button>
+                <a href="/dashboard"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold transition-colors">
+                  Mergi la Dashboard →
+                </a>
+                <p className="text-xs text-[var(--color-text-light)] mt-3">
+                  Cererea ta va fi verificată de echipa noastră.
+                </p>
               </div>
             ) : (
               <>

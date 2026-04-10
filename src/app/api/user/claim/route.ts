@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { sendAdminNotification } from '@/lib/email';
-import { hashPassword } from '@/lib/userAuth';
+import { hashPassword, createUserSession, SESSION_COOKIE_NAME } from '@/lib/userAuth';
+import { cookies } from 'next/headers';
 export async function POST(request: Request) {
   try {
     const { listing_type, listing_id, listing_name, first_name, last_name, company_name, email, phone, website, password } = await request.json();
@@ -56,6 +57,16 @@ export async function POST(request: Request) {
         `Buna ${first_name},\n\nAm primit cererea ta de revendicare pentru "${listing_name}".\n\nTe vom contacta in curand pentru verificare.\n\nDatele tale de acces:\nEmail: ${email}\nParola: cea aleasa de tine\n\nTe poti loga la: https://activkids.ro/login\n\nMultumim,\nEchipa ActivKids`
       );
     }
+
+    // Auto-login: creeaza sesiune imediat
+    const sessionId = createUserSession(userId);
+    const cookieStore = await cookies();
+    cookieStore.set(SESSION_COOKIE_NAME, sessionId, {
+      httpOnly: true,
+      path: '/',
+      maxAge: 30 * 24 * 60 * 60,
+      sameSite: 'lax',
+    });
 
     return NextResponse.json({ ok: true, accountCreated: isNewAccount });
   } catch (e: any) {
