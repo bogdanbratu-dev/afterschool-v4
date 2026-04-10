@@ -43,6 +43,16 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   }
   const { id } = await params;
   const db = getDb();
+  const listing = db.prepare('SELECT owner_user_id FROM clubs WHERE id = ?').get(parseInt(id)) as { owner_user_id: number | null } | undefined;
   db.prepare('DELETE FROM clubs WHERE id = ?').run(id);
+
+  if (listing?.owner_user_id) {
+    const remaining = (db.prepare('SELECT COUNT(*) as c FROM afterschools WHERE owner_user_id = ?').get(listing.owner_user_id) as { c: number }).c
+      + (db.prepare('SELECT COUNT(*) as c FROM clubs WHERE owner_user_id = ?').get(listing.owner_user_id) as { c: number }).c;
+    if (remaining === 0) {
+      db.prepare('UPDATE users SET is_premium = 0 WHERE id = ?').run(listing.owner_user_id);
+    }
+  }
+
   return NextResponse.json({ success: true });
 }
