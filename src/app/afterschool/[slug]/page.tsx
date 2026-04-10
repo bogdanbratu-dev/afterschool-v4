@@ -263,8 +263,8 @@ export default async function AfterSchoolPage({ params }: Props) {
             </a>
           </div>
 
-          <AfterSchoolsNearby lat={as.lat} lng={as.lng} currentId={as.id} />
           <ClaimButton listingType="afterschool" listingId={as.id} listingName={as.name} />
+          <AfterSchoolsNearby lat={as.lat} lng={as.lng} currentId={as.id} />
         </main>
       </div>
     </>

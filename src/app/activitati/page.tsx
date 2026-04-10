@@ -155,13 +155,16 @@ function ActivitatiPageContent() {
             <h1 className="text-2xl font-bold text-[var(--color-primary)]">Activități pentru Copii</h1>
             <p className="text-sm text-[var(--color-text-light)]">Sport, muzică, arte și multe altele în București</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <a href="/" className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
               <span className="hidden sm:inline">After School</span>
-              <span className="sm:hidden">AfterSchool</span>
+            </a>
+            <a href="/submit" className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
+              <span>+</span>
+              <span className="hidden sm:inline">Adaugă listare</span>
             </a>
           </div>
         </div>

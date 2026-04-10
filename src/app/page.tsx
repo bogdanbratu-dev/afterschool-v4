@@ -110,10 +110,14 @@ export default function Home() {
             </h1>
             <p className="text-sm text-[var(--color-text-light)]">Gaseste after school-ul perfect pentru copilul tau</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <a href="/activitati" className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
               <span className="hidden sm:inline-flex gap-1">⚽💃🏊🥋</span>
               <span>Activități</span>
+            </a>
+            <a href="/submit" className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
+              <span>+</span>
+              <span className="hidden sm:inline">Adaugă listare</span>
             </a>
           </div>
         </div>

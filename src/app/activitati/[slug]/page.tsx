@@ -257,6 +257,7 @@ export default async function ClubPage({ params }: Props) {
 
           <ClaimButton listingType="club" listingId={club.id} listingName={club.name} />
           <ClubsNearby lat={club.lat} lng={club.lng} currentId={club.id} defaultCategory={club.category} />
+
         </main>
       </div>
     </>
