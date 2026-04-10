@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     // Notificare admin
     await sendAdminNotification(
       `Cerere revendicare: ${listing_name}`,
-      `Cerere noua de revendicare listare:\n\nListare: ${listing_name} (${listing_type} #${listing_id})\n\nContact:\nNume: ${first_name} ${last_name}\nFirma: ${company_name || '-'}\nEmail: ${email}\nTelefon: ${phone || '-'}\nWebsite: ${website || '-'}\n${tempPassword ? `\nCont creat:\nEmail: ${email}\n` : '\nUtilizatorul avea deja cont.'}\n\nVerifica la: https://activkids.ro/admin`
+      `Cerere noua de revendicare listare:\n\nListare: ${listing_name} (${listing_type} #${listing_id})\n\nContact:\nNume: ${first_name} ${last_name}\nFirma: ${company_name || '-'}\nEmail: ${email}\nTelefon: ${phone || '-'}\nWebsite: ${website || '-'}\n${isNewAccount ? `\nCont creat:\nEmail: ${email}\n` : '\nUtilizatorul avea deja cont.'}\n\nVerifica la: https://activkids.ro/admin`
     );
 
     // Email de confirmare catre utilizator
