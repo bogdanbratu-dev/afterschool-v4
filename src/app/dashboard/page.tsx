@@ -54,6 +54,10 @@ export default function DashboardPage() {
 
   const submitEdit = async () => {
     if (!listing) return;
+    if (!user || user.is_premium === 0) {
+      setShowPayModal(true);
+      return;
+    }
     setSaving(true);
     await fetch('/api/user/my-listing', {
       method: 'PATCH',
@@ -189,23 +193,26 @@ export default function DashboardPage() {
                     <div><span className="text-[var(--color-text-light)] text-xs">Locuri</span><p>{AVAILABILITY_LABELS[listing.availability] || listing.availability}</p></div>
                   </div>
                   {listing.description && <p className="text-sm text-[var(--color-text-light)]">{listing.description}</p>}
-                  {user.is_premium === 1 ? (
-                    <button onClick={() => setEditing(true)}
-                      className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold transition-colors">
-                      ✏️ Editeaza informatiile
-                    </button>
-                  ) : (
-                    <button onClick={() => setShowPayModal(true)}
-                      className="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-sm font-semibold transition-colors">
-                      🔒 Premium necesar pentru editare
-                    </button>
-                  )}
+                  <button onClick={() => setEditing(true)}
+                    className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold transition-colors">
+                    ✏️ Editeaza informatiile
+                  </button>
                 </div>
               ) : (
                 <div className="p-5 space-y-3">
-                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
-                    Modificarile vor fi verificate de admin inainte de a fi publicate.
-                  </p>
+                  {user.is_premium === 0 && (
+                    <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                      <span className="text-amber-500 mt-0.5 flex-shrink-0">★</span>
+                      <p className="text-xs text-amber-700">
+                        Completează datele, apoi vei fi redirecționat spre activarea <strong>Premium (50 RON/lună)</strong> pentru a publica modificările.
+                      </p>
+                    </div>
+                  )}
+                  {user.is_premium === 1 && (
+                    <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                      Modificarile vor fi verificate de admin inainte de a fi publicate.
+                    </p>
+                  )}
                   {[
                     { label: 'Telefon', field: 'phone', type: 'tel' },
                     { label: 'Email', field: 'email', type: 'email' },
