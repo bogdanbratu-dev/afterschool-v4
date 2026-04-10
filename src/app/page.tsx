@@ -115,7 +115,7 @@ export default function Home() {
               <span className="hidden sm:inline-flex gap-1">⚽💃🏊🥋</span>
               <span>Activități</span>
             </a>
-            <a href="/submit" className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
+            <a href="/promovare" className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
               <span>+</span>
               <span className="hidden sm:inline">Adaugă listare</span>
             </a>
