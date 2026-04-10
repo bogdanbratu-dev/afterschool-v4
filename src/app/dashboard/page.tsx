@@ -162,6 +162,28 @@ export default function DashboardPage() {
                     <textarea value={form.description || ''} onChange={set('description')} rows={4}
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none" />
                   </div>
+
+                  <div>
+                    <label className="block text-xs font-medium mb-1">Poze (URL-uri, unul pe linie, max 20)</label>
+                    <textarea
+                      rows={5}
+                      placeholder={"https://exemplu.ro/poza1.jpg\nhttps://exemplu.ro/poza2.jpg"}
+                      value={form.photo_urls ? JSON.parse(form.photo_urls).join('\n') : ''}
+                      onChange={e => setForm(f => ({ ...f, photo_urls: JSON.stringify(e.target.value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 20)) }))}
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium mb-1">Videoclipuri YouTube (URL-uri, unul pe linie, max 5)</label>
+                    <textarea
+                      rows={3}
+                      placeholder={"https://www.youtube.com/watch?v=...\nhttps://youtu.be/..."}
+                      value={form.video_urls ? JSON.parse(form.video_urls).join('\n') : ''}
+                      onChange={e => setForm(f => ({ ...f, video_urls: JSON.stringify(e.target.value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 5)) }))}
+                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none font-mono"
+                    />
+                  </div>
                   <div className="flex gap-3">
                     <button onClick={submitEdit} disabled={saving}
                       className="flex-1 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold disabled:opacity-50">
