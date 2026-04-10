@@ -2,13 +2,11 @@ import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { sendAdminNotification } from '@/lib/email';
 import { hashPassword } from '@/lib/userAuth';
-import crypto from 'crypto';
-
 export async function POST(request: Request) {
   try {
-    const { listing_type, listing_id, listing_name, first_name, last_name, company_name, email, phone, website } = await request.json();
+    const { listing_type, listing_id, listing_name, first_name, last_name, company_name, email, phone, website, password } = await request.json();
 
-    if (!listing_type || !listing_id || !first_name || !last_name || !email) {
+    if (!listing_type || !listing_id || !first_name || !last_name || !email || !password) {
       return NextResponse.json({ error: 'Campuri obligatorii lipsa' }, { status: 400 });
     }
 
@@ -24,14 +22,14 @@ export async function POST(request: Request) {
 
     // Creeaza sau gaseste contul utilizatorului
     let userId: number;
-    let tempPassword: string | null = null;
+    let isNewAccount = false;
     const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(email) as { id: number } | undefined;
 
     if (existingUser) {
       userId = existingUser.id;
     } else {
-      tempPassword = crypto.randomBytes(5).toString('hex'); // ex: a3f9b2c1d4
-      const passwordHash = hashPassword(tempPassword);
+      isNewAccount = true;
+      const passwordHash = hashPassword(password as string);
       const fullName = `${first_name} ${last_name}`;
       const result = db.prepare(
         'INSERT INTO users (email, password_hash, name, phone) VALUES (?, ?, ?, ?)'
@@ -48,18 +46,18 @@ export async function POST(request: Request) {
     // Notificare admin
     await sendAdminNotification(
       `Cerere revendicare: ${listing_name}`,
-      `Cerere noua de revendicare listare:\n\nListare: ${listing_name} (${listing_type} #${listing_id})\n\nContact:\nNume: ${first_name} ${last_name}\nFirma: ${company_name || '-'}\nEmail: ${email}\nTelefon: ${phone || '-'}\nWebsite: ${website || '-'}\n${tempPassword ? `\nCont creat automat:\nEmail: ${email}\nParola temporara: ${tempPassword}\n` : '\nUtilizatorul avea deja cont.'}\n\nVerifica la: https://activkids.ro/admin`
+      `Cerere noua de revendicare listare:\n\nListare: ${listing_name} (${listing_type} #${listing_id})\n\nContact:\nNume: ${first_name} ${last_name}\nFirma: ${company_name || '-'}\nEmail: ${email}\nTelefon: ${phone || '-'}\nWebsite: ${website || '-'}\n${tempPassword ? `\nCont creat:\nEmail: ${email}\n` : '\nUtilizatorul avea deja cont.'}\n\nVerifica la: https://activkids.ro/admin`
     );
 
-    // Email de confirmare catre utilizator (cu parola daca contul e nou)
-    if (tempPassword) {
+    // Email de confirmare catre utilizator
+    if (isNewAccount) {
       await sendAdminNotification(
         `Cererea ta de revendicare a fost primita — ActivKids`,
-        `Buna ${first_name},\n\nAm primit cererea ta de revendicare pentru "${listing_name}".\n\nTe vom contacta in curand pentru verificare.\n\nIntre timp, un cont a fost creat automat pentru tine:\nEmail: ${email}\nParola temporara: ${tempPassword}\n\nTe poti loga la: https://activkids.ro/login\n\nMultumim,\nEchipa ActivKids`
+        `Buna ${first_name},\n\nAm primit cererea ta de revendicare pentru "${listing_name}".\n\nTe vom contacta in curand pentru verificare.\n\nDatele tale de acces:\nEmail: ${email}\nParola: cea aleasa de tine\n\nTe poti loga la: https://activkids.ro/login\n\nMultumim,\nEchipa ActivKids`
       );
     }
 
-    return NextResponse.json({ ok: true, accountCreated: !!tempPassword });
+    return NextResponse.json({ ok: true, accountCreated: isNewAccount });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }

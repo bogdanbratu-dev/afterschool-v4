@@ -220,6 +220,21 @@ function initializeDb(db: Database.Database) {
   try { db.exec(`ALTER TABLE clubs ADD COLUMN video_urls TEXT`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN reviews_url TEXT`); } catch {}
 
+  // Tabel pending_edits pentru modificari trimise de proprietari
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS pending_edits (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      listing_type TEXT NOT NULL,
+      listing_id INTEGER NOT NULL,
+      changes TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      submitted_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+      reviewed_at INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+  `);
+
   // Coloane noi pe claim_requests (contact direct, fara cont)
   try { db.exec(`ALTER TABLE claim_requests ADD COLUMN first_name TEXT`); } catch {}
   try { db.exec(`ALTER TABLE claim_requests ADD COLUMN last_name TEXT`); } catch {}

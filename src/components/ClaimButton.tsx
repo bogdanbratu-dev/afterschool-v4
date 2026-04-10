@@ -15,14 +15,23 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
   const [error, setError] = useState('');
   const [form, setForm] = useState({
     first_name: '', last_name: '', company_name: '', email: '', phone: '', website: '',
+    password: '', confirm_password: '',
   });
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm(f => ({ ...f, [field]: e.target.value }));
 
   const submit = async () => {
-    if (!form.first_name || !form.last_name || !form.email) {
-      setError('Numele si emailul sunt obligatorii.');
+    if (!form.first_name || !form.last_name || !form.email || !form.password) {
+      setError('Numele, emailul si parola sunt obligatorii.');
+      return;
+    }
+    if (form.password.length < 6) {
+      setError('Parola trebuie sa aiba minim 6 caractere.');
+      return;
+    }
+    if (form.password !== form.confirm_password) {
+      setError('Parolele nu coincid.');
       return;
     }
     setLoading(true); setError('');
@@ -120,6 +129,19 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
                     <label className="block text-xs font-medium mb-1">Website</label>
                     <input type="url" value={form.website} onChange={set('website')} placeholder="https://..."
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium mb-1">Parola <span className="text-red-500">*</span></label>
+                      <input type="password" value={form.password} onChange={set('password')} placeholder="min. 6 caractere"
+                        className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium mb-1">Confirma parola <span className="text-red-500">*</span></label>
+                      <input type="password" value={form.confirm_password} onChange={set('confirm_password')} placeholder="repeta parola"
+                        className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                    </div>
                   </div>
                 </div>
 
