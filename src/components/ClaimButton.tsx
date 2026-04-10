@@ -69,19 +69,23 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={e => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="bg-[var(--color-card)] rounded-2xl shadow-2xl w-full max-w-md p-6">
             {done ? (
-              <div className="text-center py-4">
-                <div className="text-4xl mb-3">✅</div>
-                <h3 className="font-bold text-lg mb-2">Cont creat cu succes!</h3>
-                <p className="text-sm text-[var(--color-text-light)] mb-4">
-                  Ești logat automat. Accesează dashboard-ul pentru a completa informațiile și a activa Premium.
-                </p>
+              <div className="py-2">
+                <div className="text-3xl mb-3 text-center">✅</div>
+                <h3 className="font-bold text-lg mb-3 text-center">Înregistrare trimisă!</h3>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 mb-3 text-sm text-blue-800">
+                  Înregistrarea ta va fi validată în <strong>câteva ore</strong>. Vei putea accesa toate funcționalitățile după validare.
+                </div>
+
+                <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 mb-4 text-sm text-green-800">
+                  <p className="font-semibold mb-1">Vrei validare imediată?</p>
+                  <p>Sună sau trimite un mesaj la <a href="tel:0747646543" className="font-bold underline">0747 646 543</a> și un administrator va revizui cererea pe loc.</p>
+                </div>
+
                 <a href="/dashboard"
                   className="flex items-center justify-center gap-2 w-full py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold transition-colors">
                   Mergi la Dashboard →
                 </a>
-                <p className="text-xs text-[var(--color-text-light)] mt-3">
-                  Cererea ta va fi verificată de echipa noastră.
-                </p>
               </div>
             ) : (
               <>
