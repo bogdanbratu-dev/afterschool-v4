@@ -9,6 +9,7 @@ interface Props {
 
 export default function ClaimButton({ listingType, listingId, listingName }: Props) {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
@@ -48,47 +49,52 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
   return (
     <>
       {/* Buton */}
-      <div className="mt-8 rounded-2xl overflow-hidden border border-[var(--color-border)]">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-amber-500 to-yellow-500 px-5 py-4 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide opacity-80 mb-0.5">Listare Premium</p>
-              <h3 className="text-lg font-bold">Ești proprietarul acestei afaceri?</h3>
-            </div>
-            <div className="text-right flex-shrink-0">
-              <p className="text-2xl font-bold">50 RON</p>
-              <p className="text-xs opacity-80">pe lună</p>
+      <div className="mt-8 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl overflow-hidden">
+        {/* Rand compact */}
+        <button
+          onClick={() => setExpanded(e => !e)}
+          className="w-full flex items-center justify-between px-5 py-4 hover:bg-[var(--color-bg)] transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-lg">🏢</span>
+            <div className="text-left">
+              <p className="text-sm font-semibold text-[var(--color-text-main)]">Ești proprietarul acestei afaceri?</p>
+              <p className="text-xs text-[var(--color-text-light)]">Revendică listarea · Premium de la 50 RON/lună</p>
             </div>
           </div>
-        </div>
+          <span className="text-[var(--color-text-light)] text-sm">{expanded ? '▲' : '▼'}</span>
+        </button>
 
-        {/* Beneficii */}
-        <div className="bg-[var(--color-card)] px-5 py-4">
-          <p className="text-xs font-semibold text-[var(--color-text-light)] uppercase tracking-wide mb-3">Ce primești cu Premium</p>
-          <ul className="space-y-2 mb-4">
-            {[
-              { icon: '✏️', text: 'Editare și actualizare informații oricând', bold: true },
-              { icon: '📸', text: 'Până la 20 de poze în carusel' },
-              { icon: '🎬', text: 'Până la 5 videoclipuri (YouTube sau upload)' },
-              { icon: '📊', text: 'Raport lunar de clickuri și statistici' },
-              { icon: '⭐', text: 'Badge Premium vizibil pe card și pagina listării' },
-              { icon: '🔝', text: 'Afișare prioritară față de listările gratuite' },
-            ].map(({ icon, text, bold }) => (
-              <li key={text} className="flex items-center gap-2.5 text-sm">
-                <span className="flex-shrink-0">{icon}</span>
-                <span className={bold ? 'font-semibold text-amber-600' : 'text-[var(--color-text-main)]'}>{text}</span>
-              </li>
-            ))}
-          </ul>
-          <button
-            onClick={() => setOpen(true)}
-            className="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-xl text-sm font-bold transition-all shadow-sm"
-          >
-            Revendică această listare — 50 RON/lună
-          </button>
-          <p className="text-xs text-center text-[var(--color-text-light)] mt-2">Validare în câteva ore · Poți suna la 0747 646 543 pentru aprobare imediată</p>
-        </div>
+        {/* Detalii expandabile */}
+        {expanded && (
+          <div className="border-t border-[var(--color-border)] px-5 py-4 bg-[var(--color-bg)]">
+            <p className="text-xs font-semibold text-[var(--color-text-light)] uppercase tracking-wide mb-3">Ce primești cu Premium — 50 RON/lună</p>
+            <ul className="space-y-2 mb-4">
+              {[
+                { icon: '✏️', text: 'Editare și actualizare informații oricând', bold: true },
+                { icon: '📸', text: 'Până la 20 de poze în carusel' },
+                { icon: '🎬', text: 'Până la 5 videoclipuri (YouTube sau upload)' },
+                { icon: '📊', text: 'Raport lunar de clickuri și statistici' },
+                { icon: '⭐', text: 'Badge Premium vizibil pe card și pagina listării' },
+                { icon: '🔝', text: 'Afișare prioritară față de listările gratuite' },
+              ].map(({ icon, text, bold }) => (
+                <li key={text} className="flex items-center gap-2.5 text-sm">
+                  <span className="flex-shrink-0">{icon}</span>
+                  <span className={bold ? 'font-semibold text-amber-600' : 'text-[var(--color-text-main)]'}>{text}</span>
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={() => setOpen(true)}
+              className="w-full py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-xl text-sm font-bold transition-all shadow-sm"
+            >
+              Revendică această listare
+            </button>
+            <p className="text-xs text-center text-[var(--color-text-light)] mt-2">
+              Validare în câteva ore · <a href="tel:0747646543" className="hover:underline">0747 646 543</a> pentru aprobare imediată
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Modal */}
