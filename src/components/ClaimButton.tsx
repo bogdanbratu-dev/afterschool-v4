@@ -9,8 +9,8 @@ interface Props {
 
 export default function ClaimButton({ listingType, listingId, listingName }: Props) {
   const [open, setOpen] = useState(false);
-  const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [tooltip, setTooltip] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({
@@ -49,52 +49,52 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
   return (
     <>
       {/* Buton */}
-      <div className="mt-8 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl overflow-hidden">
-        {/* Rand compact */}
+      <div className="mt-8 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-5">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-lg">🏢</span>
+          <h3 className="font-bold text-[var(--color-text-main)]">Esti proprietarul acestei companii?</h3>
+        </div>
+        <p className="text-sm text-[var(--color-text-light)] mb-4">
+          Revendica listarea pentru a o actualiza si a accesa optiunile de{' '}
+          <span
+            className="relative inline-block"
+            onMouseEnter={() => setTooltip(true)}
+            onMouseLeave={() => setTooltip(false)}
+            onTouchStart={() => setTooltip(t => !t)}
+          >
+            <span className="text-amber-500 font-semibold underline decoration-dotted cursor-help">promovare Premium</span>
+            {tooltip && (
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-64 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl shadow-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-bold text-[var(--color-text-main)]">Premium</p>
+                  <span className="text-sm font-bold text-amber-500">50 RON/lună</span>
+                </div>
+                <ul className="space-y-1.5">
+                  {[
+                    { icon: '✏️', text: 'Editare informații oricând' },
+                    { icon: '📸', text: 'Până la 20 de poze în carusel' },
+                    { icon: '🎬', text: 'Până la 5 videoclipuri' },
+                    { icon: '📊', text: 'Raport lunar de clickuri' },
+                    { icon: '⭐', text: 'Badge Premium vizibil' },
+                    { icon: '🔝', text: 'Afișare prioritară' },
+                  ].map(({ icon, text }) => (
+                    <li key={text} className="flex items-center gap-2 text-xs text-[var(--color-text-main)]">
+                      <span>{icon}</span><span>{text}</span>
+                    </li>
+                  ))}
+                </ul>
+                {/* sageata tooltip */}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-[var(--color-border)]" />
+              </div>
+            )}
+          </span>.
+        </p>
         <button
-          onClick={() => setExpanded(e => !e)}
-          className="w-full flex items-center justify-between px-5 py-4 hover:bg-[var(--color-bg)] transition-colors"
+          onClick={() => setOpen(true)}
+          className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold transition-colors"
         >
-          <div className="flex items-center gap-3">
-            <span className="text-lg">🏢</span>
-            <div className="text-left">
-              <p className="text-sm font-semibold text-[var(--color-text-main)]">Ești proprietarul acestei afaceri?</p>
-              <p className="text-xs text-[var(--color-text-light)]">Revendică listarea · Premium de la 50 RON/lună</p>
-            </div>
-          </div>
-          <span className="text-[var(--color-text-light)] text-sm">{expanded ? '▲' : '▼'}</span>
+          Revendica aceasta listare
         </button>
-
-        {/* Detalii expandabile */}
-        {expanded && (
-          <div className="border-t border-[var(--color-border)] px-5 py-4 bg-[var(--color-bg)]">
-            <p className="text-xs font-semibold text-[var(--color-text-light)] uppercase tracking-wide mb-3">Ce primești cu Premium — 50 RON/lună</p>
-            <ul className="space-y-2 mb-4">
-              {[
-                { icon: '✏️', text: 'Editare și actualizare informații oricând', bold: true },
-                { icon: '📸', text: 'Până la 20 de poze în carusel' },
-                { icon: '🎬', text: 'Până la 5 videoclipuri (YouTube sau upload)' },
-                { icon: '📊', text: 'Raport lunar de clickuri și statistici' },
-                { icon: '⭐', text: 'Badge Premium vizibil pe card și pagina listării' },
-                { icon: '🔝', text: 'Afișare prioritară față de listările gratuite' },
-              ].map(({ icon, text, bold }) => (
-                <li key={text} className="flex items-center gap-2.5 text-sm">
-                  <span className="flex-shrink-0">{icon}</span>
-                  <span className={bold ? 'font-semibold text-amber-600' : 'text-[var(--color-text-main)]'}>{text}</span>
-                </li>
-              ))}
-            </ul>
-            <button
-              onClick={() => setOpen(true)}
-              className="w-full py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-xl text-sm font-bold transition-all shadow-sm"
-            >
-              Revendică această listare
-            </button>
-            <p className="text-xs text-center text-[var(--color-text-light)] mt-2">
-              Validare în câteva ore · <a href="tel:0747646543" className="hover:underline">0747 646 543</a> pentru aprobare imediată
-            </p>
-          </div>
-        )}
       </div>
 
       {/* Modal */}
