@@ -6,8 +6,15 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
   if (!(await isAuthenticated())) return NextResponse.json({ error: 'Neautorizat' }, { status: 401 });
   const { id } = await params;
   const db = getDb();
+  // Reseteaza premium pe listari detinute (prin owner_user_id)
   db.prepare('UPDATE afterschools SET is_premium = 0, owner_user_id = NULL WHERE owner_user_id = ?').run(parseInt(id));
   db.prepare('UPDATE clubs SET is_premium = 0, owner_user_id = NULL WHERE owner_user_id = ?').run(parseInt(id));
+  // Reseteaza si listari legate prin claim-uri aprobate (in caz ca owner_user_id nu era setat)
+  const approved = db.prepare("SELECT listing_type, listing_id FROM claim_requests WHERE user_id = ? AND status = 'approved'").all(parseInt(id)) as { listing_type: string; listing_id: number }[];
+  for (const c of approved) {
+    const table = c.listing_type === 'afterschool' ? 'afterschools' : 'clubs';
+    db.prepare(`UPDATE ${table} SET is_premium = 0, owner_user_id = NULL WHERE id = ?`).run(c.listing_id);
+  }
   db.prepare('DELETE FROM user_sessions WHERE user_id = ?').run(parseInt(id));
   db.prepare('DELETE FROM claim_requests WHERE user_id = ?').run(parseInt(id));
   db.prepare('DELETE FROM pending_listings WHERE user_id = ?').run(parseInt(id));
