@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { getDb } from '@/lib/db';
 
 function detectSource(referrer: string): string {
@@ -46,12 +47,11 @@ export async function POST(request: Request) {
   try {
     const { page, device, referrer } = await request.json();
 
-    // Filtreaza botii
-    const headersList = await headers();
+    // Filtreaza botii si adminii logati
+    const [headersList, cookieStore] = await Promise.all([headers(), cookies()]);
     const ua = headersList.get('user-agent') || '';
-    if (BOT_PATTERNS.test(ua)) {
-      return NextResponse.json({ ok: true });
-    }
+    if (BOT_PATTERNS.test(ua)) return NextResponse.json({ ok: true });
+    if (cookieStore.get('admin_session')) return NextResponse.json({ ok: true });
 
     const db = getDb();
 

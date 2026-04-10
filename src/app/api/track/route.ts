@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { getDb } from '@/lib/db';
 
 export async function GET(request: Request) {
@@ -10,12 +11,16 @@ export async function GET(request: Request) {
   const url = searchParams.get('url') || '';
 
   if (url) {
-    try {
-      const db = getDb();
-      db.prepare(
-        'INSERT INTO result_clicks (type, item_id, item_name, link_type, timestamp) VALUES (?, ?, ?, ?, ?)'
-      ).run(type, id, name, lt, Date.now());
-    } catch {}
+    const cookieStore = await cookies();
+    const isAdmin = !!cookieStore.get('admin_session');
+    if (!isAdmin) {
+      try {
+        const db = getDb();
+        db.prepare(
+          'INSERT INTO result_clicks (type, item_id, item_name, link_type, timestamp) VALUES (?, ?, ?, ?, ?)'
+        ).run(type, id, name, lt, Date.now());
+      } catch {}
+    }
     return NextResponse.redirect(url);
   }
 
