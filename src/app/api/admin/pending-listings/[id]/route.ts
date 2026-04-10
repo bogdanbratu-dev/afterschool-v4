@@ -49,3 +49,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
   return NextResponse.json({ ok: true });
 }
+
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+  if (!(await isAuthenticated())) return NextResponse.json({ error: 'Neautorizat' }, { status: 401 });
+  const { id } = await params;
+  getDb().prepare('DELETE FROM pending_listings WHERE id = ?').run(parseInt(id));
+  return NextResponse.json({ ok: true });
+}
