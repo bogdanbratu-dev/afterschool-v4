@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
+import ContactButton from "@/components/ContactButton";
 
 export const metadata: Metadata = {
   title: "AfterSchool Finder - Gaseste after school-ul perfect in Bucuresti",
@@ -39,7 +40,10 @@ export default function RootLayout({
         gtag('js', new Date());
         gtag('config', 'G-Z9ZET3FJSG');
       `}</Script>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <ContactButton />
+      </body>
     </html>
   );
 }
