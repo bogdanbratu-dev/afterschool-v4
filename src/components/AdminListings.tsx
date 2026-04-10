@@ -56,6 +56,9 @@ interface User {
   is_premium: number;
   premium_pending: number;
   created_at: number;
+  listing_type: string | null;
+  listing_id: number | null;
+  listing_name: string | null;
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -154,6 +157,35 @@ export default function AdminListings() {
     setActing(null);
     load();
   };
+
+  const [editModal, setEditModal] = useState<{ type: string; id: number; data: any } | null>(null);
+  const [editForm, setEditForm] = useState<any>({});
+  const [editSaving, setEditSaving] = useState(false);
+
+  const openEdit = async (u: User) => {
+    if (!u.listing_type || !u.listing_id) return;
+    const res = await fetch(`/api/admin/listing?type=${u.listing_type}&id=${u.listing_id}`);
+    const data = await res.json();
+    setEditForm(data);
+    setEditModal({ type: u.listing_type, id: u.listing_id, data });
+  };
+
+  const saveEdit = async () => {
+    if (!editModal) return;
+    setEditSaving(true);
+    const endpoint = editModal.type === 'afterschool' ? 'afterschools' : 'clubs';
+    await fetch(`/api/admin/${endpoint}/${editModal.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(editForm),
+    });
+    setEditSaving(false);
+    setEditModal(null);
+    load();
+  };
+
+  const setEF = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setEditForm((f: any) => ({ ...f, [field]: e.target.value }));
 
   const pendingPayments = users.filter(u => u.premium_pending === 1 && u.is_premium === 0);
 
@@ -367,6 +399,9 @@ export default function AdminListings() {
                     {u.is_premium === 1 && (
                       <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">★ Premium</span>
                     )}
+                    {u.listing_name && (
+                      <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">{u.listing_name}</span>
+                    )}
                   </div>
                   <div className="flex gap-3 mt-0.5">
                     <a href={`mailto:${u.email}`} className="text-xs text-[var(--color-primary)] hover:underline">✉ {u.email}</a>
@@ -375,6 +410,12 @@ export default function AdminListings() {
                   <p className="text-xs text-[var(--color-text-light)]">{new Date(u.created_at).toLocaleDateString('ro-RO')}</p>
                 </div>
                 <div className="flex gap-2 flex-shrink-0">
+                  {u.listing_id && (
+                    <button onClick={() => openEdit(u)} disabled={acting === u.id}
+                      className="px-2 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg text-xs font-bold disabled:opacity-50">
+                      ✏️
+                    </button>
+                  )}
                   <button onClick={() => togglePremium(u.id, u.is_premium)} disabled={acting === u.id}
                     className={`px-2 py-1.5 rounded-lg text-xs font-bold disabled:opacity-50 ${u.is_premium ? 'bg-amber-100 hover:bg-amber-200 text-amber-700' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}>
                     {u.is_premium ? '★ Premium' : '☆ Free'}
@@ -389,6 +430,81 @@ export default function AdminListings() {
           </div>
         )}
       </div>
+
+      {/* Modal editare listare */}
+      {editModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={e => { if (e.target === e.currentTarget) setEditModal(null); }}>
+          <div className="bg-[var(--color-card)] rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-[var(--color-card)] border-b border-[var(--color-border)] px-6 py-4 flex items-center justify-between">
+              <h2 className="font-bold text-lg">✏️ Editează listarea</h2>
+              <button onClick={() => setEditModal(null)} className="text-[var(--color-text-light)] hover:text-[var(--color-text-main)] text-xl">×</button>
+            </div>
+            <div className="p-6 space-y-3">
+              {[
+                { label: 'Nume', field: 'name' },
+                { label: 'Adresă', field: 'address' },
+                { label: 'Telefon', field: 'phone' },
+                { label: 'Email', field: 'email' },
+                { label: 'Website', field: 'website' },
+                { label: 'Preț minim (lei)', field: 'price_min' },
+                { label: 'Preț maxim (lei)', field: 'price_max' },
+                { label: 'Vârstă minimă', field: 'age_min' },
+                { label: 'Vârstă maximă', field: 'age_max' },
+                ...(editModal.type === 'afterschool'
+                  ? [{ label: 'Oră preluare', field: 'pickup_time' }, { label: 'Oră terminare', field: 'end_time' }, { label: 'Activități', field: 'activities' }]
+                  : [{ label: 'Program', field: 'schedule' }]),
+                { label: 'URL Recenzii', field: 'reviews_url' },
+                { label: 'Banner URL', field: 'banner_url' },
+              ].map(({ label, field }) => (
+                <div key={field}>
+                  <label className="block text-xs font-medium mb-1">{label}</label>
+                  <input value={editForm[field] ?? ''} onChange={setEF(field)}
+                    className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                </div>
+              ))}
+              <div>
+                <label className="block text-xs font-medium mb-1">Descriere</label>
+                <textarea value={editForm.description ?? ''} onChange={setEF('description')} rows={4}
+                  className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium mb-1">Rezumat editorial</label>
+                <textarea value={editForm.editorial_summary ?? ''} onChange={setEF('editorial_summary')} rows={3}
+                  className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium mb-1">Disponibilitate</label>
+                <select value={editForm.availability ?? 'unknown'} onChange={setEF('availability')}
+                  className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none">
+                  <option value="available">Locuri disponibile</option>
+                  <option value="full">Locuri indisponibile</option>
+                  <option value="unknown">Necunoscut</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input type="checkbox" checked={!!editForm.is_premium} onChange={e => setEditForm((f: any) => ({ ...f, is_premium: e.target.checked ? 1 : 0 }))} />
+                  Premium
+                </label>
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input type="checkbox" checked={!!editForm.contacts_hidden} onChange={e => setEditForm((f: any) => ({ ...f, contacts_hidden: e.target.checked ? 1 : 0 }))} />
+                  Contacte ascunse
+                </label>
+              </div>
+            </div>
+            <div className="sticky bottom-0 bg-[var(--color-card)] border-t border-[var(--color-border)] px-6 py-4 flex gap-3">
+              <button onClick={saveEdit} disabled={editSaving}
+                className="flex-1 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-bold disabled:opacity-50">
+                {editSaving ? 'Se salvează...' : 'Salvează modificările'}
+              </button>
+              <button onClick={() => setEditModal(null)}
+                className="px-4 py-2.5 border border-[var(--color-border)] rounded-xl text-sm">
+                Anulează
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
