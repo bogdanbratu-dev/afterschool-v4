@@ -215,6 +215,22 @@ function initializeDb(db: Database.Database) {
   // Coloane premium_pending pe users
   try { db.exec(`ALTER TABLE users ADD COLUMN premium_pending INTEGER NOT NULL DEFAULT 0`); } catch {}
 
+  // Tabel istoric plati
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS payments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      amount INTEGER NOT NULL DEFAULT 50,
+      currency TEXT NOT NULL DEFAULT 'RON',
+      status TEXT NOT NULL DEFAULT 'confirmed',
+      period_start INTEGER NOT NULL,
+      period_end INTEGER NOT NULL,
+      created_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+      notes TEXT,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+  `);
+
   // Coloane noi pe afterschools si clubs
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN owner_user_id INTEGER`); } catch {}
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN video_urls TEXT`); } catch {}

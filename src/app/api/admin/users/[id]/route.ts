@@ -29,8 +29,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const db = getDb();
 
   if (body.action === 'approve_premium') {
-    const thirtyDays = Date.now() + 30 * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+    const thirtyDays = now + 30 * 24 * 60 * 60 * 1000;
     db.prepare('UPDATE users SET is_premium = 1, premium_pending = 0, premium_until = ? WHERE id = ?').run(thirtyDays, parseInt(id));
+    // Salveaza plata in istoric
+    db.prepare('INSERT INTO payments (user_id, amount, currency, status, period_start, period_end) VALUES (?, 50, ?, ?, ?, ?)')
+      .run(parseInt(id), body.currency || 'RON', 'confirmed', now, thirtyDays);
     // Activeaza premium si pe listarea proprietarului
     const listing_as = db.prepare('SELECT id FROM afterschools WHERE owner_user_id = ?').get(parseInt(id)) as { id: number } | undefined;
     if (listing_as) db.prepare('UPDATE afterschools SET is_premium = 1 WHERE id = ?').run(listing_as.id);

@@ -59,6 +59,21 @@ interface User {
   listing_type: string | null;
   listing_id: number | null;
   listing_name: string | null;
+  premium_until: number | null;
+}
+
+interface Payment {
+  id: number;
+  user_id: number;
+  user_name: string;
+  user_email: string;
+  amount: number;
+  currency: string;
+  status: string;
+  period_start: number;
+  period_end: number;
+  created_at: number;
+  notes: string | null;
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -71,20 +86,24 @@ export default function AdminListings() {
   const [listings, setListings] = useState<PendingListing[]>([]);
   const [claims, setClaims] = useState<ClaimRequest[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [expandedUser, setExpandedUser] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<number | null>(null);
   const [adminNote, setAdminNote] = useState('');
   const [acting, setActing] = useState<number | null>(null);
 
   const load = async () => {
-    const [l, c, u] = await Promise.all([
+    const [l, c, u, p] = await Promise.all([
       fetch('/api/admin/pending-listings').then(r => r.json()),
       fetch('/api/admin/claim-requests').then(r => r.json()),
       fetch('/api/admin/users').then(r => r.json()),
+      fetch('/api/admin/payments').then(r => r.json()),
     ]);
     setListings(Array.isArray(l) ? l : []);
     setClaims(Array.isArray(c) ? c : []);
     setUsers(Array.isArray(u) ? u : []);
+    setPayments(Array.isArray(p) ? p : []);
     setLoading(false);
   };
 
@@ -192,6 +211,10 @@ export default function AdminListings() {
   const pending = listings.filter(l => l.status === 'pending');
   const pendingClaims = claims.filter(c => c.status === 'pending');
   const pendingPay = users.filter(u => u.premium_pending === 1 && u.is_premium === 0);
+  const now = Date.now();
+  const threeDays = 3 * 24 * 60 * 60 * 1000;
+  const expiringUsers = users.filter(u => u.is_premium === 1 && u.premium_until && u.premium_until > now && u.premium_until <= now + threeDays);
+  const userPayments = (userId: number) => payments.filter(p => p.user_id === userId);
 
   if (loading) return <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>;
 
@@ -216,6 +239,12 @@ export default function AdminListings() {
             <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2">
               <span className="w-6 h-6 bg-amber-500 text-white rounded-full text-xs font-bold flex items-center justify-center">{pendingPay.length}</span>
               <span className="text-sm font-medium text-amber-800">Plăți Premium de confirmat</span>
+            </div>
+          )}
+          {expiringUsers.length > 0 && (
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-4 py-2">
+              <span className="w-6 h-6 bg-red-500 text-white rounded-full text-xs font-bold flex items-center justify-center">{expiringUsers.length}</span>
+              <span className="text-sm font-medium text-red-800">Abonamente expiră în 3 zile</span>
             </div>
           )}
         </div>
@@ -384,6 +413,32 @@ export default function AdminListings() {
         </div>
       )}
 
+      {/* Abonamente care expira curand */}
+      {expiringUsers.length > 0 && (
+        <div className="bg-red-50 rounded-xl border border-red-200 p-6">
+          <h2 className="text-lg font-bold mb-3 text-red-800">⏰ Abonamente ce expiră în 3 zile ({expiringUsers.length})</h2>
+          <div className="space-y-2">
+            {expiringUsers.map(u => {
+              const daysLeft = Math.ceil(((u.premium_until ?? 0) - now) / (24 * 60 * 60 * 1000));
+              return (
+                <div key={u.id} className="flex items-center justify-between gap-3 p-3 bg-white border border-red-200 rounded-xl">
+                  <div className="min-w-0 flex-1">
+                    <span className="font-semibold text-sm">{u.name}</span>
+                    {u.listing_name && <span className="ml-2 text-xs text-gray-500">· {u.listing_name}</span>}
+                    <div className="flex gap-3 mt-0.5">
+                      <a href={`mailto:${u.email}`} className="text-xs text-[var(--color-primary)] hover:underline">✉ {u.email}</a>
+                    </div>
+                  </div>
+                  <span className="text-sm font-bold text-red-600 flex-shrink-0">
+                    {daysLeft === 0 ? 'Expiră azi' : `${daysLeft} zi${daysLeft > 1 ? 'le' : ''}`}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Conturi utilizatori */}
       <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
         <h2 className="text-lg font-bold mb-4">👤 Conturi utilizatori ({users.length})</h2>
@@ -391,42 +446,79 @@ export default function AdminListings() {
           <p className="text-sm text-[var(--color-text-light)]">Niciun cont inca.</p>
         ) : (
           <div className="space-y-2">
-            {users.map(u => (
-              <div key={u.id} className="flex items-center justify-between gap-3 p-3 border border-[var(--color-border)] rounded-xl">
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-sm">{u.name}</span>
-                    {u.is_premium === 1 && (
-                      <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">★ Premium</span>
-                    )}
-                    {u.listing_name && (
-                      <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">{u.listing_name}</span>
-                    )}
+            {users.map(u => {
+              const uPayments = userPayments(u.id);
+              const isExpanded = expandedUser === u.id;
+              return (
+                <div key={u.id} className="border border-[var(--color-border)] rounded-xl overflow-hidden">
+                  <div className="flex items-center justify-between gap-3 p-3">
+                    <div className="min-w-0 flex-1 cursor-pointer" onClick={() => setExpandedUser(isExpanded ? null : u.id)}>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-semibold text-sm">{u.name}</span>
+                        {u.is_premium === 1 && (
+                          <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">★ Premium</span>
+                        )}
+                        {u.listing_name && (
+                          <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">{u.listing_name}</span>
+                        )}
+                        {u.premium_until && u.premium_until > now && (
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${u.premium_until <= now + threeDays ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+                            exp. {new Date(u.premium_until).toLocaleDateString('ro-RO')}
+                          </span>
+                        )}
+                        {uPayments.length > 0 && (
+                          <span className="text-xs text-[var(--color-text-light)]">{uPayments.length} plăți</span>
+                        )}
+                      </div>
+                      <div className="flex gap-3 mt-0.5">
+                        <a href={`mailto:${u.email}`} onClick={e => e.stopPropagation()} className="text-xs text-[var(--color-primary)] hover:underline">✉ {u.email}</a>
+                        {u.phone && <span className="text-xs text-[var(--color-text-light)]">📞 {u.phone}</span>}
+                      </div>
+                    </div>
+                    <div className="flex gap-2 flex-shrink-0">
+                      {u.listing_id && (
+                        <button onClick={() => openEdit(u)} disabled={acting === u.id}
+                          className="px-2 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg text-xs font-bold disabled:opacity-50">
+                          ✏️
+                        </button>
+                      )}
+                      <button onClick={() => togglePremium(u.id, u.is_premium)} disabled={acting === u.id}
+                        className={`px-2 py-1.5 rounded-lg text-xs font-bold disabled:opacity-50 ${u.is_premium ? 'bg-amber-100 hover:bg-amber-200 text-amber-700' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}>
+                        {u.is_premium ? '★ Premium' : '☆ Free'}
+                      </button>
+                      <button onClick={() => deleteUser(u.id)} disabled={acting === u.id}
+                        className="px-2 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg text-xs font-bold disabled:opacity-50">
+                        🗑
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex gap-3 mt-0.5">
-                    <a href={`mailto:${u.email}`} className="text-xs text-[var(--color-primary)] hover:underline">✉ {u.email}</a>
-                    {u.phone && <span className="text-xs text-[var(--color-text-light)]">📞 {u.phone}</span>}
-                  </div>
-                  <p className="text-xs text-[var(--color-text-light)]">{new Date(u.created_at).toLocaleDateString('ro-RO')}</p>
-                </div>
-                <div className="flex gap-2 flex-shrink-0">
-                  {u.listing_id && (
-                    <button onClick={() => openEdit(u)} disabled={acting === u.id}
-                      className="px-2 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg text-xs font-bold disabled:opacity-50">
-                      ✏️
-                    </button>
+                  {isExpanded && (
+                    <div className="border-t border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3">
+                      <p className="text-xs font-semibold text-[var(--color-text-light)] mb-2">Istoric plăți</p>
+                      {uPayments.length === 0 ? (
+                        <p className="text-xs text-[var(--color-text-light)]">Nicio plată înregistrată.</p>
+                      ) : (
+                        <div className="space-y-1.5">
+                          {uPayments.map(p => (
+                            <div key={p.id} className="flex items-center justify-between text-xs bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg px-3 py-2">
+                              <div className="flex items-center gap-3">
+                                <span className="font-semibold text-green-700">{p.amount} {p.currency}</span>
+                                <span className="text-[var(--color-text-light)]">
+                                  {new Date(p.period_start).toLocaleDateString('ro-RO')} → {new Date(p.period_end).toLocaleDateString('ro-RO')}
+                                </span>
+                              </div>
+                              <span className={`px-2 py-0.5 rounded-full font-medium ${p.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                {p.status}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   )}
-                  <button onClick={() => togglePremium(u.id, u.is_premium)} disabled={acting === u.id}
-                    className={`px-2 py-1.5 rounded-lg text-xs font-bold disabled:opacity-50 ${u.is_premium ? 'bg-amber-100 hover:bg-amber-200 text-amber-700' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}>
-                    {u.is_premium ? '★ Premium' : '☆ Free'}
-                  </button>
-                  <button onClick={() => deleteUser(u.id)} disabled={acting === u.id}
-                    className="px-2 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg text-xs font-bold disabled:opacity-50">
-                    🗑
-                  </button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
