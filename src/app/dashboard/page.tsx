@@ -25,6 +25,9 @@ export default function DashboardPage() {
   const [editing, setEditing] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [ytUrl, setYtUrl] = useState('');
   const [reportMonth, setReportMonth] = useState(() => new Date().toISOString().slice(0, 7));
   const [form, setForm] = useState<Partial<Listing>>({});
 
@@ -62,6 +65,59 @@ export default function DashboardPage() {
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm(f => ({ ...f, [field]: e.target.value }));
+
+  const getPhotos = (): string[] => form.photo_urls ? JSON.parse(form.photo_urls) : [];
+  const getVideos = (): string[] => form.video_urls ? JSON.parse(form.video_urls) : [];
+
+  const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    setUploadingPhoto(true);
+    const urls: string[] = [...getPhotos()];
+    for (const file of files) {
+      if (urls.length >= 20) break;
+      const fd = new FormData(); fd.append('file', file); fd.append('type', 'photo');
+      const res = await fetch('/api/user/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.url) urls.push(data.url);
+    }
+    setForm(f => ({ ...f, photo_urls: JSON.stringify(urls) }));
+    setUploadingPhoto(false);
+    e.target.value = '';
+  };
+
+  const removePhoto = (idx: number) => {
+    const photos = getPhotos().filter((_, i) => i !== idx);
+    setForm(f => ({ ...f, photo_urls: JSON.stringify(photos) }));
+  };
+
+  const uploadVideo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingVideo(true);
+    const fd = new FormData(); fd.append('file', file); fd.append('type', 'video');
+    const res = await fetch('/api/user/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (data.url) {
+      const videos = [...getVideos(), data.url].slice(0, 5);
+      setForm(f => ({ ...f, video_urls: JSON.stringify(videos) }));
+    }
+    setUploadingVideo(false);
+    e.target.value = '';
+  };
+
+  const addYtVideo = () => {
+    const url = ytUrl.trim();
+    if (!url) return;
+    const videos = [...getVideos(), url].slice(0, 5);
+    setForm(f => ({ ...f, video_urls: JSON.stringify(videos) }));
+    setYtUrl('');
+  };
+
+  const removeVideo = (idx: number) => {
+    const videos = getVideos().filter((_, i) => i !== idx);
+    setForm(f => ({ ...f, video_urls: JSON.stringify(videos) }));
+  };
 
   const downloadReport = () => window.open(`/api/user/report?month=${reportMonth}`, '_blank');
 
@@ -163,26 +219,60 @@ export default function DashboardPage() {
                       className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none" />
                   </div>
 
+                  {/* Poze */}
                   <div>
-                    <label className="block text-xs font-medium mb-1">Poze (URL-uri, unul pe linie, max 20)</label>
-                    <textarea
-                      rows={5}
-                      placeholder={"https://exemplu.ro/poza1.jpg\nhttps://exemplu.ro/poza2.jpg"}
-                      value={form.photo_urls ? JSON.parse(form.photo_urls).join('\n') : ''}
-                      onChange={e => setForm(f => ({ ...f, photo_urls: JSON.stringify(e.target.value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 20)) }))}
-                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none font-mono"
-                    />
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-xs font-medium">Poze ({getPhotos().length}/20)</label>
+                      <label className={`px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors ${uploadingPhoto ? 'bg-gray-200 text-gray-400' : 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)]'}`}>
+                        {uploadingPhoto ? 'Se incarca...' : '+ Adauga poze'}
+                        <input type="file" accept="image/*" multiple className="hidden" disabled={uploadingPhoto || getPhotos().length >= 20} onChange={uploadPhoto} />
+                      </label>
+                    </div>
+                    {getPhotos().length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {getPhotos().map((url, i) => (
+                          <div key={i} className="relative group">
+                            <img src={url} alt="" className="w-20 h-20 object-cover rounded-xl border border-[var(--color-border)]" />
+                            <button onClick={() => removePhoto(i)}
+                              className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {getPhotos().length === 0 && <p className="text-xs text-[var(--color-text-light)]">Nicio poza adaugata inca.</p>}
                   </div>
 
+                  {/* Videoclipuri */}
                   <div>
-                    <label className="block text-xs font-medium mb-1">Videoclipuri YouTube (URL-uri, unul pe linie, max 5)</label>
-                    <textarea
-                      rows={3}
-                      placeholder={"https://www.youtube.com/watch?v=...\nhttps://youtu.be/..."}
-                      value={form.video_urls ? JSON.parse(form.video_urls).join('\n') : ''}
-                      onChange={e => setForm(f => ({ ...f, video_urls: JSON.stringify(e.target.value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 5)) }))}
-                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none font-mono"
-                    />
+                    <label className="text-xs font-medium block mb-2">Videoclipuri ({getVideos().length}/5)</label>
+                    {getVideos().length > 0 && (
+                      <div className="space-y-1.5 mb-3">
+                        {getVideos().map((url, i) => (
+                          <div key={i} className="flex items-center gap-2 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl px-3 py-2">
+                            <span className="text-xs truncate flex-1">{url.includes('youtube') || url.includes('youtu.be') ? '▶ YouTube: ' : '🎬 '}{url}</span>
+                            <button onClick={() => removeVideo(i)} className="text-red-500 text-sm font-bold flex-shrink-0">×</button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {getVideos().length < 5 && (
+                      <div className="space-y-2">
+                        <div className="flex gap-2">
+                          <input value={ytUrl} onChange={e => setYtUrl(e.target.value)} placeholder="Link YouTube (https://youtube.com/...)"
+                            className="flex-1 px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                          <button onClick={addYtVideo} disabled={!ytUrl.trim()}
+                            className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold disabled:opacity-40">
+                            ▶ Adauga
+                          </button>
+                        </div>
+                        <label className={`flex items-center justify-center gap-2 w-full py-2 border-2 border-dashed border-[var(--color-border)] rounded-xl text-sm cursor-pointer hover:border-[var(--color-primary)] transition-colors ${uploadingVideo ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                          {uploadingVideo ? 'Se incarca...' : '📱 Upload video de pe telefon / PC'}
+                          <input type="file" accept="video/*" className="hidden" disabled={uploadingVideo} onChange={uploadVideo} />
+                        </label>
+                      </div>
+                    )}
                   </div>
                   <div className="flex gap-3">
                     <button onClick={submitEdit} disabled={saving}
