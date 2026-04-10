@@ -219,6 +219,14 @@ function initializeDb(db: Database.Database) {
   try { db.exec(`ALTER TABLE clubs ADD COLUMN owner_user_id INTEGER`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN video_urls TEXT`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN reviews_url TEXT`); } catch {}
+
+  // Coloane noi pe claim_requests (contact direct, fara cont)
+  try { db.exec(`ALTER TABLE claim_requests ADD COLUMN first_name TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE claim_requests ADD COLUMN last_name TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE claim_requests ADD COLUMN contact_email TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE claim_requests ADD COLUMN contact_phone TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE claim_requests ADD COLUMN contact_website TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE claim_requests ADD COLUMN admin_note TEXT`); } catch {}
 }
 
 export interface School {

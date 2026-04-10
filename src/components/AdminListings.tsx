@@ -38,6 +38,11 @@ interface ClaimRequest {
   listing_type: string;
   listing_id: number;
   listing_name: string;
+  first_name: string | null;
+  last_name: string | null;
+  contact_email: string | null;
+  contact_phone: string | null;
+  contact_website: string | null;
   message: string | null;
   status: string;
   submitted_at: number;
@@ -203,9 +208,27 @@ export default function AdminListings() {
                     <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">#{c.listing_id} · {c.listing_type}</span>
                     <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${STATUS_COLORS[c.status] || 'bg-gray-100'}`}>{c.status}</span>
                   </div>
-                  <p className="text-xs text-[var(--color-text-light)] mt-0.5">{c.user_name} · {c.user_email}</p>
-                  {c.message && <p className="text-xs text-[var(--color-text-light)] mt-1 italic">"{c.message}"</p>}
-                  <p className="text-xs text-[var(--color-text-light)]">{new Date(c.submitted_at).toLocaleDateString('ro-RO')}</p>
+                  <p className="text-xs text-[var(--color-text-light)] mt-0.5 font-medium">
+                    {c.first_name || c.last_name ? `${c.first_name} ${c.last_name}` : c.user_name}
+                  </p>
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1">
+                    {(c.contact_email || c.user_email) && (
+                      <a href={`mailto:${c.contact_email || c.user_email}`} className="text-xs text-[var(--color-primary)] hover:underline">
+                        ✉ {c.contact_email || c.user_email}
+                      </a>
+                    )}
+                    {c.contact_phone && (
+                      <a href={`tel:${c.contact_phone}`} className="text-xs text-[var(--color-primary)] hover:underline">
+                        📞 {c.contact_phone}
+                      </a>
+                    )}
+                    {c.contact_website && (
+                      <a href={c.contact_website} target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-primary)] hover:underline">
+                        🌐 {c.contact_website}
+                      </a>
+                    )}
+                  </div>
+                  <p className="text-xs text-[var(--color-text-light)] mt-1">{new Date(c.submitted_at).toLocaleDateString('ro-RO')}</p>
                 </div>
                 {c.status === 'pending' && (
                   <div className="flex gap-2 flex-shrink-0">
