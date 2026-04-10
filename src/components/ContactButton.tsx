@@ -33,15 +33,15 @@ export default function ContactButton() {
       )}
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-13 h-13 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-full shadow-xl flex items-center justify-center transition-all"
-        style={{ width: 52, height: 52 }}
-        aria-label="Contact"
+        className="flex items-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold px-4 py-3 rounded-full shadow-xl transition-all"
+        aria-label="Contact admin"
       >
         {open ? (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white flex-shrink-0"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         ) : (
-          <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+          <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white flex-shrink-0"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
         )}
+        <span>{open ? 'Închide' : 'Contactează-ne'}</span>
       </button>
     </div>
   );
