@@ -20,7 +20,8 @@ export async function GET(request: Request) {
 
   const name = searchParams.get('name');
 
-  let query = 'SELECT * FROM afterschools WHERE 1=1';
+  let query = 'SELECT * FROM afterschools WHERE 1=1'
+  query += ' ORDER BY is_premium DESC';
   const params: (string | number)[] = [];
 
   if (name) {
@@ -66,7 +67,7 @@ export async function GET(request: Request) {
       ...as,
       distance: calculateDistance(lat, lng, as.lat, as.lng),
     }));
-    afterschools.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+    afterschools.sort((a, b) => (b.is_premium - a.is_premium) || (a.distance || 0) - (b.distance || 0));
   }
 
   // Mascheaza contactele pentru listari non-premium cand business_mode e activ

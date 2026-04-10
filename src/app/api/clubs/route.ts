@@ -14,7 +14,8 @@ export async function GET(request: Request) {
   const sector = searchParams.get('sector');
   const name = searchParams.get('name');
 
-  let query = 'SELECT * FROM clubs WHERE 1=1';
+  let query = 'SELECT * FROM clubs WHERE 1=1'
+  query += ' ORDER BY is_premium DESC';
   const params: (string | number)[] = [];
 
   if (name) {
@@ -46,7 +47,7 @@ export async function GET(request: Request) {
     if (radiusKm > 0) {
       clubs = clubs.filter(c => (c.distance ?? Infinity) <= radiusKm);
     }
-    clubs.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+    clubs.sort((a, b) => (b.is_premium - a.is_premium) || (a.distance || 0) - (b.distance || 0));
   }
 
   const businessMode = (db.prepare("SELECT value FROM settings WHERE key = 'business_mode'").get() as { value: string } | undefined)?.value === 'true';
