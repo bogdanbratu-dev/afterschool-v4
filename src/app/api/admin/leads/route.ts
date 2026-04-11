@@ -18,3 +18,12 @@ export async function PATCH(request: Request) {
   db.prepare('UPDATE leads SET status = ? WHERE id = ?').run(status, id);
   return NextResponse.json({ ok: true });
 }
+
+export async function DELETE(request: Request) {
+  if (!(await isAuthenticated())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const { id } = await request.json();
+  const db = getDb();
+  db.prepare('DELETE FROM leads WHERE id = ?').run(id);
+  return NextResponse.json({ ok: true });
+}

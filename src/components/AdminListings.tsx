@@ -214,6 +214,12 @@ export default function AdminListings() {
     setLeads(prev => prev.map(l => l.id === id ? { ...l, status: 'seen' } : l));
   };
 
+  const deleteLead = async (id: number) => {
+    if (!confirm('Ștergi acest lead?')) return;
+    await fetch('/api/admin/leads', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
+    setLeads(prev => prev.filter(l => l.id !== id));
+  };
+
   const toggleFeatured = async (type: string, id: number, current: number) => {
     await fetch('/api/admin/listing', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, id, field: 'is_featured', value: !current }) });
     load();
@@ -481,11 +487,16 @@ export default function AdminListings() {
                   </p>
                   {lead.message && <p className="text-xs italic text-[var(--color-text-light)]">"{lead.message}"</p>}
                 </div>
-                {lead.status === 'new' && (
-                  <button onClick={() => markLeadSeen(lead.id)} className="flex-shrink-0 text-xs px-3 py-1.5 border border-purple-300 text-purple-700 rounded-lg hover:bg-purple-100">
-                    Marchează văzut
+                <div className="flex flex-col gap-1 flex-shrink-0">
+                  {lead.status === 'new' && (
+                    <button onClick={() => markLeadSeen(lead.id)} className="text-xs px-3 py-1.5 border border-purple-300 text-purple-700 rounded-lg hover:bg-purple-100">
+                      Marchează văzut
+                    </button>
+                  )}
+                  <button onClick={() => deleteLead(lead.id)} className="text-xs px-3 py-1.5 border border-red-300 text-red-600 rounded-lg hover:bg-red-50">
+                    Șterge
                   </button>
-                )}
+                </div>
               </div>
             ))}
           </div>
