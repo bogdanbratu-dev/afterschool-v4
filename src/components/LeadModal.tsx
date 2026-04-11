@@ -93,7 +93,7 @@ export default function LeadModal({ listingType, listingId, listingName }: Props
                       value={name}
                       onChange={e => setName(e.target.value)}
                       placeholder="ex. Maria Ionescu"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                       required
                     />
                   </div>
@@ -104,7 +104,7 @@ export default function LeadModal({ listingType, listingId, listingName }: Props
                       value={phone}
                       onChange={e => setPhone(e.target.value)}
                       placeholder="07xx xxx xxx"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                       required
                     />
                   </div>
@@ -115,7 +115,7 @@ export default function LeadModal({ listingType, listingId, listingName }: Props
                       onChange={e => setMessage(e.target.value)}
                       placeholder="ex. Vârsta copilului, program preferat..."
                       rows={3}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none"
                     />
                   </div>
                   {error && <p className="text-sm text-red-600">{error}</p>}
