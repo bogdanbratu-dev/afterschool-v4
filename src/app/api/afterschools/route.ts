@@ -20,8 +20,7 @@ export async function GET(request: Request) {
 
   const name = searchParams.get('name');
 
-  let query = 'SELECT * FROM afterschools WHERE 1=1'
-  query += ' ORDER BY is_premium DESC';
+  let query = 'SELECT * FROM afterschools WHERE 1=1';
   const params: (string | number)[] = [];
 
   if (name) {
@@ -48,6 +47,8 @@ export async function GET(request: Request) {
     query += ' AND sector = ?';
     params.push(parseInt(sector));
   }
+
+  query += ' ORDER BY is_premium DESC';
 
   let afterschools = db.prepare(query).all(...params) as AfterSchool[];
 

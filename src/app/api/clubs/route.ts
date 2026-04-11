@@ -14,8 +14,7 @@ export async function GET(request: Request) {
   const sector = searchParams.get('sector');
   const name = searchParams.get('name');
 
-  let query = 'SELECT * FROM clubs WHERE 1=1'
-  query += ' ORDER BY is_premium DESC';
+  let query = 'SELECT * FROM clubs WHERE 1=1';
   const params: (string | number)[] = [];
 
   if (name) {
@@ -34,6 +33,8 @@ export async function GET(request: Request) {
     query += ' AND sector = ?';
     params.push(parseInt(sector));
   }
+
+  query += ' ORDER BY is_premium DESC';
 
   let clubs = db.prepare(query).all(...params) as Club[];
 
