@@ -17,6 +17,10 @@ if (!API_KEY) {
 
 const db = new Database(path.join(__dirname, '../data/afterschool.db'));
 
+// Reset NOT_FOUND entries so they get retried
+db.prepare(`UPDATE afterschools SET place_id = NULL, rating = NULL, reviews_count = NULL, maps_url = NULL WHERE place_id = 'NOT_FOUND'`).run();
+db.prepare(`UPDATE clubs SET place_id = NULL, rating = NULL, reviews_count = NULL, maps_url = NULL WHERE place_id = 'NOT_FOUND'`).run();
+
 // Add columns if missing
 function addColumnIfMissing(table, column, type) {
   const cols = db.pragma(`table_info(${table})`).map(c => c.name);
@@ -36,18 +40,35 @@ addColumnIfMissing('clubs', 'rating', 'REAL');
 addColumnIfMissing('clubs', 'reviews_count', 'INTEGER');
 addColumnIfMissing('clubs', 'maps_url', 'TEXT');
 
-async function findPlace(name, address) {
-  const query = encodeURIComponent(`${name} ${address} Bucuresti`);
-  const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${query}&inputtype=textquery&fields=place_id,name,rating,user_ratings_total&locationbias=circle:30000@44.4268,26.1025&key=${API_KEY}`;
-  const res = await fetch(url);
+async function findPlace(name, address, debug = false) {
+  const url = `https://places.googleapis.com/v1/places:searchText`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': API_KEY,
+      'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount',
+    },
+    body: JSON.stringify({
+      textQuery: `${name} ${address} Bucuresti`,
+      locationBias: {
+        circle: {
+          center: { latitude: 44.4268, longitude: 26.1025 },
+          radius: 30000.0,
+        },
+      },
+      maxResultCount: 1,
+    }),
+  });
   const data = await res.json();
-  if (data.status !== 'OK' || !data.candidates?.length) return null;
-  const p = data.candidates[0];
+  if (debug) console.log('API response:', JSON.stringify(data, null, 2));
+  if (!data.places?.length) return null;
+  const p = data.places[0];
   return {
-    place_id: p.place_id,
+    place_id: p.id,
     rating: p.rating || null,
-    reviews_count: p.user_ratings_total || null,
-    maps_url: p.place_id ? `https://www.google.com/maps/place/?q=place_id:${p.place_id}` : null,
+    reviews_count: p.userRatingCount || null,
+    maps_url: p.id ? `https://www.google.com/maps/place/?q=place_id:${p.id}` : null,
   };
 }
 
@@ -61,8 +82,9 @@ async function enrichTable(table, label) {
 
   let ok = 0, fail = 0;
   for (const row of rows) {
+    const isFirst = ok + fail === 0;
     try {
-      const place = await findPlace(row.name, row.address);
+      const place = await findPlace(row.name, row.address, isFirst);
       if (place) {
         update.run(place.place_id, place.rating, place.reviews_count, place.maps_url, row.id);
         console.log(`  ✓ [${row.id}] ${row.name} → ⭐${place.rating} (${place.reviews_count} recenzii)`);
@@ -82,6 +104,26 @@ async function enrichTable(table, label) {
 }
 
 (async () => {
+  // Test API inainte de a incepe
+  console.log('Testez API key...');
+  const testRes = await fetch('https://places.googleapis.com/v1/places:searchText', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': API_KEY,
+      'X-Goog-FieldMask': 'places.id,places.displayName',
+    },
+    body: JSON.stringify({ textQuery: 'Young Academics Bucuresti', maxResultCount: 1 }),
+  });
+  const testData = await testRes.json();
+  if (testData.error) {
+    console.log('Eroare API:', testData.error.message);
+    console.log('API nu functioneaza. Verifica ca Places API (New) e activata in Google Cloud.');
+    db.close();
+    return;
+  }
+  console.log('API ok!\n');
+
   await enrichTable('afterschools', 'After school-uri');
   await enrichTable('clubs', 'Activitati');
   db.close();

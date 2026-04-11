@@ -34,6 +34,7 @@ interface ClubData {
   category: ClubCategory;
   availability: 'available' | 'full' | 'unknown';
   is_premium: number;
+  is_featured?: number;
   contacts_hidden: number;
   banner_url?: string | null;
   distance?: number;
@@ -108,6 +109,11 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
                 <h3 className="font-bold text-base sm:text-lg text-[var(--color-text-main)] leading-tight">
                   <a href={`/activitati/${toSlug(data.name, data.id)}`} className="hover:text-[var(--color-primary)] transition-colors">{data.name}</a>
                 </h3>
+                {data.is_featured === 1 && (
+                  <span className="inline-flex items-center gap-1 bg-emerald-500 text-white px-2 py-0.5 rounded-full text-xs font-bold">
+                    ✦ Recomandat
+                  </span>
+                )}
                 {data.is_premium === 1 && (
                   <span className="inline-flex items-center gap-1 bg-amber-400 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                     ★ Premium

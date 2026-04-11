@@ -87,6 +87,7 @@ export default function AdminListings() {
   const [claims, setClaims] = useState<ClaimRequest[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
+  const [leads, setLeads] = useState<any[]>([]);
   const [expandedUser, setExpandedUser] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<number | null>(null);
@@ -94,16 +95,18 @@ export default function AdminListings() {
   const [acting, setActing] = useState<number | null>(null);
 
   const load = async () => {
-    const [l, c, u, p] = await Promise.all([
+    const [l, c, u, p, ld] = await Promise.all([
       fetch('/api/admin/pending-listings').then(r => r.json()),
       fetch('/api/admin/claim-requests').then(r => r.json()),
       fetch('/api/admin/users').then(r => r.json()),
       fetch('/api/admin/payments').then(r => r.json()),
+      fetch('/api/admin/leads').then(r => r.json()),
     ]);
     setListings(Array.isArray(l) ? l : []);
     setClaims(Array.isArray(c) ? c : []);
     setUsers(Array.isArray(u) ? u : []);
     setPayments(Array.isArray(p) ? p : []);
+    setLeads(Array.isArray(ld) ? ld : []);
     setLoading(false);
   };
 
@@ -206,11 +209,22 @@ export default function AdminListings() {
   const setEF = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setEditForm((f: any) => ({ ...f, [field]: e.target.value }));
 
+  const markLeadSeen = async (id: number) => {
+    await fetch('/api/admin/leads', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status: 'seen' }) });
+    setLeads(prev => prev.map(l => l.id === id ? { ...l, status: 'seen' } : l));
+  };
+
+  const toggleFeatured = async (type: string, id: number, current: number) => {
+    await fetch('/api/admin/listing', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, id, field: 'is_featured', value: !current }) });
+    load();
+  };
+
   const pendingPayments = users.filter(u => u.premium_pending === 1 && u.is_premium === 0);
 
   const pending = listings.filter(l => l.status === 'pending');
   const pendingClaims = claims.filter(c => c.status === 'pending');
   const pendingPay = users.filter(u => u.premium_pending === 1 && u.is_premium === 0);
+  const newLeads = leads.filter(l => l.status === 'new');
   const now = Date.now();
   const threeDays = 3 * 24 * 60 * 60 * 1000;
   const expiringUsers = users.filter(u => u.is_premium === 1 && u.premium_until && u.premium_until > now && u.premium_until <= now + threeDays);
@@ -239,6 +253,12 @@ export default function AdminListings() {
             <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2">
               <span className="w-6 h-6 bg-amber-500 text-white rounded-full text-xs font-bold flex items-center justify-center">{pendingPay.length}</span>
               <span className="text-sm font-medium text-amber-800">Plăți Premium de confirmat</span>
+            </div>
+          )}
+          {newLeads.length > 0 && (
+            <div className="flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-xl px-4 py-2">
+              <span className="w-6 h-6 bg-purple-600 text-white rounded-full text-xs font-bold flex items-center justify-center">{newLeads.length}</span>
+              <span className="text-sm font-medium text-purple-800">Lead-uri noi</span>
             </div>
           )}
           {expiringUsers.length > 0 && (
@@ -439,6 +459,39 @@ export default function AdminListings() {
         </div>
       )}
 
+      {/* Lead-uri */}
+      <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+        <h2 className="text-lg font-bold mb-4">💬 Lead-uri – cereri de informații ({leads.length})</h2>
+        {leads.length === 0 ? (
+          <p className="text-sm text-[var(--color-text-light)]">Niciun lead încă.</p>
+        ) : (
+          <div className="space-y-2">
+            {leads.map(lead => (
+              <div key={lead.id} className={`border rounded-xl p-4 flex items-start gap-4 ${lead.status === 'new' ? 'border-purple-300 bg-purple-50' : 'border-[var(--color-border)]'}`}>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    {lead.status === 'new' && <span className="text-xs bg-purple-600 text-white px-2 py-0.5 rounded-full font-bold">Nou</span>}
+                    <span className="font-semibold text-sm">{lead.parent_name}</span>
+                    <a href={`tel:${lead.parent_phone}`} className="text-sm text-[var(--color-primary)] font-medium">{lead.parent_phone}</a>
+                  </div>
+                  <p className="text-xs text-[var(--color-text-light)] mb-1">
+                    Listare: <span className="font-medium text-[var(--color-text-main)]">{lead.listing_name}</span>
+                    {' '}({lead.listing_type})
+                    {' · '}{new Date(lead.created_at).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                  {lead.message && <p className="text-xs italic text-[var(--color-text-light)]">"{lead.message}"</p>}
+                </div>
+                {lead.status === 'new' && (
+                  <button onClick={() => markLeadSeen(lead.id)} className="flex-shrink-0 text-xs px-3 py-1.5 border border-purple-300 text-purple-700 rounded-lg hover:bg-purple-100">
+                    Marchează văzut
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Conturi utilizatori */}
       <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
         <h2 className="text-lg font-bold mb-4">👤 Conturi utilizatori ({users.length})</h2>
@@ -573,10 +626,14 @@ export default function AdminListings() {
                   <option value="unknown">Necunoscut</option>
                 </select>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 flex-wrap">
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input type="checkbox" checked={!!editForm.is_featured} onChange={e => setEditForm((f: any) => ({ ...f, is_featured: e.target.checked ? 1 : 0 }))} />
+                  <span className="text-emerald-700 font-semibold">✦ Recomandat (Featured)</span>
+                </label>
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <input type="checkbox" checked={!!editForm.is_premium} onChange={e => setEditForm((f: any) => ({ ...f, is_premium: e.target.checked ? 1 : 0 }))} />
-                  Premium
+                  ★ Premium
                 </label>
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <input type="checkbox" checked={!!editForm.contacts_hidden} onChange={e => setEditForm((f: any) => ({ ...f, contacts_hidden: e.target.checked ? 1 : 0 }))} />

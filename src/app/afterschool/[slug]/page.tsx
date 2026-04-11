@@ -8,6 +8,7 @@ import PageviewTracker from '@/components/PageviewTracker';
 import PhotoCarousel from '@/components/PhotoCarousel';
 import TrackedLink from '@/components/TrackedLink';
 import ClaimButton from '@/components/ClaimButton';
+import LeadModal from '@/components/LeadModal';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -251,6 +252,7 @@ export default async function AfterSchoolPage({ params }: Props) {
                         ⭐ Recenzii
                       </TrackedLink>
                     )}
+                    <LeadModal listingType="afterschool" listingId={as.id} listingName={as.name} />
                   </div>
                 )}
               </div>

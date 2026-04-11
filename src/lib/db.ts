@@ -235,9 +235,26 @@ function initializeDb(db: Database.Database) {
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN owner_user_id INTEGER`); } catch {}
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN video_urls TEXT`); } catch {}
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN reviews_url TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE afterschools ADD COLUMN is_featured INTEGER NOT NULL DEFAULT 0`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN owner_user_id INTEGER`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN video_urls TEXT`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN reviews_url TEXT`); } catch {}
+  try { db.exec(`ALTER TABLE clubs ADD COLUMN is_featured INTEGER NOT NULL DEFAULT 0`); } catch {}
+
+  // Tabel leads (cereri de informatii de la parinti)
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS leads (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      listing_type TEXT NOT NULL,
+      listing_id INTEGER NOT NULL,
+      listing_name TEXT NOT NULL,
+      parent_name TEXT NOT NULL,
+      parent_phone TEXT NOT NULL,
+      message TEXT,
+      status TEXT NOT NULL DEFAULT 'new',
+      created_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000)
+    )
+  `);
 
   // Tabel pending_edits pentru modificari trimise de proprietari
   db.exec(`
@@ -294,6 +311,7 @@ export interface AfterSchool {
   image_url: string | null;
   availability: 'available' | 'full' | 'unknown';
   is_premium: number;
+  is_featured: number;
   contacts_hidden: number;
   distance?: number;
   rating?: number | null;
@@ -328,6 +346,7 @@ export interface Club {
   category: ClubCategory;
   availability: 'available' | 'full' | 'unknown';
   is_premium: number;
+  is_featured: number;
   contacts_hidden: number;
   distance?: number;
   rating?: number | null;

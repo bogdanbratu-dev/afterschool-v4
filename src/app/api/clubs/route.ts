@@ -34,7 +34,7 @@ export async function GET(request: Request) {
     params.push(parseInt(sector));
   }
 
-  query += ' ORDER BY is_premium DESC';
+  query += ' ORDER BY is_featured DESC, is_premium DESC';
 
   let clubs = db.prepare(query).all(...params) as Club[];
 
