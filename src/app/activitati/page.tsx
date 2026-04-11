@@ -313,9 +313,44 @@ function ActivitatiPageContent() {
         )}
       </main>
 
-      <footer className="bg-[var(--color-card)] border-t border-[var(--color-border)] mt-8 py-5">
-        <div className="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm text-[var(--color-text-light)]">
-          AfterSchool Finder - Activități pentru copii în București
+      <footer className="bg-[var(--color-card)] border-t border-[var(--color-border)] mt-8 py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-6 text-sm">
+            <div>
+              <p className="font-semibold text-[var(--color-text-main)] mb-2">After School pe sectoare</p>
+              <ul className="space-y-1">
+                {['1','2','3','4','5','6'].map(s => (
+                  <li key={s}><a href={`/afterschool/sector/${s}`} className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">After School Sector {s}</a></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="font-semibold text-[var(--color-text-main)] mb-2">Activități copii</p>
+              <ul className="space-y-1">
+                {[
+                  { key: 'inot', label: '🏊 Înot' },
+                  { key: 'fotbal', label: '⚽ Fotbal' },
+                  { key: 'dansuri', label: '💃 Dansuri' },
+                  { key: 'arte_martiale', label: '🥋 Arte Marțiale' },
+                  { key: 'gimnastica', label: '🤸 Gimnastică' },
+                  { key: 'muzica', label: '🎵 Muzică' },
+                ].map(c => (
+                  <li key={c.key}><a href={`/activitati/categorie/${c.key}`} className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">{c.label}</a></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="font-semibold text-[var(--color-text-main)] mb-2">Platformă</p>
+              <ul className="space-y-1">
+                <li><a href="/promovare" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Adaugă listarea</a></li>
+                <li><a href="/" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">After School-uri</a></li>
+                <li><a href="/login" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Contul meu</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-[var(--color-border)] pt-4 text-center text-xs text-[var(--color-text-light)]">
+            ActivKids · Activități pentru copii în București
+          </div>
         </div>
       </footer>
     </div>
