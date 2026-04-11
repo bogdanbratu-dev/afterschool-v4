@@ -3,13 +3,21 @@ import { getDb } from '@/lib/db';
 import { toSlug } from '@/lib/slug';
 import type { Metadata } from 'next';
 import type { AfterSchool } from '@/lib/db';
-import Link from 'next/link';
 
 type Props = { params: Promise<{ sector: string }> };
 
 const SECTOR_NAMES: Record<string, string> = {
   '1': 'Sectorul 1', '2': 'Sectorul 2', '3': 'Sectorul 3',
   '4': 'Sectorul 4', '5': 'Sectorul 5', '6': 'Sectorul 6',
+};
+
+const SECTOR_DESCRIPTIONS: Record<string, string> = {
+  '1': 'Sectorul 1 acoperă zone precum Aviatorilor, Floreasca, Dorobanți și Băneasa. Este unul dintre sectoarele cu cea mai mare densitate de after school-uri private din București, datorită numărului mare de familii cu copii din zonele rezidențiale și de vile.',
+  '2': 'Sectorul 2 include cartierele Colentina, Iancului, Pantelimon și Floreasca. Cu o populație numeroasă și multe școli generale, oferta de after school-uri acoperă o gamă variată de prețuri și programe.',
+  '3': 'Sectorul 3 cuprinde cartierele Titan, Vitan, Dristor și Balta Albă — unele dintre cele mai populate zone rezidențiale din București. Cererea mare de locuri la after school face ca oferta să fie diversificată.',
+  '4': 'Sectorul 4 include zonele Berceni, Olteniței și Brâncuși. After school-urile de aici servesc familiile din cartierele de blocuri, cu programe adaptate programului școlar.',
+  '5': 'Sectorul 5 acoperă cartierele Rahova, 13 Septembrie și Cotroceni. Deși mai puțin dens în ofertă, găsești after school-uri cu programe solide aproape de marile școli din zonă.',
+  '6': 'Sectorul 6 cuprinde Drumul Taberei, Militari și Giulești — cartiere mari cu mulți copii de vârstă școlară. After school-urile din sector acoperă atât programele standard cât și activitățile extracurriculare.',
 };
 
 export async function generateStaticParams() {
@@ -42,6 +50,7 @@ export default async function SectorPage({ params }: Props) {
   ).all(parseInt(sector)) as AfterSchool[];
 
   const sectorName = SECTOR_NAMES[sector];
+  const sectorDescription = SECTOR_DESCRIPTIONS[sector];
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -81,6 +90,9 @@ export default async function SectorPage({ params }: Props) {
             {afterschools.length > 0
               ? `${afterschools.length} after school-uri găsite în ${sectorName}`
               : `Nu am găsit after school-uri în ${sectorName} momentan.`}
+          </p>
+          <p className="text-sm text-[var(--color-text-light)] mb-6 leading-relaxed max-w-2xl">
+            {sectorDescription}
           </p>
 
           {/* Navigare sectoare */}
