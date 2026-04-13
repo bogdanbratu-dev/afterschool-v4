@@ -187,6 +187,29 @@ export default function DashboardPage() {
                 Scrie pe WhatsApp
               </a>
             </div>
+
+            {/* Beneficii Premium */}
+            <div className="mt-6 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-xl px-5 py-5 text-left">
+              <p className="font-bold text-amber-800 mb-1">🌟 Pregătește-te pentru Premium</p>
+              <p className="text-xs text-amber-700 mb-4">Odată aprobat contul, poți deveni membru Premium pentru doar <strong>50 RON/lună</strong> și beneficiezi de:</p>
+              <ul className="space-y-2 mb-0">
+                {[
+                  'Apari primul în rezultatele de căutare',
+                  'Badge Premium vizibil pe listare',
+                  'Date de contact vizibile pentru toți vizitatorii',
+                  'Poți edita și actualiza datele listării oricând',
+                  'Acces la statistici: câți părinți ți-au văzut profilul',
+                  'Primești lead-uri direct de la părinți interesați',
+                ].map((b, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs text-amber-800">
+                    <svg className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         ) : (
           <>
