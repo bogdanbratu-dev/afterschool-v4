@@ -36,11 +36,10 @@ for (const row of rows) {
     }
   }
 
-  if (found && found !== row.sector) {
+  if (found) {
     update.run(found, row.id);
-    updated++;
-    console.log(`✅ [${row.id}] ${row.name} → Sector ${found}`);
-  } else if (!found) {
+    if (found !== row.sector) updated++;
+  } else {
     skipped++;
   }
 }
