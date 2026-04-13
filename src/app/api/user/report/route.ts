@@ -34,7 +34,7 @@ export async function GET(request: Request) {
   for (const as of ownedAS) {
     const clicks = db.prepare(`
       SELECT link_type, COUNT(*) as count FROM result_clicks
-      WHERE item_type = 'afterschool' AND item_id = ? AND clicked_at >= ? AND clicked_at < ?
+      WHERE type = 'afterschool' AND item_id = ? AND timestamp >= ? AND timestamp < ?
       GROUP BY link_type ORDER BY count DESC
     `).all(as.id, from, to) as { link_type: string; count: number }[];
     const total = clicks.reduce((s, r) => s + r.count, 0);
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
   for (const club of ownedClubs) {
     const clicks = db.prepare(`
       SELECT link_type, COUNT(*) as count FROM result_clicks
-      WHERE item_type = 'club' AND item_id = ? AND clicked_at >= ? AND clicked_at < ?
+      WHERE type = 'club' AND item_id = ? AND timestamp >= ? AND timestamp < ?
       GROUP BY link_type ORDER BY count DESC
     `).all(club.id, from, to) as { link_type: string; count: number }[];
     const total = clicks.reduce((s, r) => s + r.count, 0);
