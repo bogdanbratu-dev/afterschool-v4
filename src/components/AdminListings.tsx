@@ -88,6 +88,8 @@ export default function AdminListings() {
   const [users, setUsers] = useState<User[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [leads, setLeads] = useState<any[]>([]);
+  const [selectedLeads, setSelectedLeads] = useState<Set<number>>(new Set());
+  const [bulkLoading, setBulkLoading] = useState(false);
   const [expandedUser, setExpandedUser] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<number | null>(null);
@@ -218,6 +220,53 @@ export default function AdminListings() {
     if (!confirm('Ștergi acest lead?')) return;
     await fetch('/api/admin/leads', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
     setLeads(prev => prev.filter(l => l.id !== id));
+  };
+
+  const toggleLeadSelect = (id: number) => {
+    setSelectedLeads(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const selectAllLeads = () => {
+    if (selectedLeads.size === leads.length) {
+      setSelectedLeads(new Set());
+    } else {
+      setSelectedLeads(new Set(leads.map(l => l.id)));
+    }
+  };
+
+  const bulkMarkSeen = async () => {
+    setBulkLoading(true);
+    await fetch('/api/admin/leads', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ids: [...selectedLeads], status: 'seen' }) });
+    setLeads(prev => prev.map(l => selectedLeads.has(l.id) ? { ...l, status: 'seen' } : l));
+    setSelectedLeads(new Set());
+    setBulkLoading(false);
+  };
+
+  const bulkDelete = async () => {
+    if (!confirm(`Ștergi ${selectedLeads.size} lead-uri?`)) return;
+    setBulkLoading(true);
+    await fetch('/api/admin/leads', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ids: [...selectedLeads] }) });
+    setLeads(prev => prev.filter(l => !selectedLeads.has(l.id)));
+    setSelectedLeads(new Set());
+    setBulkLoading(false);
+  };
+
+  const bulkEmailForward = async () => {
+    setBulkLoading(true);
+    const ids = [...selectedLeads];
+    let ok = 0, fail = 0;
+    for (const id of ids) {
+      const res = await fetch('/api/admin/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lead_id: id }) });
+      res.ok ? ok++ : fail++;
+    }
+    setLeads(prev => prev.map(l => selectedLeads.has(l.id) ? { ...l, status: 'forwarded' } : l));
+    setSelectedLeads(new Set());
+    setBulkLoading(false);
+    alert(`Trimise: ${ok}${fail ? `, eșuate: ${fail} (listare fără email)` : ''}`);
   };
 
   const forwardLeadEmail = async (id: number) => {
@@ -478,7 +527,29 @@ export default function AdminListings() {
 
       {/* Lead-uri */}
       <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
-        <h2 className="text-lg font-bold mb-4">💬 Lead-uri – cereri de informații ({leads.length})</h2>
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <h2 className="text-lg font-bold">💬 Lead-uri – cereri de informații ({leads.length})</h2>
+          {leads.length > 0 && (
+            <label className="flex items-center gap-2 text-sm cursor-pointer text-[var(--color-text-light)]">
+              <input type="checkbox" checked={selectedLeads.size === leads.length && leads.length > 0} onChange={selectAllLeads} />
+              Selectează toate ({leads.length})
+            </label>
+          )}
+        </div>
+        {selectedLeads.size > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4 p-3 bg-purple-50 border border-purple-200 rounded-xl items-center">
+            <span className="text-sm font-semibold text-purple-800">{selectedLeads.size} selectate</span>
+            <button onClick={bulkMarkSeen} disabled={bulkLoading} className="text-xs px-3 py-1.5 border border-purple-300 text-purple-700 rounded-lg hover:bg-purple-100 disabled:opacity-50">
+              Marchează văzute
+            </button>
+            <button onClick={bulkEmailForward} disabled={bulkLoading} className="text-xs px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg disabled:opacity-50">
+              {bulkLoading ? 'Se trimite...' : 'Email owners'}
+            </button>
+            <button onClick={bulkDelete} disabled={bulkLoading} className="text-xs px-3 py-1.5 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 disabled:opacity-50">
+              Șterge selectate
+            </button>
+          </div>
+        )}
         {leads.length === 0 ? (
           <p className="text-sm text-[var(--color-text-light)]">Niciun lead încă.</p>
         ) : (
@@ -488,8 +559,9 @@ export default function AdminListings() {
               const ownerPhone = lead.owner_phone?.replace(/\s/g, '').replace(/^0/, '40');
               const listingUrl = lead.listing_type === 'afterschool' ? `/afterschool` : `/activitati`;
               return (
-                <div key={lead.id} className={`border rounded-xl p-4 ${lead.status === 'new' ? 'border-purple-300 bg-purple-50' : 'border-[var(--color-border)]'}`}>
-                  <div className="flex items-start gap-4">
+                <div key={lead.id} className={`border rounded-xl p-4 ${lead.status === 'new' ? 'border-purple-300 bg-purple-50' : 'border-[var(--color-border)]'} ${selectedLeads.has(lead.id) ? 'ring-2 ring-purple-400' : ''}`}>
+                  <div className="flex items-start gap-3">
+                    <input type="checkbox" checked={selectedLeads.has(lead.id)} onChange={() => toggleLeadSelect(lead.id)} className="mt-1 flex-shrink-0 cursor-pointer w-4 h-4" />
                     <div className="flex-1 min-w-0">
                       {/* Parinte */}
                       <div className="flex items-center gap-2 flex-wrap mb-1">

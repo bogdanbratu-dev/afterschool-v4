@@ -77,6 +77,7 @@ export default function ClaimButton({ listingType, listingId, listingName }: Pro
                     { icon: '📊', text: 'Raport lunar de clickuri' },
                     { icon: '⭐', text: 'Badge Premium vizibil' },
                     { icon: '🔝', text: 'Afișare prioritară' },
+                    { icon: '💬', text: 'Primești leads direct de la părinți interesați' },
                   ].map(({ icon, text }) => (
                     <li key={text} className="flex items-center gap-2 text-xs text-[var(--color-text-main)]">
                       <span>{icon}</span><span>{text}</span>

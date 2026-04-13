@@ -50,17 +50,27 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   if (!(await isAuthenticated())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { id, status } = await request.json();
+  const { id, ids, status } = await request.json();
   const db = getDb();
-  db.prepare('UPDATE leads SET status = ? WHERE id = ?').run(status, id);
+  if (ids && Array.isArray(ids)) {
+    const stmt = db.prepare('UPDATE leads SET status = ? WHERE id = ?');
+    ids.forEach((i: number) => stmt.run(status, i));
+  } else {
+    db.prepare('UPDATE leads SET status = ? WHERE id = ?').run(status, id);
+  }
   return NextResponse.json({ ok: true });
 }
 
 export async function DELETE(request: Request) {
   if (!(await isAuthenticated())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { id } = await request.json();
+  const { id, ids } = await request.json();
   const db = getDb();
-  db.prepare('DELETE FROM leads WHERE id = ?').run(id);
+  if (ids && Array.isArray(ids)) {
+    const stmt = db.prepare('DELETE FROM leads WHERE id = ?');
+    ids.forEach((i: number) => stmt.run(i));
+  } else {
+    db.prepare('DELETE FROM leads WHERE id = ?').run(id);
+  }
   return NextResponse.json({ ok: true });
 }

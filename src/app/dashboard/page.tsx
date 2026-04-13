@@ -405,6 +405,7 @@ export default function DashboardPage() {
                       { icon: '📊', text: 'Raport lunar de clickuri și statistici' },
                       { icon: '⭐', text: 'Badge Premium vizibil pe card și pagina listării' },
                       { icon: '🔝', text: 'Vizibilitate prioritară față de listările gratuite' },
+                      { icon: '💬', text: 'Primești leads direct de la părinți interesați' },
                     ].map(({ icon, text, highlight }) => (
                       <li key={text} className="flex items-start gap-2.5">
                         <span className="text-base flex-shrink-0 mt-0.5">{icon}</span>

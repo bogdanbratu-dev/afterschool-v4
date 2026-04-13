@@ -20,6 +20,7 @@ const PREMIUM_BENEFITS = [
   { icon: '📊', text: 'Raport lunar de clickuri și statistici' },
   { icon: '⭐', text: 'Badge Premium vizibil pe card și pagina listării' },
   { icon: '🔝', text: 'Afișare prioritară față de listările gratuite' },
+  { icon: '💬', text: 'Primești leads direct de la părinți interesați' },
 ];
 
 declare global { interface Window { google: any; initGoogleMaps: () => void; } }
