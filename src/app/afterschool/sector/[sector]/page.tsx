@@ -11,13 +11,67 @@ const SECTOR_NAMES: Record<string, string> = {
   '4': 'Sectorul 4', '5': 'Sectorul 5', '6': 'Sectorul 6',
 };
 
-const SECTOR_DESCRIPTIONS: Record<string, string> = {
-  '1': 'Sectorul 1 acoperă zone precum Aviatorilor, Floreasca, Dorobanți și Băneasa. Este unul dintre sectoarele cu cea mai mare densitate de after school-uri private din București, datorită numărului mare de familii cu copii din zonele rezidențiale și de vile.',
-  '2': 'Sectorul 2 include cartierele Colentina, Iancului, Pantelimon și Floreasca. Cu o populație numeroasă și multe școli generale, oferta de after school-uri acoperă o gamă variată de prețuri și programe.',
-  '3': 'Sectorul 3 cuprinde cartierele Titan, Vitan, Dristor și Balta Albă — unele dintre cele mai populate zone rezidențiale din București. Cererea mare de locuri la after school face ca oferta să fie diversificată.',
-  '4': 'Sectorul 4 include zonele Berceni, Olteniței și Brâncuși. After school-urile de aici servesc familiile din cartierele de blocuri, cu programe adaptate programului școlar.',
-  '5': 'Sectorul 5 acoperă cartierele Rahova, 13 Septembrie și Cotroceni. Deși mai puțin dens în ofertă, găsești after school-uri cu programe solide aproape de marile școli din zonă.',
-  '6': 'Sectorul 6 cuprinde Drumul Taberei, Militari și Giulești — cartiere mari cu mulți copii de vârstă școlară. After school-urile din sector acoperă atât programele standard cât și activitățile extracurriculare.',
+const SECTOR_INFO: Record<string, { despre: string; oferta: string; recomandari: string[] }> = {
+  '1': {
+    despre: 'Sectorul 1 acoperă zone rezidențiale de prestigiu: Aviatorilor, Floreasca, Dorobanți, Băneasa și Herăstrău. Este sectorul cu cel mai mare număr de after school-uri private premium din București, datorită densității ridicate de familii cu venituri medii și mari.',
+    oferta: 'Programele sunt în general mai diversificate — includ limbi străine, robotică, arte și sport în același pachet. Multe after school-uri din Sectorul 1 oferă transport școlar, masă caldă și activități extracurriculare incluse în preț. Clasele sunt mai mici, ceea ce înseamnă mai multă atenție individuală pentru fiecare copil.',
+    recomandari: [
+      'Prețurile sunt mai ridicate față de media orașului — bugetați între 800 și 1.800 RON/lună',
+      'Vizitați cel puțin 2–3 opțiuni înainte de a decide — diferențele de calitate sunt semnificative',
+      'Dacă copilul merge la o școală internațională în zonă, căutați un after school cu program în engleză',
+      'Locurile se ocupă rapid — recomandăm să vă înscriați din vară pentru toamna următoare',
+    ],
+  },
+  '2': {
+    despre: 'Sectorul 2 este unul dintre cele mai extinse sectoare ale Bucureștiului, cuprinzând cartiere foarte diferite ca profil: Floreasca și Iancului la vest, Colentina și Pantelimon spre est, Fundeni și Voluntari la periferie. Această diversitate se reflectă și în oferta de after school-uri.',
+    oferta: 'Veți găsi atât after school-uri cu tarife accesibile în cartierele de blocuri din Pantelimon și Colentina, cât și centre mai bine dotate în zona Floreasca. Programele variază mult — de la simpla supraveghere și teme până la pachete complete cu masă, sport și ateliere.',
+    recomandari: [
+      'Traficul este o problemă reală după-amiaza pe Șos. Colentina și Șos. Pantelimon — alegeți un after school în raza de 1 km față de școala copilului',
+      'Dacă locuiți spre Pantelimon sau Fundeni, verificați dacă after school-ul oferă transport — poate face diferența',
+      'Zona Iancului are o concentrație bună de after school-uri cu raport calitate-preț ridicat',
+      'Întrebați dacă programul se prelungește până la 18:00 sau 19:00 — important pentru părinții cu program de lucru fix',
+    ],
+  },
+  '3': {
+    despre: 'Sectorul 3 cuprinde cartierele Titan, Vitan, Dristor, Balta Albă și IOR — unele dintre cele mai populate zone rezidențiale din București. Este un sector tânăr ca demografic, cu multe familii cu copii de vârstă școlară, ceea ce creează o piață activă de servicii educaționale.',
+    oferta: 'Oferta este diversificată și în continuă creștere. Prețurile sunt în general mai accesibile față de sectoarele 1 și 2, iar calitatea serviciilor a crescut semnificativ în ultimii ani. Multe after school-uri din Titan și Balta Albă sunt poziționate strategic lângă școlile mari din zonă.',
+    recomandari: [
+      'Zona Titan are cea mai mare concentrație de after school-uri din sector — un avantaj dacă locuiți acolo',
+      'Verificați accesul cu mijloacele de transport în comun — tramvaiele din zonă sunt aglomerate dimineața și seara',
+      'Prețurile medii sunt între 500 și 1.000 RON/lună — negociabil pentru înscrierea din timp sau pentru frați',
+      'Întrebați despre programul de vară — multe after school-uri din Sector 3 oferă tabere urbane în iulie–august',
+    ],
+  },
+  '4': {
+    despre: 'Sectorul 4 include zonele Berceni, Olteniței, Giurgiului și Brâncuși — cartiere predominant rezidențiale, cu o comunitate stabilă și mulți copii de vârstă școlară. Este unul dintre sectoarele cu cea mai mare creștere a cererii de locuri la after school în ultimii ani.',
+    oferta: 'After school-urile din Sectorul 4 se remarcă prin prețuri competitive și programe adaptate familiilor cu program de lucru prelungit. Orarul extins până la 18:30–19:00 este o caracteristică comună, iar unele centre oferă și transport de la școală.',
+    recomandari: [
+      'Zona Berceni are cele mai multe opțiuni — dacă locuiți acolo, aveți de unde alege',
+      'Verificați accesul la metrou (linia M2 traversează sectorul) — un after school lângă o stație simplifică mult logistica zilnică',
+      'Cereți referințe de la alți părinți din școala copilului — comunitatea din Sectorul 4 este unită și recomandările contează',
+      'Dacă bugetul este limitat, Sectorul 4 oferă unele dintre cele mai bune rapoarte calitate-preț din București',
+    ],
+  },
+  '5': {
+    despre: 'Sectorul 5 acoperă cartiere cu profiluri foarte diferite: zona elegantă Cotroceni și 13 Septembrie la nord, și cartierele Rahova și Ferentari spre sud. Oferta de after school-uri este concentrată preponderent în partea de nord a sectorului.',
+    oferta: 'After school-urile din zona Cotroceni și 13 Septembrie sunt în general de calitate ridicată, cu clase mici și programe personalizate. Proximitatea față de Parcul Izvor și Grădina Botanică oferă un avantaj unic — unele centre organizează activități în aer liber în aceste spații verzi.',
+    recomandari: [
+      'Oferta este mai limitată față de alte sectoare — rezervați locul din timp, clasele se completează rapid',
+      'Zona Cotroceni atrage familii cu standarde ridicate — întrebați despre calificările educatorilor și metodele pedagogice folosite',
+      'Dacă locuiți în sudul sectorului (Rahova, Ferentari), luați în calcul și after school-uri din Sectorul 4 sau 6 care pot fi mai aproape',
+      'Traficul pe Calea 13 Septembrie și Splaiul Independenței este intens — planificați ruta de preluare în consecință',
+    ],
+  },
+  '6': {
+    despre: 'Sectorul 6 cuprinde Drumul Taberei, Militari, Giulești și Crângași — cartiere mari cu zeci de mii de familii cu copii. Este sectorul cu cea mai mare densitate de blocuri din București și una dintre cele mai active comunități de părinți din oraș.',
+    oferta: 'Oferta este extinsă și variată: de la centre mici de cartier până la after school-uri cu facilități complete — sală de sport, piscină, atelier de robotică. Concurența ridicată între after school-uri a dus la standarde bune și prețuri competitive.',
+    recomandari: [
+      'Metroul (linia M4 spre Drumul Taberei) și rețeaua de tramvaie sunt un avantaj real — alegeți un after school aproape de o stație',
+      'Zona Militari are cele mai multe opțiuni noi deschise recent — merită să explorați centre moderne cu dotări actuale',
+      'Drumul Taberei are o comunitate mare de părinți activi online — căutați grupuri de Facebook ale cartierului pentru recomandări directe',
+      'Prețurile medii sunt între 500 și 900 RON/lună, cu reduceri frecvente pentru plata semestrială sau anuală',
+    ],
+  },
 };
 
 export async function generateStaticParams() {
@@ -50,7 +104,7 @@ export default async function SectorPage({ params }: Props) {
   ).all(parseInt(sector)) as AfterSchool[];
 
   const sectorName = SECTOR_NAMES[sector];
-  const sectorDescription = SECTOR_DESCRIPTIONS[sector];
+  const sectorInfo = SECTOR_INFO[sector];
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -91,9 +145,30 @@ export default async function SectorPage({ params }: Props) {
               ? `${afterschools.length} after school-uri găsite în ${sectorName}`
               : `Nu am găsit after school-uri în ${sectorName} momentan.`}
           </p>
-          <p className="text-sm text-[var(--color-text-light)] mb-6 leading-relaxed max-w-2xl">
-            {sectorDescription}
-          </p>
+          {/* Continut editorial structurat */}
+          {sectorInfo && (
+            <div className="mb-8 space-y-5 max-w-2xl">
+              <div>
+                <h2 className="text-sm font-semibold text-[var(--color-text-main)] uppercase tracking-wide mb-1">Despre zonă</h2>
+                <p className="text-sm text-[var(--color-text-light)] leading-relaxed">{sectorInfo.despre}</p>
+              </div>
+              <div>
+                <h2 className="text-sm font-semibold text-[var(--color-text-main)] uppercase tracking-wide mb-1">Ce găsești aici</h2>
+                <p className="text-sm text-[var(--color-text-light)] leading-relaxed">{sectorInfo.oferta}</p>
+              </div>
+              <div>
+                <h2 className="text-sm font-semibold text-[var(--color-text-main)] uppercase tracking-wide mb-2">Recomandări practice</h2>
+                <ul className="space-y-1.5">
+                  {sectorInfo.recomandari.map((r, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-[var(--color-text-light)]">
+                      <span className="text-[var(--color-primary)] mt-0.5 flex-shrink-0">✓</span>
+                      <span>{r}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
 
           {/* Navigare sectoare */}
           <div className="flex flex-wrap gap-2 mb-8">

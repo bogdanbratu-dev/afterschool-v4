@@ -376,6 +376,7 @@ export default function AdminListings() {
                       {l.email && <span><strong>Email:</strong> {l.email}</span>}
                       {l.website && <span><strong>Site:</strong> <a href={l.website} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">{l.website}</a></span>}
                       {l.reviews_url && <span><strong>Recenzii:</strong> <a href={l.reviews_url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">link</a></span>}
+                      {(l as any).facebook_url && <span><strong>Facebook:</strong> <a href={(l as any).facebook_url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">pagina FB</a></span>}
                     </div>
                     {l.description && <p className="text-xs text-[var(--color-text-light)]">{l.description}</p>}
                     {l.photo_urls && (
