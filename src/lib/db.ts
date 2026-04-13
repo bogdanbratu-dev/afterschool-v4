@@ -236,10 +236,12 @@ function initializeDb(db: Database.Database) {
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN video_urls TEXT`); } catch {}
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN reviews_url TEXT`); } catch {}
   try { db.exec(`ALTER TABLE afterschools ADD COLUMN is_featured INTEGER NOT NULL DEFAULT 0`); } catch {}
+  try { db.exec(`ALTER TABLE afterschools ADD COLUMN facebook_url TEXT`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN owner_user_id INTEGER`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN video_urls TEXT`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN reviews_url TEXT`); } catch {}
   try { db.exec(`ALTER TABLE clubs ADD COLUMN is_featured INTEGER NOT NULL DEFAULT 0`); } catch {}
+  try { db.exec(`ALTER TABLE clubs ADD COLUMN facebook_url TEXT`); } catch {}
 
   // Tabel leads (cereri de informatii de la parinti)
   db.exec(`

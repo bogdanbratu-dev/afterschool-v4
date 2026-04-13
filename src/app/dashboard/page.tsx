@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 interface UserData { id: number; name: string; email: string; is_premium: number; premium_pending: number; }
 interface Listing {
   id: number; name: string; address: string; phone: string | null; email: string | null;
-  website: string | null; description: string | null; price_min: number | null; price_max: number | null;
+  website: string | null; facebook_url: string | null; description: string | null; price_min: number | null; price_max: number | null;
   age_min: number | null; age_max: number | null; availability: string;
   photo_urls: string | null; video_urls: string | null; reviews_url: string | null;
   schedule?: string | null; pickup_time?: string | null; end_time?: string | null;
@@ -231,6 +231,7 @@ export default function DashboardPage() {
                     {listing.phone && <div><span className="text-[var(--color-text-light)] text-xs">Telefon</span><p>{listing.phone}</p></div>}
                     {listing.email && <div><span className="text-[var(--color-text-light)] text-xs">Email</span><p>{listing.email}</p></div>}
                     {listing.website && <div><span className="text-[var(--color-text-light)] text-xs">Website</span><p className="truncate">{listing.website}</p></div>}
+                    {listing.facebook_url && <div><span className="text-[var(--color-text-light)] text-xs">Facebook</span><p className="truncate">{listing.facebook_url}</p></div>}
                     {listing.price_min !== null && <div><span className="text-[var(--color-text-light)] text-xs">Pret</span><p>{listing.price_min}-{listing.price_max} lei</p></div>}
                     {listing.age_min !== null && <div><span className="text-[var(--color-text-light)] text-xs">Varsta</span><p>{listing.age_min}-{listing.age_max} ani</p></div>}
                     <div><span className="text-[var(--color-text-light)] text-xs">Locuri</span><p>{AVAILABILITY_LABELS[listing.availability] || listing.availability}</p></div>
@@ -260,6 +261,7 @@ export default function DashboardPage() {
                     { label: 'Telefon', field: 'phone', type: 'tel' },
                     { label: 'Email', field: 'email', type: 'email' },
                     { label: 'Website', field: 'website', type: 'url' },
+                    { label: 'Pagina Facebook', field: 'facebook_url', type: 'url' },
                     { label: 'Pret minim (lei)', field: 'price_min', type: 'number' },
                     { label: 'Pret maxim (lei)', field: 'price_max', type: 'number' },
                     { label: 'Varsta minima', field: 'age_min', type: 'number' },

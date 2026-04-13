@@ -718,6 +718,7 @@ export default function AdminListings() {
                   ? [{ label: 'Oră preluare', field: 'pickup_time' }, { label: 'Oră terminare', field: 'end_time' }, { label: 'Activități', field: 'activities' }]
                   : [{ label: 'Program', field: 'schedule' }]),
                 { label: 'URL Recenzii', field: 'reviews_url' },
+                { label: 'Facebook URL', field: 'facebook_url' },
                 { label: 'Banner URL', field: 'banner_url' },
               ].map(({ label, field }) => (
                 <div key={field}>
