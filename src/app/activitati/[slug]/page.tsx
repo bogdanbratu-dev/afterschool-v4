@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!club) return { title: 'Activitate negasita' };
 
   const categoryLabel = CLUB_CATEGORY_LABELS[club.category] || club.category;
-  const title = `${club.name} - ${categoryLabel} in Bucuresti`;
+  const title = `${club.name} | ${categoryLabel} pentru Copii în București — ActivKids`;
   const description = club.description
     ? club.description.slice(0, 160)
-    : `${categoryLabel} pentru copii la ${club.name}, ${club.address}, Bucuresti.${club.price_min ? ` Pret de la ${club.price_min} lei.` : ''}`;
+    : `${categoryLabel} pentru copii la ${club.name}, București.${club.price_min ? ` Preț de la ${club.price_min} lei.` : ''} Înscrieri deschise, instructori calificați.`;
 
   return {
     title,

@@ -19,10 +19,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const as = db.prepare('SELECT * FROM afterschools WHERE id = ?').get(id) as AfterSchool | undefined;
   if (!as) return { title: 'AfterSchool negasit' };
 
-  const title = `${as.name} - After School ${as.address}`;
+  const sectorSuffix = as.sector ? ` Sector ${as.sector}` : '';
+  const title = `${as.name} | After School${sectorSuffix} București — ActivKids`;
   const description = as.description
     ? as.description.slice(0, 160)
-    : `After school ${as.name} din ${as.address}, Bucuresti. ${as.price_min ? `Pret de la ${as.price_min} lei/luna.` : ''}`;
+    : `After school ${as.name}${sectorSuffix}, București. ${as.price_min ? `Preț de la ${as.price_min} lei/lună. ` : ''}Program extins, activități diverse pentru copii.`;
 
   return {
     title,

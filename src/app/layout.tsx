@@ -4,15 +4,15 @@ import "./globals.css";
 import ContactButton from "@/components/ContactButton";
 
 export const metadata: Metadata = {
-  title: "AfterSchool Finder - Gaseste after school-ul perfect in Bucuresti",
-  description: "Platforma pentru parinti din Bucuresti care cauta cel mai bun after school pentru copiii lor. Cauta dupa locatie, pret si activitati.",
+  title: "ActivKids — After School și Activități pentru Copii în București",
+  description: "Găsește after school-ul sau activitatea perfectă pentru copilul tău în București: înot, fotbal, dans, arte marțiale, robotică și multe altele. Caută după locație și preț.",
   metadataBase: new URL('https://activkids.ro'),
   alternates: { canonical: 'https://activkids.ro' },
   openGraph: {
-    title: "AfterSchool Finder Bucuresti",
-    description: "Gaseste cel mai bun after school pentru copilul tau in Bucuresti. Cauta dupa locatie, pret si activitati.",
+    title: "ActivKids — After School și Activități pentru Copii în București",
+    description: "Găsește after school-ul sau activitatea perfectă pentru copilul tău în București. Caută după locație, preț și activități.",
     url: 'https://activkids.ro',
-    siteName: 'ActiveKids',
+    siteName: 'ActivKids',
     locale: 'ro_RO',
     type: 'website',
   },
