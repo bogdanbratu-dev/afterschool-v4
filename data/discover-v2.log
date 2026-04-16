@@ -1,0 +1,1438 @@
+
+═════════════════════════════════════════════════════════════════
+[16.04.2026, 00:10:37] DISCOVERY v2
+   *** DRY RUN — niciun insert in DB ***
+═════════════════════════════════════════════════════════════════
+DB curent: 208 afterschool-uri, 484 cluburi
+
+--- Faza A: Afterschool-uri (48 queries) ---
+
+[1/48] "afterschool sector 1 Bucuresti"
+  Gasit 19 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Elite
+  [DRY-RUN] "After School Sector 1" | Strada Băneasa 27, 077190 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool CoolTure MindS" | Bulevardul Alexandru Ioan Cuza 37, București | Tip: Program „after school” | Pret: 300 lei
+  [DRY-RUN] "Academia Strumfilor" | Strada Panait Istrati 39, 011545 București | Tip: Program „after school” | Pret: 1550 lei
+  [DRY-RUN] "Academia Strumfilor" | Strada Panait Istrati 39, 011545 București | Tip: Program „after school” | Pret: 1550 lei
+  [DRY-RUN] "Young Academics After School" | Strada Trotușului 39, București | Tip: Program „after school” | Pret: 1600 lei
+  [DRY-RUN] "After Art - After School" | Vila D2, Strada Grigore Gafencu 78-86, 014132 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Go Kids Go" | Strada Clucerului, Piata 1 Mai 21, 011362 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "After school Performance Kids Club" | Strada Cronicarilor, București | Tip: Program „after school” | Pret: ?
+
+[2/48] "afterschool sector 2 Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Centru educațional"): Didactika, centrul tau de meditatii din București i
+  ⏭  Ignorat (tip: "Centru educațional"): Didactika, centrul tau de meditatii din București i
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Scoala de Vara Afterschool Voi Reusi" | Bulevardul Chișinău nr 6-8, București | Tip: Program „after school” | Pret: 750 lei
+  [DRY-RUN] "BritAcademy- Gradinita si afterschool" | Strada Olimpiadei 36, 021755 București | Tip: Grădiniță | Pret: 2200 lei
+  [DRY-RUN] "Angels Academy-Afterschool și grădiniță" | Strada Măgura Vulturului 38, 021704 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After School Puzzle Edu Center" | Strada Gheorghe Pop de Băsești 17, 030167 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "After school Colentina" | Strada Câmpul cu Narcise, 022954 București | Tip: Program „after school” | Pret: 193 lei
+  [DRY-RUN] "SAGA Kid Iancului" | Șoseaua Iancului 45, 021718 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Bell - Gradinita & Afterschool" | Str. Mecet, 53, Bucuresti-Sector 2, Bucuresti, 24084, 030167 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Gradinita Springfield" | Strada Șoltuzului 10, 023745 București | Tip: Grădiniță | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Piccolo Tedy & Amicii
+  ⏭  Ignorat (tip: "Centru de educație pentru preșcolari"): Grădinița Primii Pași
+
+[3/48] "afterschool sector 3 Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Centru educațional"): Didactika, centrul tau de meditatii din București i
+  [DRY-RUN] "Grădinița cu Program Prelungit OLIMPIA KIDS" | Drumul Între Vii 24, 077160 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Tărâmul Bucuriei Afterschool" | Strada Lăcrămioarei, 032081 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Alice și tărâmul fermecat “Ozana”" | Bulevardul Theodor Pallady 14, 077160 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Centrul educational A&M" | Bd. Ressu Camil, 33, Bucuresti-Sector 3, Bucuresti, 031739, 032729 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Kidos After school" | Bulevardul Nicolae Grigorescu, 030451 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Lexy's After School" | Strada Ilioara 54, 032126 București | Tip: Program „after school” | Pret: ?
+
+[4/48] "afterschool sector 4 Bucuresti"
+  Gasit 11 pe Google Maps
+  [DRY-RUN] "Academia de Engleză pentru Copii" | Bulevardul Timișoara 42G, 061332 București | Tip: Școală de limbă engleză | Pret: 155 lei
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "After School Clubul Boreal" | Strada Valerian Prescurea 5, 040268 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "After School Sector 4 - Club Clever Kids" | Strada Preda Buzescu 12, 040708 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool Sarida Sediul 1" | Strada Crișul Alb 9-13, 040726 București | Tip: Program „after school” | Pret: 150 lei
+  [DRY-RUN] "Zedu After School" | Intrarea Scorușului 17, 041506 București | Tip: Centru educațional | Pret: ?
+
+[5/48] "afterschool sector 5 Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "ETOS Academy – Creșă și Grădiniță" | Calea Vitan 206, 031301 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Afterschool" | Strada Ion Athanasiu 8, 061344 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool "Din Inima pentru Copiii Nostri" - Sector 5" | Șoseaua Viilor, 050151 București | Tip: Instituție de învățământ | Pret: 574 lei
+  [DRY-RUN] "After School Academy" | Strada Sirenelor 87, 050855 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After school/clubul copiilor/KidsRia" | Strada Delureni 52, 052034 Sector5 | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool My Universe" | Bulevardul Eroii Sanitari 51, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool My Universe" | Bulevardul Eroii Sanitari 51, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "GRADINITA MY UNIVERSE" | Bucuresti, Strada Costache Negri 11, 050552 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "After-School Math& Fun Academy" | Strada Floare de Vârf, București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Centru școlar"): Clubul Micul Prinț
+  [DRY-RUN] "Afterschool "Din Inima pentru Copiii Nostri" - Sector 5" | Șoseaua Viilor, 050151 București | Tip: Instituție de învățământ | Pret: 574 lei
+
+[6/48] "afterschool sector 6 Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "ETOS Academy – Creșă și Grădiniță" | Calea Vitan 206, 031301 București | Tip: Grădiniță | Pret: ?
+  ⏭  Ignorat (tip: "Școală de limbi străine"): EdVenture School
+  [DRY-RUN] "Scoala de Vara Afterschool Voi Reusi" | Bulevardul Chișinău nr 6-8, București | Tip: Program „after school” | Pret: 750 lei
+  [DRY-RUN] "ForEvEr After School Sector 6" | Strada, Drumul Valea Largă, Prelungirea Ghencea nr.24A, 061984 București | Tip: Program „after school” | Pret: 1200 lei
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "After School Casuta Piticilor" | Strada Sergent Postolache Alexandru 22, București | Tip: Program „after school” | Pret: 1750 lei
+  [DRY-RUN] "FOCUS Kids AfterSchool" | Strada Inginer Cristian Pascal 7, 060221 București | Tip: Program „after school” | Pret: 400 lei
+  [DRY-RUN] "After School Kids InMotion" | Drumul Taberei 44, 061344 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Elly After School" | Strada Cetatea de Baltă 155, 077042 București | Tip: Instituție de învățământ | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Smiley Kindergarten
+  [DRY-RUN] "After School Ana Si Strumfii(sediul3)" | Strada Pădurețu 45-47, 061992 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After-School Art'Alegria" | Drumul Valea Cricovului, București | Tip: Program „after school” | Pret: 2000 lei
+
+[7/48] "afterschool Aviatiei Bucuresti"
+  Gasit 4 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  [DRY-RUN] "LIFE is Cool AVIATIEI - EduHub & Afterschool" | Intrarea Răsadului 6, 077190 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Grădinița Miniterra Aviației" | Intrarea Măguricea Nouă 5, 014189 București | Tip: Grădiniță | Pret: 2300 lei
+
+[8/48] "afterschool Baneasa Bucuresti"
+  Gasit 9 pe Google Maps
+  [DRY-RUN] "Gradinita Montessori - Maria Montessori Home" | Strada Vârtejului 7A, 077190 Voluntari | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "EVIA Kids" | Bulevardul Ficusului 8b, 077190 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "EVIA Kids" | Bulevardul Ficusului 8b, 077190 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Smart Kids" | Strada Constantin Dobrogeanu Gherea 22A, 013764 București | Tip: Școală primară | Pret: ?
+  [DRY-RUN] "Centrul Educational TeachLittlePeople" | Strada Muzicuței, București | Tip: Grădiniță | Pret: 500 lei
+  [DRY-RUN] "AME AFTER SCHOOL" | Bulevardul Ficusului 10A, 13971 București | Tip: Program „after school” | Pret: ?
+
+[9/48] "afterschool Dorobanti Bucuresti"
+  Gasit 11 pe Google Maps
+  [DRY-RUN] "Steaua Nordului After School Dorobanti, Floreasca, Piata Victoriei" | Strada Andrei Mureșanu 27, 011844 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Steaua Nordului After School Dorobanti, Floreasca, Piata Victoriei" | Strada Andrei Mureșanu 27, 011844 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "AFTER SCHOOL SECTOR 1 BUCURESTI - TOP KIDS" | Intrarea Bitolia 5, București | Tip: Servicii de educație | Pret: ?
+  [DRY-RUN] "After school Performance Kids Club" | Strada Cronicarilor, București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After School Étudiant à Amman" | Strada Amman 14, București | Tip: Program „after school” | Pret: ?
+
+[10/48] "afterschool Herastrau Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "After Art - After School" | Vila D2, Strada Grigore Gafencu 78-86, 014132 București | Tip: Program „after school” | Pret: ?
+  ⏭  Ignorat (tip: "Agent de catering"): 3 Continente
+  [DRY-RUN] "After Art - After School" | Vila D2, Strada Grigore Gafencu 78-86, 014132 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool Luca" | Intrarea Poiana 2D, București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Steaua Nordului After School Dorobanti, Floreasca, Piata Victoriei" | Strada Andrei Mureșanu 27, 011844 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After School Sector 1" | Strada Băneasa 27, 077190 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Young Academics After School" | Strada Trotușului 39, București | Tip: Program „after school” | Pret: 1600 lei
+  [DRY-RUN] "Young Academics After School" | Strada Trotușului 39, București | Tip: Program „after school” | Pret: 1600 lei
+  [DRY-RUN] "Centrul Educational TeachLittlePeople" | Strada Muzicuței, București | Tip: Grădiniță | Pret: 500 lei
+  [DRY-RUN] "Elite after school" | Strada Ocheanului 14-16, 014367 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Sunshine After School" | Str. Lt. Av. Vasile Fuică nr. 42, 012086 București | Tip: Program „after school” | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): HÄNSEL UND GRETEL KINDERGARTEN
+  [DRY-RUN] "Steaua Nordului After School Dorobanti, Floreasca, Piata Victoriei" | Strada Andrei Mureșanu 27, 011844 București | Tip: Program „after school” | Pret: ?
+  ⏭  Ignorat (tip: "Program „after school”"): Teddy Bar Grădiniță
+
+[11/48] "afterschool Victoriei Bucuresti"
+  Gasit 7 pe Google Maps
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Elite
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Afterschool CoolTure MindS" | Bulevardul Alexandru Ioan Cuza 37, București | Tip: Program „after school” | Pret: 300 lei
+  [DRY-RUN] "Gradinita si After School Aristokids" | Strada Lebedei 25, București | Tip: Grădiniță | Pret: 1300 lei
+  [DRY-RUN] "Steaua Nordului After School Dorobanti, Floreasca, Piata Victoriei" | Strada Andrei Mureșanu 27, 011844 București | Tip: Program „after school” | Pret: ?
+
+[12/48] "afterschool Domenii Bucuresti"
+  Gasit 10 pe Google Maps
+  [DRY-RUN] "Gradinita Montessori - Maria Montessori Home" | Strada Vârtejului 7A, 077190 Voluntari | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Young Academics After School" | Strada Trotușului 39, București | Tip: Program „after school” | Pret: 1600 lei
+  [DRY-RUN] "After School Sector 1" | Strada Băneasa 27, 077190 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Young Academics After School" | Strada Trotușului 39, București | Tip: Program „after school” | Pret: 1600 lei
+  [DRY-RUN] "LIFE is Cool AVIATIEI - EduHub & Afterschool" | Intrarea Răsadului 6, 077190 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool CoolTure MindS" | Bulevardul Alexandru Ioan Cuza 37, București | Tip: Program „after school” | Pret: 300 lei
+
+[13/48] "afterschool Grivita Bucuresti"
+  Gasit 13 pe Google Maps
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Elite
+  ⏭  Ignorat (tip: "Centru de educație pentru preșcolari"): Sfera Kinderzentrum
+  [DRY-RUN] "LIFE is Cool AVIATIEI - EduHub & Afterschool" | Intrarea Răsadului 6, 077190 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Academia Strumfilor" | Strada Panait Istrati 39, 011545 București | Tip: Program „after school” | Pret: 1550 lei
+  [DRY-RUN] "Gradinita si After School Aristokids" | Strada Lebedei 25, București | Tip: Grădiniță | Pret: 1300 lei
+  [DRY-RUN] "Go Kids Go" | Strada Clucerului, Piata 1 Mai 21, 011362 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "EvoSchool" | Strada Petöfi Sándor 29, București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Centrul Educațional eematico" | Strada Hagi Ghiță 38, 011503 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "EduFriends - After school, before school, scoala de vara" | Strada Berzei 5, 010251 București | Tip: Program „after school” | Pret: ?
+
+[14/48] "afterschool Bucurestii Noi Bucuresti"
+  Gasit 8 pe Google Maps
+  ⏭  Ignorat (tip: "Centru de formare"): International House Bucharest Mihalache
+  ⏭  Ignorat (tip: "Centru de formare"): International House Bucharest Mihalache
+  [DRY-RUN] "4Kids Afterschool Bucuresti, Before School , Dezvoltare Personala Copii" | Strada Oastei 29, 012871 București | Tip: Program „after school” | Pret: 750 lei
+  [DRY-RUN] "Kids Room - Afterschool" | Strada Mitropolit Andrei Șaguna Nr. 46A, 012931 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Apple Tree Kindergarten & Afterschool" | Strada Măicănești 22, București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "ThinkCreative Hub Educational" | Strada Ardealului 32, 013431 București | Tip: Program „after school” | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Ruffy Strumfi
+
+[15/48] "afterschool Floreasca Bucuresti"
+  Gasit 6 pe Google Maps
+  [DRY-RUN] "ETOS Academy – Școală Primară" | Calea Vitan 208, 031301 București | Tip: Școală primară | Pret: ?
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+
+[16/48] "afterschool Colentina Bucuresti"
+  Gasit 4 pe Google Maps
+  ⏭  Ignorat (tip: "Școală de limbi străine"): EdVenture School
+  ⏭  Ignorat (tip: "Școală de dans"): Dance Vision - Cursuri Dans Baba Novac
+  [DRY-RUN] "After school Colentina" | Strada Câmpul cu Narcise, 022954 București | Tip: Program „after school” | Pret: 193 lei
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+
+[17/48] "afterschool Iancului Bucuresti"
+  Gasit 6 pe Google Maps
+  ⏭  Ignorat (tip: "Școală de limbă engleză"): Cursuri Engleza - Flying Colours Cool English School
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+
+[18/48] "afterschool Stefan cel Mare Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "ETOS Academy – Creșă și Grădiniță" | Calea Vitan 206, 031301 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Scoala de Vara Afterschool Voi Reusi" | Bulevardul Chișinău nr 6-8, București | Tip: Program „after school” | Pret: 750 lei
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "After School Puzzle Edu Center" | Strada Gheorghe Pop de Băsești 17, 030167 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Sunshine After School" | Str. Lt. Av. Vasile Fuică nr. 42, 012086 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Alice și tărâmul fermecat “Ozana”" | Bulevardul Theodor Pallady 14, 077160 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool CoolTure MindS" | Bulevardul Alexandru Ioan Cuza 37, București | Tip: Program „after school” | Pret: 300 lei
+  [DRY-RUN] "Afterschool CoolTure MindS" | Bulevardul Alexandru Ioan Cuza 37, București | Tip: Program „after school” | Pret: 300 lei
+  [DRY-RUN] "Academia Strumfilor" | Strada Panait Istrati 39, 011545 București | Tip: Program „after school” | Pret: 1550 lei
+  ⏭  Ignorat (tip: "Grădiniță"): HÄNSEL UND GRETEL KINDERGARTEN
+
+[19/48] "afterschool Tei Bucuresti"
+  Gasit 10 pe Google Maps
+  [DRY-RUN] "ETOS Academy – Creșă și Grădiniță" | Calea Vitan 206, 031301 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Dinamic Kids" | Strada Oteșani 49, București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Grădinița Castelul Copiilor din Tei" | Strada Sfânta Treime 28, București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Grădinița Castelul Copiilor din Tei" | Strada Sfânta Treime 28, București | Tip: Grădiniță | Pret: 2000 lei
+  [DRY-RUN] "Dinamic Kids" | Strada Oteșani 49, București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After-Gradinita Busy Bees Academy" | Str. Județului 30-32, 023759 București | Tip: Program „after school” | Pret: 375 lei
+  [DRY-RUN] "BritAcademy- Gradinita si afterschool" | Strada Olimpiadei 36, 021755 București | Tip: Grădiniță | Pret: 2200 lei
+  [DRY-RUN] "RoEdu4You" | Strada Oteșani 1a, 023563 București | Tip: Centru de învățare | Pret: ?
+  [DRY-RUN] "Wise Education" | Strada Gheorghe Țițeica 121D, București | Tip: Program „after school” | Pret: ?
+
+[20/48] "afterschool Mosilor Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "After School Puzzle Edu Center" | Strada Gheorghe Pop de Băsești 17, 030167 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Dinamic Kids" | Strada Oteșani 49, București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After school Cei Trei Muschetari sediul Porthos scoala 56" | Strada Fluierului nr 36, etaj 2, 021434 București | Tip: Centru educațional | Pret: 1870 lei
+  [DRY-RUN] "Angels Academy-Afterschool și grădiniță" | Strada Măgura Vulturului 38, 021704 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Angels Academy-Afterschool și grădiniță" | Strada Măgura Vulturului 38, 021704 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Edukido" | Strada Făinari 3, 021221 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Club Maria After School" | Strada Fluierului 40, 030167 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After-Gradinita Busy Bees Academy" | Str. Județului 30-32, 023759 București | Tip: Program „after school” | Pret: 375 lei
+  [DRY-RUN] "Caruselul Magic" | Strada Salcâmilor 2, 030167 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Aquarelle Kids Academy" | Strada Icoanei 30, 030167 București | Tip: Centru educațional | Pret: ?
+
+[21/48] "afterschool Vatra Luminoasa Bucuresti"
+  Gasit 4 pe Google Maps
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+
+[22/48] "afterschool Pantelimon sector 2 Bucuresti"
+  Gasit 4 pe Google Maps
+  [DRY-RUN] "Casa After School" | Strada Băile Herculane 5, 077145 Pantelimon | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Casa After School" | Strada Băile Herculane 5, 077145 Pantelimon | Tip: Program „after school” | Pret: ?
+
+[23/48] "afterschool Titan Bucuresti"
+  Gasit 15 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): International School of Bucharest (ISB)
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Kidos After school" | Bulevardul Nicolae Grigorescu, 030451 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Alice și tărâmul fermecat “Ozana”" | Bulevardul Theodor Pallady 14, 077160 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Dumbo Kids Academy" | Intrarea Patinoarului 42a, București | Tip: Grădiniță | Pret: ?
+
+[24/48] "afterschool Dristor Bucuresti"
+  Gasit 6 pe Google Maps
+  [DRY-RUN] "GRADINITA FECIOARA MARIA" | 31684, Strada Eufrosina Popescu 30, 031682 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "ERA Kinderland - gradinita germana, Sector 3, Bucuresti" | Strada Dristorului 67, 031532 București | Tip: Grădiniță | Pret: ?
+
+[25/48] "afterschool Balta Alba Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Școală Waldorf"): Scoala Gimnaziala Libera Waldorf Bucuresti
+  ⏭  Ignorat (tip: "Școală Waldorf"): Scoala Gimnaziala Libera Waldorf Bucuresti
+  [DRY-RUN] "Alice și tărâmul fermecat “Ozana”" | Bulevardul Theodor Pallady 14, 077160 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Alice și tărâmul fermecat “Ozana”" | Bulevardul Theodor Pallady 14, 077160 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After school Letitia" | Belvedere Residence, Strada Baba Novac 19A, 031625 București | Tip: Program „after school” | Pret: 175 lei
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "ATF Education HUB" | Aleea Vârfu cu Dor 18, 032388 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "GRADINITA/ AFTER/ SCOALA DE VARA ALBA CA ZAPADA" | Strada Cernișoara 86A, 061021 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Centrul educational A&M" | Bd. Ressu Camil, 33, Bucuresti-Sector 3, Bucuresti, 031739, 032729 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "BritAcademy- Gradinita si afterschool" | Strada Olimpiadei 36, 021755 București | Tip: Grădiniță | Pret: 2200 lei
+
+[26/48] "afterschool Vitan Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Centru de gimnastică"): Academia Marian Dragulescu
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Garmy Kids" | RIN Grand Residence, corp B, Șoseaua Vitan-Bârzești nr 7D, 7E, 042121 București | Tip: Școală primară | Pret: ?
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Tărâmul Bucuriei Afterschool" | Strada Lăcrămioarei, 032081 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Gradinita "Just 4 Kids"" | Strada Vântului 27, 031866 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Kidos After school" | Bulevardul Nicolae Grigorescu, 030451 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Grădinița Family Kids" | Strada Mugur Mugurel 21, 031227 București | Tip: Grădiniță | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Wonderland 2
+  [DRY-RUN] "Asociația Părinți și Copii" | Strada Marin Bonea 28, București | Tip: Centru de meditație | Pret: ?
+
+[27/48] "afterschool Dudesti Bucuresti"
+  Gasit 10 pe Google Maps
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Scoala de Vara Afterschool Voi Reusi" | Bulevardul Chișinău nr 6-8, București | Tip: Program „after school” | Pret: 750 lei
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+
+[28/48] "afterschool Timpuri Noi Bucuresti"
+  Gasit 5 pe Google Maps
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "After School Bulinela - After School Unirii, Timpuri Noi" | Strada Vasile Voiculescu 21, 031236 București | Tip: Program „after school” | Pret: ?
+
+[29/48] "afterschool Berceni Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Edu Center Berceni" | Strada Speranței 4H, 077020 Berceni | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool Sector 4 - Centrul Educațional AS" | Strada Gârniţei 7c, 077160 București | Tip: Program „after school” | Pret: 150 lei
+  [DRY-RUN] "Afterschool Sarida Sediul 1" | Strada Crișul Alb 9-13, 040726 București | Tip: Program „after school” | Pret: 150 lei
+  [DRY-RUN] "Premium Afterschool Sarida" | Bulevardul Metalurgiei 25, 041831 București | Tip: Centru educațional | Pret: 150 lei
+
+[30/48] "afterschool Tineretului Bucuresti"
+  Gasit 6 pe Google Maps
+  ⏭  Ignorat (tip: "Centru de formare"): International House Bucharest Mihalache
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+
+[31/48] "afterschool Aparatorii Patriei Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Edu Center Berceni" | Strada Speranței 4H, 077020 Berceni | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool Sector 4 - Centrul Educațional AS" | Strada Gârniţei 7c, 077160 București | Tip: Program „after school” | Pret: 150 lei
+  [DRY-RUN] "Centrul Educational Special Kids Therapy" | Strada Teascului 41-43, 042098 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Tic Pitic Afterschool" | Strada Cap. Petre Costescu 56, 077160 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Premium Afterschool Sarida" | Bulevardul Metalurgiei 25, 041831 București | Tip: Centru educațional | Pret: 150 lei
+  [DRY-RUN] "After School" | Strada Fabrica de Mobilă 4, 077020 Berceni | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "Lions Afterschool" | Str. Miorița 77P, 077020 Berceni | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Lions Afterschool" | Str. Miorița 77P, 077020 Berceni | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Kiddo Clubhouse" | Strada Orgu Tănase 8A, 041062 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Centrul pentru Educatie IQ EST SRL" | Strada Ionescu Gheorghe 6, 077160 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Afterschool Sarida Sediul 1" | Strada Crișul Alb 9-13, 040726 București | Tip: Program „after school” | Pret: 150 lei
+
+[32/48] "afterschool Brancoveanu Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "ETOS Academy – Creșă și Grădiniță" | Calea Vitan 206, 031301 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Afterschool Sector 4 - Centrul Educațional AS" | Strada Gârniţei 7c, 077160 București | Tip: Program „after school” | Pret: 150 lei
+  [DRY-RUN] "After School Clubul Boreal" | Strada Valerian Prescurea 5, 040268 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Zedu After School" | Intrarea Scorușului 17, 041506 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool Micii Poznasi" | Calea Șerban Vodă 36, 030167 București | Tip: Program „after school” | Pret: 500 lei
+  [DRY-RUN] "Kids Palace" | Strada Obolului 10, 041266 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "After School Sector 4 - Club Clever Kids" | Strada Preda Buzescu 12, 040708 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool Sarida Sediul 1" | Strada Crișul Alb 9-13, 040726 București | Tip: Program „after school” | Pret: 150 lei
+  ⏭  Ignorat (tip: "Grădiniță"): Teddy Club
+  [DRY-RUN] "After School Bulinela - After School Unirii, Timpuri Noi" | Strada Vasile Voiculescu 21, 031236 București | Tip: Program „after school” | Pret: ?
+
+[33/48] "afterschool Metalurgiei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[34/48] "afterschool Rahova Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Gradiniță și After School "Top Kids"" | Strada Gheorghe Donici 26-28, 052034 București | Tip: Program „after school” | Pret: 250 lei
+  [DRY-RUN] "After school/clubul copiilor/KidsRia" | Strada Delureni 52, 052034 Sector5 | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool Rainbow" | Strada Lanțului nr 9B, București | Tip: Centru educațional | Pret: 1000 lei
+  [DRY-RUN] "Afterschool TrioVeseliaClub" | Strada Dărniciei 33, 052034 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After-School Math& Fun Academy" | Strada Floare de Vârf, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "After School Sony&Maya s friends" | Strada Zidarului 9, 051734 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Centrul Educational MARUCS | Cresa | Gradinita | Afterschool" | Strada Pucheni 151-153, 052034 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Micul Lord
+
+[35/48] "afterschool Cotroceni Bucuresti"
+  Gasit 3 pe Google Maps
+  [DRY-RUN] "Afterschool My Universe" | Bulevardul Eroii Sanitari 51, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool My Universe" | Bulevardul Eroii Sanitari 51, București | Tip: Centru educațional | Pret: ?
+
+[36/48] "afterschool 13 Septembrie Bucuresti"
+  Gasit 3 pe Google Maps
+  [DRY-RUN] "Afterschool Rainbow" | Strada Lanțului nr 9B, București | Tip: Centru educațional | Pret: 1000 lei
+  [DRY-RUN] "Afterschool Rainbow" | Strada Lanțului nr 9B, București | Tip: Centru educațional | Pret: 1000 lei
+
+[37/48] "afterschool Plevnei Bucuresti"
+  Gasit 12 pe Google Maps
+  [DRY-RUN] "Afterschool CoolTure MindS" | Bulevardul Alexandru Ioan Cuza 37, București | Tip: Program „after school” | Pret: 300 lei
+  [DRY-RUN] "After school Performance Kids Club" | Strada Cronicarilor, București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "EvoSchool" | Strada Petöfi Sándor 29, București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool My Universe" | Bulevardul Eroii Sanitari 51, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Kinderlachen Afterschool Germană" | Strada Căderea Bastiliei 56-58, 010616 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+
+[38/48] "afterschool Ferentari Bucuresti"
+  Gasit 15 pe Google Maps
+  ⏭  Ignorat (tip: "Școală de limbi străine"): EdVenture School
+  ⏭  Ignorat (tip: "Școală de limbi străine"): EdVenture School
+  [DRY-RUN] "Gradiniță și After School "Top Kids"" | Strada Gheorghe Donici 26-28, 052034 București | Tip: Program „after school” | Pret: 250 lei
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "After-School Math& Fun Academy" | Strada Floare de Vârf, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "After-School Math& Fun Academy" | Strada Floare de Vârf, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Tip: Centru educațional | Pret: 1600 lei
+  [DRY-RUN] "Afterschool TrioVeseliaClub" | Strada Dărniciei 33, 052034 București | Tip: Program „after school” | Pret: ?
+
+[39/48] "afterschool Militari Bucuresti"
+  Gasit 13 pe Google Maps
+  [DRY-RUN] "Gradinita Irina" | Str. Nicodim 27, 061484 București | Tip: Centru de educație pentru preșcolari | Pret: ?
+  [DRY-RUN] "Afterschool Creative Kidz Militari" | Strada Gospodari 46, 077042 Roșu | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "GRADINITA/ AFTER/ SCOALA DE VARA ALBA CA ZAPADA" | Strada Cernișoara 86A, 061021 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "HappyKidz Before & Afterschool" | Strada Performanței 9, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Kids' Joy Land Afterschool" | Strada Apele Vii 22, 062324 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Great Kids" | Strada Albiței, 061621 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Kids Club" | Str. Rezervelor 91A, 077042 Roșu | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "Happykidz Afterschool" | Strada Albiței 2k, 062359 București | Tip: Program „after school” | Pret: ?
+
+[40/48] "afterschool Drumul Taberei Bucuresti"
+  Gasit 17 pe Google Maps
+  [DRY-RUN] "After School Kids InMotion" | Drumul Taberei 44, 061344 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After School Casuta Piticilor" | Strada Sergent Postolache Alexandru 22, București | Tip: Program „after school” | Pret: 1750 lei
+  [DRY-RUN] "After School Casuta Piticilor" | Strada Sergent Postolache Alexandru 22, București | Tip: Program „after school” | Pret: 1750 lei
+  [DRY-RUN] "ForEvEr After School Sector 6" | Strada, Drumul Valea Largă, Prelungirea Ghencea nr.24A, 061984 București | Tip: Program „after school” | Pret: 1200 lei
+  [DRY-RUN] "Lumea Copiilor Club After School" | Aleea Ariniș, București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "After-School Art'Alegria" | Drumul Valea Cricovului, București | Tip: Program „after school” | Pret: 2000 lei
+  [DRY-RUN] "AFTER SCHOOL SCOOBY AND FRIENDS" | nr. 9 E, Intrarea Corcodușului, 061485 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "After School Ana Si Strumfii(sediul3)" | Strada Pădurețu 45-47, 061992 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Ana și strumfii ( sediul 1)" | Stradă Prelungirea Ghencea 255 A, 077025 București | Tip: Program „after school” | Pret: ?
+
+[41/48] "afterschool Crangasi Bucuresti"
+  Gasit 0 pe Google Maps
+
+[42/48] "afterschool Giulesti Bucuresti"
+  Gasit 0 pe Google Maps
+
+[43/48] "afterschool Lujerului Bucuresti"
+  Gasit 10 pe Google Maps
+  [DRY-RUN] "Edu Center Berceni" | Strada Speranței 4H, 077020 Berceni | Tip: Program „after school” | Pret: ?
+  ⏭  Ignorat (tip: "Servicii de meditații"): Mathnasium Militari
+  [DRY-RUN] "Afterschool Creative Kidz Militari" | Strada Gospodari 46, 077042 Roșu | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "GRADINITA/ AFTER/ SCOALA DE VARA ALBA CA ZAPADA" | Strada Cernișoara 86A, 061021 București | Tip: Grădiniță | Pret: ?
+  [DRY-RUN] "After-School Art'Alegria" | Drumul Valea Cricovului, București | Tip: Program „after school” | Pret: 2000 lei
+  [DRY-RUN] "After School Casuta Piticilor" | Strada Sergent Postolache Alexandru 22, București | Tip: Program „after school” | Pret: 1750 lei
+
+[44/48] "program after school copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Elite
+  [DRY-RUN] "Kiddo Park Lake" | ParkLake Shoping Center, Str. Liviu Rebreanu 4, 031783 București | Tip: Loc de joacă pentru copii | Pret: ?
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "BritAcademy- Gradinita si afterschool" | Strada Olimpiadei 36, 021755 București | Tip: Grădiniță | Pret: 2200 lei
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Gradinita i-Kids Garden" | Strada Soldat Marin Savu 57, 022191 București | Tip: Grădiniță | Pret: 2000 lei
+  ⏭  Ignorat (tip: "Grădiniță"): Piccolo Tedy & Amicii
+  [DRY-RUN] "Dumbo Kids Academy" | Intrarea Patinoarului 42a, București | Tip: Grădiniță | Pret: 200 lei
+  [DRY-RUN] "Angels Academy-Afterschool și grădiniță" | Strada Măgura Vulturului 38, 021704 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Alice și tărâmul fermecat “Ozana”" | Bulevardul Theodor Pallady 14, 077160 București | Tip: Program „after school” | Pret: ?
+
+[45/48] "centru educational dupa scoala Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  [DRY-RUN] "After School Puzzle Edu Center" | Strada Gheorghe Pop de Băsești 17, 030167 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "After school Cei Trei Muschetari sediul Porthos scoala 56" | Strada Fluierului nr 36, etaj 2, 021434 București | Tip: Centru educațional | Pret: 1870 lei
+  ⏭  Ignorat (tip: "Școală pentru deficienți de vedere"): Școala Gimnazială Specială pentru Deficienți de Vedere
+  ⏭  Ignorat (tip: "Centru artistic"): CUBUL - Academia de arte
+  [DRY-RUN] "Centrul Gifted Education" | Strada Delea Nouă 40, 030925 București | Tip: Organizație neguvernamentală | Pret: ?
+  [DRY-RUN] "Fundatia Upper Education" | intrare Bioclinica, Calea Călărașilor 161, office 34, 030614 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Școală pentru adulți"): Eurodeal cursuri Romania
+  [DRY-RUN] "Centrul educational One to One" | Șoseaua Colentina nr. 60, bl. 103, sc. A, parter, 021186 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Montessori Land - Sediul Colentina
+  ⏭  Ignorat (tip: "Instituție de învățământ general"): Școala Gimnazialã Specialã Nr.2
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Centru educațional"): Academia de Prim Ajutor - Bucuresti
+  [DRY-RUN] "Success Academy Romania" | Bulevardul Hristo Botev 1, 030231 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Casă de copii"): CENTRUL ŞCOLAR NR. 3
+  ⏭  Ignorat (tip: "Școală de limbă engleză"): Centrul de limbi străine SPRINGFIELD - Sector 2
+
+[46/48] "scoala dupa scoala privat Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Școală Waldorf"): Scoala Gimnaziala Libera Waldorf Bucuresti
+  ⏭  Ignorat (tip: "Școală Waldorf"): Scoala Gimnaziala Libera Waldorf Bucuresti
+  ⏭  Ignorat (tip: "Școală pentru deficienți de vedere"): Școala Gimnazială Specială pentru Deficienți de Vedere
+  ⏭  Ignorat (tip: "Școală particulară"): Școala Gimnaziala Step by Step
+  ⏭  Ignorat (tip: "Gimnaziu"): Școala Gimnazială Numărul 27
+  ⏭  Ignorat (tip: "Școală de limbi străine"): Big Ben School
+  [DRY-RUN] "Success Academy Romania" | Bulevardul Hristo Botev 1, 030231 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Școală unde se învață software"): Academia Programatorilor
+  [DRY-RUN] "Success Academy Romania" | Bulevardul Hristo Botev 1, 030231 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Școală unde se învață software"): Academia Programatorilor
+  ⏭  Ignorat (tip: "Gimnaziu"): Gimnaziul Monterra – școală privată
+  ⏭  Ignorat (tip: "Școală particulară"): Școala MEA
+  [DRY-RUN] "Kids Palace" | Strada Obolului 10, 041266 București | Tip: Grădiniță | Pret: ?
+  ⏭  Ignorat (tip: "Școală particulară"): Școala Gimnaziala Step by Step
+  ⏭  Ignorat (tip: "Școală primară"): IOANID School - nivel primar
+  ⏭  Ignorat (tip: "Școală particulară"): Școala Metropolitană ARC
+  ⏭  Ignorat (tip: "Școală de muzică"): Scoala de Muzica Boem Club Bucuresti (Boem Club Music School) - Lectii de Muzica Bucuresti
+  ⏭  Ignorat (tip: "Școală primară"): IOANID School - nivel primar
+
+[47/48] "supraveghere scolara Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Furnizor de sisteme de securitate"): SECPRAL S.R.L.
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Centru educațional"): Academia de Robotică
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "IT Junior - Cursuri IT, programare & AI pentru copii" | Strada Piața Amzei 7- 15, 010361 București | Tip: Școală de cursuri IT | Pret: ?
+  [DRY-RUN] "Logiscool Romană - Școala de Educație Digitală, AI și Programare pentru copii și adolescenți" | Strada Polonă nr. 43, Etaj 3, Ap. 3, 010493 București | Tip: Școală de cursuri IT | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): InaSchool - Școală Primară și Grădiniță
+  ⏭  Ignorat (tip: "Centru de învățare"): Centrul de Meditatii si Dezvoltare Personala
+  ⏭  Ignorat (tip: "Servicii de meditații"): Meditatii Matematica Bucuresti
+  ⏭  Ignorat (tip: "Servicii de meditații"): Meditatii romana-matematica Bucuresti
+  ⏭  Ignorat (tip: "Centru educațional"): Centrul de meditatii SUPER
+  ⏭  Ignorat (tip: "Școală de cursuri IT"): Logiscool
+  [DRY-RUN] "BRIO Teste Educaționale" | Strada Icoanei 29A, 020452 București | Tip: Serviciu de evaluare educațională | Pret: ?
+  ⏭  Ignorat (tip: "Serviciu de evaluare educațională"): S.D.D.P. CONFIDENT
+  [DRY-RUN] "New Edu" | Strada, Intrarea Moneasa 4, 010633 București | Tip: Centru educațional | Pret: 167 lei
+  ⏭  Ignorat (tip: "Grădiniță"): Grădiniţa nr. 70
+  [DRY-RUN] "New Edu" | Strada, Intrarea Moneasa 4, 010633 București | Tip: Centru educațional | Pret: 167 lei
+
+[48/48] "after school program Bucuresti"
+  Gasit 14 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): International School of Bucharest (ISB)
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "BritAcademy- Gradinita si afterschool" | Strada Olimpiadei 36, 021755 București | Tip: Grădiniță | Pret: 2200 lei
+  [DRY-RUN] "Kidos After school" | Bulevardul Nicolae Grigorescu, 030451 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "Gradinita i-Kids Garden" | Strada Soldat Marin Savu 57, 022191 București | Tip: Grădiniță | Pret: 2000 lei
+  [DRY-RUN] "SAGA Kid Iancului" | Șoseaua Iancului 45, 021718 București | Tip: Program „after school” | Pret: ?
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+
+--- Faza B: Cluburi (36 queries) ---
+
+[1/36] [inot] "bazin inot copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "BSC Berceni" | Strada Turnu Măgurele 244A, 041713 București | Tip: Club sportiv | Pret: ?
+  ⏭  Ignorat (tip: "Club de înot"): Cursuri inot Aqua Swim - Rin Grand Hotel
+  [DRY-RUN] "Bazin inot scoala 190" | Șoseaua Iancului 128A, 021716 București | Tip: Centru de înot | Pret: 200 lei
+  [DRY-RUN] "BSC Pantelimon" | Șoseaua Iancului 128a, 021715 București | Tip: Club de înot | Pret: 350 lei
+
+[2/36] [inot] "scoala inot copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "BSC Berceni" | Strada Turnu Măgurele 244A, 041713 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Cursuri inot LCD Club - Olimpia" | Șoseaua Iancului 128A, 021716 București | Tip: Centru de înot | Pret: 200 lei
+  [DRY-RUN] "BSC Pantelimon" | Șoseaua Iancului 128a, 021715 București | Tip: Club de înot | Pret: 350 lei
+  [DRY-RUN] "Cursuri inot copii Alexandreea" | Bulevardul Basarabia 37-39, 022102 București | Tip: Club de înot | Pret: ?
+
+[3/36] [inot] "lectii inot copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "BSC Berceni" | Strada Turnu Măgurele 244A, 041713 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Kom Fitness BIG" | Strada Nițu Vasile 9, 041448 București | Tip: Sală de fitness | Pret: ?
+  [DRY-RUN] "Cursuri inot LCD Club - Olimpia" | Șoseaua Iancului 128A, 021716 București | Tip: Centru de înot | Pret: 200 lei
+  [DRY-RUN] "BSC Pantelimon" | Șoseaua Iancului 128a, 021715 București | Tip: Club de înot | Pret: 350 lei
+  [DRY-RUN] "Cursuri inot copii Alexandreea" | Bulevardul Basarabia 37-39, 022102 București | Tip: Club de înot | Pret: ?
+
+[4/36] [inot] "club inot juniori Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "BSC Pantelimon" | Șoseaua Iancului 128a, 021715 București | Tip: Club de înot | Pret: 350 lei
+  [DRY-RUN] "Cursuri inot LCD Club - Olimpia" | Șoseaua Iancului 128A, 021716 București | Tip: Centru de înot | Pret: 200 lei
+  [DRY-RUN] "BSC Pantelimon" | Șoseaua Iancului 128a, 021715 București | Tip: Club de înot | Pret: 350 lei
+  [DRY-RUN] "Bazin inot scoala 190" | Strada Nițu Vasile 16, 041541 București | Tip: Piscină | Pret: 250 lei
+  [DRY-RUN] "Cursuri Inot Adulti Bucuresti" | Șoseaua Iancului 128A, București | Tip: Piscină | Pret: ?
+  [DRY-RUN] "Cursuri inot LCD Club - Steaua" | Bulevardul Ghencea 35, 061695 București | Tip: Club de înot | Pret: 200 lei
+
+[5/36] [fotbal] "scoala fotbal copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Scoala de fotbal Arsenal Sports" | Șoseaua Vitan-Bârzești 5, 077160 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "AS Dan Chilom" | Șos. Pantelimon 285A, 021652 București | Tip: Teren de fotbal | Pret: ?
+  [DRY-RUN] "Școala de fotbal pentru copii - Renaștere" | Bulevardul 1 Decembrie 1918 34, 032465 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Scoala de fotbal ACS DinamoNouaGeneratie" | Strada Oltețului 30, 023818 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "CLUBUL SPORTIV ŞCOLAR NR. 4" | Aleea Buchetului 5, 030463 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Scoala de fotbal Arsenal Sports" | Șoseaua Vitan-Bârzești 5, 077160 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Scoala de Fotbal" | Șoseaua Mihai Bravu 634, București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Scoala de Fotbal Lucian Sanmartean" | Strada Balta Albina, București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Complex Sportiv Olimpia Bucuresti" | Bucuresti, Șoseaua Iancului 128A, 021742 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Acs Steaua Noua Generatie" | Strada Theodor D. Speranția 137, București | Tip: Club de fotbal | Pret: ?
+
+[6/36] [fotbal] "academie fotbal copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Scoala de fotbal Arsenal Sports" | Șoseaua Vitan-Bârzești 5, 077160 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Academia de Fotbal de Masă" | Strada Ilarie Chendi 5, 030167 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Scoala de fotbal ACS DinamoNouaGeneratie" | Strada Oltețului 30, 023818 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Scoala de fotbal Arsenal Sports" | Șoseaua Vitan-Bârzești 5, 077160 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Academia de Fotbal Voluntari "Mircea Radulescu"" | Strada Buziaș 13, 077190 Voluntari | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Academia De Fotbal Initial" | Bulevardul Ghencea nr 31, 060033 București | Tip: Club de fotbal | Pret: 300 lei
+  [DRY-RUN] "Academia de fotbal NARCIS RĂDUCAN" | Bulevardul Expoziției 22, 012244 București | Tip: Antrenament de fotbal | Pret: ?
+  [DRY-RUN] "Scoala de Fotbal" | Șoseaua Mihai Bravu 634, București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Scoala de Fotbal Lucian Sanmartean" | Strada Balta Albina, București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "CLUBUL SPORTIV ŞCOLAR NR. 4" | Aleea Buchetului 5, 030463 București | Tip: Club sportiv | Pret: ?
+
+[7/36] [fotbal] "club fotbal juniori Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Scoala de fotbal Arsenal Sports" | Șoseaua Vitan-Bârzești 5, 077160 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Scoala de fotbal ACS DinamoNouaGeneratie" | Strada Oltețului 30, 023818 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "Complexul sportiv național Lia Manoliu" | Strada Sergent Șerbănică Vasile, 022186 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "AS Dan Chilom" | Șos. Pantelimon 285A, 021652 București | Tip: Teren de fotbal | Pret: ?
+
+[8/36] [fotbal] "antrenamente fotbal copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Scoala de fotbal Arsenal Sport" | Strada Pridvorului 25, 041203 București | Tip: Club de fotbal | Pret: ?
+  [DRY-RUN] "IntegralEdu București" | Bulevardul Pierre de Coubertin 11, București | Tip: Club sportiv | Pret: 500 lei
+  [DRY-RUN] "Complexul sportiv național Lia Manoliu" | Strada Sergent Șerbănică Vasile, 022186 București | Tip: Club sportiv | Pret: 250 lei
+  [DRY-RUN] "Teren de fotbal Bujorilor" | Drumul Dobroești-Fundeni, 077085 București | Tip: Teren de fotbal | Pret: ?
+  [DRY-RUN] "AS Dan Chilom" | Șos. Pantelimon 285A, 021652 București | Tip: Teren de fotbal | Pret: ?
+  [DRY-RUN] "CLUBUL SPORTIV ŞCOLAR NR. 4" | Aleea Buchetului 5, 030463 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "TOP TEAM București" | Strada Pridvorului 25, 041203 București | Tip: Club de fotbal | Pret: ?
+
+[9/36] [dansuri] "scoala dans copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Scoala de dans pentru copii Ballet Dance Studio Heart&Soul" | Bulevardul Chișinău 1, 022141 București | Tip: Școală de dans | Pret: ?
+  [DRY-RUN] "Scoala de dans pentru copii Ballet Show Dance Art" | Bulevardul Chișinău 6-8, București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "DAnceTime.Ro Cursuri de Dans Bucuresti" | Str Washington 40-42 Sector 1-2@Dorobanti, Șoseaua Ștefan cel Mare, 010538 București | Tip: Școală de dans | Pret: ?
+
+[10/36] [dansuri] "balet copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Scoala de dans pentru copii Ballet Show Dance Art" | Bulevardul Chișinău 6-8, București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "Casa de Balet" | Calea Floreasca 111-113, 014455 București | Tip: Școală de dans | Pret: ?
+  [DRY-RUN] "Pas Classique Ballet" | Strada Vasile Lascăr 102, 030167 București | Tip: Școală de balet | Pret: ?
+  [DRY-RUN] "Casa de Balet - Studio Mihai Bravu" | Strada Traian Popovici 87, 031422 București | Tip: Școală de balet | Pret: ?
+  [DRY-RUN] "Școala de Balet Geanina Neagu sector 2" | Strada Constantin Bogorin 17A, 077190 București | Tip: Școală de balet | Pret: ?
+  [DRY-RUN] "Ballet Art" | Strada Doctor Niculae D. Staicovici 4, 050558 București | Tip: Școală de balet | Pret: ?
+  [DRY-RUN] "DAnceTime.Ro Cursuri de Dans Bucuresti" | Str Washington 40-42 Sector 1-2@Dorobanti, Șoseaua Ștefan cel Mare, 010538 București | Tip: Școală de dans | Pret: ?
+  [DRY-RUN] "DAnceTime.Ro Cursuri de Dans Bucuresti" | Str Washington 40-42 Sector 1-2@Dorobanti, Șoseaua Ștefan cel Mare, 010538 București | Tip: Școală de dans | Pret: ?
+
+[11/36] [dansuri] "cursuri dans copii Bucuresti"
+  Gasit 10 pe Google Maps
+  [DRY-RUN] "Scoala de dans pentru copii Ballet Show Dance Art" | Bulevardul Chișinău 6-8, București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "DAnceTime.Ro Cursuri de Dans Bucuresti" | Str Washington 40-42 Sector 1-2@Dorobanti, Șoseaua Ștefan cel Mare, 010538 București | Tip: Școală de dans | Pret: ?
+
+[12/36] [dansuri] "studio dans copii Bucuresti"
+  Gasit 19 pe Google Maps
+  [DRY-RUN] "Scoala de dans pentru copii Ballet Dance Studio Heart&Soul" | Bulevardul Chișinău 1, 022141 București | Tip: Școală de dans | Pret: ?
+  [DRY-RUN] "DAnceTime.Ro Cursuri de Dans Bucuresti" | Str Washington 40-42 Sector 1-2@Dorobanti, Șoseaua Ștefan cel Mare, 010538 București | Tip: Școală de dans | Pret: ?
+
+[13/36] [arte_martiale] "karate copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Absoluto Fighting Center" | Splaiul Unirii 162, 040042 București | Tip: Școală de arte marțiale | Pret: ?
+  [DRY-RUN] "martialartsnation.ro" | Piaţa Sudului, Șoseaua Olteniței 105, cladirea INTEC, et 5, 041303 București | Tip: Școală de arte marțiale | Pret: ?
+  [DRY-RUN] "eXtrembody MMA" | Bulevardul Chișinău 1 In incinta Complexului Comercial Agroindustrial, Strada Delfinului, etajul 1, 022141 București | Tip: Club de arte marțiale | Pret: 250 lei
+  [DRY-RUN] "eXtrembody MMA" | Bulevardul Chișinău 1 In incinta Complexului Comercial Agroindustrial, Strada Delfinului, etajul 1, 022141 București | Tip: Club de arte marțiale | Pret: 250 lei
+  [DRY-RUN] "cursuri karate copii - Akura" | Complex Delfinului, Bulevardul Chișinău 1, etajul 1, 022141 București | Tip: Școală de karate | Pret: ?
+  [DRY-RUN] "CLUBUL DE ARTE MARŢIALE" | Bulevardul Basarabia 37-39, 022103 București | Tip: Club de arte marțiale | Pret: ?
+  [DRY-RUN] "Complex Sportiv Olimpia Bucuresti" | Bucuresti, Șoseaua Iancului 128A, 021742 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "18GYM Pantelimon Bucuresti" | Bulevardul Chișinău 1, et.1, 022141 București | Tip: Sală de fitness | Pret: 179 lei
+  [DRY-RUN] "Cursuri Karate" | Strada Brânduşelor 2-4, 031256 București | Tip: Școală de arte marțiale | Pret: ?
+  [DRY-RUN] "Federația Română de Karate Tradițional" | Bulevardul Basarabia 37-39, 022103 București | Tip: Asociație sau organizație | Pret: 5000 lei
+
+[14/36] [arte_martiale] "judo copii Bucuresti"
+  Gasit 14 pe Google Maps
+  [DRY-RUN] "Absoluto Veranda" | Strada Ziduri Moși 23, 021203 București | Tip: Școală de sport | Pret: ?
+  [DRY-RUN] "martialartsnation.ro" | Piaţa Sudului, Șoseaua Olteniței 105, cladirea INTEC, et 5, 041303 București | Tip: Școală de arte marțiale | Pret: ?
+  [DRY-RUN] "eXtrembody MMA" | ASPOL JUDO, Blv. Basarabia nr. 35-39 Sala Olimpica, 022103 București | Tip: Club de judo | Pret: ?
+  [DRY-RUN] "Judo Bucuresti" | Bulevardul Basarabia 41a, 022114 București | Tip: Club de judo | Pret: ?
+  [DRY-RUN] "Asociația Clubul Sportiv Motiuashi" | Strada Gherghiței 60, 077190 București | Tip: Club de judo | Pret: ?
+  [DRY-RUN] "Ju Jitsu Club" | Bulevardul Basarabia 37, 022103 București | Tip: Club de arte marțiale | Pret: ?
+  [DRY-RUN] "Judo Metrorex" | Șoseaua Industriilor, București | Tip: Club sportiv | Pret: ?
+
+[15/36] [arte_martiale] "taekwondo copii Bucuresti"
+  Gasit 16 pe Google Maps
+  [DRY-RUN] "Absoluto Veranda" | Strada Ziduri Moși 23, 021203 București | Tip: Școală de sport | Pret: ?
+  [DRY-RUN] "Fortis Taekwon-Do" | Strada Logofătul Tăutu 68a, 031193 București | Tip: Școală de taekwondo | Pret: 265 lei
+  [DRY-RUN] "Federația Română de Arte Marțiale" | în incinta Complexului Sportiv Național Lia Manoliu, Bulevardul Basarabia 37-39, 022103 București | Tip: Asociație sau organizație | Pret: ?
+  [DRY-RUN] "CLUBUL SPORTIV ŞCOLAR NR. 4" | Aleea Buchetului 5, 030463 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Cursuri Karate" | Strada Brânduşelor 2-4, 031256 București | Tip: Școală de arte marțiale | Pret: ?
+  [DRY-RUN] "Complexul Sportiv Naţional “Lia Manoliu”" | Bulevardul Basarabia 37-39, 022103 București | Tip: Complex sportiv | Pret: ?
+
+[16/36] [arte_martiale] "arte martiale copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Absoluto Fighting Center" | Splaiul Unirii 162, 040042 București | Tip: Școală de arte marțiale | Pret: ?
+  [DRY-RUN] "Cursuri Karate" | Strada Brânduşelor 2-4, 031256 București | Tip: Școală de arte marțiale | Pret: ?
+  [DRY-RUN] "Kami-Do" | Strada Fântânica 38, București | Tip: Școală de karate | Pret: ?
+  [DRY-RUN] "cursuri karate copii - Akura" | Complex Delfinului, Bulevardul Chișinău 1, etajul 1, 022141 București | Tip: Școală de karate | Pret: ?
+  [DRY-RUN] "Cursuri Karate" | Strada Brânduşelor 2-4, 031256 București | Tip: Școală de arte marțiale | Pret: ?
+
+[17/36] [gimnastica] "gimnastica copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "eXtrembody MMA" | Bulevardul Chișinău 1 In incinta Complexului Comercial Agroindustrial, Strada Delfinului, etajul 1, 022141 București | Tip: Club de arte marțiale | Pret: 250 lei
+  [DRY-RUN] "Clubul Copiilor Sector 3" | Aleea Barajul Dunării 5, 032754 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Complex Sportiv Olimpia Bucuresti" | Bucuresti, Șoseaua Iancului 128A, 021742 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Stars gym academy" | Strada Cameliei 39, etaj 1, 010852 București | Tip: Școală de sport | Pret: ?
+
+[18/36] [gimnastica] "gimnastica ritmica copii Bucuresti"
+  Gasit 11 pe Google Maps
+  [DRY-RUN] "Complex Sportiv Olimpia Bucuresti" | Bucuresti, Șoseaua Iancului 128A, 021742 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Clubul Copiilor Sector 3" | Aleea Barajul Dunării 5, 032754 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Stars gym academy" | Strada Cameliei 39, etaj 1, 010852 București | Tip: Școală de sport | Pret: ?
+
+[19/36] [gimnastica] "acrobatii copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[20/36] [gimnastica] "club gimnastica copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Xbody Decebal Fitness Studio" | bl. D14, Strada Negoiu 8, sc. 2, et. P, 031126 București | Tip: Sală de fitness | Pret: ?
+  [DRY-RUN] "Complex Sportiv Olimpia Bucuresti" | Bucuresti, Șoseaua Iancului 128A, 021742 București | Tip: Club sportiv | Pret: ?
+  [DRY-RUN] "Clubul Copiilor Sector 3" | Aleea Barajul Dunării 5, 032754 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "eXtrembody MMA" | Bulevardul Chișinău 1 In incinta Complexului Comercial Agroindustrial, Strada Delfinului, etajul 1, 022141 București | Tip: Club de arte marțiale | Pret: 250 lei
+  [DRY-RUN] "Stars gym academy" | Strada Cameliei 39, etaj 1, 010852 București | Tip: Școală de sport | Pret: ?
+  [DRY-RUN] "Cursuri de tenis pentru copii si adulti" | Bulevardul Pierre de Coubertin 11, 021901 București | Tip: Instructor de tenis | Pret: ?
+  [DRY-RUN] "Clubul Copiilor Sector 5 București" | Strada Năsăud 93, 052065 București | Tip: Centru de recreere | Pret: ?
+
+[21/36] [limbi_straine] "cursuri engleza copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "EdVenture School" | Strada Doctor Niculae D. Staicovici 4, 050558 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Big Ben School" | Șoseaua Iancului 102, 021728 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Mayflower Centre - Cursuri de engleză cu profesori nativi" | Strada Maior Laurențiu Claudian 7, 021876 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "English Kids Academy - Cursuri Engleza Copii si Adolescenti ﻿- București, Tineretului" | Strada Lânăriei 93 - 95, 040323 București | Tip: Școală de limbă engleză | Pret: 155 lei
+  [DRY-RUN] "Shakespeare School Ferdinand" | Strada Eufrosin Potecă 42A, 021764 București | Tip: Școală de limbă engleză | Pret: ?
+  [DRY-RUN] "Follow Me" | Bulevardul Timișoara 28A, Bloc C10, 061331 București | Tip: Școală de limbă engleză | Pret: ?
+  [DRY-RUN] "Britanica Learning Centre - Baba Novac" | Strada Șapte Drumuri 39, 031648 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Cursuri Engleza - Engleza pentru toți" | Șoseaua Mihai Bravu 62 A, 021328 București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "Britanica Learning Centre - Gorjului" | Str. Partiturii 12 B, 062255 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Helen Doron – Bucuresti Mosilor" | Strada Făinari 45A, 021222 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "FollowMe Vitan" | Calea Vitan 119 Bl. V21B, Calea Vitan 117, SC. 3, 031283 București | Tip: Școală de limbă engleză | Pret: ?
+  [DRY-RUN] "Shakespeare School Victoriei - Cursuri engleza" | Strada Tokio 9, 011765 București | Tip: Școală de limbă engleză | Pret: ?
+
+[22/36] [limbi_straine] "centru limbi straine copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Shakespeare School Ferdinand" | Strada Eufrosin Potecă 42A, 021764 București | Tip: Școală de limbă engleză | Pret: ?
+  [DRY-RUN] "Verita International School" | Strada Soldat Gheorghe Pripu 22A, 077190 București | Tip: Școală internațională | Pret: ?
+  [DRY-RUN] "Big Ben School" | Șoseaua Iancului 102, 021728 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Big Ben School" | Șoseaua Iancului 102, 021728 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Mayflower Centre - Cursuri de engleză cu profesori nativi" | Strada Maior Laurențiu Claudian 7, 021876 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Cursuri Engleza Copii ILSC - Bucuresti Sector 1" | Strada Carol Knappe 47, 011506 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Centrul de limbi străine B Smart" | Strada Ilarie Chendi 25, 030167 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Cursuri Engleză, Franceză și Română - copii, adolescenți și adulți" | Strada Polonă 115, 010507 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "CENTRUL DE LIMBI STRAINE SMART ENGLISH" | Șos. Vergului nr. 39, Bloc 29D, Parter, 022444 București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "Shakespeare School Ferdinand" | Strada Eufrosin Potecă 42A, 021764 București | Tip: Școală de limbă engleză | Pret: ?
+  [DRY-RUN] "Britanica Learning Centre - Baba Novac" | Strada Șapte Drumuri 39, 031648 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Centrul de Limbi Străine Fides" | Bulevardul Hristo Botev 9, 030235 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Britanica Learning Centre - Teiul Doamnei" | Strada Sânzieni 21, 023661 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "IBIS Educational Center" | Strada Vatra Luminoasă 106 Bis, 021919 București | Tip: Centru educațional | Pret: 270 lei
+  [DRY-RUN] "Cursuri Engleza - Engleza pentru toți" | Șoseaua Mihai Bravu 62 A, 021328 București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "Britanica Learning Centre" | Bulevardul Ferdinand I 126A, 021396 București | Tip: Serviciu de administrare a afacerilor | Pret: ?
+
+[23/36] [limbi_straine] "cursuri franceza copii Bucuresti"
+  Gasit 1 pe Google Maps
+  [DRY-RUN] "Cinema "Elvire Popesco"" | Bulevardul Dacia, 020051 București | Tip: Cinematograf | Pret: 180 lei
+
+[24/36] [limbi_straine] "scoala limbi straine copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Shakespeare School Ferdinand" | Strada Eufrosin Potecă 42A, 021764 București | Tip: Școală de limbă engleză | Pret: ?
+  [DRY-RUN] "Verita International School" | Strada Constantin Daniel 20, 030167 București | Tip: Școală de limbă engleză | Pret: ?
+  [DRY-RUN] "Big Ben School" | Șoseaua Iancului 102, 021728 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Mayflower Centre - Cursuri de engleză cu profesori nativi" | Strada Maior Laurențiu Claudian 7, 021876 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Centrul de limbi străine B Smart" | Strada Ilarie Chendi 25, 030167 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Cursuri Engleză, Franceză și Română - copii, adolescenți și adulți" | Strada Polonă 115, 010507 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Shakespeare School Ferdinand" | Strada Eufrosin Potecă 42A, 021764 București | Tip: Școală de limbă engleză | Pret: ?
+  [DRY-RUN] "Britanica Learning Centre - Baba Novac" | Strada Șapte Drumuri 39, 031648 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "Cursuri Engleza - Engleza pentru toți" | Șoseaua Mihai Bravu 62 A, 021328 București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "Centrul de Limbi Străine Fides" | Bulevardul Hristo Botev 9, 030235 București | Tip: Școală de limbi străine | Pret: ?
+  [DRY-RUN] "CENTRUL DE LIMBI STRAINE SMART ENGLISH" | Șos. Vergului nr. 39, Bloc 29D, Parter, 022444 București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "IBIS Educational Center" | Strada Vatra Luminoasă 106 Bis, 021919 București | Tip: Centru educațional | Pret: 270 lei
+  [DRY-RUN] "Britanica Learning Centre" | Bulevardul Ferdinand I 126A, 021396 București | Tip: Serviciu de administrare a afacerilor | Pret: ?
+
+[25/36] [robotica] "robotica copii Bucuresti"
+  Gasit 2 pe Google Maps
+  [DRY-RUN] "Academia de Robotică" | Strada Constantin Tănase 39, 021937 București | Tip: Centru educațional | Pret: 300 lei
+  [DRY-RUN] "Coders Lab" | Bulevardul Carol I Nr. 68, 020926 București | Tip: Școală de cursuri IT | Pret: ?
+
+[26/36] [robotica] "programare copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Didactika, centrul tau de meditatii din București i" | etaj 1 si 2, Bulevardul Ferdinand I 146, 021397 București | Tip: Centru educațional | Pret: 250 lei
+  [DRY-RUN] "AI Școala-Învață să câștigi cu AI" | Strada Erou Iancu Nicolae 75 A, 077190 Voluntari | Tip: Școală de cursuri IT | Pret: ?
+  [DRY-RUN] "Logiscool Pantelimon" | Bulevardul Pierre de Coubertin 7, et. 2 021901, 077085 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Logiscool Pantelimon" | Bulevardul Pierre de Coubertin 7, et. 2 021901, 077085 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Logiscool Pantelimon" | Bulevardul Pierre de Coubertin 7, et. 2 021901, 077085 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "MindHub București - Unirii" | Strada Traian 3, bl. E6, parter, 030571 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Spital de copii"): Spitalul Clinic de Copii „Dr. Victor Gomoiu”
+  ⏭  Ignorat (tip: "Spital de copii"): Institutul Național pentru Sănătatea Mamei și Copilului „Alessandrescu-Rusescu”
+  [DRY-RUN] "CENTRUL MUNICIPIULUI BUCURESTI DE RESURSE SI ASISTENTA EDUCATIONALA (CMBRAE)" | Strada Heliade Între Vii 36, București | Tip: Servicii de educație | Pret: ?
+  [DRY-RUN] "Dermatologie adulti si copii - Dr. Carmen Nica" | Șos. Pantelimon 292, 021617 București | Tip: Dermatolog | Pret: ?
+
+[27/36] [robotica] "cursuri coding copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Coders Lab" | Bulevardul Carol I Nr. 68, 020926 București | Tip: Școală de cursuri IT | Pret: ?
+  [DRY-RUN] "Academia de Robotică" | Strada Constantin Tănase 39, 021937 București | Tip: Centru educațional | Pret: 300 lei
+  [DRY-RUN] "Academia de Robotică" | Bulevardul Carol I Nr. 68, 020926 București | Tip: Școală de cursuri IT | Pret: ?
+  [DRY-RUN] "Code School" | Strada Năvodari 21, 014108 București | Tip: Școală de cursuri IT | Pret: ?
+  [DRY-RUN] "Logiscool" | Strada Ion Luca Caragiale 28, etaj 1, 020046 București | Tip: Școală de cursuri IT | Pret: ?
+  [DRY-RUN] "Academia de Robotică Militari" | Bulevardul Uverturii 49, Etaj 2, 060932 București | Tip: Centru educațional | Pret: 300 lei
+  [DRY-RUN] "EduBricks" | Şoseaua Pavel D. Kiseleff 49, 020244 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Atelierele ILBAH" | Strada Romulus 4, 023986 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "scoalait.ro" | Str. Barbu Văcărescu 164a, 020285 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "GoIT România" | Strada Aviator Popișteanu 54A, 012094 București | Tip: Școală de cursuri IT | Pret: ?
+  [DRY-RUN] "Coding Hub Militari" | AFI Park 1 Cotroceni, Bulevardul Doina Cornea nr. 4, 052152 București | Tip: Școală particulară | Pret: ?
+
+[28/36] [robotica] "STEM copii Bucuresti"
+  Gasit 19 pe Google Maps
+  [DRY-RUN] "Kiddo Park Lake" | ParkLake Shoping Center, Str. Liviu Rebreanu 4, 031783 București | Tip: Loc de joacă pentru copii | Pret: ?
+  [DRY-RUN] "Museum of Senses" | Bulevardul General Paul Teodorescu 4, 061346 București | Tip: Muzeu | Pret: 160 lei
+  [DRY-RUN] "Academia de Robotică" | Strada Constantin Tănase 39, 021937 București | Tip: Centru educațional | Pret: 300 lei
+  [DRY-RUN] "Muzeul Copiilor" | Bloc S14, Bulevardul Decebal 11, 030963 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "FasTracKids – Centrul Step by Step" | Strada Gheorghe Dem Teodorescu nr. 16 bis, 030916 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Centrul de Proiecte Educaționale și Sportive București - PROEDUS" | Bloc S14, Bulevardul Decebal 11, 030963 București | Tip: Instituție de învățământ | Pret: ?
+  ⏭  Ignorat (tip: "Spital de copii"): Institutul Național pentru Sănătatea Mamei și Copilului „Alessandrescu-Rusescu”
+  [DRY-RUN] "WhizKidz Hub - Afterschool" | Strada Grădinarilor 14, 031512 București | Tip: Program „after school” | Pret: 150 lei
+  [DRY-RUN] "Help Autism - Centrul Eminescu" | Strada Ardeleni 3A, etaj 2, 020671 București | Tip: Organizație nonprofit | Pret: ?
+  [DRY-RUN] "Help Autism - Centrul Eminescu" | Strada Ardeleni 3A, etaj 2, 020671 București | Tip: Organizație nonprofit | Pret: ?
+  ⏭  Ignorat (tip: "Banca de sânge"): Baby Stem
+  [DRY-RUN] "EduBricks" | Şoseaua Pavel D. Kiseleff 49, 020244 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "Casa Experimentelor - Romanian Science Center" | Clădirea RENAR, Calea Vitan 242, 031301 București | Tip: Centru de învățare | Pret: ?
+  [DRY-RUN] "SmartyKids Băneasa-Aviației" | Strada Gheorghe Buciumat 26, 077190 București | Tip: Centru educațional | Pret: ?
+  [DRY-RUN] "EduBricks" | Şoseaua Pavel D. Kiseleff 49, 020244 București | Tip: Centru educațional | Pret: ?
+  ⏭  Ignorat (tip: "Centru de sănătate publică"): Registrul National al Donatorilor Voluntari de Celule Stem Hematopoietice
+
+[29/36] [muzica] "scoala muzica copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Clubul de muzică - MUSIC CREW" | Strada General Nicolae C. Dona 16, 010782 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Clubul de muzică - MUSIC CREW" | Strada General Nicolae C. Dona 16, 010782 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Harmony Music" | Strada General Dimitrie Salmen 18, 030167 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Armonia Obor-Mosilor" | Str. Profesor Ion Maiorescu 37, 021244 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Scoala de muzica VOLTAJ Academy - CENTRAL" | Strada Pictor Ion Andreescu 3, 021423 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Boem Club Bucuresti (Boem Club Music School) - Lectii de Muzica Bucuresti" | Strada Chiparosului 36, 031122 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Școala de Muzică Symphony" | Strada Iancu Cavaler de Flondor 7, 024051 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Școala de Muzică Symphony" | Strada Iancu Cavaler de Flondor 7, 024051 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Școala Gimnazială de Arte nr.4" | Strada Maica Domnului 61 - 63, 023722 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Școala Gimnazială de Arte Numărul 2" | Bulevardul Ferdinand I 128, 021396 București | Tip: Instituție de învățământ | Pret: ?
+  [DRY-RUN] "Scoala de muzica si dans ROCKSTAR Academy by Amadeea" | Strada Monumentului Nr. 14, Etaj 1, 020689 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Mozarteum School" | Strada Turturelelor 48, 030882 București | Tip: Școală de muzică | Pret: 160 lei
+
+[30/36] [muzica] "lectii pian copii Bucuresti"
+  Gasit 20 pe Google Maps
+  [DRY-RUN] "Studioul Audio Adelin Croitoru" | Strada Mihai Eminescu 216, 030167 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Scoala de Muzica Armonia Obor-Mosilor" | Str. Profesor Ion Maiorescu 37, 021244 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Scoala de Muzica Boem Club Bucuresti (Boem Club Music School) - Lectii de Muzica Bucuresti" | Strada Chiparosului 36, 031122 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Armonia Obor-Mosilor" | Str. Profesor Ion Maiorescu 37, 021244 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Scoala de Muzica Harmony Music" | Strada General Dimitrie Salmen 18, 030167 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Școala de Muzică Symphony" | Strada Iancu Cavaler de Flondor 7, 024051 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Bravissimo Art School" | Strada Alexandru Zagoritz 24, 021997 București | Tip: Școală de muzică | Pret: 200 lei
+  [DRY-RUN] "Cursuri de Tobe si Percutie in Bucuresti, Cursuri Chitara, Pian - Superchill School" | Strada Ion Minulescu 67-93, 031216 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de muzica VOLTAJ Academy - CENTRAL" | Strada Pictor Ion Andreescu 3, 021423 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Școala Gimnazială de Arte Numărul 2" | Bulevardul Ferdinand I 128, 021396 București | Tip: Instituție de învățământ | Pret: ?
+
+[31/36] [muzica] "cursuri chitara copii Bucuresti"
+  Gasit 17 pe Google Maps
+  [DRY-RUN] "Dava Music School" | Strada Domnița Florica 9, 040261 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Clubul de muzică - MUSIC CREW" | Strada General Nicolae C. Dona 16, 010782 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Harmony Music" | Strada General Dimitrie Salmen 18, 030167 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica - Academia de Chitara" | Strada Râmnicu Vâlcea 4, 031801 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Harmony Music" | Strada General Dimitrie Salmen 18, 030167 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Armonia Obor-Mosilor" | Str. Profesor Ion Maiorescu 37, 021244 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Școala de Muzică Symphony" | Strada Iancu Cavaler de Flondor 7, 024051 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Cursuri de Tobe si Percutie in Bucuresti, Cursuri Chitara, Pian - Superchill School" | Strada Ion Minulescu 67-93, 031216 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Boem Club Bucuresti (Boem Club Music School) - Lectii de Muzica Bucuresti" | Strada Chiparosului 36, 031122 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Cursuri de Tobe si Percutie in Bucuresti, Cursuri Chitara, Pian - Superchill School" | Bulevardul Mircea Vodă 5, 030167 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Bravissimo Art School" | Strada Alexandru Zagoritz 24, 021997 București | Tip: Școală de muzică | Pret: 200 lei
+
+[32/36] [muzica] "cursuri vioara copii Bucuresti"
+  Gasit 12 pe Google Maps
+  [DRY-RUN] "Academia de Arte Horia Brenciu" | Drumul Regimentului 97A, 075100 București | Tip: Facultatea de arte | Pret: 200 lei
+  [DRY-RUN] "Studioul Audio Adelin Croitoru" | Strada Mihai Eminescu 216, 030167 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Școala de Muzică Symphony" | Strada Iancu Cavaler de Flondor 7, 024051 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Scoala de Muzica Harmony Music" | Strada General Dimitrie Salmen 18, 030167 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de Muzica Armonia Obor-Mosilor" | Str. Profesor Ion Maiorescu 37, 021244 București | Tip: Școală de muzică | Pret: 150 lei
+  [DRY-RUN] "Bravissimo Art School" | Strada Alexandru Zagoritz 24, 021997 București | Tip: Școală de muzică | Pret: 200 lei
+  [DRY-RUN] "Scoala de Muzica Boem Club Bucuresti (Boem Club Music School) - Lectii de Muzica Bucuresti" | Strada Chiparosului 36, 031122 București | Tip: Școală de muzică | Pret: ?
+  [DRY-RUN] "Scoala de muzica Artissimo" | Strada Puțul lui Zamfir 21, 011683 București | Tip: Școală de muzică | Pret: ?
+
+[33/36] [arte_creative] "atelier pictura copii Bucuresti"
+  Gasit 10 pe Google Maps
+  [DRY-RUN] "Scoala de Pictura si Desen - Marina Bira" | Strada Stanislav Cihoschi 11, Scara 11B, Parter, 010592 București | Tip: Pictură | Pret: 450 lei
+  [DRY-RUN] "Academia de Arte "Marina Capațîna"" | Strada General Constantin Coandă 16, 010646 București | Tip: Studio de artă | Pret: 1550 lei
+  [DRY-RUN] "Art House" | Strada Icoanei 97B, București | Tip: Pictură | Pret: ?
+
+[34/36] [arte_creative] "cursuri desen copii Bucuresti"
+  Gasit 13 pe Google Maps
+  [DRY-RUN] "Scoala de Pictura si Desen - Marina Bira" | Strada Stanislav Cihoschi 11, Scara 11B, Parter, 010592 București | Tip: Pictură | Pret: 450 lei
+  [DRY-RUN] "Academia de Arte "Marina Capațîna"" | Strada General Constantin Coandă 16, 010646 București | Tip: Studio de artă | Pret: 1550 lei
+  [DRY-RUN] "Art House" | Strada Icoanei 97B, București | Tip: Pictură | Pret: ?
+
+[35/36] [arte_creative] "ceramica copii Bucuresti"
+  Gasit 5 pe Google Maps
+  [DRY-RUN] "Made by you" | Strada Silvestru 57, 2, 020733 București | Tip: Studio de artă | Pret: ?
+  [DRY-RUN] "Casa cu Rost" | Strada Traian 168, 024045 București | Tip: Centru de evenimente | Pret: 400 lei
+  [DRY-RUN] "Ceramica de Soare" | Str. Școala Floreasca 19, 011643 București | Tip: Producător de ceramică | Pret: ?
+
+[36/36] [arte_creative] "arte plastice copii Bucuresti"
+  Gasit 11 pe Google Maps
+  [DRY-RUN] "Ședinte foto newborn, copii și maternitate - Alex Nedelcu Photography" | Alex Nedelcu, Strada Moise Nicoară 8, 030904 București | Tip: Fotograf | Pret: ?
+  [DRY-RUN] "Art House" | Strada Icoanei 97B, București | Tip: Pictură | Pret: ?
+  [DRY-RUN] "Academia de Arte "Marina Capațîna"" | Strada General Constantin Coandă 16, 010646 București | Tip: Studio de artă | Pret: 1550 lei
+  [DRY-RUN] "Scoala de Pictura si Desen - Marina Bira" | Strada Stanislav Cihoschi 11, Scara 11B, Parter, 010592 București | Tip: Pictură | Pret: 450 lei
+
+═════════════════════════════════════════════════════════════════
+DRY RUN complet. Ruleaza fara --dry-run pentru insert real.
+═════════════════════════════════════════════════════════════════
+
+
+═════════════════════════════════════════════════════════════════
+[16.04.2026, 07:40:16] DISCOVERY v2
+═════════════════════════════════════════════════════════════════
+DB curent: 208 afterschool-uri, 484 cluburi
+
+--- Faza A: Afterschool-uri (48 queries) ---
+
+[1/48] "afterschool sector 1 Bucuresti"
+  Gasit 11 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  ✅ Adaugat: "Afterschool CoolTure MindS" | Bulevardul Alexandru Ioan Cuza 37, București | Pret: 300 lei
+  ✅ Adaugat: "Go Kids Go" | Strada Clucerului, Piata 1 Mai 21, 011362 București | Pret: ?
+  ✅ Adaugat: "Gradinita si After School Aristokids" | Strada Lebedei 25, București | Pret: 1300 lei
+  ⏭  Ignorat (tip: "Centru de educație pentru preșcolari"): Sfera Kinderzentrum
+  ✅ Adaugat: "AFTER SCHOOL SECTOR 1 BUCURESTI - TOP KIDS" | Intrarea Bitolia 5, București | Pret: ?
+  ✅ Adaugat: "Kinderlachen Afterschool Germană" | Strada Căderea Bastiliei 56-58, 010616 București | Pret: ?
+
+[2/48] "afterschool sector 2 Bucuresti"
+  Gasit 13 pe Google Maps
+  ✅ Adaugat: "Happy Kids Project - After School | Before School | Scoala de vara | Summer School" | Șoseaua Iancului 110, 021728 București | Pret: ?
+  ✅ Adaugat: "Afterschool Tărâmul Magic Voi Reuși" | Bulevardul Chișinău 6-8, Complex Miramar, 022153 București | Pret: ?
+  ✅ Adaugat: "After school Colentina" | Strada Câmpul cu Narcise, 022954 București | Pret: 193 lei
+  ✅ Adaugat: "Scoala de Vara Afterschool Voi Reusi" | Bulevardul Chișinău nr 6-8, București | Pret: 750 lei
+  ✅ Adaugat: "BritAcademy- Gradinita si afterschool" | Strada Olimpiadei 36, 021755 București | Pret: 2200 lei
+  ✅ Adaugat: "Angels Academy-Afterschool și grădiniță" | Strada Măgura Vulturului 38, 021704 București | Pret: ?
+  ✅ Adaugat: "After School Puzzle Edu Center" | Strada Gheorghe Pop de Băsești 17, 030167 București | Pret: ?
+
+[3/48] "afterschool sector 3 Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Elite
+  ✅ Adaugat: "Kidos After school" | Bulevardul Nicolae Grigorescu, 030451 București | Pret: ?
+  ✅ Adaugat: "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Pret: ?
+  ✅ Adaugat: "Diandra" | Str. Prisaca Dornei 2, 032723 București | Pret: ?
+  ✅ Adaugat: "Centrul educational A&M" | Bd. Ressu Camil, 33, Bucuresti-Sector 3, Bucuresti, 031739, 032729 București | Pret: ?
+  ✅ Adaugat: "jsck" | Aleea Calistrat Hogaș nr. 28 D, 032475 București | Pret: ?
+  ✅ Adaugat: "Kids Club" | Strada Cezar Bolliac 31, 030911 București | Pret: ?
+  ✅ Adaugat: "After school Letitia" | Belvedere Residence, Strada Baba Novac 19A, 031625 București | Pret: 175 lei
+  ✅ Adaugat: "Alice și tărâmul fermecat “Ozana”" | Bulevardul Theodor Pallady 14, 077160 București | Pret: ?
+
+[4/48] "afterschool sector 4 Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "Afterschool Sector 4 - Centrul Educațional AS" | Strada Gârniţei 7c, 077160 București | Pret: 150 lei
+  ✅ Adaugat: "Premium Afterschool Sarida" | Bulevardul Metalurgiei 25, 041831 București | Pret: 150 lei
+  ✅ Adaugat: "Zedu After School" | Intrarea Scorușului 17, 041506 București | Pret: ?
+
+[5/48] "afterschool sector 5 Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "Afterschool" | Strada Ion Athanasiu 8, 061344 București | Pret: ?
+  ✅ Adaugat: "After school/clubul copiilor/KidsRia" | Strada Delureni 52, 052034 Sector5 | Pret: ?
+  ✅ Adaugat: "After School Academy" | Strada Sirenelor 87, 050855 București | Pret: ?
+  ✅ Adaugat: "GRADINITA MY UNIVERSE" | Bucuresti, Strada Costache Negri 11, 050552 București | Pret: ?
+  ✅ Adaugat: "Grădinița Rainbow Kids" | Strada General Ion Dragalina 8, 050565 București | Pret: ?
+
+[6/48] "afterschool sector 6 Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Servicii de meditații"): Mathnasium Militari
+  ⏭  Ignorat (tip: "Școală internațională"): EdVenture School
+  ✅ Adaugat: "After School Casuta Piticilor" | Strada Sergent Postolache Alexandru 22, București | Pret: 1750 lei
+  ✅ Adaugat: "ForEvEr After School Sector 6" | Strada, Drumul Valea Largă, Prelungirea Ghencea nr.24A, 061984 București | Pret: 1200 lei
+  ✅ Adaugat: "After School Ana Si Strumfii(sediul3)" | Strada Pădurețu 45-47, 061992 București | Pret: ?
+  ✅ Adaugat: "GRADINITA/ AFTER/ SCOALA DE VARA ALBA CA ZAPADA" | Strada Cernișoara 86A, 061021 București | Pret: ?
+  ✅ Adaugat: "FOCUS Kids AfterSchool" | Strada Inginer Cristian Pascal 7, 060221 București | Pret: 400 lei
+  ✅ Adaugat: "After School Kids InMotion" | Drumul Taberei 44, 061344 București | Pret: ?
+  ✅ Adaugat: "Elly After School" | Strada Cetatea de Baltă 155, 077042 București | Pret: ?
+  ✅ Adaugat: "MiRo Kids World" | Strada Miroslavei 9, 051734 București | Pret: 150 lei
+
+[7/48] "afterschool Aviatiei Bucuresti"
+  Gasit 2 pe Google Maps
+  ✅ Adaugat: "LIFE is Cool AVIATIEI - EduHub & Afterschool" | Intrarea Răsadului 6, 077190 București | Pret: ?
+  ⏭  Ignorat (tip: "Școală Waldorf"): Scoala Gimnaziala Libera Waldorf Bucuresti
+
+[8/48] "afterschool Baneasa Bucuresti"
+  Gasit 9 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  ✅ Adaugat: "EVIA Kids" | Bulevardul Ficusului 8b, 077190 București | Pret: ?
+  ✅ Adaugat: "Centrul Educational TeachLittlePeople" | Strada Muzicuței, București | Pret: 500 lei
+
+[9/48] "afterschool Dorobanti Bucuresti"
+  Gasit 10 pe Google Maps
+  ✅ Adaugat: "Mirunette Education" | Romania, Strada Valeriu Braniște 37-39, 030715 București | Pret: 5000 lei
+  ✅ Adaugat: "Steaua Nordului After School Dorobanti, Floreasca, Piata Victoriei" | Strada Andrei Mureșanu 27, 011844 București | Pret: ?
+  ✅ Adaugat: "After school Performance Kids Club" | Strada Cronicarilor, București | Pret: ?
+
+[10/48] "afterschool Herastrau Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "After Art - After School" | Vila D2, Strada Grigore Gafencu 78-86, 014132 București | Pret: ?
+  ✅ Adaugat: "Afterschool Luca" | Intrarea Poiana 2D, București | Pret: ?
+  ✅ Adaugat: "EvoSchool" | Strada Petöfi Sándor 29, București | Pret: ?
+  ✅ Adaugat: "After School Sector 1" | Strada Băneasa 27, 077190 București | Pret: ?
+  ✅ Adaugat: "Grădinița Miniterra Aviației" | Intrarea Măguricea Nouă 5, 014189 București | Pret: 2300 lei
+  ✅ Adaugat: "Young Academics After School" | Strada Trotușului 39, București | Pret: 1600 lei
+
+[11/48] "afterschool Victoriei Bucuresti"
+  Gasit 6 pe Google Maps
+
+[12/48] "afterschool Domenii Bucuresti"
+  Gasit 10 pe Google Maps
+  ⏭  Ignorat (tip: "Grădiniță"): HÄNSEL UND GRETEL KINDERGARTEN
+
+[13/48] "afterschool Grivita Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Centru de educație pentru preșcolari"): Sfera Kinderzentrum
+  ⏭  Ignorat (tip: "Centru de educație pentru preșcolari"): Sfera Kinderzentrum
+  ✅ Adaugat: "EduFriends - After school, before school, scoala de vara" | Strada Berzei 5, 010251 București | Pret: ?
+  ✅ Adaugat: "Aquarelle Kids Academy" | Strada Icoanei 30, 030167 București | Pret: ?
+  ✅ Adaugat: "Academia Strumfilor" | Strada Panait Istrati 39, 011545 București | Pret: 1550 lei
+
+[14/48] "afterschool Bucurestii Noi Bucuresti"
+  Gasit 8 pe Google Maps
+  ⏭  Ignorat (tip: "Club de înot"): Clubul Micii Campioni
+  ✅ Adaugat: "4Kids Afterschool Bucuresti, Before School , Dezvoltare Personala Copii" | Strada Oastei 29, 012871 București | Pret: 750 lei
+  ✅ Adaugat: "Kids Room - Afterschool" | Strada Mitropolit Andrei Șaguna Nr. 46A, 012931 București | Pret: ?
+  ✅ Adaugat: "Apple Tree Kindergarten & Afterschool" | Strada Măicănești 22, București | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Ruffy Strumfi
+  ✅ Adaugat: "ThinkCreative Hub Educational" | Strada Ardealului 32, 013431 București | Pret: ?
+
+[15/48] "afterschool Floreasca Bucuresti"
+  Gasit 6 pe Google Maps
+  ✅ Adaugat: "INNA Kids Academy" | Strada Johann Sebastian Bach, 020201 București | Pret: 150 lei
+
+[16/48] "afterschool Colentina Bucuresti"
+  Gasit 2 pe Google Maps
+
+[17/48] "afterschool Iancului Bucuresti"
+  Gasit 6 pe Google Maps
+
+[18/48] "afterschool Stefan cel Mare Bucuresti"
+  Gasit 10 pe Google Maps
+
+[19/48] "afterschool Tei Bucuresti"
+  Gasit 9 pe Google Maps
+  ✅ Adaugat: "Grădinița Castelul Copiilor din Tei" | Strada Sfânta Treime 28, București | Pret: ?
+  ✅ Adaugat: "After-Gradinita Busy Bees Academy" | Str. Județului 30-32, 023759 București | Pret: 375 lei
+  ✅ Adaugat: "Dinamic Kids" | Strada Oteșani 49, București | Pret: ?
+  ✅ Adaugat: "RoEdu4You" | Strada Oteșani 1a, 023563 București | Pret: ?
+  ✅ Adaugat: "Busy Bees Academy (Gradinita)" | Str. Județului 30, și 32, 023755 București | Pret: 375 lei
+  ✅ Adaugat: "Gradinita Springfield" | Strada Șoltuzului 10, 023745 București | Pret: ?
+
+[20/48] "afterschool Mosilor Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "Bell - Gradinita & Afterschool" | Str. Mecet, 53, Bucuresti-Sector 2, Bucuresti, 24084, 030167 București | Pret: ?
+  ✅ Adaugat: "Centrul Educational Club de 10" | Strada Viesparilor 32, București | Pret: ?
+  ✅ Adaugat: "Amy Village After School" | Șoseaua Mihai Bravu 25, 022109 București | Pret: ?
+  ✅ Adaugat: "Edukido" | Strada Făinari 3, 021221 București | Pret: ?
+
+[21/48] "afterschool Vatra Luminoasa Bucuresti"
+  Gasit 8 pe Google Maps
+  ✅ Adaugat: "City Kids" | Strada Rușchița 41, 077085 București | Pret: ?
+  ✅ Adaugat: "Gradinita Kids First" | Strada Sică Alexandrescu 20, 022015 București | Pret: ?
+
+[22/48] "afterschool Pantelimon sector 2 Bucuresti"
+  Gasit 7 pe Google Maps
+  ✅ Adaugat: "Casa After School" | Strada Băile Herculane 5, 077145 Pantelimon | Pret: ?
+  ✅ Adaugat: "Gradinita Particulara Super Start" | Bulevardul Ferdinand I 156, București | Pret: 1400 lei
+
+[23/48] "afterschool Titan Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "STEM Education" | Strada Soldat Alexandru Magatti 13A, 031581 București | Pret: 500 lei
+  ✅ Adaugat: "Dumbo Kids Academy" | Intrarea Patinoarului 42a, București | Pret: 200 lei
+
+[24/48] "afterschool Dristor Bucuresti"
+  Gasit 6 pe Google Maps
+  ⏭  Ignorat (tip: "Școală de limbi străine"): EdVenture School
+  ⏭  Ignorat (tip: "Grădiniță"): Grădiniţa Castelul Fermecat G&B
+  ⏭  Ignorat (tip: "Grădiniță"): Grădiniţa Castelul Fermecat G&B
+
+[25/48] "afterschool Balta Alba Bucuresti"
+  Gasit 16 pe Google Maps
+  ✅ Adaugat: "Edu Center Berceni" | Strada Speranței 4H, 077020 Berceni | Pret: ?
+  ✅ Adaugat: "Afterschool - Clubul Micilor Aristocrati" | Calea Șerban Vodă Nr 60, corp 1, 040221 București | Pret: 1600 lei
+
+[26/48] "afterschool Vitan Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  ✅ Adaugat: "Grădinița cu Program Prelungit OLIMPIA KIDS" | Drumul Între Vii 24, 077160 București | Pret: ?
+  ✅ Adaugat: "Grădinița Family Kids" | Strada Mugur Mugurel 21, 031227 București | Pret: ?
+
+[27/48] "afterschool Dudesti Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "Green Afterschool" | Drumul Malu Roșu 20, 100435 București | Pret: ?
+  ✅ Adaugat: "Lexy's After School" | Strada Ilioara 54, 032126 București | Pret: ?
+
+[28/48] "afterschool Timpuri Noi Bucuresti"
+  Gasit 5 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  ✅ Adaugat: "After School Bulinela - After School Unirii, Timpuri Noi" | Strada Vasile Voiculescu 21, 031236 București | Pret: ?
+
+[29/48] "afterschool Berceni Bucuresti"
+  Gasit 10 pe Google Maps
+
+[30/48] "afterschool Tineretului Bucuresti"
+  Gasit 8 pe Google Maps
+  ✅ Adaugat: "Gimnaziu & Liceu Flipped Education cu programă americană - AmSchool" | Calea Șerban Vodă 133, 040205 București | Pret: ?
+  ✅ Adaugat: "After School 7 ani" | Intrarea Binelui 1A, 042159 București | Pret: ?
+
+[31/48] "afterschool Aparatorii Patriei Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Elite
+  ✅ Adaugat: "Afterschool Sarida Sediul 1" | Strada Crișul Alb 9-13, 040726 București | Pret: 150 lei
+  ✅ Adaugat: "Kids Palace" | Strada Obolului 10, 041266 București | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Teddy Club
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Eurokid 1
+  ✅ Adaugat: "Gradinita Arons - Sector 4" | Strada Luminoasă 8, 040762 București | Pret: ?
+  ✅ Adaugat: "Centrul Educational Special Kids Therapy" | Strada Teascului 41-43, 042098 București | Pret: ?
+
+[32/48] "afterschool Brancoveanu Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "After School Clubul Boreal" | Strada Valerian Prescurea 5, 040268 București | Pret: 1600 lei
+  ✅ Adaugat: "After School Sector 4 - Club Clever Kids" | Strada Preda Buzescu 12, 040708 București | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Teddy Club
+  ✅ Adaugat: "Centrul pentru Educatie IQ EST SRL" | Strada Ionescu Gheorghe 6, 077160 București | Pret: ?
+  ✅ Adaugat: "Little Dreamers" | Strada Cuza Vodă 53, 040282 București | Pret: ?
+
+[33/48] "afterschool Metalurgiei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[34/48] "afterschool Rahova Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "Afterschool TrioVeseliaClub" | Strada Dărniciei 33, 052034 București | Pret: ?
+  ✅ Adaugat: "Gradiniță și After School "Top Kids"" | Strada Gheorghe Donici 26-28, 052034 București | Pret: ?
+  ✅ Adaugat: "Centrul Educational MARUCS | Cresa | Gradinita | Afterschool" | Strada Pucheni 151-153, 052034 București | Pret: ?
+  ✅ Adaugat: "SOLEIL KIDS Club Educational sect.5" | Strada Cozieni, București | Pret: ?
+  ✅ Adaugat: "Jasper Kids" | Strada Iancu Jianu 2B, 051823 București | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Micul Lord
+
+[35/48] "afterschool Cotroceni Bucuresti"
+  Gasit 4 pe Google Maps
+  ✅ Adaugat: "Afterschool My Universe" | Bulevardul Eroii Sanitari 51, București | Pret: ?
+
+[36/48] "afterschool 13 Septembrie Bucuresti"
+  Gasit 5 pe Google Maps
+  ✅ Adaugat: "Grădinița Smarty" | Calea 13 Septembrie 201, 061344 București | Pret: ?
+
+[37/48] "afterschool Plevnei Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "Afterschool Rainbow" | Strada Lanțului nr 9B, București | Pret: 1000 lei
+  ✅ Adaugat: "Clubul copiilor-Elite Akademie" | Strada Grigore Alexandrescu 102, 010627 București | Pret: ?
+
+[38/48] "afterschool Ferentari Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Școală de limbi străine"): EdVenture School
+  ✅ Adaugat: "After School Sony&Maya s friends" | Strada Zidarului 9, 051734 București | Pret: ?
+  ✅ Adaugat: "Afterschool David Center" | Str. Ion Nonna Otescu 2, 060124 București | Pret: 180 lei
+
+[39/48] "afterschool Militari Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat: "Gradinita Irina" | Str. Nicodim 27, 061484 București | Pret: ?
+  ✅ Adaugat: "Afterschool Creative Kidz Militari" | Strada Gospodari 46, 077042 Roșu | Pret: ?
+  ✅ Adaugat: "HappyKidz Before & Afterschool" | Strada Performanței 9, București | Pret: ?
+  ✅ Adaugat: "Happykidz Afterschool" | Strada Albiței 2k, 062359 București | Pret: ?
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Castelul Voinicilor
+  ✅ Adaugat: "Happy Kiddo" | Strada Pădurii 5, 077041 Dudu | Pret: 250 lei
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Emerald
+  ✅ Adaugat: "Great Kids" | Strada Albiței, 061621 București | Pret: ?
+  ⏭  Ignorat (tip: "Psiholog"): Terapie Militari
+  ⏭  Ignorat (tip: "Grădiniță"): Sf Stelian
+
+[40/48] "afterschool Drumul Taberei Bucuresti"
+  Gasit 16 pe Google Maps
+  ✅ Adaugat: "Lumea Copiilor Club After School" | Aleea Ariniș, București | Pret: ?
+  ✅ Adaugat: "Ana și strumfii ( sediul 1)" | Stradă Prelungirea Ghencea 255 A, 077025 București | Pret: ?
+  ✅ Adaugat: "Paper Rainbow Afterschool" | Drumul Valea Danului 25, București | Pret: 1072 lei
+  ✅ Adaugat: "Gradinita si Cresa Happy Kiddo Militari - Drumul Taberei" | Strada Torcătoarelor 14, 077042 București | Pret: 250 lei
+
+[41/48] "afterschool Crangasi Bucuresti"
+  Gasit 0 pe Google Maps
+
+[42/48] "afterschool Giulesti Bucuresti"
+  Gasit 0 pe Google Maps
+
+[43/48] "afterschool Lujerului Bucuresti"
+  Gasit 19 pe Google Maps
+  ✅ Adaugat: "After-School Art'Alegria" | Drumul Valea Cricovului, București | Pret: 2000 lei
+  ⏭  Ignorat (tip: "Grădiniță"): Grădinița Castelul Voinicilor
+
+[44/48] "program after school copii Bucuresti"
+  Gasit 10 pe Google Maps
+  ✅ Adaugat: "Gradinita i-Kids Garden" | Strada Soldat Marin Savu 57, 022191 București | Pret: 2000 lei
+
+[45/48] "centru educational dupa scoala Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  ✅ Adaugat: "After school Cei Trei Muschetari sediul Porthos scoala 56" | Strada Fluierului nr 36, etaj 2, 021434 București | Pret: 1870 lei
+  ✅ Adaugat: "Fundatia Upper Education" | intrare Bioclinica, Calea Călărașilor 161, office 34, 030614 București | Pret: ?
+  ✅ Adaugat: "Centrul educational One to One" | Șoseaua Colentina nr. 60, bl. 103, sc. A, parter, 021186 București | Pret: ?
+  ⏭  Ignorat (tip: "Instituție de învățământ general"): Școala Gimnazialã Specialã Nr.2
+  ⏭  Ignorat (tip: "Școală pentru deficienți de vedere"): Școala Gimnazială Specială pentru Deficienți de Vedere
+  ⏭  Ignorat (tip: "Grădiniță"): Montessori Land - Sediul Colentina
+  ✅ Adaugat: "Success Academy Romania" | Bulevardul Hristo Botev 1, 030231 București | Pret: ?
+  ✅ Adaugat: "Centrul Gifted Education" | Strada Delea Nouă 40, 030925 București | Pret: ?
+  ⏭  Ignorat (tip: "Centru artistic"): CUBUL - Academia de arte
+  ⏭  Ignorat (tip: "Școală pentru adulți"): Eurodeal cursuri Romania
+
+[46/48] "scoala dupa scoala privat Bucuresti"
+  Gasit 10 pe Google Maps
+  ⏭  Ignorat (tip: "Școală internațională"): Verita International School
+  ⏭  Ignorat (tip: "Instituție de învățământ"): InaSchool - Școală Primară și Gimnazială
+  ⏭  Ignorat (tip: "Școală pentru adulți"): Eurodeal cursuri Romania
+  ⏭  Ignorat (tip: "Școală particulară"): Școala Gimnaziala Step by Step
+  ⏭  Ignorat (tip: "Gimnaziu"): Școala Gimnazială Nr. 62
+  ⏭  Ignorat (tip: "Gimnaziu"): Școala Gimnazială Nr. 51
+  ⏭  Ignorat (tip: "Școală pentru deficienți de vedere"): Școala Gimnazială Specială pentru Deficienți de Vedere
+  ⏭  Ignorat (tip: "Școală profesională"): Şcoala Specială Profesională Numărul 2
+
+[47/48] "supraveghere scolara Bucuresti"
+  Gasit 20 pe Google Maps
+  ⏭  Ignorat (tip: "Furnizor de sisteme de securitate"): SECPRAL S.R.L.
+  ⏭  Ignorat (tip: "Centru educațional"): Academia de Robotică
+  ⏭  Ignorat (tip: "Centru educațional"): Academia de Robotică
+  ✅ Adaugat: "IT Junior - Cursuri IT, programare & AI pentru copii" | Strada Piața Amzei 7- 15, 010361 București | Pret: ?
+  ⏭  Ignorat (tip: "Centru de învățare"): Centrul de Meditatii si Dezvoltare Personala
+  ⏭  Ignorat (tip: "Servicii de meditații"): Meditatii romana-matematica Bucuresti
+  ⏭  Ignorat (tip: "Centru de învățare"): Centrul de Meditatii si Dezvoltare Personala
+  ⏭  Ignorat (tip: "Școală de cursuri IT"): Logiscool
+  ⏭  Ignorat (tip: "Centru educațional"): Centrul de meditatii SUPER
+  ✅ Adaugat: "Gradinita Nemo" | Strada Călușei 41, 030167 București | Pret: ?
+  ✅ Adaugat: "Logiscool Romană - Școala de Educație Digitală, AI și Programare pentru copii și adolescenți" | Strada Polonă nr. 43, Etaj 3, Ap. 3, 010493 București | Pret: ?
+  ✅ Adaugat: "New Edu" | Strada, Intrarea Moneasa 4, 010633 București | Pret: 167 lei
+  ⏭  Ignorat (tip: "Serviciu de evaluare educațională"): S.D.D.P. CONFIDENT
+  ⏭  Ignorat (tip: "Școală particulară"): Școala Gimnaziala Step by Step
+  ✅ Adaugat: "Centrul Step by Step pentru Educație și Dezvoltare Profesională" | Strada Plantelor 70, 030167 București | Pret: ?
+
+[48/48] "after school program Bucuresti"
+  Gasit 16 pe Google Maps
+  ⏭  Ignorat (tip: "Agent de catering"): 3 Continente
+  ✅ Adaugat: "SAGA Kid Iancului" | Șoseaua Iancului 45, 021718 București | Pret: ?
+  ✅ Adaugat: "Centrul Educațional Lill'put" | Strada Sarafinești 29, 021832 București | Pret: 450 lei
+
+--- Faza B: Cluburi (36 queries) ---
+
+[1/36] [inot] "bazin inot copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [inot]: "BSC Berceni" | Bucuresti | Pret: ?
+  ✅ Adaugat [inot]: "Cursuri inot LCD Club - Olimpia" | Șoseaua Iancului 128A, 021716 București | Pret: 200 lei
+  ✅ Adaugat [inot]: "Cursuri inot copii Alexandreea" | Bulevardul Basarabia 37-39, 022102 București | Pret: ?
+  ✅ Adaugat [inot]: "BSC Pantelimon" | Șoseaua Iancului 128a, 021715 București | Pret: 350 lei
+
+[2/36] [inot] "scoala inot copii Bucuresti"
+  Gasit 20 pe Google Maps
+
+[3/36] [inot] "lectii inot copii Bucuresti"
+  Gasit 20 pe Google Maps
+
+[4/36] [inot] "club inot juniori Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [inot]: "Cursuri inot copii" | Bulevardul Ghencea 45, 061701 București | Pret: ?
+  ✅ Adaugat [inot]: "Bazin inot scoala 190" | Strada Nițu Vasile 16, 041541 București | Pret: 250 lei
+  ✅ Adaugat [inot]: "Casa Campionilor Navi" | Strada Eșarfei 62a, 031868 Esarfei | Pret: 160 lei
+
+[5/36] [fotbal] "scoala fotbal copii Bucuresti"
+  Gasit 15 pe Google Maps
+  ✅ Adaugat [fotbal]: "Scoala de fotbal Arsenal Sports" | Bucuresti | Pret: ?
+  ✅ Adaugat [fotbal]: "Scoala de fotbal ACS DinamoNouaGeneratie" | Bucuresti | Pret: ?
+  ✅ Adaugat [fotbal]: "AS Dan Chilom" | Bucuresti | Pret: ?
+  ✅ Adaugat [fotbal]: "Acs Steaua Noua Generatie" | Strada Theodor D. Speranția 137, București | Pret: ?
+
+[6/36] [fotbal] "academie fotbal copii Bucuresti"
+  Gasit 19 pe Google Maps
+  ✅ Adaugat [fotbal]: "Academia de Fotbal de Masă" | Strada Ilarie Chendi 5, 030167 București | Pret: ?
+  ✅ Adaugat [fotbal]: "Academia de fotbal NARCIS RĂDUCAN" | Bulevardul Expoziției 22, 012244 București | Pret: ?
+  ✅ Adaugat [fotbal]: "Scoala de Fotbal Lucian Sanmartean" | Strada Balta Albina, București | Pret: ?
+  ✅ Adaugat [fotbal]: "Scoala de Fotbal" | Șoseaua Mihai Bravu 634, București | Pret: ?
+
+[7/36] [fotbal] "club fotbal juniori Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [fotbal]: "Complexul sportiv național Lia Manoliu" | Strada Sergent Șerbănică Vasile, 022186 București | Pret: 250 lei
+  ✅ Adaugat [fotbal]: "Lions FC Bucuresti" | Bulevardul Tineretului 2, 040341 București | Pret: ?
+
+[8/36] [fotbal] "antrenamente fotbal copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [fotbal]: "Mirunette Education" | Bucuresti | Pret: ?
+  ✅ Adaugat [fotbal]: "Teren de fotbal Bujorilor" | Drumul Dobroești-Fundeni, 077085 București | Pret: ?
+  ✅ Adaugat [fotbal]: "CLUBUL SPORTIV ŞCOLAR NR. 4" | Aleea Buchetului 5, 030463 București | Pret: ?
+  ✅ Adaugat [fotbal]: "Atletic 24 Bucuresti" | Splaiul Unirii 749, 030138 București | Pret: ?
+  ✅ Adaugat [fotbal]: "Aldo Sport" | Aldo Sport pe Waze, Splaiul Unirii 749, 030138 București | Pret: ?
+
+[9/36] [dansuri] "scoala dans copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [dansuri]: "Scoala de dans pentru copii Ballet Dance Studio Heart&Soul" | Bulevardul Chișinău 1, 022141 București | Pret: ?
+  ✅ Adaugat [dansuri]: "DAnceTime.Ro Cursuri de Dans Bucuresti" | Str Washington 40-42 Sector 1-2@Dorobanti, Șoseaua Ștefan cel Mare, 010538 București | Pret: ?
+
+[10/36] [dansuri] "balet copii Bucuresti"
+  Gasit 19 pe Google Maps
+  ✅ Adaugat [dansuri]: "Scoala de dans pentru copii Ballet Show Dance Art" | Bulevardul Chișinău 6-8, București | Pret: ?
+  ✅ Adaugat [dansuri]: "Casa de Balet" | Calea Floreasca 111-113, 014455 București | Pret: ?
+  ✅ Adaugat [dansuri]: "Școala de Balet Geanina Neagu sector 2" | Strada Constantin Bogorin 17A, 077190 București | Pret: ?
+  ✅ Adaugat [dansuri]: "Pas Classique Ballet" | Strada Vasile Lascăr 102, 030167 București | Pret: ?
+  ✅ Adaugat [dansuri]: "Ballet Art" | Strada Doctor Niculae D. Staicovici 4, 050558 București | Pret: ?
+  ✅ Adaugat [dansuri]: "Casa de Balet - Studio Mihai Bravu" | Strada Traian Popovici 87, 031422 București | Pret: ?
+
+[11/36] [dansuri] "cursuri dans copii Bucuresti"
+  Gasit 17 pe Google Maps
+
+[12/36] [dansuri] "studio dans copii Bucuresti"
+  Gasit 13 pe Google Maps
+
+[13/36] [arte_martiale] "karate copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [arte_martiale]: "Absoluto Fighting Center" | Bucuresti | Pret: ?
+  ✅ Adaugat [arte_martiale]: "martialartsnation.ro" | Piaţa Sudului, Șoseaua Olteniței 105, cladirea INTEC, et 5, 041303 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "eXtrembody MMA" | Bulevardul Chișinău 1 In incinta Complexului Comercial Agroindustrial, Strada Delfinului, etajul 1, 022141 București | Pret: 250 lei
+  ✅ Adaugat [arte_martiale]: "cursuri karate copii - Akura" | Complex Delfinului, Bulevardul Chișinău 1, etajul 1, 022141 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "CLUBUL DE ARTE MARŢIALE" | Bulevardul Basarabia 37-39, 022103 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "Complex Sportiv Olimpia Bucuresti" | Bucuresti, Șoseaua Iancului 128A, 021742 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "18GYM Pantelimon Bucuresti" | Bulevardul Chișinău 1, et.1, 022141 București | Pret: 179 lei
+  ✅ Adaugat [arte_martiale]: "Federația Română de Karate Tradițional" | Bulevardul Basarabia 37-39, 022103 București | Pret: 5000 lei
+
+[14/36] [arte_martiale] "judo copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [arte_martiale]: "Absoluto Veranda" | Strada Ziduri Moși 23, 021203 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "Cavaleria Krav" | Strada Matei Millo 9, 010144 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "Judo Bucuresti" | Bulevardul Basarabia 41a, 022114 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "Asociația Clubul Sportiv Motiuashi" | Strada Gherghiței 60, 077190 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "Ju Jitsu Club" | Bulevardul Basarabia 37, 022103 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "Judo Metrorex" | Șoseaua Industriilor, București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "C.S.S. STEAUA Bucuresti" | Strada Gârniţei 7c, 077160 București | Pret: ?
+
+[15/36] [arte_martiale] "taekwondo copii Bucuresti"
+  Gasit 11 pe Google Maps
+  ✅ Adaugat [arte_martiale]: "Fortis Taekwon-Do" | Strada Logofătul Tăutu 68a, 031193 București | Pret: 265 lei
+  ✅ Adaugat [arte_martiale]: "Federația Română de Arte Marțiale" | în incinta Complexului Sportiv Național Lia Manoliu, Bulevardul Basarabia 37-39, 022103 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "Cursuri Karate" | în incinta Complexului Sportiv Național Lia Manoliu, Bulevardul Basarabia 37-39, 022103 București | Pret: ?
+
+[16/36] [arte_martiale] "arte martiale copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [arte_martiale]: "Scoala Bukan de Krav Maga pentru copii - Dojo Delfinului" | Bulevardul Chișinău 1, 022141 București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "Kami-Do" | Strada Fântânica 38, București | Pret: ?
+  ✅ Adaugat [arte_martiale]: "IKMF Krav Maga Dacians" | Strada Fântânica 38, 021805 București | Pret: 150 lei
+
+[17/36] [gimnastica] "gimnastica copii Bucuresti"
+  Gasit 18 pe Google Maps
+  ✅ Adaugat [gimnastica]: "Xbody Decebal Fitness Studio" | Bucuresti | Pret: ?
+  ✅ Adaugat [gimnastica]: "Acumen Sport Romania" | Bulevardul Iuliu Maniu 8A, 061103 București | Pret: ?
+  ✅ Adaugat [gimnastica]: "Clubul Copiilor Sector 3" | Aleea Barajul Dunării 5, 032754 București | Pret: ?
+  ✅ Adaugat [gimnastica]: "Stars gym academy" | Strada Cameliei 39, etaj 1, 010852 București | Pret: ?
+
+[18/36] [gimnastica] "gimnastica ritmica copii Bucuresti"
+  Gasit 17 pe Google Maps
+  ✅ Adaugat [gimnastica]: "Federația Română de Gimnastică" | Strada Vasile Conta 16, 030167 București | Pret: ?
+  ✅ Adaugat [gimnastica]: "International Gymnastics Club" | Bulevardul Pipera 4E, 014255 Voluntari | Pret: ?
+
+[19/36] [gimnastica] "acrobatii copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[20/36] [gimnastica] "club gimnastica copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [gimnastica]: "Clubul Copiilor Sector 5 București" | Strada Năsăud 93, 052065 București | Pret: ?
+
+[21/36] [limbi_straine] "cursuri engleza copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [limbi_straine]: "Cursuri Engleza - Flying Colours Cool English School" | Bucuresti | Pret: ?
+  ✅ Adaugat [limbi_straine]: "Big Ben School" | Bucuresti | Pret: ?
+  ✅ Adaugat [limbi_straine]: "Mayflower Centre - Cursuri de engleză cu profesori nativi" | Strada Maior Laurențiu Claudian 7, 021876 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "Shakespeare School Ferdinand" | Strada Eufrosin Potecă 42A, 021764 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "English Kids Academy - Cursuri Engleza Copii si Adolescenti ﻿- București, Tineretului" | Strada Lânăriei 93 - 95, 040323 București | Pret: 155 lei
+  ✅ Adaugat [limbi_straine]: "Centrul de limbi străine B Smart" | Strada Ilarie Chendi 25, 030167 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "Cursuri Engleza - Engleza pentru toți" | Șoseaua Mihai Bravu 62 A, 021328 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "FollowMe Vitan" | Calea Vitan 119 Bl. V21B, Calea Vitan 117, SC. 3, 031283 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "Helen Doron – Bucuresti Mosilor" | Strada Făinari 45A, 021222 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "Mevington House Bucharest" | Calea Moşilor RO, Strada Mihai Eminescu 177, 030167 Zona | Pret: ?
+  ✅ Adaugat [limbi_straine]: "Britanica Learning Centre - Baba Novac" | Strada Șapte Drumuri 39, 031648 București | Pret: ?
+
+[22/36] [limbi_straine] "centru limbi straine copii Bucuresti"
+  Gasit 16 pe Google Maps
+  ✅ Adaugat [limbi_straine]: "Centrul de Limbi Străine Fides" | Bulevardul Hristo Botev 9, 030235 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "IBIS Educational Center" | Strada Vatra Luminoasă 106 Bis, 021919 București | Pret: 270 lei
+
+[23/36] [limbi_straine] "cursuri franceza copii Bucuresti"
+  Gasit 1 pe Google Maps
+  ✅ Adaugat [limbi_straine]: "Cinema "Elvire Popesco"" | Bulevardul Dacia 77, 020051 București | Pret: ?
+
+[24/36] [limbi_straine] "scoala limbi straine copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [limbi_straine]: "Verita International School" | Strada Soldat Gheorghe Pripu 22A, 077190 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "CENTRUL DE LIMBI STRAINE SMART ENGLISH" | Șos. Vergului nr. 39, Bloc 29D, Parter, 022444 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "IELS București (Școală de limbi străine)" | 7-15, District 1, Str. D. I. Mendeleev str, 010361 București | Pret: ?
+  ✅ Adaugat [limbi_straine]: "Cursuri Engleză, Franceză și Română - copii, adolescenți și adulți" | Strada Polonă 115, 010507 București | Pret: ?
+
+[25/36] [robotica] "robotica copii Bucuresti"
+  Gasit 4 pe Google Maps
+  ✅ Adaugat [robotica]: "Kiddo Park Lake" | ParkLake Shoping Center, Str. Liviu Rebreanu 4, 031783 București | Pret: ?
+  ✅ Adaugat [robotica]: "Academia de Robotică" | Strada Constantin Tănase 39, 021937 București | Pret: 300 lei
+
+[26/36] [robotica] "programare copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [robotica]: "Didactika, centrul tau de meditatii din București i" | etaj 1 si 2, Bulevardul Ferdinand I 146, 021397 București | Pret: 250 lei
+  ✅ Adaugat [robotica]: "Success Academy Romania" | Bulevardul Hristo Botev 1, 030231 București | Pret: ?
+  ✅ Adaugat [robotica]: "Logiscool Pantelimon" | Bulevardul Pierre de Coubertin 7, et. 2 021901, 077085 București | Pret: ?
+  ✅ Adaugat [robotica]: "MindHub București - Unirii" | Strada Traian 3, bl. E6, parter, 030571 București | Pret: ?
+  ✅ Adaugat [robotica]: "Logiscool" | Strada Ion Luca Caragiale 28, etaj 1, 020046 București | Pret: ?
+  ⏭  Ignorat (tip: "Spital de copii"): Spitalul Clinic de Copii „Dr. Victor Gomoiu”
+  ✅ Adaugat [robotica]: "CENTRUL MUNICIPIULUI BUCURESTI DE RESURSE SI ASISTENTA EDUCATIONALA (CMBRAE)" | Strada Heliade Între Vii 36, București | Pret: ?
+  ⏭  Ignorat (tip: "Centru medical"): Policlinica de copii Victor Gomoiu
+  ⏭  Ignorat (tip: "Spital de copii"): Institutul Național pentru Sănătatea Mamei și Copilului „Alessandrescu-Rusescu”
+  ✅ Adaugat [robotica]: "Siguranta Auto Copii Bucuresti" | Bloc M65, Strada Nerva Traian 5, 031042 București | Pret: ?
+
+[27/36] [robotica] "cursuri coding copii Bucuresti"
+  Gasit 19 pe Google Maps
+  ✅ Adaugat [robotica]: "Coders Lab" | Bucuresti | Pret: ?
+  ✅ Adaugat [robotica]: "Telecom Academy" | Calea Victoriei 12A, 030026 București | Pret: 250 lei
+  ✅ Adaugat [robotica]: "Academia de Robotică Militari" | Bulevardul Uverturii 49, Etaj 2, 060932 București | Pret: 300 lei
+  ✅ Adaugat [robotica]: "Atelierele ILBAH" | Strada Romulus 4, 023986 București | Pret: ?
+  ✅ Adaugat [robotica]: "EduBricks" | Şoseaua Pavel D. Kiseleff 49, 020244 București | Pret: ?
+  ✅ Adaugat [robotica]: "Small Academy" | Bulevardul Expoziției 1C, 012244 București | Pret: ?
+  ✅ Adaugat [robotica]: "GoIT România" | Strada Aviator Popișteanu 54A, 012094 București | Pret: ?
+
+[28/36] [robotica] "STEM copii Bucuresti"
+  Gasit 18 pe Google Maps
+  ✅ Adaugat [robotica]: "TeenMedia Academy" | ParkLake Shoping Center, Str. Liviu Rebreanu 4, 031783 București | Pret: ?
+  ✅ Adaugat [robotica]: "STEM Education" | Strada Soldat Alexandru Magatti 13A, 031581 București | Pret: 500 lei
+  ✅ Adaugat [robotica]: "Muzeul Copiilor" | Bloc S14, Bulevardul Decebal 11, 030963 București | Pret: ?
+  ✅ Adaugat [robotica]: "LIFE is Cool TITAN - EduHub & Afterschool" | Str. Liviu Rebreanu 30a, et.1&2, 031792 București | Pret: ?
+  ✅ Adaugat [robotica]: "JULAND BY OTI" | Strada Constantin Tănase 39, 021937 București | Pret: 300 lei
+  ✅ Adaugat [robotica]: "FasTracKids – Centrul Step by Step" | Strada Gheorghe Dem Teodorescu nr. 16 bis, 030916 București | Pret: ?
+  ✅ Adaugat [robotica]: "Help Autism - Centrul Eminescu" | Strada Ardeleni 3A, etaj 2, 020671 București | Pret: ?
+  ✅ Adaugat [robotica]: "WhizKidz Hub - Afterschool" | Strada Grădinarilor 14, 031512 București | Pret: 150 lei
+  ✅ Adaugat [robotica]: "Casa Experimentelor - Romanian Science Center" | Clădirea RENAR, Calea Vitan 242, 031301 București | Pret: ?
+  ✅ Adaugat [robotica]: "Centrul de Proiecte Educaționale și Sportive București - PROEDUS" | Bloc S14, Bulevardul Decebal 11, 030963 București | Pret: ?
+  ⏭  Ignorat (tip: "Spital de copii"): Institutul Național pentru Sănătatea Mamei și Copilului „Alessandrescu-Rusescu”
+  ⏭  Ignorat (tip: "Centru de sănătate publică"): Registrul National al Donatorilor Voluntari de Celule Stem Hematopoietice
+  ✅ Adaugat [robotica]: "Clubul Copiilor Sector 6" | Strada Berzei 7, 10257 București | Pret: ?
+  ✅ Adaugat [robotica]: "Little Team THE COLLEGE childcare" | Calea 13 Septembrie 191, 050722 București | Pret: 165 lei
+
+[29/36] [muzica] "scoala muzica copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [muzica]: "Clubul de muzică - MUSIC CREW" | Bucuresti | Pret: ?
+  ✅ Adaugat [muzica]: "Scoala de Muzica Harmony Music" | Strada General Dimitrie Salmen 18, 030167 București | Pret: ?
+  ✅ Adaugat [muzica]: "Scoala de Muzica Armonia Obor-Mosilor" | Str. Profesor Ion Maiorescu 37, 021244 București | Pret: 150 lei
+  ✅ Adaugat [muzica]: "Scoala de Muzica - Academia de Chitara" | Strada Râmnicu Vâlcea 4, 031801 București | Pret: ?
+  ✅ Adaugat [muzica]: "Bravissimo Art School" | Strada Alexandru Zagoritz 24, 021997 București | Pret: 200 lei
+
+[30/36] [muzica] "lectii pian copii Bucuresti"
+  Gasit 20 pe Google Maps
+  ✅ Adaugat [muzica]: "Studioul Audio Adelin Croitoru" | Bucuresti | Pret: ?
+  ✅ Adaugat [muzica]: "Scoala de Muzica Boem Club Bucuresti (Boem Club Music School) - Lectii de Muzica Bucuresti" | Strada Chiparosului 36, 031122 București | Pret: ?
+  ✅ Adaugat [muzica]: "Școala de Muzică Symphony" | Strada Iancu Cavaler de Flondor 7, 024051 București | Pret: 150 lei
+  ✅ Adaugat [muzica]: "Cursuri de Tobe si Percutie in Bucuresti, Cursuri Chitara, Pian - Superchill School" | Strada Ion Minulescu 67-93, 031216 București | Pret: ?
+
+[31/36] [muzica] "cursuri chitara copii Bucuresti"
+  Gasit 16 pe Google Maps
+  ✅ Adaugat [muzica]: "Dava Music School" | Bucuresti | Pret: ?
+
+[32/36] [muzica] "cursuri vioara copii Bucuresti"
+  Gasit 16 pe Google Maps
+  ✅ Adaugat [muzica]: "Academia de Arte Horia Brenciu" | Bucuresti | Pret: ?
+  ✅ Adaugat [muzica]: "Scoala de muzica Artissimo" | Strada Puțul lui Zamfir 21, 011683 București | Pret: ?
+
+[33/36] [arte_creative] "atelier pictura copii Bucuresti"
+  Gasit 15 pe Google Maps
+  ✅ Adaugat [arte_creative]: "Art House" | Strada Icoanei 97B, București | Pret: ?
+  ✅ Adaugat [arte_creative]: "Academia de Arte "Marina Capațîna"" | Strada General Constantin Coandă 16, 010646 București | Pret: 1550 lei
+  ✅ Adaugat [arte_creative]: "Casa cu Rost" | Strada Traian 168, 024045 București | Pret: 400 lei
+  ✅ Adaugat [arte_creative]: "Nuvotek Academy by Cristina Stănescu" | Șoseaua Iancului 46, 021726 București | Pret: ?
+
+[34/36] [arte_creative] "cursuri desen copii Bucuresti"
+  Gasit 15 pe Google Maps
+  ✅ Adaugat [arte_creative]: "Scoala de Pictura si Desen - Marina Bira" | Strada Stanislav Cihoschi 11, Scara 11B, Parter, 010592 București | Pret: 450 lei
+
+[35/36] [arte_creative] "ceramica copii Bucuresti"
+  Gasit 6 pe Google Maps
+  ✅ Adaugat [arte_creative]: "Kiddo Baneasa" | Șoseaua București-Ploiești nr. 44 C, 013696 București | Pret: ?
+  ✅ Adaugat [arte_creative]: "Made by you" | Strada Silvestru 57, 2, 020733 București | Pret: ?
+  ✅ Adaugat [arte_creative]: "Ceramica de Soare" | Str. Școala Floreasca 19, 011643 București | Pret: ?
+
+[36/36] [arte_creative] "arte plastice copii Bucuresti"
+  Gasit 19 pe Google Maps
+  ✅ Adaugat [arte_creative]: "Ședinte foto newborn, copii și maternitate - Alex Nedelcu Photography" | Alex Nedelcu, Strada Moise Nicoară 8, 030904 București | Pret: 275 lei
+  ✅ Adaugat [arte_creative]: "Facultatea Artelor Decorative și Designului din Universitatea Artelor" | Calea Griviței 28, București | Pret: ?
+  ✅ Adaugat [arte_creative]: "Școala Gimnazială de Arte nr.4" | Strada Maica Domnului 61 - 63, 023722 București | Pret: ?
+  ⏭  Ignorat (tip: "Magazin cu materiale pentru artiști"): Magazinul Artiștilor
+
+═════════════════════════════════════════════════════════════════
+Afterschool-uri noi adaugate: 124  (ignorate ca irelevante: 53)
+Cluburi noi adaugate:         127  (ignorate ca irelevante: 6)
+Total nou in DB: 251
+Checkpoint sters — urmatoarea rulare o ia de la capat.
+═════════════════════════════════════════════════════════════════
+
