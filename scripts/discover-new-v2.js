@@ -485,7 +485,7 @@ async function main() {
 
   log(`DB curent: ${existingAS.length} afterschool-uri, ${existingClubs.length} cluburi\n`);
 
-  const browser = await chromium.launch({ headless: false, slowMo: 40 });
+  const browser = await chromium.launch({ headless: true, slowMo: 40 });
   const context = await browser.newContext({
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
     viewport: { width: 1400, height: 900 },
