@@ -157,6 +157,9 @@ export default function AdminPage() {
   const [intervalInput, setIntervalInput] = useState('7');
   const [bannerUploading, setBannerUploading] = useState(false);
   const [clubBannerUploading, setClubBannerUploading] = useState(false);
+  const [asSearch, setAsSearch] = useState('');
+  const [clubSearch, setClubSearch] = useState('');
+  const [clubCategoryFilter, setClubCategoryFilter] = useState('');
 
   useEffect(() => {
     fetch('/api/auth/check')
@@ -399,6 +402,18 @@ export default function AdminPage() {
     setClubBannerUploading(false);
   };
 
+  const filteredAfterschools = afterschools.filter(a => {
+    const q = asSearch.toLowerCase();
+    return !q || a.name.toLowerCase().includes(q) || a.address.toLowerCase().includes(q);
+  });
+
+  const filteredClubs = clubs.filter(c => {
+    const q = clubSearch.toLowerCase();
+    const matchesSearch = !q || c.name.toLowerCase().includes(q) || c.address.toLowerCase().includes(q);
+    const matchesCategory = !clubCategoryFilter || c.category === clubCategoryFilter;
+    return matchesSearch && matchesCategory;
+  });
+
   if (!authenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
@@ -464,56 +479,92 @@ export default function AdminPage() {
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-[var(--color-border)]">
+        <div className="flex gap-2 mb-6 border-b border-slate-600">
           <button
             onClick={() => setActiveTab('afterschools')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'afterschools' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'afterschools' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
           >
             After School-uri ({afterschools.length})
           </button>
           <button
             onClick={() => setActiveTab('clubs')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'clubs' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'clubs' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
           >
             🎯 Activități ({clubs.length})
           </button>
           <button
             onClick={() => { setActiveTab('analytics'); loadAnalytics(analyticsDays); }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'analytics' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'analytics' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
           >
             📊 Analytics
           </button>
           <button
             onClick={() => { setActiveTab('reports'); loadReports(); }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'reports' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'reports' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
           >
             📋 Rapoarte
           </button>
           <button
             onClick={() => setActiveTab('listings')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'listings' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'listings' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
           >
             🏢 Listari
           </button>
         </div>
 
-        {/* Add Button */}
+        {/* Add Button + Search */}
         {(activeTab === 'afterschools' || activeTab === 'clubs') && (
-          <div className="flex justify-between items-center mb-6">
-            {activeTab === 'afterschools' ? (
-              <>
-                <h2 className="text-lg font-semibold">After School-uri</h2>
-                <button onClick={() => { setEditing(null); setForm(emptyForm); setShowForm(true); }} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] text-sm font-medium">
-                  + Adauga After School
-                </button>
-              </>
-            ) : (
-              <>
-                <h2 className="text-lg font-semibold">Activități</h2>
-                <button onClick={() => { setEditingClub(null); setClubForm({ name: '', address: '', sector: 1, lat: 44.4268, lng: 26.1025, phone: '', email: '', website: '', price_min: null, price_max: null, schedule: '', age_min: null, age_max: null, description: '', category: 'inot', availability: 'unknown', banner_url: null }); setShowClubForm(true); }} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] text-sm font-medium">
-                  + Adauga Activitate
-                </button>
-              </>
+          <div className="mb-6 space-y-3">
+            <div className="flex justify-between items-center">
+              {activeTab === 'afterschools' ? (
+                <>
+                  <h2 className="text-lg font-semibold">
+                    After School-uri
+                    {asSearch && <span className="ml-2 text-sm font-normal text-[var(--color-text-light)]">({filteredAfterschools.length} din {afterschools.length})</span>}
+                  </h2>
+                  <button onClick={() => { setEditing(null); setForm(emptyForm); setShowForm(true); }} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] text-sm font-medium">
+                    + Adauga After School
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-lg font-semibold">
+                    Activități
+                    {(clubSearch || clubCategoryFilter) && <span className="ml-2 text-sm font-normal text-[var(--color-text-light)]">({filteredClubs.length} din {clubs.length})</span>}
+                  </h2>
+                  <button onClick={() => { setEditingClub(null); setClubForm({ name: '', address: '', sector: 1, lat: 44.4268, lng: 26.1025, phone: '', email: '', website: '', price_min: null, price_max: null, schedule: '', age_min: null, age_max: null, description: '', category: 'inot', availability: 'unknown', banner_url: null }); setShowClubForm(true); }} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] text-sm font-medium">
+                    + Adauga Activitate
+                  </button>
+                </>
+              )}
+            </div>
+            {activeTab === 'afterschools' && (
+              <input
+                type="search"
+                placeholder="Caută după nume sau adresă..."
+                value={asSearch}
+                onChange={e => setAsSearch(e.target.value)}
+                className="w-full px-3 py-2 border border-slate-600 rounded-lg text-sm bg-slate-800 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            )}
+            {activeTab === 'clubs' && (
+              <div className="flex gap-3">
+                <input
+                  type="search"
+                  placeholder="Caută după nume sau adresă..."
+                  value={clubSearch}
+                  onChange={e => setClubSearch(e.target.value)}
+                  className="flex-1 px-3 py-2 border border-slate-600 rounded-lg text-sm bg-slate-800 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <select
+                  value={clubCategoryFilter}
+                  onChange={e => setClubCategoryFilter(e.target.value)}
+                  className="px-3 py-2 border border-slate-600 rounded-lg text-sm bg-slate-800 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Toate categoriile</option>
+                  {CLUB_CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+                </select>
+              </div>
             )}
           </div>
         )}
@@ -1029,7 +1080,7 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {clubs.map(c => (
+                  {filteredClubs.map(c => (
                     <tr key={c.id} className="border-b border-[var(--color-border)] hover:bg-gray-50">
                       <td className="px-4 py-3 font-medium">{c.name}</td>
                       <td className="px-4 py-3 text-xs">{CLUB_CATEGORIES.find(cat => cat.value === c.category)?.label}</td>
@@ -1074,7 +1125,7 @@ export default function AdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {afterschools.map((as) => (
+                {filteredAfterschools.map((as) => (
                   <tr key={as.id} className="border-b border-[var(--color-border)] hover:bg-gray-50">
                     <td className="px-4 py-3 font-medium">{as.name}</td>
                     <td className="px-4 py-3 text-[var(--color-text-light)]">{as.address}</td>
