@@ -129,6 +129,7 @@ export default function PotrivirePage() {
               listingType={listingType}
               score={item.score}
               breakdown={item.breakdown}
+              distanceKm={item.distanceKm}
               recommendReason={item.recommendReason}
               rank={i + 1}
               matchContext={matchContext}

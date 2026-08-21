@@ -55,12 +55,13 @@ interface Props {
   listingType: 'afterschool' | 'kindergarten';
   score: number;
   breakdown: CriterionResult[];
+  distanceKm: number;
   recommendReason: string;
   rank: number;
   matchContext: unknown;
 }
 
-export default function MatchResultCard({ listing, listingType, score, breakdown, recommendReason, rank, matchContext }: Props) {
+export default function MatchResultCard({ listing, listingType, score, breakdown, distanceKm, recommendReason, rank, matchContext }: Props) {
   const detailHref = listingType === 'kindergarten' ? `/gradinite/${toSlug(listing.name, listing.id)}` : `/afterschool/${toSlug(listing.name, listing.id)}`;
 
   return (
@@ -90,6 +91,9 @@ export default function MatchResultCard({ listing, listingType, score, breakdown
               {listing.price_min === listing.price_max ? `${listing.price_min} lei/lună` : `${listing.price_min}-${listing.price_max} lei/lună`}
             </p>
           )}
+        </div>
+        <div className="flex-shrink-0 bg-blue-50 text-[var(--color-primary)] px-2.5 py-1 rounded-full text-xs sm:text-sm font-semibold">
+          {formatDistance(distanceKm)}
         </div>
       </div>
 
