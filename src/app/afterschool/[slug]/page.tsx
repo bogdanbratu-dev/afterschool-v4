@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getDb } from '@/lib/db';
-import { idFromSlug, toSlug } from '@/lib/slug';
+import { idFromSlug, toSlug, cleanAddressDisplay } from '@/lib/slug';
+import { cartierSlug, CARTIER_MIN_LISTINGS } from '@/lib/cartiere';
 import type { Metadata } from 'next';
 import type { AfterSchool } from '@/lib/db';
 import AfterSchoolsNearby from '@/components/AfterSchoolsNearby';
@@ -9,6 +10,8 @@ import PhotoCarousel from '@/components/PhotoCarousel';
 import TrackedLink from '@/components/TrackedLink';
 import ClaimButton from '@/components/ClaimButton';
 import LeadModal from '@/components/LeadModal';
+import LockedContactButton from '@/components/LockedContactButton';
+import { isContactVisible } from '@/lib/contactVisibility';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -17,25 +20,52 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = idFromSlug(slug);
   const db = getDb();
   const as = db.prepare('SELECT * FROM afterschools WHERE id = ?').get(id) as AfterSchool | undefined;
-  if (!as) return { title: 'AfterSchool negasit' };
+  if (!as || as.is_paused) return { title: 'AfterSchool negasit' };
 
   const sectorSuffix = as.sector ? ` Sector ${as.sector}` : '';
   const title = `${as.name} | After School${sectorSuffix} București — ActivKids`;
-  const description = as.description
-    ? as.description.slice(0, 160)
-    : `After school ${as.name}${sectorSuffix}, București. ${as.price_min ? `Preț de la ${as.price_min} lei/lună. ` : ''}Program extins, activități diverse pentru copii.`;
+
+  // Descriere curata: max ~155 caractere, taiata la cuvant intreg
+  const rawDesc = (as.description
+    ? as.description.replace(/\s+/g, ' ').trim()
+    : `After school ${as.name}${sectorSuffix}, București. ${as.price_min ? `Preț de la ${as.price_min} lei/lună. ` : ''}Program extins, activități diverse pentru copii.`);
+  let description = rawDesc;
+  if (description.length > 155) {
+    const cut = rawDesc.slice(0, 155);
+    const lastSpace = cut.lastIndexOf(' ');
+    description = (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:.\-—]+$/, '') + '…';
+  }
+
+  // Prima poza pentru preview social (og:image)
+  let ogImage: string | undefined;
+  try {
+    const photos = as.photo_urls ? JSON.parse(as.photo_urls) : [];
+    if (Array.isArray(photos) && photos.length > 0 && typeof photos[0] === 'string') {
+      ogImage = photos[0];
+    }
+  } catch {}
+  if (!ogImage && as.image_url) ogImage = as.image_url;
+
+  const canonical = `https://activkids.ro/afterschool/${toSlug(as.name, as.id)}`;
 
   return {
     title,
     description,
-    alternates: { canonical: `https://activkids.ro/afterschool/${toSlug(as.name, as.id)}` },
+    alternates: { canonical },
     openGraph: {
       title,
       description,
-      url: `https://activkids.ro/afterschool/${toSlug(as.name, as.id)}`,
-      siteName: 'ActiveKids',
+      url: canonical,
+      siteName: 'ActivKids',
       locale: 'ro_RO',
       type: 'website',
+      ...(ogImage && { images: [{ url: ogImage, alt: as.name }] }),
+    },
+    twitter: {
+      card: ogImage ? 'summary_large_image' : 'summary',
+      title,
+      description,
+      ...(ogImage && { images: [ogImage] }),
     },
   };
 }
@@ -45,11 +75,16 @@ export default async function AfterSchoolPage({ params }: Props) {
   const id = idFromSlug(slug);
   const db = getDb();
   const as = db.prepare('SELECT * FROM afterschools WHERE id = ?').get(id) as (AfterSchool & { banner_url?: string | null; video_urls?: string | null; reviews_url?: string | null }) | undefined;
-  if (!as) notFound();
+  if (!as || as.is_paused) notFound();
 
   const bMode = (db.prepare("SELECT value FROM settings WHERE key = 'business_mode'").get() as { value: string } | undefined)?.value === 'true';
-  const contactHidden = bMode && !as.is_premium && as.contacts_hidden;
+  const contactHidden = bMode && !isContactVisible(as);
   const activities = as.activities?.split(',').map(a => a.trim()).filter(Boolean) || [];
+
+  const cartierCount = as.neighborhood
+    ? (db.prepare('SELECT COUNT(*) as c FROM afterschools WHERE neighborhood = ?').get(as.neighborhood) as { c: number }).c
+    : 0;
+  const showCartierLink = !!as.neighborhood && cartierCount >= CARTIER_MIN_LISTINGS;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -67,6 +102,9 @@ export default async function AfterSchoolPage({ params }: Props) {
     ...(as.email && { email: as.email }),
     ...(as.description && { description: as.description }),
     ...(as.price_min && { priceRange: `${as.price_min}${as.price_max && as.price_max !== as.price_min ? `-${as.price_max}` : ''} lei/luna` }),
+    ...(as.rating && as.reviews_count && {
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: as.rating, reviewCount: as.reviews_count },
+    }),
   };
 
   return (
@@ -88,9 +126,17 @@ export default async function AfterSchoolPage({ params }: Props) {
               <img src={as.banner_url} alt={`Banner ${as.name}`} className="w-full h-40 object-cover" />
             )}
             <div className="p-6">
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div>
-                  <h1 className="text-2xl font-bold text-[var(--color-text-main)]">{as.name}</h1>
+              <div className="flex items-start gap-3 sm:gap-4 mb-4">
+                {as.is_premium === 1 && as.logo_url && (
+                  <img src={as.logo_url} alt={`Logo ${as.name}`} className="w-20 h-20 sm:w-28 sm:h-28 object-contain rounded-xl border border-[var(--color-border)] bg-white shadow-sm flex-shrink-0" />
+                )}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-2 flex-wrap">
+                    <h1 className="text-lg sm:text-2xl font-bold text-[var(--color-text-main)] break-words">{as.name}</h1>
+                    {as.is_premium === 1 && (
+                      <span className="flex-shrink-0 inline-flex items-center gap-1 bg-amber-400 text-white px-3 py-1 rounded-full text-sm font-bold">★ Premium</span>
+                    )}
+                  </div>
                   {as.rating && as.reviews_count ? (
                     <div className="mt-1 mb-1">
                       <a href={as.maps_url ?? undefined} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1 hover:opacity-80">
@@ -112,17 +158,19 @@ export default async function AfterSchoolPage({ params }: Props) {
                       </a>
                     </div>
                   ) : null}
-                  <p className="text-sm text-[var(--color-text-light)] mt-1 flex items-center gap-1">
-                    <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <p className="text-sm text-[var(--color-text-light)] mt-1 flex items-start gap-1">
+                    <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    {as.address}
+                    <span>{cleanAddressDisplay(as.address)}</span>
                   </p>
+                  {showCartierLink && (
+                    <a href={`/afterschool/cartier/${cartierSlug(as.neighborhood!)}`} className="inline-block mt-1 text-xs text-[var(--color-primary)] hover:underline">
+                      Vezi alte after-school-uri în cartierul {as.neighborhood} →
+                    </a>
+                  )}
                 </div>
-                {as.is_premium === 1 && (
-                  <span className="flex-shrink-0 inline-flex items-center gap-1 bg-amber-400 text-white px-3 py-1 rounded-full text-sm font-bold">★ Premium</span>
-                )}
               </div>
 
               {as.availability === 'available' && (
@@ -226,37 +274,50 @@ export default async function AfterSchoolPage({ params }: Props) {
               )}
 
               <div className="pt-4 border-t border-[var(--color-border)]">
-                {contactHidden ? (
-                  <p className="text-sm text-[var(--color-text-light)]">Contactul este disponibil doar pentru listari premium.</p>
-                ) : (
-                  <div className="flex flex-wrap gap-3">
-                    <TrackedLink href={`https://www.google.com/maps/dir/?api=1&destination=${as.lat},${as.lng}`} type="afterschool" itemId={as.id} itemName={as.name} linkType="maps" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors">
-                      Cum ajung aici
-                    </TrackedLink>
-                    {as.phone && (
-                      <TrackedLink href={`tel:${as.phone}`} type="afterschool" itemId={as.id} itemName={as.name} linkType="phone" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                <div className="flex flex-wrap gap-3">
+                  <TrackedLink href={`https://www.google.com/maps/dir/?api=1&destination=${as.lat},${as.lng}`} type="afterschool" itemId={as.id} itemName={as.name} linkType="maps" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                    Cum ajung aici
+                  </TrackedLink>
+                  {as.phone && (
+                    contactHidden ? (
+                      <LockedContactButton label="Telefonul" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                         {as.phone}
-                      </TrackedLink>
-                    )}
-                    {as.email && (
-                      <TrackedLink href={`mailto:${as.email}`} type="afterschool" itemId={as.id} itemName={as.name} linkType="email" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                      </LockedContactButton>
+                    ) : (
+                    <TrackedLink href={`tel:${as.phone}`} type="afterschool" itemId={as.id} itemName={as.name} linkType="phone" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                      {as.phone}
+                    </TrackedLink>
+                    )
+                  )}
+                  {as.email && (
+                    contactHidden ? (
+                      <LockedContactButton label="Emailul" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                         {as.email}
-                      </TrackedLink>
-                    )}
-                    {as.website && (
-                      <TrackedLink href={as.website} type="afterschool" itemId={as.id} itemName={as.name} linkType="website" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
-                        Website
-                      </TrackedLink>
-                    )}
-                    {as.reviews_url && (
-                      <TrackedLink href={as.reviews_url} type="afterschool" itemId={as.id} itemName={as.name} linkType="reviews" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-500 text-white text-sm font-semibold rounded-lg transition-colors">
-                        ⭐ Recenzii
-                      </TrackedLink>
-                    )}
-                    <LeadModal listingType="afterschool" listingId={as.id} listingName={as.name} />
-                  </div>
-                )}
+                      </LockedContactButton>
+                    ) : (
+                    <TrackedLink href={`mailto:${as.email}`} type="afterschool" itemId={as.id} itemName={as.name} linkType="email" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                      {as.email}
+                    </TrackedLink>
+                    )
+                  )}
+                  {as.website && (
+                    <TrackedLink href={as.website} type="afterschool" itemId={as.id} itemName={as.name} linkType="website" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                      Website
+                    </TrackedLink>
+                  )}
+                  {as.reviews_url && (
+                    <TrackedLink href={as.reviews_url} type="afterschool" itemId={as.id} itemName={as.name} linkType="reviews" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-500 text-white text-sm font-semibold rounded-lg transition-colors">
+                      ⭐ Recenzii
+                    </TrackedLink>
+                  )}
+                  {(as.leads_enabled === 1 || (as.leads_enabled === null && as.is_premium === 1)) && <LeadModal listingType="afterschool" listingId={as.id} listingName={as.name} />}
+                </div>
               </div>
+                <div className="mt-3">
+                  <TrackedLink href="https://www.facebook.com/profile.php?id=61591256207467" type="afterschool" itemId={as.id} itemName={as.name} linkType="activkids_facebook" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition-colors">
+                    📘 Stai la curent cu noutăți: afterschooluri și activități noi
+                  </TrackedLink>
+                </div>
             </div>
           </div>
 
@@ -268,6 +329,17 @@ export default async function AfterSchoolPage({ params }: Props) {
 
           <ClaimButton listingType="afterschool" listingId={as.id} listingName={as.name} />
           <AfterSchoolsNearby lat={as.lat} lng={as.lng} currentId={as.id} />
+        <div className="mt-8 bg-amber-50 border border-amber-100 rounded-xl">
+          <div className="px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
+            <div>
+              <p className="font-semibold text-amber-900 text-sm">Cauti furnizori de catering pentru afterschool-ul tau?</p>
+              <p className="text-xs text-amber-700 mt-0.5">Firme de catering din Bucuresti si Ilfov care livreaza la afterschool-uri</p>
+            </div>
+            <a href="/catering" className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-lg transition-colors">
+              Vezi furnizori de catering
+            </a>
+          </div>
+        </div>
         </main>
       </div>
     </>

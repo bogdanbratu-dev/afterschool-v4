@@ -46,3 +46,10 @@ export function deleteUserSession(sessionId: string) {
 }
 
 export const SESSION_COOKIE_NAME = SESSION_COOKIE;
+
+export function generateAccessToken(userId: number): string {
+  const token = crypto.randomBytes(32).toString('hex');
+  const db = getDb();
+  db.prepare('INSERT INTO access_tokens (id, user_id) VALUES (?, ?)').run(token, userId);
+  return token;
+}

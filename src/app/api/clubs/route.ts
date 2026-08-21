@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
-import { calculateDistance } from '@/lib/distance';
+import { calculateDistance, PREMIUM_BOOST_RADIUS_KM } from '@/lib/distance';
+import { readSpotlightConfig, applyPremiumSpotlight } from '@/lib/premiumRanking';
+import { isContactVisible } from '@/lib/contactVisibility';
 import type { Club } from '@/lib/db';
 
 export async function GET(request: Request) {
@@ -48,17 +50,19 @@ export async function GET(request: Request) {
     if (radiusKm > 0) {
       clubs = clubs.filter(c => (c.distance ?? Infinity) <= radiusKm);
     }
-    clubs.sort((a, b) => (b.is_premium - a.is_premium) || (a.distance || 0) - (b.distance || 0));
+
   }
+
+  clubs = applyPremiumSpotlight(clubs, readSpotlightConfig(db), {
+    tieBreak: (lat && lng) ? (a, b) => ((a.distance ?? 1e9) - (b.distance ?? 1e9)) : undefined,
+    spotlightEligible: (lat && lng) ? (x) => (x.distance ?? Infinity) <= PREMIUM_BOOST_RADIUS_KM : undefined,
+  });
 
   const businessMode = (db.prepare("SELECT value FROM settings WHERE key = 'business_mode'").get() as { value: string } | undefined)?.value === 'true';
   if (businessMode) {
-    clubs = clubs.map(c => (c.is_premium || !c.contacts_hidden) ? c : {
-      ...c,
-      phone: null,
-      email: null,
-      website: null,
-    });
+    clubs = clubs.map(c => isContactVisible(c)
+      ? { ...c, contacts_masked: false }
+      : { ...c, phone: null, email: null, contacts_masked: true, has_phone: !!c.phone, has_email: !!c.email });
   }
 
   return NextResponse.json(clubs);

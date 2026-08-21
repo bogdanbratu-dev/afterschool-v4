@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { PROFESSIONAL_CATEGORY_LABELS, PROFESSIONAL_CATEGORY_ORDER } from '@/lib/professionals';
+import { TUTOR_SUBJECT_LABELS, TUTOR_SUBJECT_ORDER } from '@/lib/tutors';
 
 const CLUB_CATEGORIES = [
   { value: 'inot', label: '🏊 Înot' },
@@ -13,7 +15,24 @@ const CLUB_CATEGORIES = [
   { value: 'robotica', label: '🤖 Robotică / Programare' },
   { value: 'muzica', label: '🎵 Muzică' },
   { value: 'arte_creative', label: '🎨 Arte Creative' },
+  { value: 'alte_activitati', label: '✨ Alte Activitati' },
 ];
+
+const KINDERGARTEN_TYPES = [
+  { value: 'gradinita', label: '🏫 Grădiniță' },
+  { value: 'cresa', label: '👶 Creșă' },
+];
+
+const MAIN_TYPES = [
+  { value: 'afterschool', label: '🏫 After School' },
+  { value: 'club', label: '🎯 Activitate / Club' },
+  { value: 'professional', label: '🧑‍🏫 Colaborator (profesor, terapeut etc.)' },
+  { value: 'kindergarten', label: '👶 Grădiniță / Creșă' },
+  { value: 'tutor', label: '📚 Meditații' },
+  { value: 'caterer', label: '🍽️ Catering / Petreceri' },
+];
+
+const CATEGORY_LISTING_TYPES = ['club', 'professional', 'tutor', 'kindergarten'];
 
 declare global {
   interface Window { google: any; initGoogleMaps: () => void; }
@@ -52,6 +71,7 @@ export default function SubmitPage() {
     reviews_url: '',
     newPhotoUrl: '',
     newVideoUrl: '',
+    agreedToTerms: false,
   });
 
   useEffect(() => {
@@ -121,6 +141,9 @@ export default function SubmitPage() {
     if (!form.name || !form.address || !form.lat) {
       setError('Completeaza numele si adresa'); return;
     }
+    if (!form.agreedToTerms) {
+      setError('Trebuie sa fii de acord cu Termenii si Conditiile si Politica de Confidentialitate'); return;
+    }
     setLoading(true); setError('');
     const res = await fetch('/api/user/listings', {
       method: 'POST',
@@ -132,7 +155,7 @@ export default function SubmitPage() {
         lat: form.lat,
         lng: form.lng,
         sector: form.sector || null,
-        category: form.listing_type !== 'afterschool' ? form.category : null,
+        category: CATEGORY_LISTING_TYPES.includes(form.listing_type) ? form.category : null,
         price_min: form.price_min ? parseInt(form.price_min) : null,
         price_max: form.price_max ? parseInt(form.price_max) : null,
         age_min: form.age_min ? parseInt(form.age_min) : null,
@@ -191,21 +214,25 @@ export default function SubmitPage() {
 
       <div className="max-w-2xl mx-auto p-4 sm:p-6">
         <h1 className="text-2xl font-bold mb-2">Adauga listare</h1>
-        <p className="text-sm text-[var(--color-text-light)] mb-6">Listarea va fi verificata si publicata in maxim 24-48 ore.</p>
+        <p className="text-sm text-[var(--color-text-light)] mb-6">Listarea va fi verificata si publicata dupa aprobare.</p>
 
         {/* Tip listare */}
         <div className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-6 mb-4">
           <h2 className="font-bold mb-4">📌 Tip listare</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { value: 'afterschool', label: '🏫 After School' },
-              ...CLUB_CATEGORIES.map(c => ({ value: c.value, label: c.label })),
-            ].map(opt => (
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            {MAIN_TYPES.map(opt => (
               <button key={opt.value}
-                onClick={() => setForm(f => ({ ...f, listing_type: opt.value === 'afterschool' ? 'afterschool' : 'club', category: opt.value !== 'afterschool' ? opt.value : f.category }))}
+                onClick={() => setForm(f => ({
+                  ...f,
+                  listing_type: opt.value,
+                  category: opt.value === 'professional' ? 'invatatori'
+                    : opt.value === 'tutor' ? 'matematica'
+                    : opt.value === 'kindergarten' ? 'gradinita'
+                    : opt.value === 'club' ? 'inot'
+                    : f.category,
+                }))}
                 className={`px-3 py-2.5 rounded-xl text-sm font-medium border-2 transition-all text-left ${
-                  (opt.value === 'afterschool' && form.listing_type === 'afterschool') ||
-                  (opt.value !== 'afterschool' && form.listing_type === 'club' && form.category === opt.value)
+                  form.listing_type === opt.value
                     ? 'border-[var(--color-primary)] bg-blue-50 text-[var(--color-primary)]'
                     : 'border-[var(--color-border)] hover:border-[var(--color-primary)]'
                 }`}>
@@ -213,6 +240,49 @@ export default function SubmitPage() {
               </button>
             ))}
           </div>
+
+          {form.listing_type === 'club' && (
+            <div>
+              <label className="block text-xs font-medium mb-1">Categorie activitate</label>
+              <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none">
+                {CLUB_CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+              </select>
+            </div>
+          )}
+
+          {form.listing_type === 'professional' && (
+            <div>
+              <label className="block text-xs font-medium mb-1">Domeniu colaborator</label>
+              <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none">
+                {PROFESSIONAL_CATEGORY_ORDER.map(c => <option key={c} value={c}>{PROFESSIONAL_CATEGORY_LABELS[c]}</option>)}
+              </select>
+            </div>
+          )}
+
+          {form.listing_type === 'tutor' && (
+            <div>
+              <label className="block text-xs font-medium mb-1">Materie</label>
+              <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none">
+                {TUTOR_SUBJECT_ORDER.map(s => <option key={s} value={s}>{TUTOR_SUBJECT_LABELS[s]}</option>)}
+              </select>
+            </div>
+          )}
+
+          {form.listing_type === 'kindergarten' && (
+            <div className="grid grid-cols-2 gap-2">
+              {KINDERGARTEN_TYPES.map(k => (
+                <button key={k.value} onClick={() => setForm(f => ({ ...f, category: k.value }))}
+                  className={`py-2 rounded-xl text-sm font-medium border-2 transition-all ${
+                    form.category === k.value ? 'border-[var(--color-primary)] bg-blue-50 text-[var(--color-primary)]' : 'border-[var(--color-border)]'
+                  }`}>
+                  {k.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Informatii de baza */}
@@ -362,14 +432,27 @@ export default function SubmitPage() {
           </div>
         </div>
 
+        <label className="flex items-start gap-2.5 mb-4 cursor-pointer">
+          <input type="checkbox" checked={form.agreedToTerms}
+            onChange={e => setForm(f => ({ ...f, agreedToTerms: e.target.checked }))}
+            className="mt-0.5 w-4 h-4 flex-shrink-0" />
+          <span className="text-sm text-[var(--color-text-light)]">
+            Sunt de acord cu{' '}
+            <Link href="/termeni" target="_blank" className="text-[var(--color-primary)] underline">Termenii si Conditiile</Link>
+            {' '}si{' '}
+            <Link href="/confidentialitate" target="_blank" className="text-[var(--color-primary)] underline">Politica de Confidentialitate</Link>
+            {' '}ale ActivKids.ro
+          </span>
+        </label>
+
         {error && <p className="text-sm text-red-600 bg-red-50 rounded-xl px-4 py-3 mb-4">{error}</p>}
 
-        <button onClick={submit} disabled={loading}
+        <button onClick={submit} disabled={loading || !form.agreedToTerms}
           className="w-full py-3.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-bold rounded-xl transition-colors disabled:opacity-50 text-base">
           {loading ? 'Se trimite...' : 'Trimite listarea pentru aprobare'}
         </button>
         <p className="text-center text-xs text-[var(--color-text-light)] mt-3">
-          Listarea va fi verificata si publicata in maxim 24-48 ore
+          Listarea va fi verificata si publicata dupa aprobare
         </p>
       </div>
     </div>

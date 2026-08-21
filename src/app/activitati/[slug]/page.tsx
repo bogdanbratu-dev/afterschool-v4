@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { getDb } from '@/lib/db';
-import { idFromSlug, toSlug } from '@/lib/slug';
+import { idFromSlug, toSlug, cleanAddressDisplay } from '@/lib/slug';
 import { CLUB_CATEGORY_LABELS } from '@/lib/clubs';
+import { cartierSlug, CARTIER_MIN_LISTINGS } from '@/lib/cartiere';
 import type { Metadata } from 'next';
 import type { Club } from '@/lib/db';
 import ClubsNearby from '@/components/ClubsNearby';
@@ -10,6 +11,8 @@ import PhotoCarousel from '@/components/PhotoCarousel';
 import TrackedLink from '@/components/TrackedLink';
 import ClaimButton from '@/components/ClaimButton';
 import LeadModal from '@/components/LeadModal';
+import LockedContactButton from '@/components/LockedContactButton';
+import { isContactVisible } from '@/lib/contactVisibility';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -27,21 +30,43 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const categoryLabel = CLUB_CATEGORY_LABELS[club.category] || club.category;
   const title = `${club.name} | ${categoryLabel} pentru Copii în București — ActivKids`;
-  const description = club.description
-    ? club.description.slice(0, 160)
-    : `${categoryLabel} pentru copii la ${club.name}, București.${club.price_min ? ` Preț de la ${club.price_min} lei.` : ''} Înscrieri deschise, instructori calificați.`;
+
+  const rawDesc = (club.description
+    ? club.description.replace(/\s+/g, ' ').trim()
+    : `${categoryLabel} pentru copii la ${club.name}, București.${club.price_min ? ` Preț de la ${club.price_min} lei.` : ''} Înscrieri deschise, instructori calificați.`);
+  let description = rawDesc;
+  if (description.length > 155) {
+    const cut = rawDesc.slice(0, 155);
+    const lastSpace = cut.lastIndexOf(' ');
+    description = (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:.\-—]+$/, '') + '…';
+  }
+
+  let ogImage: string | undefined;
+  try {
+    const photos = club.photo_urls ? JSON.parse(club.photo_urls) : [];
+    if (Array.isArray(photos) && photos.length > 0 && typeof photos[0] === 'string') ogImage = photos[0];
+  } catch {}
+
+  const canonical = `https://activkids.ro/activitati/${toSlug(club.name, club.id)}`;
 
   return {
     title,
     description,
-    alternates: { canonical: `https://activkids.ro/activitati/${toSlug(club.name, club.id)}` },
+    alternates: { canonical },
     openGraph: {
       title,
       description,
-      url: `https://activkids.ro/activitati/${toSlug(club.name, club.id)}`,
-      siteName: 'ActiveKids',
+      url: canonical,
+      siteName: 'ActivKids',
       locale: 'ro_RO',
       type: 'website',
+      ...(ogImage && { images: [{ url: ogImage, alt: club.name }] }),
+    },
+    twitter: {
+      card: ogImage ? 'summary_large_image' : 'summary',
+      title,
+      description,
+      ...(ogImage && { images: [ogImage] }),
     },
   };
 }
@@ -54,9 +79,14 @@ export default async function ClubPage({ params }: Props) {
   if (!club) notFound();
 
   const bMode = (db.prepare("SELECT value FROM settings WHERE key = 'business_mode'").get() as { value: string } | undefined)?.value === 'true';
-  const contactHidden = bMode && !club.is_premium && club.contacts_hidden;
+  const contactHidden = bMode && !isContactVisible(club);
   const categoryLabel = CLUB_CATEGORY_LABELS[club.category] || club.category;
   const icon = CATEGORY_ICONS[club.category] || '';
+
+  const cartierCount = club.neighborhood
+    ? (db.prepare('SELECT COUNT(*) as c FROM clubs WHERE neighborhood = ? AND category = ?').get(club.neighborhood, club.category) as { c: number }).c
+    : 0;
+  const showCartierLink = !!club.neighborhood && cartierCount >= CARTIER_MIN_LISTINGS;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -74,6 +104,9 @@ export default async function ClubPage({ params }: Props) {
     ...(club.website && { url: club.website }),
     ...(club.email && { email: club.email }),
     ...(club.price_min && { priceRange: `${club.price_min}${club.price_max && club.price_max !== club.price_min ? `-${club.price_max}` : ''} lei` }),
+    ...(club.rating && club.reviews_count && {
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: club.rating, reviewCount: club.reviews_count },
+    }),
   };
 
   return (
@@ -124,8 +157,13 @@ export default async function ClubPage({ params }: Props) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    {club.address}
+                    {cleanAddressDisplay(club.address)}
                   </p>
+                  {showCartierLink && (
+                    <a href={`/activitati/categorie/${club.category}/cartier/${cartierSlug(club.neighborhood!)}`} className="inline-block mt-1 text-xs text-[var(--color-primary)] hover:underline">
+                      Vezi alte {categoryLabel.toLowerCase()} în cartierul {club.neighborhood} →
+                    </a>
+                  )}
                 </div>
                 {club.is_premium === 1 && (
                   <span className="flex-shrink-0 inline-flex items-center gap-1 bg-amber-400 text-white px-3 py-1 rounded-full text-sm font-bold">★ Premium</span>
@@ -217,37 +255,50 @@ export default async function ClubPage({ params }: Props) {
               </div>
 
               <div className="pt-4 border-t border-[var(--color-border)]">
-                {contactHidden ? (
-                  <p className="text-sm text-[var(--color-text-light)]">Contactul este disponibil doar pentru listari premium.</p>
-                ) : (
-                  <div className="flex flex-wrap gap-3">
-                    <TrackedLink href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(club.address + ', Bucuresti')}`} type="club" itemId={club.id} itemName={club.name} linkType="maps" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors">
-                      Cum ajung aici
-                    </TrackedLink>
-                    {club.phone && (
-                      <TrackedLink href={`tel:${club.phone}`} type="club" itemId={club.id} itemName={club.name} linkType="phone" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                <div className="flex flex-wrap gap-3">
+                  <TrackedLink href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(club.address + ', Bucuresti')}`} type="club" itemId={club.id} itemName={club.name} linkType="maps" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                    Cum ajung aici
+                  </TrackedLink>
+                  {club.phone && (
+                    contactHidden ? (
+                      <LockedContactButton label="Telefonul" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                         {club.phone}
-                      </TrackedLink>
-                    )}
-                    {club.email && (
-                      <TrackedLink href={`mailto:${club.email}`} type="club" itemId={club.id} itemName={club.name} linkType="email" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                      </LockedContactButton>
+                    ) : (
+                    <TrackedLink href={`tel:${club.phone}`} type="club" itemId={club.id} itemName={club.name} linkType="phone" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                      {club.phone}
+                    </TrackedLink>
+                    )
+                  )}
+                  {club.email && (
+                    contactHidden ? (
+                      <LockedContactButton label="Emailul" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
                         {club.email}
-                      </TrackedLink>
-                    )}
-                    {club.website && (
-                      <TrackedLink href={club.website} type="club" itemId={club.id} itemName={club.name} linkType="website" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
-                        Website
-                      </TrackedLink>
-                    )}
-                    {club.reviews_url && (
-                      <TrackedLink href={club.reviews_url} type="club" itemId={club.id} itemName={club.name} linkType="reviews" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-500 text-white text-sm font-semibold rounded-lg transition-colors">
-                        ⭐ Recenzii
-                      </TrackedLink>
-                    )}
-                    <LeadModal listingType="club" listingId={club.id} listingName={club.name} />
-                  </div>
-                )}
+                      </LockedContactButton>
+                    ) : (
+                    <TrackedLink href={`mailto:${club.email}`} type="club" itemId={club.id} itemName={club.name} linkType="email" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+                      {club.email}
+                    </TrackedLink>
+                    )
+                  )}
+                  {club.website && (
+                    <TrackedLink href={club.website} type="club" itemId={club.id} itemName={club.name} linkType="website" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">
+                      Website
+                    </TrackedLink>
+                  )}
+                  {club.reviews_url && (
+                    <TrackedLink href={club.reviews_url} type="club" itemId={club.id} itemName={club.name} linkType="reviews" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-500 text-white text-sm font-semibold rounded-lg transition-colors">
+                      ⭐ Recenzii
+                    </TrackedLink>
+                  )}
+                  {(club.leads_enabled === 1 || (club.leads_enabled === null && club.is_premium === 1)) && <LeadModal listingType="club" listingId={club.id} listingName={club.name} />}
+                </div>
               </div>
+                <div className="mt-3">
+                  <TrackedLink href="https://www.facebook.com/profile.php?id=61591256207467" type="club" itemId={club.id} itemName={club.name} linkType="activkids_facebook" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition-colors">
+                    📘 Stai la curent cu noutăți: afterschooluri și activități noi
+                  </TrackedLink>
+                </div>
             </div>
           </div>
 

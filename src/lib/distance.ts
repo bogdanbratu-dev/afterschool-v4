@@ -18,6 +18,8 @@ function toRad(deg: number): number {
   return deg * (Math.PI / 180);
 }
 
+export const PREMIUM_BOOST_RADIUS_KM = 5;
+
 export function formatDistance(km: number): string {
   if (km < 1) {
     return `${Math.round(km * 1000)} m`;

@@ -3,12 +3,14 @@
 import { useState } from 'react';
 
 interface Props {
-  listingType: 'afterschool' | 'club';
+  listingType: 'afterschool' | 'club' | 'caterer' | 'professional' | 'kindergarten';
   listingId: number;
   listingName: string;
+  source?: string;
+  matchContext?: unknown;
 }
 
-export default function LeadModal({ listingType, listingId, listingName }: Props) {
+export default function LeadModal({ listingType, listingId, listingName, source, matchContext }: Props) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -26,7 +28,7 @@ export default function LeadModal({ listingType, listingId, listingName }: Props
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listing_type: listingType, listing_id: listingId, listing_name: listingName, parent_name: name, parent_phone: phone, message }),
+        body: JSON.stringify({ listing_type: listingType, listing_id: listingId, listing_name: listingName, parent_name: name, parent_phone: phone, message, source, match_context: matchContext }),
       });
       if (res.ok) { setSent(true); }
       else { setError('A apărut o eroare. Încearcă din nou.'); }

@@ -281,6 +281,23 @@ function saveReport(report) {
   }
 }
 
+// ─── SWEEP CONTACTE ASCUNSE ─────────────────────────────────────────────────
+
+const CONTACT_TABLES = ['afterschools', 'clubs', 'kindergartens', 'professionals', 'tutors', 'caterers'];
+
+function sweepHiddenContacts() {
+  for (const table of CONTACT_TABLES) {
+    try {
+      const result = db.prepare(
+        `UPDATE ${table} SET contacts_hidden = 1 WHERE owner_user_id IS NULL AND is_premium = 0 AND contacts_hidden = 0`
+      ).run();
+      if (result.changes > 0) log(`🔒 ${table}: ${result.changes} listari noi trecute pe contacte ascunse`);
+    } catch (e) {
+      log(`❌ Eroare sweep contacte ascunse (${table}): ${e.message?.substring(0, 80)}`);
+    }
+  }
+}
+
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -428,7 +445,13 @@ async function main() {
     log(`ℹ️  Discovery: ultima rulare acum ${Math.round(daysSinceDiscovery)} zile (se ruleaza la 30+ zile)`);
   }
 
-  // ─── Faza 3: Salvare raport ───────────────────────────────────────────
+  // ─── Faza 3: Sweep contacte ascunse ────────────────────────────────────
+  // Listarile noi descoperite de discovery/enrichment intra cu contacts_hidden=0
+  // (default coloana). Le aducem la starea implicita "ascuns" daca nu au fost
+  // revendicate (owner_user_id) sau nu sunt premium, ca sa nu scape de regula.
+  sweepHiddenContacts();
+
+  // ─── Faza 4: Salvare raport ───────────────────────────────────────────
   saveReport(report);
 
   setSetting('cron_running', 'false');

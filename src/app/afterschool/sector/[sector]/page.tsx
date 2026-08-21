@@ -1,6 +1,10 @@
 import { notFound } from 'next/navigation';
 import { getDb } from '@/lib/db';
 import { toSlug } from '@/lib/slug';
+import { getCartierStats } from '@/lib/cartiere';
+import { readSpotlightConfig, applyPremiumSpotlight } from '@/lib/premiumRanking';
+import { isContactVisible } from '@/lib/contactVisibility';
+import AfterSchoolCard from '@/components/AfterSchoolCard';
 import type { Metadata } from 'next';
 import type { AfterSchool } from '@/lib/db';
 
@@ -83,11 +87,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!SECTOR_NAMES[sector]) return { title: 'Pagina negăsită' };
   const name = SECTOR_NAMES[sector];
   return {
-    title: `After School ${name} București | ActivKids`,
-    description: `Găsește cele mai bune after school-uri din ${name} al Bucureștiului. Compară prețuri, program și activități. Listă completă și actualizată.`,
+    title: `After School ${name} București 2026 – Prețuri & Program | ActivKids`,
+    description: `Lista completă de after school-uri din ${name} București. Compară prețuri, program și facilități extracurriculare. Actualizat 2026.`,
     alternates: { canonical: `https://activkids.ro/afterschool/sector/${sector}` },
     openGraph: {
-      title: `After School ${name} București | ActivKids`,
+      title: `After School ${name} București 2026 – Prețuri & Program | ActivKids`,
       description: `Lista after school-urilor din ${name} București. Prețuri, program, contact.`,
       url: `https://activkids.ro/afterschool/sector/${sector}`,
     },
@@ -99,12 +103,22 @@ export default async function SectorPage({ params }: Props) {
   if (!SECTOR_NAMES[sector]) notFound();
 
   const db = getDb();
-  const afterschools = db.prepare(
-    'SELECT * FROM afterschools WHERE sector = ? ORDER BY is_premium DESC, name ASC'
+  let afterschools = db.prepare(
+    'SELECT * FROM afterschools WHERE sector = ? AND is_paused = 0 ORDER BY is_featured DESC, is_premium DESC'
   ).all(parseInt(sector)) as AfterSchool[];
+
+  afterschools = applyPremiumSpotlight(afterschools, readSpotlightConfig(db));
+
+  const businessMode = (db.prepare("SELECT value FROM settings WHERE key = 'business_mode'").get() as { value: string } | undefined)?.value === 'true';
+  if (businessMode) {
+    afterschools = afterschools.map(as => isContactVisible(as)
+      ? { ...as, contacts_masked: false }
+      : { ...as, phone: null, email: null, contacts_masked: true, has_phone: !!as.phone, has_email: !!as.email });
+  }
 
   const sectorName = SECTOR_NAMES[sector];
   const sectorInfo = SECTOR_INFO[sector];
+  const cartiereInSector = getCartierStats(db, 'afterschools', 'AND sector = ?', [parseInt(sector)]);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -192,37 +206,7 @@ export default async function SectorPage({ params }: Props) {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {afterschools.map(as => (
-                <a key={as.id} href={`/afterschool/${toSlug(as.name, as.id)}`}
-                  className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-5 hover:shadow-md transition-shadow block">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <h2 className="font-bold text-[var(--color-text-main)] text-base leading-snug">{as.name}</h2>
-                    {as.is_premium === 1 && (
-                      <span className="bg-amber-400 text-white text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0">★ Premium</span>
-                    )}
-                  </div>
-                  <p className="text-xs text-[var(--color-text-light)] mb-3">{as.address}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {as.price_min && (
-                      <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-lg">
-                        {as.price_min}–{as.price_max} lei/lună
-                      </span>
-                    )}
-                    {as.age_min && (
-                      <span className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded-lg">
-                        {as.age_min}–{as.age_max} ani
-                      </span>
-                    )}
-                    {as.availability === 'available' && (
-                      <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-lg">Locuri disponibile</span>
-                    )}
-                    {as.availability === 'full' && (
-                      <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-lg">Complet</span>
-                    )}
-                  </div>
-                  {as.description && (
-                    <p className="text-xs text-[var(--color-text-light)] mt-3 line-clamp-2">{as.description}</p>
-                  )}
-                </a>
+                <AfterSchoolCard key={as.id} data={as} businessMode={businessMode} />
               ))}
             </div>
           )}
@@ -235,6 +219,20 @@ export default async function SectorPage({ params }: Props) {
               Adaugă / Revendică listarea →
             </a>
           </div>
+
+          {cartiereInSector.length > 0 && (
+            <div className="mt-8">
+              <p className="text-sm font-semibold text-[var(--color-text-light)] mb-3">After school-uri pe cartiere în {sectorName}:</p>
+              <div className="flex flex-wrap gap-x-3 gap-y-2">
+                {cartiereInSector.map(c => (
+                  <a key={c.slug} href={`/afterschool/cartier/${c.slug}`}
+                    className="text-sm text-[var(--color-primary)] hover:underline">
+                    {c.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Link-uri interne catre celelalte sectoare */}
           <div className="mt-8">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { logSearch } from '@/lib/logSearch';
 
 interface School {
   id: number;
@@ -43,6 +44,9 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           .then(data => {
             setSchools(data);
             setShowDropdown(true);
+            if (Array.isArray(data) && data.length === 0) {
+              logSearch({ query, source: 'home_school', resolved: false });
+            }
           });
       }, 200);
       return () => clearTimeout(timer);
@@ -59,6 +63,9 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           .then(data => {
             setAfterschools(data);
             setShowAfterSchoolDropdown(true);
+            if (Array.isArray(data) && data.length === 0) {
+              logSearch({ query: afterschoolQuery, source: 'home_afterschool', resolved: false });
+            }
           });
       }, 200);
       return () => clearTimeout(timer);
@@ -80,16 +87,21 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const isNumeric = (value: string) => /^\d+$/.test(value);
+
   const handleSchoolSelect = (school: School) => {
-    setQuery(`Scoala nr. ${school.number} - ${school.name}`);
+    const label = isNumeric(school.number) ? `Scoala nr. ${school.number} - ${school.name}` : school.name;
+    setQuery(label);
     setShowDropdown(false);
-    onSearch(school.lat, school.lng, `Scoala nr. ${school.number}`);
+    onSearch(school.lat, school.lng, isNumeric(school.number) ? `Scoala nr. ${school.number}` : school.name);
+    logSearch({ query, source: 'home_school', lat: school.lat, lng: school.lng, resolved: true });
   };
 
   const handleAfterSchoolSelect = (as: AfterSchool) => {
     setAfterschoolQuery(as.name);
     setShowAfterSchoolDropdown(false);
     onSearch(as.lat, as.lng, as.name);
+    logSearch({ query: as.name, source: 'home_afterschool', lat: as.lat, lng: as.lng, resolved: true });
   };
 
   const handleAddressSearch = () => {
@@ -127,6 +139,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     for (const [key, coords] of Object.entries(knownLocations)) {
       if (normalized.includes(key)) {
         onSearch(coords[0], coords[1], address);
+        logSearch({ query: address, source: 'home_address', lat: coords[0], lng: coords[1], resolved: true });
         return;
       }
     }
@@ -135,6 +148,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     const centerLat = 44.4268;
     const centerLng = 26.1025;
     onSearch(centerLat, centerLng, address);
+    logSearch({ query: address, source: 'home_address', lat: centerLat, lng: centerLng, resolved: false });
   };
 
   return (
@@ -189,7 +203,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Introduceti numarul scolii (ex: 17, 170, 195...)"
+              placeholder="Introduceti numarul sau numele scolii (ex: 17, Sfintii Voievozi...)"
               className="w-full pl-12 pr-4 py-4 bg-[var(--color-card)] text-[var(--color-text-main)] border border-[var(--color-border)] rounded-xl shadow-sm text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent placeholder:text-gray-400"
             />
           </div>
@@ -202,14 +216,16 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                     onClick={() => handleSchoolSelect(school)}
                     className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-[var(--color-border)] last:border-0"
                   >
-                    <span className="font-semibold text-[var(--color-primary)]">Nr. {school.number}</span>
+                    {isNumeric(school.number) && (
+                      <span className="font-semibold text-[var(--color-primary)]">Nr. {school.number}</span>
+                    )}
                     <span className="text-[var(--color-text-main)] ml-2">{school.name}</span>
                     <div className="text-sm text-[var(--color-text-light)]">{school.address}</div>
                   </button>
                 ))
               ) : (
                 <div className="px-4 py-3 text-sm text-[var(--color-text-light)]">
-                  Nu s-a gasit nicio scoala cu numarul &quot;{query}&quot;
+                  Nu s-a gasit nicio scoala cu numarul sau numele &quot;{query}&quot;
                 </div>
               )}
             </div>

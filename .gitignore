@@ -44,3 +44,6 @@ next-env.d.ts
 data/afterschool.db
 data/afterschool.db-shm
 data/afterschool.db-wal
+
+# secrets
+credentials.json

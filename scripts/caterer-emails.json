@@ -1,0 +1,1835 @@
+[
+  {
+    "id": 2,
+    "name": "3 Continente",
+    "website": "https://www.3continente.ro/",
+    "email": "contact@3continente.ro",
+    "emails": [
+      "contact@3continente.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 3,
+    "name": "Criogen Catering",
+    "website": "https://criogencatering.ro/",
+    "email": "criogen.catering@gmail.com",
+    "emails": [
+      "criogen.catering@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 4,
+    "name": "A la Catering • București",
+    "website": "https://alacatering.ro/",
+    "email": "alacatering.express@gmail.com",
+    "emails": [
+      "alacatering.express@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 5,
+    "name": "Bucate Savuroase - Catering și Livrări",
+    "website": "http://bucatesavuroase.ro/",
+    "email": "office@bucatesavuroase.ro",
+    "emails": [
+      "office@bucatesavuroase.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 12,
+    "name": "City Gourmet",
+    "website": "http://citygourmet.ro/",
+    "email": "comenzi@citygourmet.ro",
+    "emails": [
+      "comenzi@citygourmet.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 13,
+    "name": "Maia Catering",
+    "website": "https://www.tiefoame.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 17,
+    "name": "Chefs Evolution - Mancare Gatita la Oala",
+    "website": "https://mancaregatita.ro/",
+    "email": "hello@chefsevolution.ro",
+    "emails": [
+      "hello@chefsevolution.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 18,
+    "name": "TASTY Box",
+    "website": "https://tastybox.ro/",
+    "email": "sector1@tastybox.ro",
+    "emails": [
+      "sector1@tastybox.ro",
+      "otopeni@tastybox.ro",
+      "sector3@tastybox.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 20,
+    "name": "Fit4you Delivery",
+    "website": "https://www.fit4youdelivery.ro/en/contact.htm",
+    "email": "office@fit4youdelivery.ro",
+    "emails": [
+      "office@fit4youdelivery.ro",
+      "adresa@gmail.com",
+      "adresa@email.ro",
+      "ion.vasile@email.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 21,
+    "name": "BucateGustoase.ro - Mâncare gătită (la Oală) și Meniul Zilei",
+    "website": "https://www.bucategustoase.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 23,
+    "name": "Premier Catering & Events",
+    "website": "https://www.premiercatering.ro/",
+    "email": "office@premiercatering.ro",
+    "emails": [
+      "office@premiercatering.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 24,
+    "name": "Oala cu bunătăți",
+    "website": "http://www.oalacubunatati.ro/",
+    "email": "suport@oalacubunatati.ro",
+    "emails": [
+      "suport@oalacubunatati.ro",
+      "exemplu@email.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 29,
+    "name": "Fine Taste",
+    "website": "https://finetaste.ro/",
+    "email": "finetaste.ro@gmail.com",
+    "emails": [
+      "finetaste.ro@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 33,
+    "name": "Bucate pe Roate",
+    "website": "http://www.bucateperoate.ro/",
+    "email": "comenzi@bucateperoate.ro",
+    "emails": [
+      "comenzi@bucateperoate.ro",
+      "events@carteblanche.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 34,
+    "name": "Sempre Sano Catering",
+    "website": "https://www.sempresano.ro/",
+    "email": "comenzi@sempresano.ro",
+    "emails": [
+      "comenzi@sempresano.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 39,
+    "name": "IMA Catering",
+    "website": "http://www.imacatering.ro/",
+    "email": "ima@imacatering.ro",
+    "emails": [
+      "ima@imacatering.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 41,
+    "name": "ADA CATERING",
+    "website": "https://ada-catering.metro.rest/",
+    "email": "serbanada74@yahoo.com",
+    "emails": [
+      "serbanada74@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 47,
+    "name": "Baba Yaga - Abonament Mancare Sanatoasa",
+    "website": "https://www.babayaga.ro/",
+    "email": "contact@babayaga.ro",
+    "emails": [
+      "contact@babayaga.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 49,
+    "name": "Trattoria Passion",
+    "website": "http://www.passioncatering.ro/",
+    "email": "passionclub2003@yahoo.com",
+    "emails": [
+      "passionclub2003@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 53,
+    "name": "Celebration Catering",
+    "website": "https://www.celebrationcatering.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 54,
+    "name": "Mon Paris Restaurant Events Catering",
+    "website": "http://www.restaurantmonparis.ro/",
+    "email": "webmaster@restaurantmonparis.ro",
+    "emails": [
+      "webmaster@restaurantmonparis.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 56,
+    "name": "Pronto Catering",
+    "website": "http://www.prontocatering.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 59,
+    "name": "Happy Friday Catering & Events",
+    "website": "https://happyfridaycatering.ro/",
+    "email": "happy@happyfridaycatering.ro",
+    "emails": [
+      "happy@happyfridaycatering.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 60,
+    "name": "DNATA Catering SRL",
+    "website": "http://www.dnatacatering.ro/",
+    "email": "holidays@dnatatravel.com",
+    "emails": [
+      "holidays@dnatatravel.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 76,
+    "name": "DLS Catering",
+    "website": "http://www.dlscatering.ro/",
+    "email": "office@dlscatering.ro",
+    "emails": [
+      "office@dlscatering.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 77,
+    "name": "Old Sibiu Delivery",
+    "website": "https://oldsibiu-delivery.ro/",
+    "email": "contact@oldsibiu-delivery.ro",
+    "emails": [
+      "contact@oldsibiu-delivery.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 78,
+    "name": "Green Food Hub",
+    "website": "http://www.greenfoodhub.ro/",
+    "email": "office@greenfoodhub.ro",
+    "emails": [
+      "office@greenfoodhub.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 79,
+    "name": "FoodKit",
+    "website": "http://foodkit.ro/",
+    "email": "contact@foodkit.ro",
+    "emails": [
+      "contact@foodkit.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 82,
+    "name": "Bon Appetit Catering",
+    "website": "http://bonappetitcatering.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 83,
+    "name": "Cuptorul Bio",
+    "website": "https://cuptorulbio.ro/",
+    "email": "florin.turcu@cuptorulbio.ro",
+    "emails": [
+      "florin.turcu@cuptorulbio.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 84,
+    "name": "Beca's Kitchen",
+    "website": "http://www.becaskitchen.ro/",
+    "email": "home@becaskitchen.ro",
+    "emails": [
+      "home@becaskitchen.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 85,
+    "name": "Food Nation",
+    "website": "https://foodnation.ro/",
+    "email": "hello@foodnation.ro",
+    "emails": [
+      "hello@foodnation.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 86,
+    "name": "HOME MADE FOOD",
+    "website": "http://www.homemade-food.ro/",
+    "email": "comenzi@homemade-food.ro",
+    "emails": [
+      "comenzi@homemade-food.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 89,
+    "name": "CASA BRANCOVEANU LIVRARI",
+    "website": "https://tastybox.ro/",
+    "email": "sector1@tastybox.ro",
+    "emails": [
+      "sector1@tastybox.ro",
+      "otopeni@tastybox.ro",
+      "sector3@tastybox.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 90,
+    "name": "Food Amprent",
+    "website": "https://www.facebook.com/foodamprent/",
+    "email": "foodamprent@gmail.com",
+    "emails": [
+      "foodamprent@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 91,
+    "name": "Amarillo",
+    "website": "http://www.restaurant-amarillo.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 92,
+    "name": "Savoury Events",
+    "website": "https://savoury-events.ro/",
+    "email": "contact@savoury-events.ro",
+    "emails": [
+      "info@grandrestauranttheme.com",
+      "contact@savoury-events.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 93,
+    "name": "Dream",
+    "website": "https://dreampizza.ro/",
+    "email": "manager@dreampizza.ro",
+    "emails": [
+      "manager@dreampizza.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 94,
+    "name": "Sanito Distribution",
+    "website": "https://www.sanito.ro/?utm_source=google&utm_medium=organic&utm_campaign=Local-Visibility",
+    "email": "office@sanito.ro",
+    "emails": [
+      "office@sanito.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 95,
+    "name": "Delicatera",
+    "website": "https://www.delicatera.ro/",
+    "email": "office@premiercatering.ro",
+    "emails": [
+      "office@premiercatering.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 97,
+    "name": "LAM EVENTS",
+    "website": "http://www.lamevents.ro/",
+    "email": "office@lamevents.ro",
+    "emails": [
+      "office@lamevents.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 99,
+    "name": "Restaurant Casa Luica",
+    "website": "https://casaluica.ro/",
+    "email": "contact@casaluica.ro",
+    "emails": [
+      "contact@casaluica.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 100,
+    "name": "Casa Nica",
+    "website": "http://restaurantcasanica.ro/",
+    "email": "office@restaurantcasanica.ro",
+    "emails": [
+      "office@restaurantcasanica.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 101,
+    "name": "Indecis small events",
+    "website": "https://indecis.info/",
+    "email": "contact@indecis.info",
+    "emails": [
+      "contact@indecis.info"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 102,
+    "name": "Carte Blanche",
+    "website": "https://www.carteblanche.ro/",
+    "email": "events@carteblanche.ro",
+    "emails": [
+      "events@carteblanche.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 103,
+    "name": "Shaormeria Titan",
+    "website": "http://www.shaormeriatitan.ro/",
+    "email": "comanda@shaormeriatitan.ro",
+    "emails": [
+      "comanda@shaormeriatitan.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 104,
+    "name": "Armonia",
+    "website": "https://www.cofetariaarmonia.ro/",
+    "email": "contact@armonia.ro",
+    "emails": [
+      "contact@armonia.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 105,
+    "name": "Toni's Bistro&Events",
+    "website": "https://www.facebook.com/RestaurantTonis/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 106,
+    "name": "Bistro Dorobanți",
+    "website": "http://www.bistrodorobanti.ro/",
+    "email": "comenzi@bistrodorobanti.ro",
+    "emails": [
+      "comenzi@bistrodorobanti.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 107,
+    "name": "Marel Catering",
+    "website": "https://marel-catering.ro/",
+    "email": "marelcatering@yahoo.com",
+    "emails": [
+      "marelcatering@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 108,
+    "name": "A la Catering • Ilfov",
+    "website": "https://alacatering.ro/",
+    "email": "alacatering.express@gmail.com",
+    "emails": [
+      "alacatering.express@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 109,
+    "name": "Platouas",
+    "website": "https://platouas.ro/",
+    "email": "comanda@platouas.ro",
+    "emails": [
+      "comanda@platouas.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 110,
+    "name": "Qzine",
+    "website": "http://www.qzinedelivery.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 111,
+    "name": "Comenzi Platouri Aperitive Bucuresti",
+    "website": "https://platourifestive.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 112,
+    "name": "Natural Food Catering",
+    "website": "https://natural-food.ro/",
+    "email": "contact@natural-food.ro",
+    "emails": [
+      "contact@natural-food.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 113,
+    "name": "CELEBRATION TRADING",
+    "website": "http://www.celebrationcatering.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 114,
+    "name": "Baroque Events & Garden",
+    "website": "https://baroqueevents.ro/",
+    "email": "office@baroqueevents.ro",
+    "emails": [
+      "office@baroqueevents.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 116,
+    "name": "Mahala",
+    "website": "http://www.restaurant-mahala.ro/",
+    "email": "office@restaurant-mahala.ro",
+    "emails": [
+      "office@restaurant-mahala.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 117,
+    "name": "The Food House București",
+    "website": "https://apps.apple.com/ro/app/the-food-house-bucuresti/id6752344451?l=ro",
+    "email": "adorian.chiorean@gmail.com",
+    "emails": [
+      "adorian.chiorean@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 120,
+    "name": "Colțu' Berarilor",
+    "website": "http://www.coltu-berarilor.ro/",
+    "email": "comenzi@coltu-berarilor.ro",
+    "emails": [
+      "comenzi@coltu-berarilor.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 121,
+    "name": "Zest Pizza Rahova",
+    "website": "https://zestpizza.ro/",
+    "email": "hellozestpizza@gmail.com",
+    "emails": [
+      "hellozestpizza@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 123,
+    "name": "Autoservirea OBY",
+    "website": "https://autoservire.oby-food.ro/",
+    "email": "office@oby-food.ro",
+    "emails": [
+      "office@oby-food.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 124,
+    "name": "Oby Fast Food",
+    "website": "https://fastfood.oby-food.ro/",
+    "email": "office@oby-food.ro",
+    "emails": [
+      "office@oby-food.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 125,
+    "name": "Pizzeria IL Grande - Bucureşti",
+    "website": "http://www.pizzeriailgrande.ro/",
+    "email": "contact@pizzeriailgrande.ro",
+    "emails": [
+      "contact@pizzeriailgrande.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 127,
+    "name": "Mezze",
+    "website": "https://www.mezze.ro/",
+    "email": "office@mezze.ro",
+    "emails": [
+      "office@mezze.ro",
+      "evenimente@mezze.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 128,
+    "name": "La Conu'",
+    "website": "http://www.laconu.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 129,
+    "name": "Bun şi Tot ...şi poftă bună",
+    "website": "http://www.bunsitot.ro/",
+    "email": "bunsitot@yahoo.com",
+    "emails": [
+      "bunsitot@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 130,
+    "name": "Bistro Chicineta",
+    "website": "https://www.facebook.com/Chicineta?fref=ts",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 131,
+    "name": "Matinee Floreasca",
+    "website": "https://matineefloreasca.ro/",
+    "email": "matineefloreasca@gmail.com",
+    "emails": [
+      "matineefloreasca@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 132,
+    "name": "Chez Toni",
+    "website": "https://cheztoni.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 133,
+    "name": "Mumbai Food",
+    "website": "https://mumbaifood.ro/",
+    "email": "contact@mumbaifood.ro",
+    "emails": [
+      "contact@mumbaifood.ro",
+      "floreasca@mumbaifood.ro",
+      "cotroceni@mumbaifood.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 134,
+    "name": "Pranzo by ESS @ Afi Park Floreasca",
+    "website": "http://www.pranzo.ro/",
+    "email": "office@essgroup.com",
+    "emails": [
+      "office@essgroup.com",
+      "office@essgroup.ro",
+      "pranzo.anatower@essgroup.ro",
+      "zona@essgroup.ro",
+      "porschenord@essgroup.ro",
+      "pranzo.floreasca@essgroup.ro",
+      "quindici@essgroup.ro",
+      "pranzo.hermes@essgroup.ro",
+      "pranzo.yunity@essgroup.ro",
+      "pranzo.expo@essgroup.ro",
+      "westgate@essgroup.ro",
+      "pranzo.afitech@essgroup.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 135,
+    "name": "FAYN Urban Eatery",
+    "website": "https://www.fayn.ro/",
+    "email": "contact@fayn.ro",
+    "emails": [
+      "contact@fayn.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 137,
+    "name": "Bone Restaurant",
+    "website": "https://bonerestaurant.ro/",
+    "email": "contact@bonerestaurant.ro",
+    "emails": [
+      "contact@bonerestaurant.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 138,
+    "name": "Osteria Treevi",
+    "website": "https://treeviosteria.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 139,
+    "name": "AXEL PROD S.R.L.",
+    "website": "https://axel-catering.ro/meniul_zilei.php",
+    "email": "axelcatering@xnet.ro",
+    "emails": [
+      "axelcatering@xnet.ro",
+      "axelprodcatering@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 140,
+    "name": "Autoservire Dorobanti",
+    "website": "http://www.autoservire-dorobanti.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 142,
+    "name": "CALD SI BUN",
+    "website": "http://caldsibun.ro/",
+    "email": "info@caldsibun.ro",
+    "emails": [
+      "info@caldsibun.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 143,
+    "name": "Chiftelarie",
+    "website": "https://chiftelaria.ro/",
+    "email": "contact@chiftelaria.ro",
+    "emails": [
+      "contact@chiftelaria.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 144,
+    "name": "Mancare Bucuresti | Catering Bucuresti | Mancare la minut in Bucuresti",
+    "website": "https://heyfood.ro/",
+    "email": "office@heyfood.ro",
+    "emails": [
+      "office@heyfood.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 145,
+    "name": "Aubergine Aviatorilor",
+    "website": "https://aubergine-restaurant.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 146,
+    "name": "TASTY Box Sector 1 Bucurestii noi - Comanda Mancare Online Livrare mancare la domiciliu meniul zilei pizza chitila mogosoaia",
+    "website": "https://tastybox.ro/",
+    "email": "sector1@tastybox.ro",
+    "emails": [
+      "sector1@tastybox.ro",
+      "otopeni@tastybox.ro",
+      "sector3@tastybox.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 147,
+    "name": "AVO Evenimente",
+    "website": "https://avo-evenimente.ro/",
+    "email": "avo.evenimente@gmail.com",
+    "emails": [
+      "avo.evenimente@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 148,
+    "name": "Casa Albă",
+    "website": "https://restaurantcasaalba.ro/",
+    "email": "office@restaurantcasaalba.ro",
+    "emails": [
+      "office@restaurantcasaalba.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 149,
+    "name": "City Grill Băneasa",
+    "website": "https://citygrill.ro/ro",
+    "email": "office@citygrill.ro",
+    "emails": [
+      "office@citygrill.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 150,
+    "name": "Pizzacitta",
+    "website": "http://www.pizzacitta.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 151,
+    "name": "Buongiorno Italian Băneasa",
+    "website": "https://buongiornoitalian.ro/ro",
+    "email": "office@citygrill.ro",
+    "emails": [
+      "office@citygrill.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 152,
+    "name": "Kitchen Baneasa",
+    "website": "http://kitchenbaneasa.eatbu.com/",
+    "email": "kitchen.baneasa@gmail.com",
+    "emails": [
+      "kitchen.baneasa@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 153,
+    "name": "Greek Taverna",
+    "website": "http://www.greek-taverna.ro/",
+    "email": "office@greek-taverna.ro",
+    "emails": [
+      "office@greek-taverna.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 154,
+    "name": "Sheherazade",
+    "website": "http://www.sheherazade.ro/",
+    "email": "office@sheherazade.ro",
+    "emails": [
+      "office@sheherazade.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 155,
+    "name": "Ambasada Ospitalității",
+    "website": "https://www.facebook.com/profile.php?id=61555150386573",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 156,
+    "name": "Glamour Restro Cafe",
+    "website": "http://www.glamourrestro.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 158,
+    "name": "laSafi Lebanese Food",
+    "website": "http://www.lasafi.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 161,
+    "name": "Taco Bell Băneasa Shopping City",
+    "website": "https://www.taco-bell.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 162,
+    "name": "Rustic",
+    "website": "https://restaurante-rustic.com/",
+    "email": "contact@restaurante-rustic.com",
+    "emails": [
+      "info@website.com",
+      "contact@restaurante-rustic.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 163,
+    "name": "CulinaryOn",
+    "website": "https://culinaryon.ro/",
+    "email": "welcome@culinaryon.ro",
+    "emails": [
+      "welcome@culinaryon.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 164,
+    "name": "Aristocrat Events Hall",
+    "website": "http://www.aristocrat-events.ro/",
+    "email": "office@aristocrat-events.ro",
+    "emails": [
+      "office@aristocrat-events.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 165,
+    "name": "EAT ETC",
+    "website": "http://www.eat-etc.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 166,
+    "name": "Restaurant Pipera",
+    "website": "http://www.restaurant-pipera.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 167,
+    "name": "Classic Food - Mancare gatita",
+    "website": "https://classicfood.ro/",
+    "email": "georgetamarghidanu@gmail.com",
+    "emails": [
+      "georgetamarghidanu@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 168,
+    "name": "Comanda Mancare",
+    "website": "http://www.heyfood.ro/",
+    "email": "office@heyfood.ro",
+    "emails": [
+      "office@heyfood.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 169,
+    "name": "Ciobe si Placinte - Pipera Plaza",
+    "website": "https://ciorbesiplacinte.ro/",
+    "email": "contact@ciorbesiplacinte.ro",
+    "emails": [
+      "contact@ciorbesiplacinte.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 170,
+    "name": "The Canteen - Meniul Zilei Bucuresti",
+    "website": "https://thecanteen.ro/",
+    "email": "contact@thecanteen.ro",
+    "emails": [
+      "contact@thecanteen.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 171,
+    "name": "BAH",
+    "website": "https://bahfood.ro/",
+    "email": "contact@bahfood.ro",
+    "emails": [
+      "contact@bahfood.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 172,
+    "name": "Benjamins",
+    "website": "http://www.restaurantbenjamins.ro/",
+    "email": "office@ganotti.ro",
+    "emails": [
+      "office@ganotti.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 173,
+    "name": "Din Fu",
+    "website": "http://www.restaurant-dinfu.ro/",
+    "email": "info@restaurant-dinfu.ro",
+    "emails": [
+      "info@restaurant-dinfu.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 174,
+    "name": "Ganotti Event Cuisine",
+    "website": "http://www.ganotti.ro/",
+    "email": "office@ganotti.ro",
+    "emails": [
+      "office@ganotti.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 175,
+    "name": "Resto Aperto",
+    "website": "http://www.restoaperto.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 176,
+    "name": "CHEF GURME",
+    "website": "http://www.chefgurme.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 177,
+    "name": "La Subsol",
+    "website": "http://www.restaurantecantine.ro/cantine-17-a",
+    "email": "comenzi@cantine17a.ro",
+    "emails": [
+      "comenzi@cantine17a.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 178,
+    "name": "Chef Box Dristor",
+    "website": "https://www.chefbox.ro/",
+    "email": "office@chefbox.ro",
+    "emails": [
+      "office@chefbox.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 179,
+    "name": "Bistro Papaciu",
+    "website": "https://bistropapaciu.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 180,
+    "name": "Dristor Kebap",
+    "website": "https://food.bolt.eu/ro-RO/325/p/22301-dristor-kebap-camil-ressu",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 181,
+    "name": "Restaurant Dristor",
+    "website": "http://www.restaurantdristor.ro/",
+    "email": "restaurantdristor2015@gmail.com",
+    "emails": [
+      "restaurantdristor2015@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 182,
+    "name": "Mr. Crispy Dristor",
+    "website": "https://www.mrcrispy.ro/",
+    "email": "mrcrispyromania@gmail.com",
+    "emails": [
+      "mrcrispyromania@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 183,
+    "name": "Terasa Obor",
+    "website": "https://www.facebook.com/TerasaObor",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 184,
+    "name": "Mici cu Bere la Obor",
+    "website": "http://mititei.biz/",
+    "email": "ulisescardenas78@gmail.com",
+    "emails": [
+      "ulisescardenas78@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 185,
+    "name": "LaContainerObor",
+    "website": "https://www.facebook.com/profile.php?id=100069996587363",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 186,
+    "name": "LUCA Obor",
+    "website": "https://lucatraditie.ro/",
+    "email": "reclamatii@lucatraditie.ro",
+    "emails": [
+      "reclamatii@lucatraditie.ro",
+      "contact@lucatraditie.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 187,
+    "name": "Terasa Obor 2",
+    "website": "https://www.facebook.com/TerasaObor/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 188,
+    "name": "Presto Pizza Buzesti",
+    "website": "http://www.presto-pizza.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 189,
+    "name": "BUCĂTARUL PERSONAL",
+    "website": "https://www.bucatarulpersonal.ro/",
+    "email": "bucatarulpersonal2018@gmail.com",
+    "emails": [
+      "bucatarulpersonal2018@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 190,
+    "name": "Kungfu Pizza",
+    "website": "http://www.kungfu-pizza.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 192,
+    "name": "La Nașu",
+    "website": "http://www.lanasu.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 194,
+    "name": "Tip Top Crangasi",
+    "website": "http://www.tiptop.ro/",
+    "email": "office@tiptop.ro",
+    "emails": [
+      "office@tiptop.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 196,
+    "name": "Restaurant Potcoava 1",
+    "website": "https://restaurantpotcoavagiulesti.ro/",
+    "email": "restaurantpotcoava@yahoo.ro",
+    "emails": [
+      "restaurantpotcoava@yahoo.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 198,
+    "name": "JoliPot Cotroceni",
+    "website": "http://www.jolipot.ro/",
+    "email": "jolipot2008@gmail.com",
+    "emails": [
+      "jolipot2008@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 200,
+    "name": "KiCEN • Ciorbe de casă & Grătar de Cotroceni",
+    "website": "http://kicen.ro/",
+    "email": "contact@kice.ro",
+    "emails": [
+      "contact@kice.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 201,
+    "name": "Stradale One Cotroceni",
+    "website": "https://stradale.ro/",
+    "email": "stradaleevents@flavours.ro",
+    "emails": [
+      "stradaleevents@flavours.ro",
+      "office@flavours.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 202,
+    "name": "TartarBar",
+    "website": "http://www.tartarbar.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 203,
+    "name": "ChefBox Militari",
+    "website": "https://www.chefbox.ro/",
+    "email": "office@chefbox.ro",
+    "emails": [
+      "office@chefbox.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 204,
+    "name": "Mumbai",
+    "website": "http://www.mumbaifood.ro/",
+    "email": "contact@mumbaifood.ro",
+    "emails": [
+      "contact@mumbaifood.ro",
+      "floreasca@mumbaifood.ro",
+      "cotroceni@mumbaifood.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 205,
+    "name": "Kvala",
+    "website": "http://kvala.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 206,
+    "name": "KiCEN • Pițeria • Cotroceni",
+    "website": "http://kicen.ro/",
+    "email": "contact@kice.ro",
+    "emails": [
+      "contact@kice.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 207,
+    "name": "La Măria și Ion",
+    "website": "https://mariasiion.ro/",
+    "email": "support@mariasiion.ro",
+    "emails": [
+      "support@mariasiion.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 208,
+    "name": "Purcelusul Pofticios Grozavesti",
+    "website": "https://www.purcelusulpofticios.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 209,
+    "name": "Restaurant Provence Iancului",
+    "website": "http://www.restaurantprovenceiancului.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 210,
+    "name": "Pui Pe Jar Bucuresti",
+    "website": "http://www.puipejarbucuresti.ro/",
+    "email": "contact@puipejarbucuresti.ro",
+    "emails": [
+      "contact@puipejarbucuresti.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 211,
+    "name": "Ela Bistro",
+    "website": "http://www.elabistro.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 212,
+    "name": "Restaurant I'ladrino",
+    "website": "https://restaurantiladrino.ro/",
+    "email": "contact@restaurantiladrino.ro",
+    "emails": [
+      "contact@restaurantiladrino.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 213,
+    "name": "Calif",
+    "website": "https://califiancului.shop/",
+    "email": "placejoys.com@gmail.com",
+    "emails": [
+      "placejoys.com@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 214,
+    "name": "la T.I.N.E - Taste is not enough",
+    "website": "http://tasteisnotenough.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 215,
+    "name": "LUCA Iancului",
+    "website": "https://www.lucatraditie.ro/",
+    "email": "reclamatii@lucatraditie.ro",
+    "emails": [
+      "reclamatii@lucatraditie.ro",
+      "contact@lucatraditie.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 216,
+    "name": "Casa Lefter",
+    "website": "https://casalefter.ro/",
+    "email": "lili.lefter@gmail.com",
+    "emails": [
+      "lili.lefter@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 217,
+    "name": "Chopstix - Piata Unirii",
+    "website": "http://www.chopstix.ro/",
+    "email": "contact@chopstix.ro",
+    "emails": [
+      "contact@chopstix.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 218,
+    "name": "Nom Nom Bistro - Mâncare sănătoasă în București",
+    "website": "http://timpurinoi.mynomnom.ro/",
+    "email": "bucuresti@mynomnom.ro",
+    "emails": [
+      "bucuresti@mynomnom.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 219,
+    "name": "Daily Fresh Autoservire",
+    "website": "https://daily-fresh-bistro.metro.rest/",
+    "email": "olahelisabeta02@gmail.com",
+    "emails": [
+      "olahelisabeta02@gmail.com",
+      "elisabetaolah02@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 220,
+    "name": "Rainbowls Unirii",
+    "website": "https://www.rainbowls.ro/",
+    "email": "contact@rainbowls.ro",
+    "emails": [
+      "contact@rainbowls.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 221,
+    "name": "La Mama",
+    "website": "http://www.lamama.ro/",
+    "email": "office@lamama.ro",
+    "emails": [
+      "office@lamama.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 222,
+    "name": "EggsMania",
+    "website": "http://eggsmania.ro/",
+    "email": "eggs@eggsmania.ro",
+    "emails": [
+      "eggs@eggsmania.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 223,
+    "name": "Creperia - Universitate",
+    "website": "https://creperia.ro/",
+    "email": "office@creperia.ro",
+    "emails": [
+      "office@creperia.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 224,
+    "name": "Calderon 18",
+    "website": "http://www.calderon18.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 225,
+    "name": "IL TACCHINO VICTORIEI",
+    "website": "https://www.iltacchino.ro/",
+    "email": "victoriei@iltacchino.com",
+    "emails": [
+      "victoriei@iltacchino.com",
+      "corbeanca@iltacchino.com",
+      "office@iltacchino.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 226,
+    "name": "Buongiorno Italian Victoriei",
+    "website": "https://buongiornoitalian.ro/ro",
+    "email": "office@citygrill.ro",
+    "emails": [
+      "office@citygrill.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 227,
+    "name": "S'PRESSI Casual Cuisine",
+    "website": "https://spressi.ro/",
+    "email": "spressi.victoriei@gmail.com",
+    "emails": [
+      "spressi.victoriei@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 228,
+    "name": "City Grill Delivery Victoriei",
+    "website": "https://delivery.citygrill.ro/",
+    "email": "need4food@citygrill.ro",
+    "emails": [
+      "need4food@citygrill.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 229,
+    "name": "Coolinart",
+    "website": "https://www.facebook.com/Coolinart-453247931675363/",
+    "email": "bistrocoolinart@gmail.com",
+    "emails": [
+      "bistrocoolinart@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 230,
+    "name": "Savuros",
+    "website": "https://savuros.ro/",
+    "email": "office@savuros.ro",
+    "emails": [
+      "office@savuros.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 231,
+    "name": "Coclintă Brasserie",
+    "website": "https://www.xn--coclint-f4a.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 232,
+    "name": "Innocent & Delicious",
+    "website": "https://iad.ro/",
+    "email": "iad@iad.ro",
+    "emails": [
+      "iad@iad.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 233,
+    "name": "smoKING bbq",
+    "website": "http://smokingbbq.ro/",
+    "email": "contact@smokingbbq.ro",
+    "emails": [
+      "contact@smokingbbq.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 234,
+    "name": "Gram Bistro",
+    "website": "http://www.grambistro.ro/",
+    "email": "office@grambistro.ro",
+    "emails": [
+      "office@grambistro.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 235,
+    "name": "Barrio",
+    "website": "http://www.barrio.ro/",
+    "email": "enjoy@barrio.ro",
+    "emails": [
+      "enjoy@barrio.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 236,
+    "name": "Autoservire Amzei",
+    "website": "http://www.autoservire-amzei.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 237,
+    "name": "Bacania Veche / Romana / Delicatese & Gradina",
+    "website": "https://bacaniaveche.ro/bacania-veche-romana",
+    "email": "office@bacaniaveche.ro",
+    "emails": [
+      "office@bacaniaveche.ro",
+      "bacaniadinromana@bacaniaveche.ro",
+      "hello@domeniulotetelesanugradinari.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 238,
+    "name": "Salon Golescu",
+    "website": "http://www.salongolescu.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 239,
+    "name": "PIATTO 77",
+    "website": "https://piatto77.ro/",
+    "email": "contact@piatto77.ro",
+    "emails": [
+      "contact@piatto77.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 240,
+    "name": "El Pato",
+    "website": "https://www.elpato.ro/",
+    "email": "restaurant@elpato.ro",
+    "emails": [
+      "restaurant@elpato.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 241,
+    "name": "Antica Pizza",
+    "website": "http://www.antica-pizza.ro/",
+    "email": "vanzari@antica-pizza.ro",
+    "emails": [
+      "vanzari@antica-pizza.ro",
+      "bunea74@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 242,
+    "name": "Treevi Pizza Al Taglio",
+    "website": "https://treevipizza.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 243,
+    "name": "Trattoria Adagio-Romană",
+    "website": "http://trattoriaadagioromana.eatbu.com/",
+    "email": "adagioromana@yahoo.com",
+    "emails": [
+      "adagioromana@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 245,
+    "name": "Shaorma La Băiatu",
+    "website": "https://www.postermywall.com/index.php/posterbuilder/view/a699c54395b91d8648cb41a575c0c525/0",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 246,
+    "name": "Smokareala Texas BBQ",
+    "website": "https://smokareala.ro/",
+    "email": "hello@smokareala.ro",
+    "emails": [
+      "hello@smokareala.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 247,
+    "name": "Patiseria Tineretului - Piata Romana",
+    "website": "http://www.patiseriatineretului.ro/",
+    "email": "marketing@patiseriatineretului.ro",
+    "emails": [
+      "marketing@patiseriatineretului.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 249,
+    "name": "Salt & Pepper Catering Bucuresti",
+    "website": "http://saltandpeppercatering.ro/",
+    "email": "bogdansaltandpepper@gmail.com",
+    "emails": [
+      "bogdansaltandpepper@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 250,
+    "name": "Sabatini Pizza & Restaurant Domenii",
+    "website": "http://www.sabatinipizza.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 251,
+    "name": "La Domenii kebap",
+    "website": "https://web.facebook.com/LaDomeniiKebap/?eid=ARCYp9w0xL1xrK8tvW44AtD6OFBDhck2A1GkO0iAOwgSQ5ig8G3TnN0dbQ3ofZClBdTJEjuuIoXfcEME",
+    "email": "haticecicekay@hotmail.com",
+    "emails": [
+      "haticecicekay@hotmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 253,
+    "name": "Mica Bucătărie",
+    "website": "https://micabucatarie.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 254,
+    "name": "Mr. Crispy 13 Septembrie",
+    "website": "https://mrcrispyfood.ro/",
+    "email": "ovidiumaior@gmail.com",
+    "emails": [
+      "ovidiumaior@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 255,
+    "name": "Restaurant Elena",
+    "website": "http://restaurantelena.ro/",
+    "email": "romvalimpex@gmail.com",
+    "emails": [
+      "romvalimpex@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 256,
+    "name": "HAPPY FOOD",
+    "website": "http://www.happyfood.site/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 258,
+    "name": "Cucina di casa",
+    "website": "https://www.cucinadicasa.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 259,
+    "name": "SENZORIAL FOOD",
+    "website": "http://senzorialfood.ro/",
+    "email": "ciprianofoodsrl@yahoo.com",
+    "emails": [
+      "ciprianofoodsrl@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 260,
+    "name": "L'incontro Tineretului",
+    "website": "https://www.lincontro.ro/",
+    "email": "office@lincontro.ro",
+    "emails": [
+      "office@lincontro.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 261,
+    "name": "Ristorante Casale (Nord Catering)",
+    "website": "http://www.restaurantcasale.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 262,
+    "name": "Catering și Pescărie Mogoșoaia",
+    "website": "https://www.cateringmogosoaia.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 263,
+    "name": "Restaurant Papion",
+    "website": "https://www.restaurant-papion.ro/",
+    "email": "contact@restaurant-papion.ro",
+    "emails": [
+      "contact@restaurant-papion.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 264,
+    "name": "Restaurant You&Me",
+    "website": "http://restaurantyouandme.com/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 265,
+    "name": "RM Events & Restaurant",
+    "website": "https://rmevents.eatbu.com/",
+    "email": "mariuswim@yahoo.com",
+    "emails": [
+      "mariuswim@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 266,
+    "name": "Alexa-Food",
+    "website": "http://www.alexa-food.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  }
+]
