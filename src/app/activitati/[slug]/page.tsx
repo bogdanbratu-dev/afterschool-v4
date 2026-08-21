@@ -291,7 +291,7 @@ export default async function ClubPage({ params }: Props) {
                       ⭐ Recenzii
                     </TrackedLink>
                   )}
-                  {(club.leads_enabled === 1 || (club.leads_enabled === null && club.is_premium === 1)) && <LeadModal listingType="club" listingId={club.id} listingName={club.name} />}
+                  {club.leads_enabled !== 0 && <LeadModal listingType="club" listingId={club.id} listingName={club.name} />}
                 </div>
               </div>
                 <div className="mt-3">

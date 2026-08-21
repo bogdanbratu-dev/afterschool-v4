@@ -8,11 +8,14 @@ export async function GET() {
   const db = getDb();
   const leads = db.prepare(`
     SELECT l.*,
-      CASE WHEN l.listing_type = 'afterschool' THEN a.phone ELSE c.phone END as owner_phone,
-      CASE WHEN l.listing_type = 'afterschool' THEN a.email ELSE c.email END as owner_email
+      COALESCE(a.phone, c.phone, k.phone, p.phone, ca.phone) as owner_phone,
+      COALESCE(a.email, c.email, k.email, p.email, ca.email) as owner_email
     FROM leads l
     LEFT JOIN afterschools a ON l.listing_type = 'afterschool' AND l.listing_id = a.id
     LEFT JOIN clubs c ON l.listing_type = 'club' AND l.listing_id = c.id
+    LEFT JOIN kindergartens k ON l.listing_type = 'kindergarten' AND l.listing_id = k.id
+    LEFT JOIN professionals p ON l.listing_type = 'professional' AND l.listing_id = p.id
+    LEFT JOIN caterers ca ON l.listing_type = 'caterer' AND l.listing_id = ca.id
     ORDER BY l.created_at DESC
   `).all();
   return NextResponse.json(leads);
@@ -26,10 +29,13 @@ export async function POST(request: Request) {
 
   const lead = db.prepare(`
     SELECT l.*,
-      CASE WHEN l.listing_type = 'afterschool' THEN a.email ELSE c.email END as owner_email
+      COALESCE(a.email, c.email, k.email, p.email, ca.email) as owner_email
     FROM leads l
     LEFT JOIN afterschools a ON l.listing_type = 'afterschool' AND l.listing_id = a.id
     LEFT JOIN clubs c ON l.listing_type = 'club' AND l.listing_id = c.id
+    LEFT JOIN kindergartens k ON l.listing_type = 'kindergarten' AND l.listing_id = k.id
+    LEFT JOIN professionals p ON l.listing_type = 'professional' AND l.listing_id = p.id
+    LEFT JOIN caterers ca ON l.listing_type = 'caterer' AND l.listing_id = ca.id
     WHERE l.id = ?
   `).get(lead_id) as any;
 

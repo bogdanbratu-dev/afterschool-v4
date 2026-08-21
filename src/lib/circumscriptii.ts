@@ -346,6 +346,8 @@ export interface SchoolNumberMatch {
   type: string;
   sector: number | null;
   address: string | null;
+  lat: number | null;
+  lng: number | null;
 }
 
 export interface SchoolNumberLookupResult {
@@ -365,7 +367,7 @@ export function lookupSchoolNumber(db: Database.Database, input: string): School
   if (!/^\d+$/.test(query)) return { matches: [], resolved: false };
 
   const rows = db.prepare(
-    `SELECT id, name, type, sector, address FROM circ_schools WHERE name LIKE '%' || ? || '%'`
+    `SELECT id, name, type, sector, address, lat, lng FROM circ_schools WHERE name LIKE '%' || ? || '%'`
   ).all(query) as SchoolNumberMatch[];
 
   const numberRe = new RegExp(`\\bNR\\.?\\s*${query}\\b`, 'i');

@@ -18,13 +18,21 @@ export default function SchoolStep({ draft, update }: StepProps) {
   const [loading, setLoading] = useState(false);
   const [touched, setTouched] = useState(false);
 
+  const trimmedQuery = query.trim();
+  const numberQuery = trimmedQuery.match(/^nr\.?\s*(\d+)$/i)?.[1] || (/^\d+$/.test(trimmedQuery) ? trimmedQuery : null);
+  const searchMinLength = numberQuery ? 1 : 3;
+
   useEffect(() => {
     if (draft.schoolName && query === draft.schoolName) { setResults([]); return; }
-    if (query.trim().length < 3) { setResults([]); return; }
+    const trimmed = query.trim();
+    const numQuery = trimmed.match(/^nr\.?\s*(\d+)$/i)?.[1] || (/^\d+$/.test(trimmed) ? trimmed : null);
+    const minLength = numQuery ? 1 : 3;
+    if (trimmed.length < minLength) { setResults([]); return; }
     setLoading(true);
     setTouched(true);
     const timer = setTimeout(() => {
-      fetch(`/api/circumscriptii?name=${encodeURIComponent(query.trim())}`)
+      const param = numQuery ? `number=${encodeURIComponent(numQuery)}` : `name=${encodeURIComponent(trimmed)}`;
+      fetch(`/api/circumscriptii?${param}`)
         .then((r) => r.json())
         .then((d) => { setResults((d.results || []).filter((r: Result) => r.lat && r.lng)); setLoading(false); })
         .catch(() => setLoading(false));
@@ -53,7 +61,7 @@ export default function SchoolStep({ draft, update }: StepProps) {
           type="text"
           value={query}
           onChange={(e) => { setQuery(e.target.value); if (draft.lat != null) update({ lat: null, lng: null }); }}
-          placeholder="Numele școlii (ex: Bolintineanu)"
+          placeholder="Numele sau numărul școlii (ex: Bolintineanu sau 82)"
           className="w-full pl-12 pr-4 py-4 bg-[var(--color-card)] text-[var(--color-text-main)] border border-[var(--color-border)] rounded-xl shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] placeholder:text-gray-400"
         />
       </div>
@@ -64,7 +72,7 @@ export default function SchoolStep({ draft, update }: StepProps) {
         </div>
       )}
 
-      {query.trim().length >= 3 && draft.lat == null && (
+      {trimmedQuery.length >= searchMinLength && draft.lat == null && (
         <div className="mt-3">
           {loading ? (
             <p className="text-sm text-[var(--color-text-light)]">Se caută...</p>

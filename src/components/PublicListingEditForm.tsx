@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ProfileCompletenessBar from '@/components/match/ProfileCompletenessBar';
 
 type FieldType = 'text' | 'textarea' | 'number' | 'select';
 
@@ -201,6 +202,23 @@ export default function PublicListingEditForm({
       <p style={{ color: '#6b7280', marginBottom: 24 }}>
         {listingName} &middot; poti actualiza detaliile de mai jos. Acest link e personal, nu il distribui public.
       </p>
+
+      {(listingType === 'afterschool' || listingType === 'kindergarten') && (
+        <div style={{ marginBottom: 20 }}>
+          <ProfileCompletenessBar
+            listing={{
+              activities: values.activities,
+              description: values.description,
+              price_min: values.price_min === '' || values.price_min == null ? null : Number(values.price_min),
+              age_min: values.age_min === '' || values.age_min == null ? null : Number(values.age_min),
+              pickup_time: values.pickup_time,
+              end_time: values.end_time,
+              schedule: values.schedule || values.program || values.program_start || values.program_end,
+              phone: values.phone,
+            }}
+          />
+        </div>
+      )}
 
       <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {fields.map(f => (

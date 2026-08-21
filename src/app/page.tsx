@@ -112,12 +112,21 @@ export default function Home() {
           </p>
         </div>
         <SearchBar onSearch={handleSearch} />
-        <div className="text-center mt-4 sm:mt-6">
+      </section>
+
+      {/* Match CTA Banner */}
+      <section className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200">
+        <div className="max-w-6xl mx-auto px-4 py-5 sm:py-6 flex flex-col sm:flex-row items-center gap-4">
+          <div className="text-4xl sm:text-5xl flex-shrink-0">🎯</div>
+          <div className="flex-1 text-center sm:text-left">
+            <p className="text-base sm:text-lg font-display font-extrabold text-amber-900">Nu știi ce afterschool să alegi?</p>
+            <p className="text-sm text-amber-700 mt-0.5">Răspunde la câteva întrebări și îți arătăm potrivirile ideale pentru copilul tău, cu scor explicat</p>
+          </div>
           <a
             href="/potrivire"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/15 hover:bg-white/25 border border-white/30 text-white text-sm font-semibold rounded-full backdrop-blur-sm transition-colors"
+            className="flex-shrink-0 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white text-sm sm:text-base font-bold rounded-xl shadow-sm transition-colors whitespace-nowrap"
           >
-            🎯 Găsește potrivirea perfectă
+            Găsește potrivirea perfectă →
           </a>
         </div>
       </section>

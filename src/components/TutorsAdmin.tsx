@@ -376,7 +376,7 @@ export default function TutorsAdmin() {
                     <span className="text-gray-600">💬 Solicită Info:</span>
                     <select value={form.leads_enabled ?? ''} onChange={e => setForm({ ...form, leads_enabled: e.target.value === '' ? null : Number(e.target.value) })}
                       className="border rounded px-2 py-1 text-xs">
-                      <option value="">Auto (după Premium)</option>
+                      <option value="">Auto (activat implicit)</option>
                       <option value="1">Mereu activ</option>
                       <option value="0">Mereu inactiv</option>
                     </select>

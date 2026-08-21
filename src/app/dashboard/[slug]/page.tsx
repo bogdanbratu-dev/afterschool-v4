@@ -3,12 +3,13 @@ import { useState, useEffect, useCallback } from 'react';
 import OutreachTab from '@/components/DashboardOutreachTab';
 import CollaborationsTab from '@/components/CollaborationsTab';
 import FindProfessionalsTab from '@/components/FindProfessionalsTab';
+import ProfileCompletenessBar from '@/components/match/ProfileCompletenessBar';
 import { useRouter, useParams } from 'next/navigation';
 
 interface Listing {
   id: number; name: string; address: string;
   phone: string | null; email: string | null; website: string | null;
-  facebook_url: string | null; description: string | null;
+  facebook_url: string | null; description: string | null; activities: string | null;
   price_min: number | null; price_max: number | null;
   age_min: number | null; age_max: number | null;
   availability: string; photo_urls: string | null; video_urls: string | null;
@@ -281,6 +282,10 @@ export default function DashboardPage() {
               <div className="bg-green-50 text-green-700 rounded-xl px-4 py-3 text-sm font-medium">
                 {microsite ? 'Modificările au fost salvate.' : 'Modificările au fost trimise spre aprobare. Le vei vedea în 1-2 zile lucrătoare.'}
               </div>
+            )}
+
+            {(listingType === 'afterschool' || listingType === 'kindergarten') && (
+              <ProfileCompletenessBar listing={listing} />
             )}
 
             <div className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-5 space-y-4">

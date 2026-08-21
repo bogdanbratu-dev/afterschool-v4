@@ -26,6 +26,9 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
+          <a href="/potrivire" className="px-3 py-1.5 rounded-lg font-semibold text-amber-600 hover:bg-amber-50 transition-colors whitespace-nowrap">
+            🎯 Potrivire
+          </a>
           <a href="/promovare" className="ml-3 inline-flex items-center gap-1 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors whitespace-nowrap">
             + Adaugă listare
           </a>
@@ -33,6 +36,9 @@ export default function Navbar() {
 
         {/* Mobile: CTA + hamburger */}
         <div className="flex lg:hidden items-center gap-2">
+          <a href="/potrivire" className="inline-flex items-center gap-1 px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-lg transition-colors">
+            🎯 Potrivire
+          </a>
           <a href="/promovare" className="inline-flex items-center gap-1 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
             + Adaugă
           </a>

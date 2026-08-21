@@ -170,6 +170,10 @@ export default async function AfterSchoolPage({ params }: Props) {
                       Vezi alte after-school-uri în cartierul {as.neighborhood} →
                     </a>
                   )}
+                  <p className="mt-1 text-xs text-[var(--color-text-light)]">
+                    Nu ești sigur că e alegerea potrivită?{' '}
+                    <a href="/potrivire" className="text-amber-600 font-semibold hover:underline">Încearcă Potrivirea 🎯</a>
+                  </p>
                 </div>
               </div>
 
@@ -310,7 +314,7 @@ export default async function AfterSchoolPage({ params }: Props) {
                       ⭐ Recenzii
                     </TrackedLink>
                   )}
-                  {(as.leads_enabled === 1 || (as.leads_enabled === null && as.is_premium === 1)) && <LeadModal listingType="afterschool" listingId={as.id} listingName={as.name} />}
+                  {as.leads_enabled !== 0 && <LeadModal listingType="afterschool" listingId={as.id} listingName={as.name} />}
                 </div>
               </div>
                 <div className="mt-3">

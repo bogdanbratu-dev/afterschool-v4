@@ -228,7 +228,7 @@ export default async function ProfessionalPage({ params }: Props) {
                       Facebook
                     </TrackedLink>
                   )}
-                  {(p.leads_enabled === 1 || (p.leads_enabled === null && p.is_premium === 1)) && <LeadModal listingType="professional" listingId={p.id} listingName={p.name} />}
+                  {p.leads_enabled !== 0 && <LeadModal listingType="professional" listingId={p.id} listingName={p.name} />}
                 </div>
               </div>
             </div>

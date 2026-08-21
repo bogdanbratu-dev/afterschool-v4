@@ -1093,7 +1093,7 @@ export default function AdminPage() {
                   <span className="text-[var(--color-text-light)]">💬 Formular de contact (Solicită informații):</span>
                   <select value={form.leads_enabled ?? ''} onChange={e => setForm(f => ({ ...f, leads_enabled: e.target.value === '' ? null : Number(e.target.value) }))}
                     className="border border-[var(--color-border)] rounded-lg px-2 py-1 text-xs bg-[var(--color-bg)]">
-                    <option value="">Auto (după Premium)</option>
+                    <option value="">Auto (activat implicit)</option>
                     <option value="1">Mereu activ</option>
                     <option value="0">Mereu inactiv</option>
                   </select>
@@ -1725,7 +1725,7 @@ export default function AdminPage() {
                   <span className="text-[var(--color-text-light)]">💬 Formular de contact (Solicită informații):</span>
                   <select value={(clubForm as any).leads_enabled ?? ''} onChange={e => setClubForm(f => ({ ...f, leads_enabled: e.target.value === '' ? null : Number(e.target.value) } as any))}
                     className="border border-[var(--color-border)] rounded-lg px-2 py-1 text-xs bg-[var(--color-bg)]">
-                    <option value="">Auto (după Premium)</option>
+                    <option value="">Auto (activat implicit)</option>
                     <option value="1">Mereu activ</option>
                     <option value="0">Mereu inactiv</option>
                   </select>

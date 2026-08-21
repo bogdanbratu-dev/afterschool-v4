@@ -118,6 +118,10 @@ export default async function KindergartenPage({ params }: Props) {
                       Vezi alte gradinite în cartierul {k.neighborhood} →
                     </a>
                   )}
+                  <p className="mt-1 text-xs text-[var(--color-text-light)]">
+                    Nu ești sigur că e alegerea potrivită?{' '}
+                    <a href="/potrivire" className="text-amber-600 font-semibold hover:underline">Încearcă Potrivirea 🎯</a>
+                  </p>
                 </div>
                 {k.is_premium === 1 && (<span className="flex-shrink-0 inline-flex items-center gap-1 bg-amber-400 text-white px-3 py-1 rounded-full text-sm font-bold">★ Premium</span>)}
               </div>
@@ -163,7 +167,7 @@ export default async function KindergartenPage({ params }: Props) {
                     : <TrackedLink href={`mailto:${k.email}`} type="kindergarten" itemId={k.id} itemName={k.name} linkType="email" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">{k.email}</TrackedLink>)}
                   {k.website && (<TrackedLink href={k.website} type="kindergarten" itemId={k.id} itemName={k.name} linkType="website" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors">Website</TrackedLink>)}
                   {k.facebook_url && (<TrackedLink href={k.facebook_url} type="kindergarten" itemId={k.id} itemName={k.name} linkType="facebook" target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-2 px-4 py-2 bg-[#1877F2] hover:bg-[#0f63d2] text-white text-sm font-semibold rounded-lg transition-colors">Facebook</TrackedLink>)}
-                  {(k.leads_enabled === 1 || (k.leads_enabled === null && k.is_premium === 1)) && <LeadModal listingType="kindergarten" listingId={k.id} listingName={k.name} />}
+                  {k.leads_enabled !== 0 && <LeadModal listingType="kindergarten" listingId={k.id} listingName={k.name} />}
                 </div>
               </div>
                 <div className="mt-3">

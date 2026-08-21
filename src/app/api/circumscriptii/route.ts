@@ -25,6 +25,8 @@ export async function GET(request: Request) {
       type: m.type,
       sector: m.sector,
       street: m.address || '',
+      lat: m.lat,
+      lng: m.lng,
     }));
     return NextResponse.json({ results, resolved, numberFiltered: false, suggestions: [] });
   }

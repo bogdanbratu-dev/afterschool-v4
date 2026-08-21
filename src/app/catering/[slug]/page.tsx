@@ -247,7 +247,7 @@ export default async function CatererPage({ params }: Props) {
                     ⭐ Recenzii
                   </TrackedLink>
                   )}
-                  {(c.leads_enabled === 1 || (c.leads_enabled === null && c.is_premium === 1)) && <LeadModal listingType="caterer" listingId={c.id} listingName={c.name} />}
+                  {c.leads_enabled !== 0 && <LeadModal listingType="caterer" listingId={c.id} listingName={c.name} />}
                 </div>
               </div>
             </div>
