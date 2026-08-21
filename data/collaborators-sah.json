@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Academia de Șah",
+    "category": "sah",
+    "phone": "0733970581",
+    "email": "office@academiadesah.ro",
+    "address": "Piața Domenii · Str. Virgil Pleșoianu, Sector 1",
+    "sector": 1,
+    "facebook_url": "https://www.facebook.com/academiadesah",
+    "website": "https://www.academiadesah.ro/",
+    "description": "Șah pentru minte. Comunitate pentru suflet. Patru centre în București plus cursuri online. Antrenori cu titluri FIDE, grupe pe nivel, prima lecție gratuită pentru orice copil curios. Grand Prix MegaChess la Mega Mall 2026 - Etapa a IV-a",
+    "coverage_area": null,
+    "source": "academiadesah.ro"
+  },
+  {
+    "name": "Sah cu Catalin",
+    "category": "sah",
+    "phone": "+40766490973",
+    "email": "office@sahcucatalin.ro",
+    "address": "Str. Elena Cuza",
+    "sector": null,
+    "facebook_url": null,
+    "website": "https://sahcucatalin.ro/",
+    "description": "Șahul deschide lumea pentru copii, îi ajută să facă primii pași către socializare și oferă multe posibilități de a călători și de a juca în turnee cu jucători din țară și de peste hotare. Șahul este un test al răbdării, al nervilor și al concentrării. Numeroase studii arată că preșcolarii și școlarii care joaca șah obțin rezultate performante la matematică și științe umaniste. Șahul este ieftin și",
+    "coverage_area": null,
+    "source": "sahcucatalin.ro"
+  },
+  {
+    "name": "Clubul Sportiv Universitar de Sah Bucuresti",
+    "category": "sah",
+    "phone": "0720565855",
+    "email": "contact@scoaladesah.ro",
+    "address": "Calea Șerban Vodă nr. 176, sector 4",
+    "sector": 4,
+    "facebook_url": null,
+    "website": "https://www.csudesahbucuresti.ro/about/cursuri/",
+    "description": "Pe grupe de lucru, în grădinițele, școlile, afterschool-urile sau centrele educaționale partenere. Pe grupe de lucru în limba engleză (acestea se formează în funcție de cereri). La diverse evenimente, ca workshopuri cu ocazii speciale (Ziua Copilului, Săptămâna Altfel, Ziua Șahului etc.).",
+    "coverage_area": null,
+    "source": "csudesahbucuresti.ro"
+  },
+  {
+    "name": "Cursuri si lectii de sah pentru copii",
+    "category": "sah",
+    "phone": "0722760600",
+    "email": "contact@lectiidesahpentrucopii.ro",
+    "address": null,
+    "sector": null,
+    "facebook_url": "https://www.facebook.com/LectiideSahpentruCopii",
+    "website": "https://lectiidesahpentrucopii.ro/",
+    "description": "0722760600 contact@lectiidesahpentrucopii.ro Suntem antrenori certificați  atât pe plan național cât și internațional, cu îndelungată experiența în predarea sahului atât în cadrul loturilor naționale și al centrelor de excelența cât și în afterschool-uri,  școli și grădinițe din Bucuresti. Credem în calitățile înalt educative ale sahului și am creat acest site cu scopul de a sprijini promovarea și",
+    "coverage_area": null,
+    "source": "lectiidesahpentrucopii.ro"
+  }
+]

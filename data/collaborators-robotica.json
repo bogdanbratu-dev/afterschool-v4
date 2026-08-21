@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Academia de Robotica",
+    "category": "robotica",
+    "phone": "0785112254",
+    "email": "office@academiaderobotica.ro",
+    "address": null,
+    "sector": null,
+    "facebook_url": "https://www.facebook.com/academiaderobotica",
+    "website": "https://www.academiaderobotica.ro/despre",
+    "description": "Profesori tineri cu pregătire în domeniu şi apropiaţi de interesele copiilor 40,000 de copii au participat la cursurile noastre 200 de instituţii de învăţământ partenere",
+    "coverage_area": null,
+    "source": "academiaderobotica.ro"
+  },
+  {
+    "name": "București",
+    "category": "robotica",
+    "phone": "0755055174",
+    "email": "tii-noi@academiaderobotica.ro",
+    "address": "Strada Pieței 51a",
+    "sector": null,
+    "facebook_url": "https://www.facebook.com/academiaderobotica",
+    "website": "https://www.academiaderobotica.ro/bucurestii-noi",
+    "description": "Cursurile de Robotică și Programare sunt organizate în module de câte un semestru și se țin în sesiuni săptămânale de câte 1 ora sau 1 ora si 15 de minute. în funcție de curs, pe toată durata anului școlar. La centrul nostru oferim următoarele tipuri de cursuri: Cursuri de Robotică și Programare la sediul școlii sau online",
+    "coverage_area": null,
+    "source": "academiaderobotica.ro"
+  },
+  {
+    "name": "Robotics School",
+    "category": "robotica",
+    "phone": "+40721861565",
+    "email": "contact@roboticsschool.ro",
+    "address": "Aleea Barajul Cucuteni nr .2 Bl. M4A Pitesti – Str.I",
+    "sector": null,
+    "facebook_url": "https://www.facebook.com/ROBOTICSSCHOOLBUCURESTI",
+    "website": "https://roboticsschool.ro/",
+    "description": "Pentru a oferi cele mai bune experiențe, folosim tehnologii precum cookie-urile pentru a stoca și/sau accesa informații despre dispozitiv. Consimțământul pentru aceste tehnologii ne va permite să procesăm date precum comportamentul de navigare sau ID-urile unice pe acest site. Neacordarea consimțământului sau retragerea acestuia poate afecta negativ anumite caracteristici și funcții. Educația viit",
+    "coverage_area": null,
+    "source": "roboticsschool.ro"
+  },
+  {
+    "name": "Academia Titan",
+    "category": "robotica",
+    "phone": "0734775535",
+    "email": "coding@miciideveloperi.ro",
+    "address": "Strada Prisaca Dornei 16A",
+    "sector": null,
+    "facebook_url": "https://www.facebook.com/AcademiaMicilorDeveloperi",
+    "website": "https://www.miciideveloperi.ro/locatie/academia-titan",
+    "description": "Folosim cookie-uri pentru a personaliza conținutul și anunțurile, pentru a oferi funcții de rețele sociale și pentru a analiza traficul. De asemenea, le oferim partenerilor de rețele sociale, de publicitate și de analize informații cu privire la modul în care folosiți site-ul nostru. Aceștia le pot combina cu alte informații oferite de dvs. sau culese în urma folosirii serviciilor lor. Situată în ",
+    "coverage_area": null,
+    "source": "miciideveloperi.ro"
+  }
+]

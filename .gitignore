@@ -45,5 +45,17 @@ data/afterschool.db
 data/afterschool.db-shm
 data/afterschool.db-wal
 
-# secrets
+# server-only artifacts (never commit)
 credentials.json
+.backups/
+*.log
+*.bak
+*.bak-*
+
+# db backups (large binary dumps, not source)
+data/backups/
+data/*_pre-import_*.db
+/afterschool.db
+
+# scraping automation debris (browser profiles, not source)
+scripts/*-profile/

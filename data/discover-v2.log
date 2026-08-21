@@ -1436,3 +1436,286 @@ Total nou in DB: 251
 Checkpoint sters — urmatoarea rulare o ia de la capat.
 ═════════════════════════════════════════════════════════════════
 
+
+═════════════════════════════════════════════════════════════════
+[16.04.2026, 15:01:25] DISCOVERY v2
+═════════════════════════════════════════════════════════════════
+DB curent: 204 afterschool-uri, 484 cluburi
+
+EROARE FATALA: browserType.launch: Target page, context or browser has been closed
+Browser logs:
+
+╔════════════════════════════════════════════════════════════════════════════════════════════════╗
+║ Looks like you launched a headed browser without having a XServer running.                     ║
+║ Set either 'headless: true' or use 'xvfb-run <your-playwright-app>' before running Playwright. ║
+║                                                                                                ║
+║ <3 Playwright Team                                                                             ║
+╚════════════════════════════════════════════════════════════════════════════════════════════════╝
+Call log:
+[2m  - <launching> /root/.cache/ms-playwright/chromium-1208/chrome-linux64/chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-8VvyuI --remote-debugging-pipe --no-startup-window[22m
+[2m  - <launched> pid=534021[22m
+[2m  - [pid=534021][err] [534021:534021:0416/150126.111446:ERROR:ui/ozone/platform/x11/ozone_platform_x11.cc:256] Missing X server or $DISPLAY[22m
+[2m  - [pid=534021][err] [534021:534021:0416/150126.112459:ERROR:ui/aura/env.cc:246] The platform failed to initialize.  Exiting.[22m
+[2m  - [pid=534021] <gracefully close start>[22m
+[2m  - [pid=534021] <kill>[22m
+[2m  - [pid=534021] <will force kill>[22m
+[2m  - [pid=534021] <process did exit: exitCode=1, signal=null>[22m
+[2m  - [pid=534021] starting temporary directories cleanup[22m
+[2m  - [pid=534021] finished temporary directories cleanup[22m
+[2m  - [pid=534021] <gracefully close end>[22m
+
+
+═════════════════════════════════════════════════════════════════
+[16.04.2026, 15:05:56] DISCOVERY v2
+═════════════════════════════════════════════════════════════════
+DB curent: 204 afterschool-uri, 484 cluburi
+
+--- Faza A: Afterschool-uri (48 queries) ---
+
+[1/48] "afterschool sector 1 Bucuresti"
+  Gasit 0 pe Google Maps
+
+[2/48] "afterschool sector 2 Bucuresti"
+  Gasit 0 pe Google Maps
+
+[3/48] "afterschool sector 3 Bucuresti"
+  Gasit 0 pe Google Maps
+
+[4/48] "afterschool sector 4 Bucuresti"
+  Gasit 0 pe Google Maps
+
+[5/48] "afterschool sector 5 Bucuresti"
+  Gasit 0 pe Google Maps
+
+[6/48] "afterschool sector 6 Bucuresti"
+  Gasit 0 pe Google Maps
+
+[7/48] "afterschool Aviatiei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[8/48] "afterschool Baneasa Bucuresti"
+  Gasit 0 pe Google Maps
+
+[9/48] "afterschool Dorobanti Bucuresti"
+  Gasit 0 pe Google Maps
+
+[10/48] "afterschool Herastrau Bucuresti"
+  Gasit 0 pe Google Maps
+
+[11/48] "afterschool Victoriei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[12/48] "afterschool Domenii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[13/48] "afterschool Grivita Bucuresti"
+  Gasit 0 pe Google Maps
+
+[14/48] "afterschool Bucurestii Noi Bucuresti"
+  Gasit 0 pe Google Maps
+
+[15/48] "afterschool Floreasca Bucuresti"
+  Gasit 0 pe Google Maps
+
+[16/48] "afterschool Colentina Bucuresti"
+  Gasit 0 pe Google Maps
+
+[17/48] "afterschool Iancului Bucuresti"
+  Gasit 0 pe Google Maps
+
+[18/48] "afterschool Stefan cel Mare Bucuresti"
+  Gasit 0 pe Google Maps
+
+[19/48] "afterschool Tei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[20/48] "afterschool Mosilor Bucuresti"
+  Gasit 0 pe Google Maps
+
+[21/48] "afterschool Vatra Luminoasa Bucuresti"
+  Gasit 0 pe Google Maps
+
+[22/48] "afterschool Pantelimon sector 2 Bucuresti"
+  Gasit 0 pe Google Maps
+
+[23/48] "afterschool Titan Bucuresti"
+  Gasit 0 pe Google Maps
+
+[24/48] "afterschool Dristor Bucuresti"
+  Gasit 0 pe Google Maps
+
+[25/48] "afterschool Balta Alba Bucuresti"
+  Gasit 0 pe Google Maps
+
+[26/48] "afterschool Vitan Bucuresti"
+  Gasit 0 pe Google Maps
+
+[27/48] "afterschool Dudesti Bucuresti"
+  Gasit 0 pe Google Maps
+
+[28/48] "afterschool Timpuri Noi Bucuresti"
+  Gasit 0 pe Google Maps
+
+[29/48] "afterschool Berceni Bucuresti"
+  Gasit 0 pe Google Maps
+
+[30/48] "afterschool Tineretului Bucuresti"
+  Gasit 0 pe Google Maps
+
+[31/48] "afterschool Aparatorii Patriei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[32/48] "afterschool Brancoveanu Bucuresti"
+  Gasit 0 pe Google Maps
+
+[33/48] "afterschool Metalurgiei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[34/48] "afterschool Rahova Bucuresti"
+  Gasit 0 pe Google Maps
+
+[35/48] "afterschool Cotroceni Bucuresti"
+  Gasit 0 pe Google Maps
+
+[36/48] "afterschool 13 Septembrie Bucuresti"
+  Gasit 0 pe Google Maps
+
+[37/48] "afterschool Plevnei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[38/48] "afterschool Ferentari Bucuresti"
+  Gasit 0 pe Google Maps
+
+[39/48] "afterschool Militari Bucuresti"
+  Gasit 0 pe Google Maps
+
+[40/48] "afterschool Drumul Taberei Bucuresti"
+  Gasit 0 pe Google Maps
+
+[41/48] "afterschool Crangasi Bucuresti"
+  Gasit 0 pe Google Maps
+
+[42/48] "afterschool Giulesti Bucuresti"
+  Gasit 0 pe Google Maps
+
+[43/48] "afterschool Lujerului Bucuresti"
+  Gasit 0 pe Google Maps
+
+[44/48] "program after school copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[45/48] "centru educational dupa scoala Bucuresti"
+  Gasit 0 pe Google Maps
+
+[46/48] "scoala dupa scoala privat Bucuresti"
+  Gasit 0 pe Google Maps
+
+[47/48] "supraveghere scolara Bucuresti"
+  Gasit 0 pe Google Maps
+
+[48/48] "after school program Bucuresti"
+  Gasit 0 pe Google Maps
+
+--- Faza B: Cluburi (36 queries) ---
+
+[1/36] [inot] "bazin inot copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[2/36] [inot] "scoala inot copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[3/36] [inot] "lectii inot copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[4/36] [inot] "club inot juniori Bucuresti"
+  Gasit 0 pe Google Maps
+
+[5/36] [fotbal] "scoala fotbal copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[6/36] [fotbal] "academie fotbal copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[7/36] [fotbal] "club fotbal juniori Bucuresti"
+  Gasit 0 pe Google Maps
+
+[8/36] [fotbal] "antrenamente fotbal copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[9/36] [dansuri] "scoala dans copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[10/36] [dansuri] "balet copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[11/36] [dansuri] "cursuri dans copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[12/36] [dansuri] "studio dans copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[13/36] [arte_martiale] "karate copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[14/36] [arte_martiale] "judo copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[15/36] [arte_martiale] "taekwondo copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[16/36] [arte_martiale] "arte martiale copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[17/36] [gimnastica] "gimnastica copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[18/36] [gimnastica] "gimnastica ritmica copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[19/36] [gimnastica] "acrobatii copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[20/36] [gimnastica] "club gimnastica copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[21/36] [limbi_straine] "cursuri engleza copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[22/36] [limbi_straine] "centru limbi straine copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[23/36] [limbi_straine] "cursuri franceza copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[24/36] [limbi_straine] "scoala limbi straine copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[25/36] [robotica] "robotica copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[26/36] [robotica] "programare copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[27/36] [robotica] "cursuri coding copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[28/36] [robotica] "STEM copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[29/36] [muzica] "scoala muzica copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[30/36] [muzica] "lectii pian copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[31/36] [muzica] "cursuri chitara copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[32/36] [muzica] "cursuri vioara copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[33/36] [arte_creative] "atelier pictura copii Bucuresti"
+  Gasit 0 pe Google Maps
+
+[34/36] [arte_creative] "cursuri desen copii Bucuresti"
+  ❌ Query error: page.goto: Target page, context or browser has been closed

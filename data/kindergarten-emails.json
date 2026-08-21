@@ -1,0 +1,2163 @@
+[
+  {
+    "id": 1,
+    "name": "Grădinița & Creșa Privată Innababy",
+    "website": "https://www.innababy.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 2,
+    "name": "Grădinița Cami",
+    "website": "http://www.gradinitacami.ro/",
+    "email": "office@gradinitacami.ro",
+    "emails": [
+      "office@gradinitacami.ro",
+      "gradinitacami@gmail.com",
+      "\"vlad.1292@yahoo.com\"",
+      "contact@gradinitacami.ro",
+      "vlad.1292@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 3,
+    "name": "Gradinita Kluge Kinder",
+    "website": "https://klugekinder.com/",
+    "email": "contact@klugekinder.ro",
+    "emails": [
+      "contact@klugekinder.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 4,
+    "name": "Creșa & Grădinița Tărâmul Cunoașterii - Cișmigiu, Sector 1",
+    "website": "https://www.taramul-cunoasterii.ro/",
+    "email": "alexandra@taramul-cunoasterii.ro",
+    "emails": [
+      "alexandra@taramul-cunoasterii.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 5,
+    "name": "Gradinita din Povesti",
+    "website": "http://www.gradinitadinpovesti.ro/",
+    "email": "andreea@gradinitadinpovesti.ro",
+    "emails": [
+      "andreea@gradinitadinpovesti.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 6,
+    "name": "Gradinita The Little Artist",
+    "website": "https://thelittleartist.ro/",
+    "email": "office@thelittleartist.ro",
+    "emails": [
+      "office@thelittleartist.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 7,
+    "name": "HÄNSEL UND GRETEL KINDERGARTEN",
+    "website": "http://hanselundgretel.ro/",
+    "email": "gradinita@hanselundgretel.ro",
+    "emails": [
+      "gradinita@hanselundgretel.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 8,
+    "name": "Grădinița Sofia",
+    "website": "http://www.gradinitasofia.eu/",
+    "email": "office@gradinitasofia.eu",
+    "emails": [
+      "office@gradinitasofia.eu"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 9,
+    "name": "Teddy Bar Grădiniță",
+    "website": "https://www.teddybar.ro/",
+    "email": "contact@teddybar.ro",
+    "emails": [
+      "contact@teddybar.ro",
+      "gradinitateddybar@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 10,
+    "name": "Englishkinder - gradinita privată în engleză / Сresa sector 1",
+    "website": "https://englishkinder.ro/",
+    "email": "school@englishkinder.ro",
+    "emails": [
+      "school@englishkinder.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 11,
+    "name": "Gradinita Zum Zum",
+    "website": "http://www.gradinitazumzum.ro/",
+    "email": "office@gradinitazumzum.ro",
+    "emails": [
+      "office@gradinitazumzum.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 12,
+    "name": "IOANID School – Grădiniță",
+    "website": "https://www.ioanid.com/gradinita-privata-bucuresti/?utm_source=google&utm_medium=gbp&utm_campaign=gbp_gradinita",
+    "email": "office@ioanid.com",
+    "emails": [
+      "office@ioanid.com",
+      "officescoala@ioanid.com",
+      "officegimnaziu@ioanid.com",
+      "officeliceu@ioanid.com",
+      "admissions@ioanid.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 13,
+    "name": "LITTLE ANGELS CLUB",
+    "website": "http://www.angelsclub.ro/",
+    "email": "angelscluboffice@gmail.com",
+    "emails": [
+      "angelscluboffice@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 14,
+    "name": "Grădinița lui David",
+    "website": "http://www.gradinitaluidavid.ro/",
+    "email": "office@gradinitaluidavid.ro",
+    "emails": [
+      "office@gradinitaluidavid.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 15,
+    "name": "Gradinita Particulara Super Start",
+    "website": "http://www.superstart.ro/",
+    "email": "superstarteduc@yahoo.com",
+    "emails": [
+      "superstarteduc@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 16,
+    "name": "Gradinita Springfield",
+    "website": "https://springfieldeducation.ro/",
+    "email": "office@springfieldeducation.ro",
+    "emails": [
+      "office@springfieldeducation.ro",
+      "mihaela.white70@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 17,
+    "name": "Grădinița Pick Me Academy",
+    "website": "http://www.pickmeacademy.ro/",
+    "email": "contact@pickmeacademy.ro",
+    "emails": [
+      "contact@pickmeacademy.ro",
+      "contact@gradinitapickme.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 18,
+    "name": "Grădinița Don Castor",
+    "website": "http://www.doncastor.ro/",
+    "email": "contact@doncastor.ro",
+    "emails": [
+      "contact@doncastor.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 19,
+    "name": "GRADINITA IEPURASUL CEL ISTET",
+    "website": "https://gradinita-iepurasulcelistet.ro/contact/",
+    "email": "contact@gradinita-iepurasulcelistet.ro",
+    "emails": [
+      "contact@gradinita-iepurasulcelistet.ro",
+      "cgi79@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 20,
+    "name": "GRĂDINIȚA CASTELINO BABY",
+    "website": "http://www.castelinobaby.ro/",
+    "email": "gradinitacastelinobaby@gmail.com",
+    "emails": [
+      "gradinitacastelinobaby@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 21,
+    "name": "Grădiniţa Compania Mică",
+    "website": "https://www.companiamica.ro/",
+    "email": "office@companiamica.ro",
+    "emails": [
+      "office@companiamica.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 22,
+    "name": "Grădinița Castelul Copiilor din Tei",
+    "website": "http://www.casteluldintei.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 23,
+    "name": "Allegria Montessori",
+    "website": "http://www.allegriamontessori.ro/",
+    "email": "allegria.gradinita@gmail.com",
+    "emails": [
+      "allegria.gradinita@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 24,
+    "name": "Creșa & Grădinița Tărâmul Cunoașterii - Colentina, Sector 2",
+    "website": "http://www.taramul-cunoasterii.ro/",
+    "email": "alexandra@taramul-cunoasterii.ro",
+    "emails": [
+      "alexandra@taramul-cunoasterii.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 26,
+    "name": "Grădinița Wonderland 2",
+    "website": "https://gradinitawonderland.com/",
+    "email": "920contact@gradinitawonderland.com",
+    "emails": [
+      "920contact@gradinitawonderland.com",
+      "contact@gradinitawonderland.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 27,
+    "name": "Grădiniţa ROSAMARIA",
+    "website": "http://www.gradinitarosamaria.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 28,
+    "name": "Gradinita i-Kids Garden",
+    "website": "https://www.i-kids.ro/gradinita-privata-program-prelungit/",
+    "email": "contact@i-kids.ro",
+    "emails": [
+      "contact@i-kids.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 30,
+    "name": "Gradinita Rio",
+    "website": "http://www.gradinitario.ro/",
+    "email": "office@gradinitario.ro",
+    "emails": [
+      "office@gradinitario.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 31,
+    "name": "Grădinița nr. 138",
+    "website": "https://invatamantsector2.ro/school/gradinita-nr-138/",
+    "email": "gradinita138@s2.ismb.ro",
+    "emails": [
+      "gradinita138@s2.ismb.ro",
+      "comunicare@dgapi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 32,
+    "name": "Grădinița Cartea cu Povești",
+    "website": "http://www.carteacupovesti.ro/",
+    "email": "contact@carteacupovesti.ro",
+    "emails": [
+      "contact@carteacupovesti.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 33,
+    "name": "Gradinita particulara sector 3 ️ cresa privata ️ Princess Baby Care Bucuresti",
+    "website": "https://gradinita-princess.ro/",
+    "email": "office@gradinita-princess.ro",
+    "emails": [
+      "office@gradinita-princess.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 34,
+    "name": "Noel",
+    "website": "https://www.gradinita-noel.ro/",
+    "email": "office@gradinita-noel.ro",
+    "emails": [
+      "office@gradinita-noel.ro",
+      "orice@gradinita-noel.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 35,
+    "name": "Grădinița Puiuțul Pufos",
+    "website": "http://www.puiutulpufos.ro/",
+    "email": "contact@puiutulpufos.ro",
+    "emails": [
+      "contact@puiutulpufos.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 36,
+    "name": "Grădinița Bambi STEP BY STEP",
+    "website": "http://www.bambistepbystep.ro/",
+    "email": "office@bambistepbystep.ro",
+    "emails": [
+      "office@bambistepbystep.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 37,
+    "name": "Grădinița Magică",
+    "website": "http://www.gradinitamagica.ro/",
+    "email": "gradinitamagica2013@gmail.com",
+    "emails": [
+      "gradinitamagica2013@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 38,
+    "name": "Grădinița cu Program Prelungit OLIMPIA KIDS",
+    "website": "https://olimpia-kids.ro/",
+    "email": "contact@olimpia-kids.ro",
+    "emails": [
+      "contact@olimpia-kids.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 39,
+    "name": "ERA Kinderland - gradinita germana, Sector 3, Bucuresti",
+    "website": "https://www.erakinderland.ro/",
+    "email": "office@erakinderland.ro",
+    "emails": [
+      "office@erakinderland.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 40,
+    "name": "Kids Club",
+    "website": "https://gradinita-in-dristor.kidsclub.ro/",
+    "email": "diana@kidsclub.ro",
+    "emails": [
+      "diana@kidsclub.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 41,
+    "name": "Grădinița cu program prelungit Smart Steps",
+    "website": "https://gradinitasmartsteps.ro/",
+    "email": "office@gradinitasmartsteps.ro",
+    "emails": [
+      "gradinitasmartsteps@gmail.com",
+      "office@gradinitasmartsteps.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 42,
+    "name": "GRADINITA FECIOARA MARIA",
+    "website": "http://www.cedfecioaramaria.ro/",
+    "email": "info@cedfecioaramaria.ro",
+    "emails": [
+      "cedfecioaramaria@gmail.com",
+      "info@cedfecioaramaria.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 43,
+    "name": "Let's play - Grădiniță privata",
+    "website": "https://lets-play.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 44,
+    "name": "Grădinița EuroKid 4",
+    "website": "https://gradinitaeurokid.ro/",
+    "email": "info@gradinitaeurokid.ro",
+    "emails": [
+      "info@gradinitaeurokid.ro",
+      "info1@gradinitaeurokid.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 45,
+    "name": "Tic Pitic - Grădiniță particulară",
+    "website": "https://www.ticpitic.ro/",
+    "email": "gradinita.ticpitic@yahoo.com",
+    "emails": [
+      "gradinita.ticpitic@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 46,
+    "name": "Grădinița Eurokid 1",
+    "website": "https://gradinitaeurokid.ro/",
+    "email": "info@gradinitaeurokid.ro",
+    "emails": [
+      "info@gradinitaeurokid.ro",
+      "info1@gradinitaeurokid.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 47,
+    "name": "Grădinița Elite",
+    "website": "http://www.gradinitaelite.ro/",
+    "email": "office@gradinitaelite.ro",
+    "emails": [
+      "office@gradinitaelite.ro",
+      "nume@email.ro",
+      "office@astoria.com.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 48,
+    "name": "Grădinița particulară acreditată Dreamland Tineretului",
+    "website": "http://www.gradinitadreamland.ro/",
+    "email": "office@gradinitadreamland.ro",
+    "emails": [
+      "office@gradinitadreamland.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 49,
+    "name": "Grădinița Prikindel",
+    "website": "http://www.gradinita-prikindel.ro/",
+    "email": "office@gradinita-prikindel.ro",
+    "emails": [
+      "office@gradinita-prikindel.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 50,
+    "name": "Gradinita HAPPY Junior-sediul 2",
+    "website": "http://www.happyjunior.ro/",
+    "email": "office@happyjunior.ro",
+    "emails": [
+      "office@happyjunior.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 51,
+    "name": "Gradinita Germana Der kleine Prinz",
+    "website": "https://derkleineprinz.ro/",
+    "email": "kindergarten@derkleineprinz.ro",
+    "emails": [
+      "kindergarten@derkleineprinz.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 52,
+    "name": "Gradinita Irina",
+    "website": "http://www.gradinitairina.ro/",
+    "email": "office@gradinitairina.ro",
+    "emails": [
+      "office@gradinitairina.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 53,
+    "name": "Micul Lord",
+    "website": "https://www.micul-lord.ro/",
+    "email": "micul.lordy@gmail.com",
+    "emails": [
+      "micul.lordy@gmail.com",
+      "micul_lordy@yahoo.com",
+      "micul.lordy@gmail.commicul",
+      "_lordy@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 55,
+    "name": "Grădinița Sfântul Andrei",
+    "website": "http://www.gradinita-sf-andrei.ro/",
+    "email": "contact@gradinita-sf-andrei.ro",
+    "emails": [
+      "contact@gradinita-sf-andrei.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 56,
+    "name": "Grădinița Rainbow Kids",
+    "website": "https://www.rainbowkids.ro/",
+    "email": "contact@rainbowkids.ro",
+    "emails": [
+      "contact@rainbowkids.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 58,
+    "name": "GRĂDINIŢA DE COPII NR. 53",
+    "website": "http://www.edu.ro/",
+    "email": "registratura@edu.gov.ro",
+    "emails": [
+      "registratura@edu.gov.ro",
+      "solicitari544@edu.gov.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 59,
+    "name": "Grădinița Sfântul Nicolae",
+    "website": "http://gradinitasfantulnicolae.ro/",
+    "email": "info@gradinitasfantulnicolae.ro",
+    "emails": [
+      "info@gradinitasfantulnicolae.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 60,
+    "name": "Creșa Sfîntul Andrei- de stat, sector 5, Bucuresti",
+    "website": "https://www.copilul.ro/Crese-de-copii-u58/Cresa-nr-37-s967.html",
+    "email": "info@copilul.ro",
+    "emails": [
+      "info@copilul.ro",
+      "dpo@activesoft.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 61,
+    "name": "Grădinița Micul Lord - Cotroceni",
+    "website": "http://www.micul-lord.ro/",
+    "email": "micul.lordy@gmail.com",
+    "emails": [
+      "micul.lordy@gmail.com",
+      "micul_lordy@yahoo.com",
+      "micul.lordy@gmail.commicul",
+      "_lordy@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 62,
+    "name": "Grădinița Căsuța Fermecată",
+    "website": "https://scoli.didactic.ro/gradinita-casuta-fermecata",
+    "email": "gradi.casuta.fermecata@gmail.com",
+    "emails": [
+      "gradi.casuta.fermecata@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 63,
+    "name": "Grădinița nr. 268",
+    "website": "https://gradinita268.imi.place/",
+    "email": "gradinita_268_puisor@yahoo.com",
+    "emails": [
+      "gradinita_268_puisor@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 64,
+    "name": "Grădinița Paradisul Verde",
+    "website": "https://gradinitapv.wordpress.com/gradinita-nr-169-paradisul-verde/",
+    "email": "gradinitapv@gmail.com",
+    "emails": [
+      "gradinitapv@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 65,
+    "name": "Alexandra Kids",
+    "website": "http://www.alexandrakids.ro/",
+    "email": "office_alexandrakids@yahoo.com",
+    "emails": [
+      "office_alexandrakids@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 66,
+    "name": "GRĂDINIŢA DE COPII ELECTROMAGNETICA",
+    "website": "https://eduindex.ro/crese/cresa-electromagnetica-sector-5-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "gradielectromagnetica@yahoo.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 68,
+    "name": "Grădinița nr. 54",
+    "website": "https://eduindex.ro/gradinite/gradinita-nr-54-sector-5-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "gradinita54meminescu@yahoo.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 69,
+    "name": "Gradinita Wonderland Militari Sector 6",
+    "website": "https://gradinitawonderland.com/",
+    "email": "920contact@gradinitawonderland.com",
+    "emails": [
+      "920contact@gradinitawonderland.com",
+      "contact@gradinitawonderland.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 70,
+    "name": "GRĂDINIȚA ȘI CREȘA RORO KINDERGARTEN",
+    "website": "http://www.gradinitaroro.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 71,
+    "name": "GRADINITA/ AFTER/ SCOALA DE VARA ALBA CA ZAPADA",
+    "website": "http://www.albacazapada.ro/",
+    "email": "office_imt@yahoo.com",
+    "emails": [
+      "office_imt@yahoo.com",
+      "0773967033office_imt@yahoo.comstr"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 72,
+    "name": "Grădinița Nicholas Gradinita Valea Oltului, Prelungirea Ghencea. Gradinita Drumul Taberei",
+    "website": "http://www.nicholas.ro/",
+    "email": "office@nicholas.ro",
+    "emails": [
+      "office@nicholas.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 73,
+    "name": "GRADINITA CLUBUL BUBURUZELOR",
+    "website": "http://www.clubulbuburuzelor.ro/",
+    "email": "contact@clubulbuburuzelor.ro",
+    "emails": [
+      "contact@clubulbuburuzelor.ro",
+      "clubulbuburuzelor@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 74,
+    "name": "Grădinița Castelul Voinicilor",
+    "website": "http://www.castelulvoinicilor.ro/",
+    "email": "contact@castelulvoinicilor.ro",
+    "emails": [
+      "contact@castelulvoinicilor.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 75,
+    "name": "Casa Montessori",
+    "website": "http://www.casamontessori.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 76,
+    "name": "Grădinița MINIME",
+    "website": "http://www.minime-academy.ro/",
+    "email": "academia.minime@gmail.com",
+    "emails": [
+      "academia.minime@gmail.com",
+      "gradinitaminime@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 77,
+    "name": "Grădinița Degețica",
+    "website": "https://degetica.ro/",
+    "email": "gradinitadegetica@yahoo.com",
+    "emails": [
+      "gradinitadegetica@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 78,
+    "name": "Gradinita Magic World Kindergarten",
+    "website": "http://www.gradinitamagicworld.ro/",
+    "email": "contact@gradinitamagicworld.ro",
+    "emails": [
+      "contact@gradinitamagicworld.ro",
+      "221contact@gradinitamagicworld.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 79,
+    "name": "Căsuța Ștrumfilor",
+    "website": "http://www.gradinitacasutastrumfilor.ro/",
+    "email": "gradinitacasutastrumfilor@gmail.com",
+    "emails": [
+      "gradinitacasutastrumfilor@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 80,
+    "name": "Gradinita ROSA ZANGARA",
+    "website": "http://www.gradinitamrz.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 81,
+    "name": "Grădinița Georgi",
+    "website": "http://gradinitageorgi.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 82,
+    "name": "Grădinița ADA",
+    "website": "https://gradinita-ada.ro/",
+    "email": "gradinitaada@gmail.com",
+    "emails": [
+      "gradinitaada@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 84,
+    "name": "Grădinița Nr. 218",
+    "website": "http://gradinitanumarul218.ro/",
+    "email": "gradinita218@gmail.com",
+    "emails": [
+      "gradinita218@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 85,
+    "name": "Grădinița nr. 217",
+    "website": "https://www.gradinitebucuresti.ro/index.php?c=-3&s=6&g=226",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 86,
+    "name": "Planeta Copiilor",
+    "website": "http://gradinitaplanetacopiilor.ro/",
+    "email": "%67radini%74a%70%6canetaco%70%69%69lo%72@gmail.%63om",
+    "emails": [
+      "%67radini%74a%70%6canetaco%70%69%69lo%72@gmail.%63om",
+      "miha%65la.sal%63ieanu@%70lanetac%6f%70iilor%2ero",
+      "victorita_sotae@yahoo.com",
+      "oliviapaunescu@yahoo.ro",
+      "i%75%6c%69a.na%65@p%6cane%74acopi%69lor%2ero",
+      "l%6frena.%73%74ai%63u@plane%74a%63o%70iilor.r%6f",
+      "gradinitaplanetacopiilor@gmail.com",
+      "mihaela.salcieanu@planetacopiilor.ro",
+      "iulia.nae@planetacopiilor.ro",
+      "lorena.staicu@planetacopiilor.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 87,
+    "name": "Grădinița DORA",
+    "website": "https://www.gradinitadora.ro/",
+    "email": "gradinitadora@yahoo.ro",
+    "emails": [
+      "gradinitadora@yahoo.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 89,
+    "name": "Grădinița cu program prelungit ”Prietenii Mei”",
+    "website": "https://gradinitaprieteniimei.ro/?fbclid=IwAR2GwafvfqI369FqegdXxUc-xdwMo7m3GuATIIWb26C35pg-DZ6aadEhKHE",
+    "email": "gradinitaprieteniimei@gmail.com",
+    "emails": [
+      "gradinitaprieteniimei@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 90,
+    "name": "Grădinița nr.241",
+    "website": "https://gradinita241.invatamantsector3.ro/",
+    "email": "gradinita.pestisorul.aur@s3.ismb.ro",
+    "emails": [
+      "gradinita.pestisorul.aur@s3.ismb.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 91,
+    "name": "Grădinița Nr. 3",
+    "website": "https://gradinita3.invatamantsector3.ro/",
+    "email": "gradinita.3@s3.ismb.ro",
+    "emails": [
+      "gradinita.3@s3.ismb.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 92,
+    "name": "Grădinița Numărul 203",
+    "website": "http://gradinita-203.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 93,
+    "name": "Academia Strumfilor | Gradinita si Cresa Privata | Sector 1",
+    "website": "http://www.academiastrumfilor.ro/",
+    "email": "nicoleta.sanda@yahoo.com",
+    "emails": [
+      "nicoleta.sanda@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 94,
+    "name": "Grădinița și Creșa Rocket Kids",
+    "website": "http://www.rocketkids.ro/",
+    "email": "gradinitarocketkids22@yahoo.com",
+    "emails": [
+      "gradinitarocketkids22@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 96,
+    "name": "Piticul Curajos - gradinita particulara si cresa privata in Sector 3, Bucuresti",
+    "website": "https://www.piticulcurajos.ro/",
+    "email": "office@piticulcurajos.ro",
+    "emails": [
+      "office@piticulcurajos.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 97,
+    "name": "Happy Tree",
+    "website": "https://www.happytreegradinita.ro/",
+    "email": "gradinita.happytree@gmail.com",
+    "emails": [
+      "gradinita.happytree@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 101,
+    "name": "Cresa Particulara Roxy Baby",
+    "website": "http://roxybaby.ro/",
+    "email": "office@roxybaby.ro",
+    "emails": [
+      "office@roxybaby.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 102,
+    "name": "Cresa Mica Sirena",
+    "website": "https://eduindex.ro/crese/cresa-mica-sirena-sector-4-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "contact@cresamicasirena.ro",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 103,
+    "name": "Creșa Micii Poznași",
+    "website": "https://www.micii-poznasi.ro/",
+    "email": "office@micii-poznasi.ro",
+    "emails": [
+      "office@micii-poznasi.ro",
+      "miciipoznasi@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 105,
+    "name": "Creșa Pinocchio",
+    "website": "http://www.protectiacopilului6.ro/directia-economica_doc_142_centrul-social-multifunctional-pinochio_pg_0.htm",
+    "email": "pinochio@dgaspc6.com",
+    "emails": [
+      "pinochio@dgaspc6.com",
+      "office@dgaspc6.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 107,
+    "name": "Creșa \"Îngerașii\"",
+    "website": "https://eduindex.ro/crese/cresa-ingerasii-sector-6-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "office@dgaspc6.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 108,
+    "name": "Grădiniţa nr. 70",
+    "website": "https://gradinita70.invatamantsector3.ro/",
+    "email": "gradinita.70@s3.ismb.ro",
+    "emails": [
+      "gradinita.70@s3.ismb.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 109,
+    "name": "Grădinița 87 Spiridușii",
+    "website": "https://www.facebook.com/Spiridusii/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 110,
+    "name": "Grădinița Happy Planet Kids",
+    "website": "https://www.happyplanetkids.ro/",
+    "email": "happyplanetkids@yahoo.com",
+    "emails": [
+      "happyplanetkids@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 111,
+    "name": "Grădinița nr. 111",
+    "website": "https://sites.google.com/view/gradinita-nr-111",
+    "email": "gradinitanumarul111@gmail.com",
+    "emails": [
+      "gradinitanumarul111@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 112,
+    "name": "Gradinita si Cresa Happy Kiddo Militari - Drumul Taberei",
+    "website": "https://gradinitamilitari.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 113,
+    "name": "Creşa Harap-Alb",
+    "website": "https://eduindex.ro/crese/cresa-harap-alb-sector-6-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "harapalb@dgaspc6.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 114,
+    "name": "MiRo Kids World",
+    "website": "http://gradinitamilitari.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 115,
+    "name": "Gradinita Sapte Ani",
+    "website": "http://www.magicyears.ro/",
+    "email": "office@magicyears.ro",
+    "emails": [
+      "office@magicyears.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 116,
+    "name": "Gradinita IQ-EST",
+    "website": "http://www.magicyears.ro/",
+    "email": "office@magicyears.ro",
+    "emails": [
+      "office@magicyears.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 117,
+    "name": "Grădinița Cu PP Nr.2 Berceni",
+    "website": "http://www.iq-est.ro/",
+    "email": "iqestbucuresti@gmail.com",
+    "emails": [
+      "iqestbucuresti@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 121,
+    "name": "Creşa Micii Magicieni",
+    "website": "http://www.magicyears.ro/",
+    "email": "office@magicyears.ro",
+    "emails": [
+      "office@magicyears.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 122,
+    "name": "Cresa Unicornul Fermecat",
+    "website": "http://www.magicyears.ro/",
+    "email": "office@magicyears.ro",
+    "emails": [
+      "office@magicyears.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 124,
+    "name": "Creșa Titan II",
+    "website": "https://gradinitadandi.ro/",
+    "email": "contact@gradinitadandi.ro",
+    "emails": [
+      "contact@gradinitadandi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 125,
+    "name": "Diandra",
+    "website": "https://gradinitadandi.ro/",
+    "email": "contact@gradinitadandi.ro",
+    "emails": [
+      "contact@gradinitadandi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 126,
+    "name": "Grădinița Little Star",
+    "website": "https://gradinitadandi.ro/",
+    "email": "contact@gradinitadandi.ro",
+    "emails": [
+      "contact@gradinitadandi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 127,
+    "name": "Gradinita \"Ana Lugojana\"",
+    "website": "https://gradinitadandi.ro/",
+    "email": "contact@gradinitadandi.ro",
+    "emails": [
+      "contact@gradinitadandi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 128,
+    "name": "Diamond Kids",
+    "website": "https://gradinitadandi.ro/",
+    "email": "contact@gradinitadandi.ro",
+    "emails": [
+      "contact@gradinitadandi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 129,
+    "name": "Grădinița nr.244",
+    "website": "https://eduindex.ro/gradinite/gradinita-nr-205-sector-5-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "mariana_badea205@yahoo.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 130,
+    "name": "Grădiniţa nr. 245",
+    "website": "https://eduindex.ro/gradinite/gradinita-nr-205-sector-5-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "mariana_badea205@yahoo.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 131,
+    "name": "Grădinița nr. 73",
+    "website": "https://eduindex.ro/gradinite/gradinita-nr-205-sector-5-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "mariana_badea205@yahoo.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 132,
+    "name": "Grădiniţa Numărul 242",
+    "website": "https://eduindex.ro/gradinite/gradinita-nr-205-sector-5-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "mariana_badea205@yahoo.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 133,
+    "name": "Grădinița Art Alegria",
+    "website": "https://eduindex.ro/gradinite/gradinita-nr-205-sector-5-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "mariana_badea205@yahoo.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 135,
+    "name": "After-School Art'Alegria",
+    "website": "http://www.art-alegria.ro/",
+    "email": "office@art-alegria.ro",
+    "emails": [
+      "office@art-alegria.ro%20",
+      "office@art-alegria.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 136,
+    "name": "Centrul de Zi \"Neghiniță\"",
+    "website": "http://www.protectiacopilului6.ro/directia-protectia-copilului_doc_144_centrul-social-multifunctional-neghinita_pg_0.htm",
+    "email": "neghinita@dgaspc6.com",
+    "emails": [
+      "neghinita@dgaspc6.com",
+      "office@dgaspc6.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 137,
+    "name": "Gradinita Degetica Royal Palace",
+    "website": "http://gradinitadegetica.ro/",
+    "email": "gradinitadegetica01@gmail.com",
+    "emails": [
+      "gradinitadegetica01@gmail.com",
+      "gradinitadegetica01@gmail.commobile"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 138,
+    "name": "Happy Kiddo",
+    "website": "http://gradinitamilitari.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 139,
+    "name": "Happy Junior",
+    "website": "http://www.happyjunior.ro/",
+    "email": "office@happyjunior.ro",
+    "emails": [
+      "office@happyjunior.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 140,
+    "name": "Gradinita Magic Years",
+    "website": "http://www.magicyears.ro/",
+    "email": "office@magicyears.ro",
+    "emails": [
+      "office@magicyears.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 141,
+    "name": "Grădinița Bloom Brâncoveanu",
+    "website": "https://bloomeducation.ro/",
+    "email": "office@bloomeducation.ro",
+    "emails": [
+      "office@bloomeducation.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 142,
+    "name": "Gradinita Rita Veverita",
+    "website": "https://ritaveverita.ro/",
+    "email": "http://office@ritaveverita.ro",
+    "emails": [
+      "http://office@ritaveverita.ro",
+      "office@ritaveverita.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 143,
+    "name": "Gradinita Ziana / Universal Kids Global",
+    "website": "https://www.facebook.com/share/14TXMRSdQ9R/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 144,
+    "name": "Gradinita Dandi Kids",
+    "website": "https://gradinitadandi.ro/",
+    "email": "contact@gradinitadandi.ro",
+    "emails": [
+      "contact@gradinitadandi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 146,
+    "name": "Montessori Land - Sediul Colentina",
+    "website": "https://montessoriland.ro/",
+    "email": "office@montessoriland.ro",
+    "emails": [
+      "office@montessoriland.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 147,
+    "name": "Gradinita si Scoala Spectrum Colentina",
+    "website": "http://www.spectrum.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 148,
+    "name": "Gradinita Montessori Monterra",
+    "website": "http://www.scoalamonterra.ro/",
+    "email": "contact@aicicrescmontessori.ro",
+    "emails": [
+      "contact@aicicrescmontessori.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 149,
+    "name": "Grădinița Primii Pași",
+    "website": "http://www.gradinitaprimiipasi.ro/",
+    "email": "gradinitaprimiipasi@yahoo.com",
+    "emails": [
+      "gradinitaprimiipasi@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 150,
+    "name": "Grădiniţa Cu Program Prelungit Nr. 1",
+    "website": "https://www.gradinitapantelimon.ro/",
+    "email": "gradinita1pantelimon@gmail.com",
+    "emails": [
+      "gradinita1pantelimon@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 152,
+    "name": "Gradinita Lebada Alba",
+    "website": "https://www.copilul.ro/Gradinite-u59/Centrul-Lebada-Alba-s3410.html",
+    "email": "info@copilul.ro",
+    "emails": [
+      "info@copilul.ro",
+      "dpo@activesoft.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 153,
+    "name": "Grădinița Numărul 23",
+    "website": "https://invatamantsector2.ro/school/gradinita-nr-23/",
+    "email": "gradinita23@s2.ismb.ro",
+    "emails": [
+      "gradinita23@s2.ismb.ro",
+      "comunicare@dgapi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 154,
+    "name": "ADAM KINDERGARTEN",
+    "website": "https://www.facebook.com/profile.php?id=100095296475326",
+    "email": "kindergartenadamgroup@gmail.com",
+    "emails": [
+      "kindergartenadamgroup@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 159,
+    "name": "Grădinița Numărul 236",
+    "website": "http://gradinita-236.eduteca.ro/",
+    "email": "gradinita236@yahoo.com",
+    "emails": [
+      "gradinita236@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 160,
+    "name": "Academia Copiilor Isteți",
+    "website": "https://www.facebook.com/academiacopiiloristeti/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 161,
+    "name": "Scoala Primara Ana Lugojana",
+    "website": "https://www.ana-lugojana.ro/",
+    "email": "office@ana-lugojana.ro",
+    "emails": [
+      "office@ana-lugojana.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 162,
+    "name": "GRADINITA MY UNIVERSE",
+    "website": "http://myuniverse.ro/",
+    "email": "contactmyuniverse@yahoo.com",
+    "emails": [
+      "contactmyuniverse@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 163,
+    "name": "Grădinița nr. 34",
+    "website": "https://gradinita34.ro/",
+    "email": "gradinitanr34@gmail.com",
+    "emails": [
+      "gradinitanr34@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 164,
+    "name": "Grădinița nr. 205",
+    "website": "https://eduindex.ro/gradinite/gradinita-nr-205-sector-5-bucuresti/",
+    "email": "contact@eduindex.ro",
+    "emails": [
+      "mariana_badea205@yahoo.com",
+      "contact@eduindex.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 165,
+    "name": "Grădinița cu Program Prelungit Copilăria Sofiei - Educație Montessori",
+    "website": "https://www.copilariasofiei.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 166,
+    "name": "Cresa Giurgiului \"Dumbrava Minunata\"",
+    "website": "http://www.cresadumbravaminunata.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 168,
+    "name": "Grădinița Germană Analesia",
+    "website": "https://www.analesia.ro/",
+    "email": "contact@analesia.ro",
+    "emails": [
+      "contact@analesia.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 169,
+    "name": "Gradinita Waldorf Christofori International",
+    "website": "https://www.gradinitachristophori.ro/",
+    "email": "contact@gradinitachristophori.ro",
+    "emails": [
+      "contact@gradinitachristophori.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 170,
+    "name": "GRĂDINIŢA MAMI ŞI TATI",
+    "website": "http://www.gradinita-mamisitati.ro/",
+    "email": "gradinita_mamisitati@yahoo.com",
+    "emails": [
+      "gradinita_mamisitati@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 171,
+    "name": "Grădinița nr. 252",
+    "website": "http://gradinita252.ro/",
+    "email": "gradi252@yahoo.com",
+    "emails": [
+      "gradi252@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 172,
+    "name": "Grădinița Numărul 52 Corp A",
+    "website": "https://www.copilul.ro/Gradinite-u59/Gradinita-de-copii-nr-52-s3675.html",
+    "email": "info@copilul.ro",
+    "emails": [
+      "info@copilul.ro",
+      "dpo@activesoft.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 173,
+    "name": "Gradinita Avenor",
+    "website": "http://www.avenor.ro/",
+    "email": "office@avenor.ro",
+    "emails": [
+      "office@avenor.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 174,
+    "name": "Kids Club Băneasa",
+    "website": "http://gradinita-in-baneasa.kidsclub.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 175,
+    "name": "Gradinita Humpty Dumpty",
+    "website": "http://www.humpty-dumpty.ro/",
+    "email": "gradihumptydumpty@gmail.com",
+    "emails": [
+      "gradihumptydumpty@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 176,
+    "name": "Gradinița Rose Mary 2",
+    "website": "http://www.gradinitarosemary.ro/",
+    "email": "office@gradinitarosemary.ro",
+    "emails": [
+      "office@gradinitarosemary.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 177,
+    "name": "Little Leaders Academy Kindergarten - Creșa și Grădinița ta din Băneasa",
+    "website": "https://little-leaders-academy.ro/",
+    "email": "contact@little-leaders-academy.ro",
+    "emails": [
+      "contact@little-leaders-academy.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 178,
+    "name": "Gradinita Lindenblüte",
+    "website": "http://www.lindenbluete.ro/",
+    "email": "office@lindenbluete.ro",
+    "emails": [
+      "office@lindenbluete.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 179,
+    "name": "Smart Kids",
+    "website": "http://www.smartkids.ro/",
+    "email": "office@smartkids.ro",
+    "emails": [
+      "office@smartkids.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 180,
+    "name": "Karin's Kids Academy Băneasa",
+    "website": "https://www.karins.ro/",
+    "email": "baneasa@karinkids.ro",
+    "emails": [
+      "baneasa@karinkids.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 181,
+    "name": "Minti Colorate",
+    "website": "https://www.minticolorate.ro/",
+    "email": "minticolorate@gmail.com",
+    "emails": [
+      "minticolorate@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 182,
+    "name": "Kinderama International School - Die Biene Maja",
+    "website": "https://kinderama.ro/",
+    "email": "office@kinderama.ro",
+    "emails": [
+      "office@kinderama.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 183,
+    "name": "Centrul Educational Fata din Dafin",
+    "website": "http://www.fatadindafin.ro/",
+    "email": "office@fatadindafin.ro",
+    "emails": [
+      "office@fatadindafin.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 184,
+    "name": "GRADINITA HAPPY UNIVERS ACREDITATA ARACIP",
+    "website": "http://www.happyunivers.ro/",
+    "email": "happypipera@happyunivers.ro",
+    "emails": [
+      "happypipera@happyunivers.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 185,
+    "name": "Grădinița Butterfly Pipera",
+    "website": "http://www.gradinitabutterfly.ro/",
+    "email": "aviatiei@gradinitabutterfly.ro",
+    "emails": [
+      "aviatiei@gradinitabutterfly.ro",
+      "cosmopolis@gradinitabutterfly.ro",
+      "pipera@gradinitabutterfly.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 186,
+    "name": "Gradinita Montessori - Maria Montessori Home",
+    "website": "http://www.maria-montessori.ro/",
+    "email": "office@maria-montessori.ro",
+    "emails": [
+      "office@maria-montessori.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 187,
+    "name": "Beautiful Minds Pipera-Nature kindergarten",
+    "website": "http://www.beautiful-minds.ro/",
+    "email": "beautifulminds.reggiochild@gmail.com",
+    "emails": [
+      "user@domainname.com",
+      "beautifulminds.reggiochild@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 188,
+    "name": "Gradinita & Cresa Pipera - Odyssey Kindergarten",
+    "website": "http://odysseyedu.ro/",
+    "email": "alina.coca@odysseyedu.ro",
+    "emails": [
+      "alina.coca@odysseyedu.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 189,
+    "name": "Gradinita Little Lions",
+    "website": "http://www.littlelionskindergarten.ro/",
+    "email": "contact.littlelions@gmail.com",
+    "emails": [
+      "contact.littlelions@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 190,
+    "name": "Scoala Primara Exploria",
+    "website": "https://scoalaprimaraexploria.ro/",
+    "email": "office@scoalaexploria.ro",
+    "emails": [
+      "office@scoalaexploria.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 191,
+    "name": "Grădiniță Pipera - Kids' Planet",
+    "website": "https://kids-planet.ro/",
+    "email": "office@kids-planet.ro",
+    "emails": [
+      "office@kids-planet.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 192,
+    "name": "Alphabet Kindergarten",
+    "website": "https://www.alphabetkindergarten.ro/",
+    "email": "office@alphabetkindergarten.ro",
+    "emails": [
+      "office@alphabetkindergarten.ro",
+      "admissions@alphabetkindergarten.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 193,
+    "name": "Grădinița Universul Copiilor 2",
+    "website": "http://www.universulcopiilor.com/",
+    "email": "office@universulcopiilor.com",
+    "emails": [
+      "office@universulcopiilor.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 194,
+    "name": "Grădinița Tinkerbell",
+    "website": "http://www.tinkerbell.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 195,
+    "name": "Grădinița Dreamland",
+    "website": "https://www.dreamworld.ro/",
+    "email": "contact@dreamworld.ro",
+    "emails": [
+      "contact@dreamworld.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 196,
+    "name": "Educarium",
+    "website": "https://www.educarium.ro/",
+    "email": "salut@educarium.ro",
+    "emails": [
+      "salut@educarium.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 197,
+    "name": "GRADINITA HAPPY UNIVERS 2 PIPERA",
+    "website": "https://www.happyunivers.ro/",
+    "email": "happypipera@happyunivers.ro",
+    "emails": [
+      "happypipera@happyunivers.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 198,
+    "name": "Grădinița Miniterra Aviației",
+    "website": "https://www.gradinita-miniterra.ro/",
+    "email": "office@gradinita-miniterra.ro",
+    "emails": [
+      "office@gradinita-miniterra.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 200,
+    "name": "La Maison Bleue Romania - Cresa si Gradinita Pipera - Bucuresti | Scoala franceza | Crèche et école maternelle",
+    "website": "https://la-maison-bleue.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 201,
+    "name": "ETOS Academy – Creșă și Grădiniță",
+    "website": "https://etos.academy/cresa-gradinita-etos-bucuresti/",
+    "email": "contact@etos.academy",
+    "emails": [
+      "contact@etos.academy",
+      "office.bucuresti@etos.academy"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 202,
+    "name": "Grădinița Sunnyville",
+    "website": "https://gradinitasunnyville.ro/",
+    "email": "info@gradinitasunnyville.ro",
+    "emails": [
+      "info@gradinitasunnyville.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 203,
+    "name": "Grădinița Răsărit Numărul 2",
+    "website": "http://gradinita-rasarit.ro/locatii/",
+    "email": "rasarit@amurtel.ro",
+    "emails": [
+      "rasarit@amurtel.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 204,
+    "name": "Gradinita \"Just 4 Kids\"",
+    "website": "https://www.just4kids.ro/",
+    "email": "programari@just4kids.ro",
+    "emails": [
+      "programari@just4kids.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 205,
+    "name": "Grădinița Family Kids",
+    "website": "http://www.familykids.ro/",
+    "email": "gradinita@familykids.ro",
+    "emails": [
+      "gradinita@familykids.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 206,
+    "name": "Iuladi Kids",
+    "website": "https://iuladikids.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 207,
+    "name": "Grădiniţa Castelul Fermecat G&B",
+    "website": "http://castelulfermecat.eu/",
+    "email": "castelulfermecatgnb@gmail.com",
+    "emails": [
+      "castelulfermecatgnb@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 208,
+    "name": "Gradinita Capsunica",
+    "website": "https://gradinitacapsunica.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 210,
+    "name": "Grădinița Waldorf",
+    "website": "http://gradinita113waldorf.blogspot.ro/?m=1",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 211,
+    "name": "Gradinita Montessori Little Scandinavia",
+    "website": "https://gradinita-montessori.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 213,
+    "name": "Grădinița Smiley Kindergarten",
+    "website": "http://www.gradinitasmiley.ro/",
+    "email": "office@gradinitasmiley.ro",
+    "emails": [
+      "mail@companyname.com",
+      "office@gradinitasmiley.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 214,
+    "name": "Gradinița Fulg De Nea",
+    "website": "https://gradinita-fulgdenea.ro/",
+    "email": "gradinitafulgdenea@yahoo.com",
+    "emails": [
+      "gradinitafulgdenea@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 215,
+    "name": "Gradinita Alegra Kids",
+    "website": "http://www.gradinitaalegra.ro/",
+    "email": "gradinitaalegra@yahoo.com",
+    "emails": [
+      "gradinitaalegra@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 216,
+    "name": "Grădinița și Școala Cotroceni-Davila",
+    "website": "http://www.olgagudynn.ro/",
+    "email": "office@olgagudynn.ro",
+    "emails": [
+      "office@olgagudynn.ro",
+      "floreasca@olgagudynn.ro",
+      "fagaras@olgagudynn.ro",
+      "pipera@olgagudynn.ro",
+      "resurse.umane@olgagudynn.ro",
+      "your@email"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 217,
+    "name": "Grădinița Nr. 271",
+    "website": "https://www.copilul.ro/Gradinite-u59/Gradinita-de-copii-nr-271-s3918.html",
+    "email": "info@copilul.ro",
+    "emails": [
+      "info@copilul.ro",
+      "dpo@activesoft.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 218,
+    "name": "Clubul Micul Prinț",
+    "website": "http://www.clubulmiculprint.ro/",
+    "email": "office@clubulmiculprint.ro",
+    "emails": [
+      "office@clubulmiculprint.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 220,
+    "name": "Gradinita Kids First",
+    "website": "http://kidsfirst.ro/",
+    "email": "office@kidsfirst.ro",
+    "emails": [
+      "office@kidsfirst.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 222,
+    "name": "Grădinița Diana",
+    "website": "http://www.gradinitadiana.ro/",
+    "email": "contact@gradinitadiana.ro",
+    "emails": [
+      "contact@gradinitadiana.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 223,
+    "name": "Grădinița Numărul 256",
+    "website": "https://gradinitanr256.ro/",
+    "email": "gradinita256@yahoo.com",
+    "emails": [
+      "gradinita256@yahoo.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 225,
+    "name": "Grădinița Micii Poznași",
+    "website": "https://miciipoznasi.ro/",
+    "email": "office@micii-poznasi.ro",
+    "emails": [
+      "office@micii-poznasi.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 226,
+    "name": "Gradinița Centrul Educational Nordic",
+    "website": "https://www.educatienordica.ro/",
+    "email": "office@educatienordica.ro",
+    "emails": [
+      "office@educatienordica.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 227,
+    "name": "Gradinita Sweet Baby",
+    "website": "http://www.cresaparticulara.ro/",
+    "email": "gradinitasweetbaby@gmail.com",
+    "emails": [
+      "gradinitasweetbaby@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 228,
+    "name": "Grădinița și Școala Primară Politehnica",
+    "website": "https://scoala.upb.ro/",
+    "email": "scoala@upb.ro",
+    "emails": [
+      "scoala@upb.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 229,
+    "name": "Grădinița Numărul 116",
+    "website": "http://gradinita116b.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 230,
+    "name": "Grădinița Germană Kinderlachen",
+    "website": "https://www.kinderlachen.ro/",
+    "email": "office@kinderlachen.ro",
+    "emails": [
+      "office@kinderlachen.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 231,
+    "name": "Grădiniţa Ursuleţul",
+    "website": "https://www.gradinitebucuresti.ro/index.php?c=-2&s=1&g=315",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 232,
+    "name": "Grădinița Ruffy Strumfi",
+    "website": "https://www.facebook.com/ruffy.strumfi",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 234,
+    "name": "Scoala Smart Kids",
+    "website": "https://scoalasmartkids.ro/",
+    "email": "office@smartkids.ro",
+    "emails": [
+      "office@smartkids.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 235,
+    "name": "Cresa Privata | Gradinita Particulara | Școala Primară Atlanthea Bucuresti",
+    "website": "http://www.atlanthea.com/",
+    "email": "office@atlanthea.com",
+    "emails": [
+      "office@atlanthea.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 236,
+    "name": "Little Team THE COLLEGE childcare",
+    "website": "https://littleteam.ro/",
+    "email": "office@littleteam.ro",
+    "emails": [
+      "office@littleteam.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 238,
+    "name": "Gradinita Privata Sector 4 Ursuletul de plus",
+    "website": "https://ursuletul-de-plus.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 240,
+    "name": "Beautiful Minds Kindergarten",
+    "website": "http://www.beautiful-minds.ro/",
+    "email": "beautifulminds.reggiochild@gmail.com",
+    "emails": [
+      "user@domainname.com",
+      "beautifulminds.reggiochild@gmail.com"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 241,
+    "name": "Școala Aletheea",
+    "website": "https://aletheea.ro/",
+    "email": "secretariat@aletheea.ro",
+    "emails": [
+      "secretariat@aletheea.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 242,
+    "name": "Kids Palace",
+    "website": "https://www.kidspalace.ro/",
+    "email": "contact@kidspalace.ro",
+    "emails": [
+      "contact@kidspalace.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 243,
+    "name": "Iepurașul Bocănilă - Gradinita & Scoala Primara Particulara",
+    "website": "https://www.iepurasulbocanila.ro/",
+    "email": "office@iepurasulbocanila.ro",
+    "emails": [
+      "office@iepurasulbocanila.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 244,
+    "name": "Gradinita Hänsel und Gretel Sector 3",
+    "website": "https://www.hanselundgretel.ro/",
+    "email": "gradinita@hanselundgretel.ro",
+    "emails": [
+      "gradinita@hanselundgretel.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 245,
+    "name": "Grădinița Ștrumfișor",
+    "website": "http://gradinitastrumfisor.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 246,
+    "name": "Centrul educational A&M",
+    "website": "http://www.am-afterschool.ro/",
+    "email": null,
+    "emails": [],
+    "status": "no_email"
+  },
+  {
+    "id": 247,
+    "name": "Gradinita \"Rose Mary\" - sediul Prelungirea Ghencea",
+    "website": "http://www.gradinitarosemary.ro/",
+    "email": "office@gradinitarosemary.ro",
+    "emails": [
+      "office@gradinitarosemary.ro"
+    ],
+    "status": "ok"
+  },
+  {
+    "id": 248,
+    "name": "“CircleTime”(creșă,grădinița)",
+    "website": "http://circletime.ro/",
+    "email": null,
+    "emails": [],
+    "status": "error"
+  },
+  {
+    "id": 249,
+    "name": "Fundatia Art' Alegria",
+    "website": "http://art-alegria.ro/",
+    "email": "office@art-alegria.ro",
+    "emails": [
+      "office@art-alegria.ro%20",
+      "office@art-alegria.ro"
+    ],
+    "status": "ok"
+  }
+]
