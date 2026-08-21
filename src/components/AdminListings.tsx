@@ -54,6 +54,7 @@ interface User {
   email: string;
   phone: string | null;
   is_premium: number;
+  leads_enabled: number | null;
   premium_pending: number;
   created_at: number;
   listing_type: string | null;
@@ -76,6 +77,21 @@ interface Payment {
   notes: string | null;
 }
 
+interface PendingEdit {
+  id: number;
+  user_id: number;
+  user_name: string;
+  user_email: string;
+  listing_type: string;
+  listing_id: number;
+  listing_name: string | null;
+  changes: Record<string, any>;
+  current: Record<string, any> | null;
+  status: string;
+  submitted_at: number;
+  reviewed_at: number | null;
+}
+
 const STATUS_COLORS: Record<string, string> = {
   pending: 'bg-yellow-100 text-yellow-800',
   approved: 'bg-green-100 text-green-800',
@@ -95,20 +111,26 @@ export default function AdminListings() {
   const [expanded, setExpanded] = useState<number | null>(null);
   const [adminNote, setAdminNote] = useState('');
   const [acting, setActing] = useState<number | null>(null);
+  const [pendingEdits, setPendingEdits] = useState<PendingEdit[]>([]);
+  const [expandedEdit, setExpandedEdit] = useState<number | null>(null);
+  const [msResult, setMsResult] = useState<{ microsite_url: string; magic_link: string } | null>(null);
+  const [msCreating, setMsCreating] = useState<number | null>(null);
 
   const load = async () => {
-    const [l, c, u, p, ld] = await Promise.all([
+    const [l, c, u, p, ld, pe] = await Promise.all([
       fetch('/api/admin/pending-listings').then(r => r.json()),
       fetch('/api/admin/claim-requests').then(r => r.json()),
       fetch('/api/admin/users').then(r => r.json()),
       fetch('/api/admin/payments').then(r => r.json()),
       fetch('/api/admin/leads').then(r => r.json()),
+      fetch('/api/admin/pending-edits').then(r => r.json()),
     ]);
     setListings(Array.isArray(l) ? l : []);
     setClaims(Array.isArray(c) ? c : []);
     setUsers(Array.isArray(u) ? u : []);
     setPayments(Array.isArray(p) ? p : []);
     setLeads(Array.isArray(ld) ? ld : []);
+    setPendingEdits(Array.isArray(pe) ? pe : []);
     setLoading(false);
   };
 
@@ -152,6 +174,25 @@ export default function AdminListings() {
     load();
   };
 
+  const actOnEdit = async (id: number, action: 'approve' | 'reject') => {
+    setActing(id);
+    await fetch(`/api/admin/pending-edits/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action }),
+    });
+    setActing(null);
+    load();
+  };
+
+  const deleteEdit = async (id: number) => {
+    if (!confirm('Stergi aceasta editare?')) return;
+    setActing(id);
+    await fetch(`/api/admin/pending-edits/${id}`, { method: 'DELETE' });
+    setActing(null);
+    load();
+  };
+
   const deleteUser = async (id: number) => {
     if (!confirm('Stergi acest cont si toate datele asociate?')) return;
     setActing(id);
@@ -172,11 +213,15 @@ export default function AdminListings() {
   };
 
   const approvePremium = async (id: number) => {
+    const input = window.prompt('Suma incasata (RON):', '100');
+    if (input === null) return;
+    const amount = parseInt(input, 10);
+    if (!amount || amount <= 0) return;
     setActing(id);
     await fetch(`/api/admin/users/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'approve_premium' }),
+      body: JSON.stringify({ action: 'approve_premium', amount }),
     });
     setActing(null);
     load();
@@ -185,13 +230,23 @@ export default function AdminListings() {
   const [editModal, setEditModal] = useState<{ type: string; id: number; data: any } | null>(null);
   const [editForm, setEditForm] = useState<any>({});
   const [editSaving, setEditSaving] = useState(false);
+  const [editMicrosite, setEditMicrosite] = useState<{ id: number; outreach_enabled: number; resend_api_key: string; outreach_from_email: string } | null>(null);
+  const [logoSectionOpen, setLogoSectionOpen] = useState(false);
+  const [logoUploading, setLogoUploading] = useState(false);
 
   const openEdit = async (u: User) => {
     if (!u.listing_type || !u.listing_id) return;
     const res = await fetch(`/api/admin/listing?type=${u.listing_type}&id=${u.listing_id}`);
     const data = await res.json();
     setEditForm(data);
+    setLogoSectionOpen(!!data.logo_url);
     setEditModal({ type: u.listing_type, id: u.listing_id, data });
+    try {
+      const mr = await fetch(`/api/admin/microsites?listing_type=${u.listing_type}&listing_id=${u.listing_id}`);
+      const md = await mr.json();
+      if (md && md.id) setEditMicrosite({ id: md.id, outreach_enabled: md.outreach_enabled ?? 0, resend_api_key: md.resend_api_key ?? '', outreach_from_email: md.outreach_from_email ?? '' });
+      else setEditMicrosite(null);
+    } catch { setEditMicrosite(null); }
   };
 
   const saveEdit = async () => {
@@ -203,13 +258,36 @@ export default function AdminListings() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(editForm),
     });
+    if (editMicrosite?.id) {
+      await fetch(`/api/admin/microsites/${editMicrosite.id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ outreach_enabled: editMicrosite.outreach_enabled, resend_api_key: editMicrosite.resend_api_key, outreach_from_email: editMicrosite.outreach_from_email }),
+      });
+    }
     setEditSaving(false);
     setEditModal(null);
+    setEditMicrosite(null);
     load();
   };
 
   const setEF = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setEditForm((f: any) => ({ ...f, [field]: e.target.value }));
+
+  const uploadLogo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLogoUploading(true);
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+      const res = await fetch('/api/admin/upload-logo', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.url) setEditForm((f: any) => ({ ...f, logo_url: data.url }));
+    } finally {
+      setLogoUploading(false);
+      e.target.value = '';
+    }
+  };
 
   const markLeadSeen = async (id: number) => {
     await fetch('/api/admin/leads', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status: 'seen' }) });
@@ -291,6 +369,7 @@ export default function AdminListings() {
   const pendingClaims = claims.filter(c => c.status === 'pending');
   const pendingPay = users.filter(u => u.premium_pending === 1 && u.is_premium === 0);
   const newLeads = leads.filter(l => l.status === 'new');
+  const pendingEditsList = pendingEdits.filter(e => e.status === 'pending');
   const now = Date.now();
   const threeDays = 3 * 24 * 60 * 60 * 1000;
   const expiringUsers = users.filter(u => u.is_premium === 1 && u.premium_until && u.premium_until > now && u.premium_until <= now + threeDays);
@@ -298,10 +377,22 @@ export default function AdminListings() {
 
   if (loading) return <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>;
 
+  const quickCreateMicrosite = async (type: string, id: number) => {
+    setMsCreating(id);
+    const res = await fetch('/api/admin/microsites/quick-create', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ listing_type: type, listing_id: id }),
+    });
+    const data = await res.json();
+    setMsCreating(null);
+    if (res.ok) setMsResult(data);
+    else alert(data.error || 'Eroare la creare microsite');
+  };
+
   return (
     <div className="space-y-6">
       {/* Badge-uri pendinge */}
-      {(pending.length > 0 || pendingClaims.length > 0 || pendingPay.length > 0) && (
+      {(pending.length > 0 || pendingClaims.length > 0 || pendingPay.length > 0 || pendingEditsList.length > 0) && (
         <div className="flex flex-wrap gap-3">
           {pending.length > 0 && (
             <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-2">
@@ -313,6 +404,12 @@ export default function AdminListings() {
             <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-xl px-4 py-2">
               <span className="w-6 h-6 bg-blue-500 text-white rounded-full text-xs font-bold flex items-center justify-center">{pendingClaims.length}</span>
               <span className="text-sm font-medium text-blue-800">Cereri de revendicare</span>
+            </div>
+          )}
+          {pendingEditsList.length > 0 && (
+            <div className="flex items-center gap-2 bg-teal-50 border border-teal-200 rounded-xl px-4 py-2">
+              <span className="w-6 h-6 bg-teal-500 text-white rounded-full text-xs font-bold flex items-center justify-center">{pendingEditsList.length}</span>
+              <span className="text-sm font-medium text-teal-800">Editari de aprobat</span>
             </div>
           )}
           {pendingPay.length > 0 && (
@@ -474,11 +571,98 @@ export default function AdminListings() {
         )}
       </div>
 
+      {/* Editari trimise de proprietari, in asteptarea aprobarii */}
+      <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
+        <h2 className="text-lg font-bold mb-4">✏️ Editari trimise de proprietari ({pendingEditsList.length})</h2>
+        {pendingEdits.length === 0 ? (
+          <p className="text-sm text-[var(--color-text-light)]">Nicio editare in asteptare.</p>
+        ) : (
+          <div className="space-y-3">
+            {pendingEdits.map(e => (
+              <div key={e.id} className="border border-[var(--color-border)] rounded-xl overflow-hidden">
+                <div className="flex items-center justify-between gap-3 p-4">
+                  <div className="min-w-0 flex-1 cursor-pointer" onClick={() => setExpandedEdit(expandedEdit === e.id ? null : e.id)}>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-semibold text-sm">{e.listing_name || `#${e.listing_id}`}</span>
+                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{e.listing_type}</span>
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${STATUS_COLORS[e.status] || 'bg-gray-100 text-gray-600'}`}>{e.status}</span>
+                    </div>
+                    <p className="text-xs text-[var(--color-text-light)] mt-0.5">{e.user_name} · {e.user_email}</p>
+                    <p className="text-xs text-[var(--color-text-light)]">{new Date(e.submitted_at).toLocaleDateString('ro-RO')} · {Object.keys(e.changes).length} campuri modificate</p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button onClick={() => deleteEdit(e.id)} disabled={acting === e.id}
+                      className="px-2 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg text-xs font-bold disabled:opacity-50">
+                      🗑
+                    </button>
+                    <span className="text-[var(--color-text-light)] text-sm cursor-pointer" onClick={() => setExpandedEdit(expandedEdit === e.id ? null : e.id)}>
+                      {expandedEdit === e.id ? '▲' : '▼'}
+                    </span>
+                  </div>
+                </div>
+
+                {expandedEdit === e.id && (
+                  <div className="border-t border-[var(--color-border)] p-4 bg-[var(--color-bg)] space-y-3">
+                    <div className="space-y-2">
+                      {Object.keys(e.changes).map(key => {
+                        const oldVal = e.current ? e.current[key] : undefined;
+                        const newVal = e.changes[key];
+                        if (key === 'photo_urls' || key === 'video_urls') {
+                          let oldUrls: string[] = [];
+                          let newUrls: string[] = [];
+                          try { oldUrls = oldVal ? JSON.parse(oldVal) : []; } catch {}
+                          try { newUrls = newVal ? JSON.parse(newVal) : []; } catch {}
+                          return (
+                            <div key={key} className="text-xs">
+                              <p className="font-semibold mb-1">{key === 'photo_urls' ? 'Poze' : 'Video'} ({oldUrls.length} → {newUrls.length})</p>
+                              <div className="flex flex-wrap gap-2">
+                                {newUrls.map((url: string, i: number) => (
+                                  key === 'photo_urls'
+                                    ? <img key={i} src={url} alt="" className="w-16 h-16 object-cover rounded-lg border" />
+                                    : <a key={i} href={url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">video {i + 1}</a>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        }
+                        return (
+                          <div key={key} className="text-xs grid grid-cols-[120px_1fr] gap-2">
+                            <span className="font-semibold">{key}</span>
+                            <span>
+                              <span className="text-red-600 line-through">{oldVal === null || oldVal === undefined || oldVal === '' ? 'lipsa' : String(oldVal)}</span>
+                              {' → '}
+                              <span className="text-green-700">{newVal === null || newVal === undefined || newVal === '' ? 'lipsa' : String(newVal)}</span>
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {!e.current && <p className="text-xs text-red-600">Atentie: listarea asociata nu mai exista.</p>}
+                    {e.status === 'pending' && (
+                      <div className="flex gap-3">
+                        <button onClick={() => actOnEdit(e.id, 'approve')} disabled={acting === e.id}
+                          className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-bold disabled:opacity-50">
+                          ✅ Aproba si aplica
+                        </button>
+                        <button onClick={() => actOnEdit(e.id, 'reject')} disabled={acting === e.id}
+                          className="flex-1 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-bold disabled:opacity-50">
+                          ❌ Respinge
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Plati Premium in asteptare */}
       {pendingPayments.length > 0 && (
         <div className="bg-amber-50 rounded-xl border border-amber-200 p-6">
           <h2 className="text-lg font-bold mb-4 text-amber-800">💰 Plăți Premium de confirmat ({pendingPayments.length})</h2>
-          <p className="text-xs text-amber-700 mb-3">Verifică în Revolut (@bogdanmxn) că a venit plata de 50 RON, apoi aprobă.</p>
+          <p className="text-xs text-amber-700 mb-3">Verifică în Revolut (@bogdanmxn) că a venit plata de 100 RON, apoi aprobă.</p>
           <div className="space-y-2">
             {pendingPayments.map(u => (
               <div key={u.id} className="flex items-center justify-between gap-3 p-3 bg-white border border-amber-200 rounded-xl">
@@ -655,6 +839,13 @@ export default function AdminListings() {
                           ✏️
                         </button>
                       )}
+                      {u.listing_id && u.listing_type && (
+                        <button onClick={() => quickCreateMicrosite(u.listing_type as string, u.listing_id as number)} disabled={msCreating === u.listing_id}
+                          title="Creează / actualizează microsite"
+                          className="px-2 py-1.5 bg-teal-100 hover:bg-teal-200 text-teal-700 rounded-lg text-xs font-bold disabled:opacity-50">
+                          {msCreating === u.listing_id ? '...' : '🌐'}
+                        </button>
+                      )}
                       <button onClick={() => togglePremium(u.id, u.is_premium)} disabled={acting === u.id}
                         className={`px-2 py-1.5 rounded-lg text-xs font-bold disabled:opacity-50 ${u.is_premium ? 'bg-amber-100 hover:bg-amber-200 text-amber-700' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'}`}>
                         {u.is_premium ? '★ Premium' : '☆ Free'}
@@ -698,11 +889,11 @@ export default function AdminListings() {
 
       {/* Modal editare listare */}
       {editModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={e => { if (e.target === e.currentTarget) setEditModal(null); }}>
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={e => { if (e.target === e.currentTarget) { setEditModal(null); setEditMicrosite(null); } }}>
           <div className="bg-[var(--color-card)] rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-[var(--color-card)] border-b border-[var(--color-border)] px-6 py-4 flex items-center justify-between">
               <h2 className="font-bold text-lg">✏️ Editează listarea</h2>
-              <button onClick={() => setEditModal(null)} className="text-[var(--color-text-light)] hover:text-[var(--color-text-main)] text-xl">×</button>
+              <button onClick={() => { setEditModal(null); setEditMicrosite(null); }} className="text-[var(--color-text-light)] hover:text-[var(--color-text-main)] text-xl">×</button>
             </div>
             <div className="p-6 space-y-3">
               {[
@@ -756,18 +947,104 @@ export default function AdminListings() {
                   <input type="checkbox" checked={!!editForm.is_premium} onChange={e => setEditForm((f: any) => ({ ...f, is_premium: e.target.checked ? 1 : 0 }))} />
                   ★ Premium
                 </label>
+              <div className="flex flex-wrap items-center gap-2 mt-2">
+                  <span className="text-gray-500 text-xs font-medium">Expiră Premium la:</span>
+                  <input
+                    type="date"
+                    value={(editForm as any).premium_expires_at || ''}
+                    onChange={e => setEditForm((f: any) => ({ ...f, premium_expires_at: e.target.value || null }))}
+                    className="border border-gray-300 rounded px-2 py-1 text-xs"
+                  />
+                  {([['+ 1 lună', 1], ['+ 3 luni', 3], ['+ 6 luni', 6], ['+ 1 an', 12]] as [string, number][]).map(([lbl, mo]) => (
+                    <button key={lbl} type="button"
+                      onClick={() => { const d = new Date(); d.setMonth(d.getMonth() + mo); setEditForm((f: any) => ({ ...f, premium_expires_at: d.toISOString().split('T')[0] })); }}
+                      className="text-xs px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded border border-amber-200 font-medium">
+                      {lbl}
+                    </button>
+                  ))}
+                  {(editForm as any).premium_expires_at && (
+                    <button type="button"
+                      onClick={() => setEditForm((f: any) => ({ ...f, premium_expires_at: null }))}
+                      className="text-xs px-2 py-1 text-gray-400 hover:text-red-500">
+                      ✕ Șterge data
+                    </button>
+                  )}
+                </div>
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <input type="checkbox" checked={!!editForm.contacts_hidden} onChange={e => setEditForm((f: any) => ({ ...f, contacts_hidden: e.target.checked ? 1 : 0 }))} />
                   Contacte ascunse
                 </label>
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-gray-600">💬 Solicită Informații:</span>
+                  <select value={editForm.leads_enabled ?? ''} onChange={e => setEditForm((f: any) => ({ ...f, leads_enabled: e.target.value === '' ? null : Number(e.target.value) }))}
+                    className="border rounded px-2 py-1 text-xs">
+                    <option value="">Auto (după Premium)</option>
+                    <option value="1">Mereu activ</option>
+                    <option value="0">Mereu inactiv</option>
+                  </select>
+                </div>
               </div>
+              {!!editForm.is_premium && (
+                <div className="border border-amber-200 bg-amber-50/50 rounded-xl p-4 space-y-2">
+                  <label className="flex items-center gap-2 text-sm cursor-pointer">
+                    <input type="checkbox" checked={logoSectionOpen}
+                      onChange={e => {
+                        setLogoSectionOpen(e.target.checked);
+                        if (!e.target.checked) setEditForm((f: any) => ({ ...f, logo_url: null }));
+                      }} />
+                    <span className="font-semibold text-amber-800">Are logo</span>
+                  </label>
+                  {logoSectionOpen && (
+                    <div className="flex items-center gap-3">
+                      {editForm.logo_url && (
+                        <img src={editForm.logo_url} alt="Logo" className="w-28 h-28 object-contain rounded-lg border border-amber-200 bg-white" />
+                      )}
+                      <label className={`px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors ${logoUploading ? 'bg-gray-200 text-gray-400' : 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)]'}`}>
+                        {logoUploading ? 'Se încarcă...' : (editForm.logo_url ? 'Schimbă logo' : '+ Adaugă logo')}
+                        <input type="file" accept="image/*" className="hidden" disabled={logoUploading} onChange={uploadLogo} />
+                      </label>
+                      {editForm.logo_url && (
+                        <button type="button" onClick={() => setEditForm((f: any) => ({ ...f, logo_url: null }))}
+                          className="text-xs text-gray-400 hover:text-red-500">
+                          ✕ Șterge
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+              {editMicrosite && (
+                <div className="mt-2 border border-teal-200 rounded-xl p-4 bg-teal-50/40 space-y-3">
+                  <p className="text-sm font-semibold text-teal-800">Outreach partener</p>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" checked={editMicrosite.outreach_enabled === 1} onChange={e => setEditMicrosite(m => m ? { ...m, outreach_enabled: e.target.checked ? 1 : 0 } : m)}
+                      className="w-4 h-4 text-teal-600 rounded" />
+                    <span className="text-sm font-medium text-teal-800">Activat</span>
+                  </label>
+                  {editMicrosite.outreach_enabled === 1 && <>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Resend API Key</label>
+                      <input type="password" value={editMicrosite.resend_api_key} onChange={e => setEditMicrosite(m => m ? { ...m, resend_api_key: e.target.value } : m)}
+                        placeholder="re_..." className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono bg-white" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Email expeditor (From)</label>
+                      <input type="email" value={editMicrosite.outreach_from_email} onChange={e => setEditMicrosite(m => m ? { ...m, outreach_from_email: e.target.value } : m)}
+                        placeholder="contact@exemplu.ro" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white" />
+                    </div>
+                  </>}
+                </div>
+              )}
+              {!editMicrosite && (
+                <p className="text-xs text-gray-400 italic mt-1">Creeaza mai intai un microsite pentru a configura outreach-ul.</p>
+              )}
             </div>
             <div className="sticky bottom-0 bg-[var(--color-card)] border-t border-[var(--color-border)] px-6 py-4 flex gap-3">
               <button onClick={saveEdit} disabled={editSaving}
                 className="flex-1 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-bold disabled:opacity-50">
                 {editSaving ? 'Se salvează...' : 'Salvează modificările'}
               </button>
-              <button onClick={() => setEditModal(null)}
+              <button onClick={() => { setEditModal(null); setEditMicrosite(null); }}
                 className="px-4 py-2.5 border border-[var(--color-border)] rounded-xl text-sm">
                 Anulează
               </button>
@@ -775,6 +1052,46 @@ export default function AdminListings() {
           </div>
         </div>
       )}
+
+
+      {msResult && (
+        <div className="fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center p-4" onClick={() => setMsResult(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-900">&#127760; Microsite creat!</h3>
+              <button onClick={() => setMsResult(null)} className="text-gray-400 hover:text-gray-600 text-xl font-bold leading-none">&times;</button>
+            </div>
+            <div className="space-y-3">
+              <div>
+                <p className="text-xs font-semibold text-gray-500 mb-1">Link site public</p>
+                <div className="flex items-center gap-2">
+                  <a href={msResult.microsite_url} target="_blank" rel="noopener noreferrer"
+                    className="flex-1 text-sm text-teal-600 font-medium bg-teal-50 px-3 py-2 rounded-lg truncate hover:underline">
+                    {msResult.microsite_url}
+                  </a>
+                  <button onClick={() => navigator.clipboard.writeText(msResult.microsite_url)}
+                    className="px-2 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-xs">📋</button>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-gray-500 mb-1">Link securizat dashboard (trimite clientului)</p>
+                <div className="flex items-center gap-2">
+                  <span className="flex-1 text-xs text-gray-600 bg-gray-50 border px-3 py-2 rounded-lg truncate font-mono">
+                    {msResult.magic_link}
+                  </span>
+                  <button onClick={() => navigator.clipboard.writeText(msResult.magic_link)}
+                    className="px-2 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-xs">📋</button>
+                </div>
+              </div>
+            </div>
+            <button onClick={() => setMsResult(null)} className="mt-5 w-full py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-sm font-semibold">
+              Inchide
+            </button>
+          </div>
+        </div>
+      )}
     </div>
+
+
   );
 }

@@ -1,8 +1,19 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function ContactButton() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    const h = window.location.hostname.toLowerCase();
+    // Ascunde widget-ul ActivKids pe micro-site-urile partenerilor (nume.activkids.ro)
+    if (h.endsWith('.activkids.ro') && h.split('.').length > 2 && !h.startsWith('www.')) {
+      setHidden(true);
+    }
+  }, []);
+
+  if (hidden) return null;
 
   return (
     <div className="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-2">

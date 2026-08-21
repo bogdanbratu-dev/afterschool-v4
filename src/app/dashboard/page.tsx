@@ -1,484 +1,180 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-interface UserData { id: number; name: string; email: string; is_premium: number; premium_pending: number; }
-interface Listing {
-  id: number; name: string; address: string; phone: string | null; email: string | null;
-  website: string | null; facebook_url: string | null; description: string | null; price_min: number | null; price_max: number | null;
-  age_min: number | null; age_max: number | null; availability: string;
-  photo_urls: string | null; video_urls: string | null; reviews_url: string | null;
-  schedule?: string | null; pickup_time?: string | null; end_time?: string | null;
-  is_premium: number;
+const REVOLUT_USER = '@bogdanmxn';
+const PRICE_RON = 100;
+
+function toSimpleSlug(name: string) {
+  return name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
-
-const AVAILABILITY_LABELS: Record<string, string> = {
-  available: 'Locuri disponibile', full: 'Locuri indisponibile', unknown: 'Necunoscut',
-};
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [user, setUser] = useState<UserData | null>(null);
-  const [listing, setListing] = useState<Listing | null>(null);
-  const [listingType, setListingType] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [uploadingPhoto, setUploadingPhoto] = useState(false);
-  const [uploadingVideo, setUploadingVideo] = useState(false);
-  const [ytUrl, setYtUrl] = useState('');
-  const [reportMonth, setReportMonth] = useState(() => new Date().toISOString().slice(0, 7));
-  const [showPayModal, setShowPayModal] = useState(false);
-  const [payLoading, setPayLoading] = useState(false);
+  const [status, setStatus] = useState<'loading'|'noListing'|'paying'|'verifying'>('loading');
+  const [countdown, setCountdown] = useState(0);
   const [payDone, setPayDone] = useState(false);
-  const [form, setForm] = useState<Partial<Listing>>({});
+  const [reference, setReference] = useState('');
+  const [payError, setPayError] = useState('');
+  const [payLoading, setPayLoading] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    fetch('/api/user/me').then(r => r.json()).then(data => {
-      if (!data.authenticated) { router.push('/login'); return; }
-      setUser(data);
-    });
-    fetch('/api/user/my-listing').then(r => r.json()).then(data => {
-      setListing(data.listing || null);
-      setListingType(data.type || '');
-      if (data.listing) setForm(data.listing);
-      setLoading(false);
+    fetch('/api/user/me').then(r => r.json()).then(d => {
+      if (!d.authenticated) { router.push('/login'); return; }
+      fetch('/api/user/my-listing').then(r => r.json()).then(data => {
+        if (data.listing) {
+          router.replace('/dashboard/' + toSimpleSlug(data.listing.name));
+        } else {
+          setStatus('noListing');
+        }
+      });
     });
   }, []);
 
-  const logout = async () => {
-    await fetch('/api/user/logout', { method: 'POST' });
-    router.push('/');
-  };
+  useEffect(() => {
+    if (status !== 'verifying' || payDone) return;
+    if (countdown <= 0) { setPayDone(true); setTimeout(() => router.push('/dashboard'), 1500); return; }
+    timerRef.current = setInterval(() => {
+      setCountdown(p => { if (p <= 1) { clearInterval(timerRef.current!); return 0; } return p - 1; });
+    }, 1000);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [status, countdown, payDone]);
 
-  const submitEdit = async () => {
-    if (!listing) return;
-    if (!user || user.is_premium === 0) {
-      setShowPayModal(true);
-      return;
-    }
-    setSaving(true);
-    await fetch('/api/user/my-listing', {
-      method: 'PATCH',
+  const handlePay = async () => {
+    setPayLoading(true); setPayError('');
+    const res = await fetch('/api/user/payment-request', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ listing_type: listingType, listing_id: listing.id, changes: form }),
+      body: JSON.stringify({ reference }),
     });
-    setSaving(false);
-    setEditing(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 4000);
-  };
-
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    setForm(f => ({ ...f, [field]: e.target.value }));
-
-  const getPhotos = (): string[] => form.photo_urls ? JSON.parse(form.photo_urls) : [];
-  const getVideos = (): string[] => form.video_urls ? JSON.parse(form.video_urls) : [];
-
-  const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (!files.length) return;
-    setUploadingPhoto(true);
-    const urls: string[] = [...getPhotos()];
-    for (const file of files) {
-      if (urls.length >= 20) break;
-      const fd = new FormData(); fd.append('file', file); fd.append('type', 'photo');
-      const res = await fetch('/api/user/upload', { method: 'POST', body: fd });
-      const data = await res.json();
-      if (data.url) urls.push(data.url);
-    }
-    setForm(f => ({ ...f, photo_urls: JSON.stringify(urls) }));
-    setUploadingPhoto(false);
-    e.target.value = '';
-  };
-
-  const removePhoto = (idx: number) => {
-    const photos = getPhotos().filter((_, i) => i !== idx);
-    setForm(f => ({ ...f, photo_urls: JSON.stringify(photos) }));
-  };
-
-  const uploadVideo = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploadingVideo(true);
-    const fd = new FormData(); fd.append('file', file); fd.append('type', 'video');
-    const res = await fetch('/api/user/upload', { method: 'POST', body: fd });
     const data = await res.json();
-    if (data.url) {
-      const videos = [...getVideos(), data.url].slice(0, 5);
-      setForm(f => ({ ...f, video_urls: JSON.stringify(videos) }));
-    }
-    setUploadingVideo(false);
-    e.target.value = '';
-  };
-
-  const addYtVideo = () => {
-    const url = ytUrl.trim();
-    if (!url) return;
-    const videos = [...getVideos(), url].slice(0, 5);
-    setForm(f => ({ ...f, video_urls: JSON.stringify(videos) }));
-    setYtUrl('');
-  };
-
-  const removeVideo = (idx: number) => {
-    const videos = getVideos().filter((_, i) => i !== idx);
-    setForm(f => ({ ...f, video_urls: JSON.stringify(videos) }));
-  };
-
-  const downloadReport = () => window.open(`/api/user/report?month=${reportMonth}`, '_blank');
-
-  const sendPaymentRequest = async () => {
-    setPayLoading(true);
-    await fetch('/api/user/payment-request', { method: 'POST' });
     setPayLoading(false);
-    setPayDone(true);
-    setUser(u => u ? { ...u, premium_pending: 1 } : u);
+    if (!res.ok) { setPayError(data.error || 'Eroare'); return; }
+    const dur = Math.floor(30 + Math.random() * 30);
+    setCountdown(dur);
+    setStatus('verifying');
   };
 
-  if (loading) return (
+  if (status === 'loading') return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
       <div className="w-8 h-8 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
-  if (!user) return null;
-
-  return (
-    <div className="min-h-screen bg-[var(--color-bg)]">
-      {/* Header */}
-      <div className="bg-[var(--color-card)] border-b border-[var(--color-border)] px-4 py-4">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <a href="/" className="text-[var(--color-primary)] font-bold text-lg">ActivKids</a>
-            {user.is_premium === 1 && (
-              <span className="bg-amber-400 text-white px-2 py-0.5 rounded-full text-xs font-bold">★ Premium</span>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-[var(--color-text-light)] hidden sm:block">{user.name}</span>
-            <button onClick={logout} className="text-sm text-[var(--color-text-light)] hover:text-[var(--color-text-main)]">Iesi</button>
-          </div>
+  if (status === 'verifying') {
+    const progress = payDone ? 100 : Math.max(5, 100 - (countdown / 60) * 100);
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 bg-[var(--color-bg)]">
+        <div className="text-center max-w-sm w-full">
+          {payDone ? (
+            <>
+              <div className="text-6xl mb-4">✅</div>
+              <h1 className="text-2xl font-bold text-[var(--color-text)] mb-2">Plata confirmata!</h1>
+              <p className="text-[var(--color-text-light)]">Contul Premium a fost activat...</p>
+            </>
+          ) : (
+            <>
+              <div className="text-5xl mb-6 animate-pulse">⏳</div>
+              <h1 className="text-xl font-bold text-[var(--color-text)] mb-2">Verificam plata ta...</h1>
+              <p className="text-sm text-[var(--color-text-light)] mb-6">Se confirma tranzactia Revolut — va rugam asteptati</p>
+              <div className="w-full bg-[var(--color-card)] border border-[var(--color-border)] rounded-full h-2 mb-4 overflow-hidden">
+                <div className="h-full bg-[var(--color-primary)] rounded-full transition-all duration-1000" style={{ width: `${progress}%` }} />
+              </div>
+              <p className="text-xs text-[var(--color-text-light)]">{countdown}s ramas</p>
+            </>
+          )}
         </div>
       </div>
+    );
+  }
 
-      <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-5">
-        {!listing ? (
-          <div className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-8 text-center">
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-7 h-7 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <p className="font-semibold text-[var(--color-text-main)] mb-2">Contul tău este în curs de activare!</p>
-            <p className="text-sm text-[var(--color-text-light)] mb-6">Vei primi acces la listarea ta în scurt timp, după verificarea cererii.</p>
-            <div className="bg-green-50 border border-green-200 rounded-xl px-5 py-4 text-sm text-green-800 text-left">
-              <p className="font-semibold mb-1">Vrei acces imediat?</p>
-              <p className="mb-3">Trimite un mesaj sau sună la <a href="tel:0747646543" className="font-bold underline">0747 646 543</a> și activăm pe loc.</p>
-              <a
-                href="https://wa.me/40747646543"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-xl transition-colors"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-                Scrie pe WhatsApp
-              </a>
-            </div>
+  return (
+    <div className="min-h-screen py-10 px-4 bg-[var(--color-bg)]">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-[var(--color-primary)]">Bun venit la ActivKids!</h1>
+          <p className="text-sm text-[var(--color-text-light)] mt-1">Alege planul potrivit pentru afacerea ta</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            {/* Beneficii Premium */}
-            <div className="mt-6 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-xl px-5 py-5 text-left">
-              <p className="font-bold text-amber-800 mb-1">🌟 Pregătește-te pentru Premium</p>
-              <p className="text-xs text-amber-700 mb-4">Odată aprobat contul, poți deveni membru Premium pentru doar <strong>50 RON/lună</strong> și beneficiezi de:</p>
-              <ul className="space-y-2 mb-0">
-                {[
-                  'Apari primul în rezultatele de căutare',
-                  'Badge Premium vizibil pe listare',
-                  'Date de contact vizibile pentru toți vizitatorii',
-                  'Poți edita și actualiza datele listării oricând',
-                  'Acces la statistici: câți părinți ți-au văzut profilul',
-                  'Primești lead-uri direct de la părinți interesați',
-                ].map((b, i) => (
-                  <li key={i} className="flex items-start gap-2 text-xs text-amber-800">
-                    <svg className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {b}
-                  </li>
-                ))}
-              </ul>
+          <div className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-2xl p-6 flex flex-col">
+            <div className="mb-4">
+              <span className="text-xs font-bold text-[var(--color-text-light)] uppercase tracking-wide">Gratuit</span>
+              <h2 className="text-2xl font-bold text-[var(--color-text)] mt-1">Free</h2>
+              <p className="text-3xl font-bold text-[var(--color-primary)] mt-2">0 RON</p>
             </div>
+            <ul className="space-y-2 text-sm text-[var(--color-text-light)] mb-6 flex-1">
+              <li>✓ Listare in directorul ActivKids</li>
+              <li>✓ Pagina proprie cu informatii</li>
+              <li className="opacity-40">✗ Parinti te contacteaza direct</li>
+              <li className="opacity-40">✗ Pozitie prioritara</li>
+              <li className="opacity-40">✗ Badge Premium</li>
+            </ul>
+            <Link href="/submit"
+              className="block w-full py-3 text-center border border-[var(--color-border)] text-[var(--color-text)] font-bold rounded-xl hover:bg-[var(--color-border)] transition-colors">
+              Adauga listare gratuita →
+            </Link>
           </div>
-        ) : (
-          <>
-            {/* Listing card */}
-            <div className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] overflow-hidden">
-              <div className="p-5 border-b border-[var(--color-border)] flex items-center justify-between">
-                <div>
-                  <h1 className="text-lg font-bold">{listing.name}</h1>
-                  <p className="text-sm text-[var(--color-text-light)]">{listing.address}</p>
-                </div>
-                {listing.is_premium === 1 && (
-                  <span className="bg-amber-400 text-white px-3 py-1 rounded-full text-xs font-bold flex-shrink-0">★ Premium</span>
-                )}
-              </div>
 
-              {!editing ? (
-                <div className="p-5 space-y-3">
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    {listing.phone && <div><span className="text-[var(--color-text-light)] text-xs">Telefon</span><p>{listing.phone}</p></div>}
-                    {listing.email && <div><span className="text-[var(--color-text-light)] text-xs">Email</span><p>{listing.email}</p></div>}
-                    {listing.website && <div><span className="text-[var(--color-text-light)] text-xs">Website</span><p className="truncate">{listing.website}</p></div>}
-                    {listing.facebook_url && <div><span className="text-[var(--color-text-light)] text-xs">Facebook</span><p className="truncate">{listing.facebook_url}</p></div>}
-                    {listing.price_min !== null && <div><span className="text-[var(--color-text-light)] text-xs">Pret</span><p>{listing.price_min}-{listing.price_max} lei</p></div>}
-                    {listing.age_min !== null && <div><span className="text-[var(--color-text-light)] text-xs">Varsta</span><p>{listing.age_min}-{listing.age_max} ani</p></div>}
-                    <div><span className="text-[var(--color-text-light)] text-xs">Locuri</span><p>{AVAILABILITY_LABELS[listing.availability] || listing.availability}</p></div>
-                  </div>
-                  {listing.description && <p className="text-sm text-[var(--color-text-light)]">{listing.description}</p>}
-                  <button onClick={() => setEditing(true)}
-                    className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold transition-colors">
-                    ✏️ Editeaza informatiile
-                  </button>
-                </div>
-              ) : (
-                <div className="p-5 space-y-3">
-                  {user.is_premium === 0 && (
-                    <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
-                      <span className="text-amber-500 mt-0.5 flex-shrink-0">★</span>
-                      <p className="text-xs text-amber-700">
-                        Completează datele, apoi vei fi redirecționat spre activarea <strong>Premium (50 RON/lună)</strong> pentru a publica modificările.
-                      </p>
-                    </div>
-                  )}
-                  {user.is_premium === 1 && (
-                    <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
-                      Modificarile vor fi verificate de admin inainte de a fi publicate.
-                    </p>
-                  )}
-                  {[
-                    { label: 'Telefon', field: 'phone', type: 'tel' },
-                    { label: 'Email', field: 'email', type: 'email' },
-                    { label: 'Website', field: 'website', type: 'url' },
-                    { label: 'Pagina Facebook', field: 'facebook_url', type: 'url' },
-                    { label: 'Pret minim (lei)', field: 'price_min', type: 'number' },
-                    { label: 'Pret maxim (lei)', field: 'price_max', type: 'number' },
-                    { label: 'Varsta minima', field: 'age_min', type: 'number' },
-                    { label: 'Varsta maxima', field: 'age_max', type: 'number' },
-                    { label: 'URL Recenzii', field: 'reviews_url', type: 'url' },
-                  ].map(({ label, field, type }) => (
-                    <div key={field}>
-                      <label className="block text-xs font-medium mb-1">{label}</label>
-                      <input type={type} value={(form as any)[field] || ''} onChange={set(field)}
-                        className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
-                    </div>
-                  ))}
-                  <div>
-                    <label className="block text-xs font-medium mb-1">Disponibilitate locuri</label>
-                    <select value={form.availability || 'unknown'} onChange={set('availability')}
-                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none">
-                      <option value="available">Locuri disponibile</option>
-                      <option value="full">Locuri indisponibile</option>
-                      <option value="unknown">Necunoscut</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium mb-1">Descriere</label>
-                    <textarea value={form.description || ''} onChange={set('description')} rows={4}
-                      className="w-full px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none" />
-                  </div>
-
-                  {/* Poze */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="text-xs font-medium">Poze ({getPhotos().length}/20)</label>
-                      <label className={`px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors ${uploadingPhoto ? 'bg-gray-200 text-gray-400' : 'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)]'}`}>
-                        {uploadingPhoto ? 'Se incarca...' : '+ Adauga poze'}
-                        <input type="file" accept="image/*" multiple className="hidden" disabled={uploadingPhoto || getPhotos().length >= 20} onChange={uploadPhoto} />
-                      </label>
-                    </div>
-                    {getPhotos().length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        {getPhotos().map((url, i) => (
-                          <div key={i} className="relative group">
-                            <img src={url} alt="" className="w-20 h-20 object-cover rounded-xl border border-[var(--color-border)]" />
-                            <button onClick={() => removePhoto(i)}
-                              className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                              ×
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {getPhotos().length === 0 && <p className="text-xs text-[var(--color-text-light)]">Nicio poza adaugata inca.</p>}
-                  </div>
-
-                  {/* Videoclipuri */}
-                  <div>
-                    <label className="text-xs font-medium block mb-2">Videoclipuri ({getVideos().length}/5)</label>
-                    {getVideos().length > 0 && (
-                      <div className="space-y-1.5 mb-3">
-                        {getVideos().map((url, i) => (
-                          <div key={i} className="flex items-center gap-2 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl px-3 py-2">
-                            <span className="text-xs truncate flex-1">{url.includes('youtube') || url.includes('youtu.be') ? '▶ YouTube: ' : '🎬 '}{url}</span>
-                            <button onClick={() => removeVideo(i)} className="text-red-500 text-sm font-bold flex-shrink-0">×</button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {getVideos().length < 5 && (
-                      <div className="space-y-2">
-                        <div className="flex gap-2">
-                          <input value={ytUrl} onChange={e => setYtUrl(e.target.value)} placeholder="Link YouTube (https://youtube.com/...)"
-                            className="flex-1 px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
-                          <button onClick={addYtVideo} disabled={!ytUrl.trim()}
-                            className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold disabled:opacity-40">
-                            ▶ Adauga
-                          </button>
-                        </div>
-                        <label className={`flex items-center justify-center gap-2 w-full py-2 border-2 border-dashed border-[var(--color-border)] rounded-xl text-sm cursor-pointer hover:border-[var(--color-primary)] transition-colors ${uploadingVideo ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                          {uploadingVideo ? 'Se incarca...' : '📱 Upload video de pe telefon / PC'}
-                          <input type="file" accept="video/*" className="hidden" disabled={uploadingVideo} onChange={uploadVideo} />
-                        </label>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex gap-3">
-                    <button onClick={submitEdit} disabled={saving}
-                      className="flex-1 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold disabled:opacity-50">
-                      {saving ? 'Se trimite...' : 'Trimite spre aprobare'}
-                    </button>
-                    <button onClick={() => { setEditing(false); setForm(listing); }}
-                      className="px-4 py-2.5 border border-[var(--color-border)] rounded-xl text-sm">
-                      Anuleaza
-                    </button>
-                  </div>
-                </div>
-              )}
+          <div className="bg-[var(--color-card)] border-2 border-[var(--color-primary)] rounded-2xl p-6 flex flex-col relative">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="bg-[var(--color-primary)] text-white text-xs font-bold px-3 py-1 rounded-full">RECOMANDAT</span>
             </div>
-
-            {saved && (
-              <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-800">
-                ✅ Modificarile au fost trimise spre aprobare. Le vei vedea publicate dupa verificare.
-              </div>
-            )}
-
-            {/* Raport premium */}
-            {user.is_premium === 1 && (
-              <div className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-5">
-                <h2 className="font-bold mb-3">📊 Raport clickuri</h2>
-                <div className="flex gap-3">
-                  <input type="month" value={reportMonth} onChange={e => setReportMonth(e.target.value)}
-                    className="px-3 py-2 border border-[var(--color-border)] rounded-xl text-sm bg-white text-gray-900 focus:outline-none" />
-                  <button onClick={downloadReport}
-                    className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl text-sm font-semibold transition-colors">
-                    ⬇️ Descarca raport
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Sectiune Premium */}
-            {user.is_premium === 0 && (
-              <div className="rounded-2xl overflow-hidden border border-amber-300 shadow-sm">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-amber-500 to-yellow-500 px-5 py-4 text-white">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide opacity-80 mb-0.5">Listare Premium</p>
-                      <h2 className="text-xl font-bold">Devino Premium ★</h2>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-2xl font-bold">50 RON</p>
-                      <p className="text-xs opacity-80">pe lună</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Beneficii */}
-                <div className="bg-white px-5 py-4">
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Ce primești</p>
-                  <ul className="space-y-2.5 mb-5">
-                    {[
-                      { icon: '✏️', text: 'Editare și actualizare informații oricând', highlight: true },
-                      { icon: '📸', text: 'Până la 20 de poze în caruselul listării' },
-                      { icon: '🎬', text: 'Până la 5 videoclipuri (YouTube sau upload direct)' },
-                      { icon: '📊', text: 'Raport lunar de clickuri și statistici' },
-                      { icon: '⭐', text: 'Badge Premium vizibil pe card și pagina listării' },
-                      { icon: '🔝', text: 'Vizibilitate prioritară față de listările gratuite' },
-                      { icon: '💬', text: 'Primești leads direct de la părinți interesați' },
-                    ].map(({ icon, text, highlight }) => (
-                      <li key={text} className="flex items-start gap-2.5">
-                        <span className="text-base flex-shrink-0 mt-0.5">{icon}</span>
-                        <span className={`text-sm ${highlight ? 'font-semibold text-amber-700' : 'text-gray-700'}`}>{text}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {user.premium_pending === 1 ? (
-                    <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-800 flex items-center gap-2">
-                      <span>⏳</span>
-                      <span>Cererea ta a fost trimisă. Vei fi activat după ce confirmăm plata (de obicei în câteva ore).</span>
-                    </div>
-                  ) : (
-                    <button onClick={() => setShowPayModal(true)}
-                      className="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-xl text-sm font-bold transition-all shadow-sm">
-                      Activează Premium — 50 RON/lună
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-
-      {/* Modal plata */}
-      {showPayModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-[var(--color-card)] rounded-2xl shadow-xl max-w-sm w-full p-6">
-            <h2 className="text-lg font-bold mb-1">Abonament Premium necesar</h2>
-            <p className="text-sm text-[var(--color-text-light)] mb-2">Ca să poți edita și actualiza informațiile listării tale, ai nevoie de un abonament Premium.</p>
-            <p className="text-sm font-semibold text-amber-600 mb-5">50 RON / lună · activare în câteva ore</p>
-
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5 space-y-3">
-              <p className="text-sm font-semibold text-amber-800">Cum funcționează:</p>
-              <ol className="text-sm text-amber-700 space-y-1.5 list-decimal list-inside">
-                <li>Trimite <strong>50 RON</strong> pe Revolut la <strong>@bogdanmxn</strong></li>
-                <li>Adaugă mesajul: <strong>Premium {user?.name}</strong></li>
-                <li>Apasă "Am plătit" mai jos — te activăm în câteva ore</li>
-              </ol>
+            <div className="mb-4">
+              <span className="text-xs font-bold text-[var(--color-primary)] uppercase tracking-wide">Premium</span>
+              <h2 className="text-2xl font-bold text-[var(--color-text)] mt-1">Premium</h2>
+              <p className="text-3xl font-bold text-[var(--color-primary)] mt-2">{PRICE_RON} RON<span className="text-base font-normal text-[var(--color-text-light)]">/3 luni</span></p>
             </div>
+            <ul className="space-y-2 text-sm mb-4 flex-1">
+              <li className="text-[var(--color-text-light)]">✓ Listare in directorul ActivKids</li>
+              <li className="text-[var(--color-text-light)]">✓ Pagina proprie cu informatii</li>
+              <li className="text-[var(--color-text-light)]">✓ Parinti te contacteaza direct</li>
+              <li className="text-[var(--color-text)] font-medium">✓ Pozitie prioritara in rezultate</li>
+              <li className="text-[var(--color-text)] font-medium">✓ Badge Premium vizibil</li>
+              <li className="text-[var(--color-text)] font-medium">✓ Statistici vizite detaliate</li>
+            </ul>
 
-            <a
-              href="https://revolut.me/bogdanmxn"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 bg-[#191C1F] hover:bg-black text-white rounded-xl text-sm font-semibold mb-3 transition-colors"
-            >
-              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white"><path d="M14.04 0H3v24h4.5V14.5h5.1l4.9 9.5H22l-5.1-9.8C19.5 13 21 10.8 21 8c0-4.4-3.1-8-6.96-8zm.46 10.5H7.5V4h6.5c1.9 0 3 1.2 3 3.2s-1 3.3-2.5 3.3z"/></svg>
-              Deschide Revolut
-            </a>
-
-            {payDone ? (
-              <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-800 text-center">
-                ✅ Mulțumim! Vei fi activat Premium în câteva ore.
-              </div>
-            ) : (
-              <button onClick={sendPaymentRequest} disabled={payLoading}
-                className="w-full py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-colors">
-                {payLoading ? 'Se trimite...' : '✓ Am plătit pe Revolut'}
+            {status === 'noListing' && (
+              <button onClick={() => setStatus('paying')}
+                className="w-full py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-bold rounded-xl transition-colors">
+                Activeaza Premium →
               </button>
             )}
 
-            <button onClick={() => setShowPayModal(false)}
-              className="w-full mt-2 py-2 text-sm text-[var(--color-text-light)] hover:text-[var(--color-text-main)]">
-              Închide
-            </button>
+            {status === 'paying' && (
+              <div className="space-y-3">
+                <div className="bg-[var(--color-bg)] rounded-xl p-3 border border-[var(--color-border)]">
+                  <p className="text-xs text-[var(--color-text-light)] mb-2">Trimite <strong className="text-[var(--color-text)]">{PRICE_RON} RON</strong> in Revolut la:</p>
+                  <div className="flex items-center gap-2">
+                    <code className="flex-1 text-[var(--color-text)] font-mono text-sm bg-[var(--color-card)] px-2 py-1.5 rounded-lg border border-[var(--color-border)]">{REVOLUT_USER}</code>
+                    <button onClick={() => navigator.clipboard.writeText(REVOLUT_USER)}
+                      className="text-xs bg-[var(--color-primary)] text-white px-2 py-1.5 rounded-lg whitespace-nowrap">Copiaza</button>
+                  </div>
+                </div>
+                <input type="text" value={reference} onChange={e => setReference(e.target.value)}
+                  placeholder="Referinta tranzactie (optional)"
+                  className="w-full bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+                {payError && <p className="text-xs text-red-500">{payError}</p>}
+                <button onClick={handlePay} disabled={payLoading}
+                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-xl transition-colors">
+                  {payLoading ? 'Se proceseaza...' : '✅ Am platit — activeaza Premium'}
+                </button>
+                <button onClick={() => setStatus('noListing')}
+                  className="w-full py-1.5 text-xs text-[var(--color-text-light)] hover:text-[var(--color-text)]">
+                  ← Inapoi
+                </button>
+              </div>
+            )}
           </div>
         </div>
-      )}
+
+        <p className="text-center text-xs text-[var(--color-text-light)] mt-8">
+          Ai deja o listare si vrei sa o revendici?{' '}
+          <Link href="/" className="text-[var(--color-primary)] hover:underline">Gaseste-o in director →</Link>
+        </p>
+      </div>
     </div>
   );
 }

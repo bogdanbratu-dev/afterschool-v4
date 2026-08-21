@@ -5,6 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import ClubCard from '@/components/ClubCard';
 import type { ClubCategory } from '@/lib/clubs';
 import { CLUB_CATEGORY_LABELS } from '@/lib/clubs';
+import Navbar from '@/components/Navbar';
+import FacebookFollow from '@/components/FacebookFollow';
 
 const VALID_CATEGORIES = Object.keys(CLUB_CATEGORY_LABELS) as ClubCategory[];
 
@@ -103,6 +105,7 @@ function ActivitatiPageContent() {
   const [searchLocation, setSearchLocation] = useState<{ lat: number; lng: number; label: string } | null>(initLocation);
   const [addressInput, setAddressInput] = useState(searchParams.get('label') || '');
   const [radiusKm, setRadiusKm] = useState('');
+  const [nameFilter, setNameFilter] = useState(searchParams.get('name') || '');
 
   useEffect(() => {
     fetch('/api/settings').then(r => r.json()).then(d => setBusinessMode(d.business_mode));
@@ -117,6 +120,7 @@ function ActivitatiPageContent() {
     setLoading(true);
     const params = new URLSearchParams();
     if (selectedCategory) params.set('category', selectedCategory);
+    if (nameFilter) params.set('name', nameFilter);
     if (searchLocation) {
       params.set('lat', searchLocation.lat.toString());
       params.set('lng', searchLocation.lng.toString());
@@ -127,7 +131,7 @@ function ActivitatiPageContent() {
       setClubs(await res.json());
     } catch {}
     setLoading(false);
-  }, [selectedCategory, searchLocation, radiusKm]);
+  }, [selectedCategory, searchLocation, radiusKm, nameFilter]);
 
   useEffect(() => {
     fetchClubs();
@@ -135,47 +139,38 @@ function ActivitatiPageContent() {
 
   const handleAddressSearch = () => {
     const normalized = addressInput.toLowerCase().trim();
-    if (!normalized) return;
+    if (!normalized) {
+      setSearchLocation(null);
+      setNameFilter('');
+      return;
+    }
     for (const [key, coords] of Object.entries(KNOWN_LOCATIONS)) {
       if (normalized.includes(key)) {
         setSearchLocation({ lat: coords[0], lng: coords[1], label: addressInput });
+        setNameFilter('');
         return;
       }
     }
-    // Default centrul Bucurestiului daca adresa nu e recunoscuta
-    setSearchLocation({ lat: 44.4268, lng: 26.1025, label: addressInput });
+    // Nu e o locatie recunoscuta - cauta dupa nume
+    setNameFilter(addressInput);
+    setSearchLocation(null);
+  };
+
+  const clearSearch = () => {
+    setSearchLocation(null);
+    setNameFilter('');
+    setAddressInput('');
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)]">
-      {/* Header */}
-      <header className="bg-[var(--color-card)] shadow-sm border-b border-[var(--color-border)]">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-[var(--color-primary)]">Activități pentru Copii</h1>
-            <p className="text-sm text-[var(--color-text-light)]">Sport, muzică, arte și multe altele în București</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <a href="/" className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-              <span className="hidden sm:inline">After School</span>
-            </a>
-            <a href="/promovare" className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
-              <span>+</span>
-              <span className="hidden sm:inline">Adaugă listare</span>
-            </a>
-          </div>
-        </div>
-      </header>
+    <div className="bg-[var(--color-bg)]">
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-purple-600 to-purple-800 text-white py-7 sm:py-10 px-4">
         <div className="max-w-6xl mx-auto text-center mb-5">
-          <h2 className="text-xl sm:text-3xl font-bold mb-1 sm:mb-3">
+          <h1 className="text-xl sm:text-3xl font-bold mb-1 sm:mb-3">
             Gaseste activitatea perfecta pentru copilul tau
-          </h2>
+          </h1>
           <p className="text-purple-100 text-sm sm:text-base max-w-2xl mx-auto hidden sm:block">
             Introdu adresa sau zona ta si gaseste activitatile cele mai apropiate
           </p>
@@ -194,7 +189,7 @@ function ActivitatiPageContent() {
                 value={addressInput}
                 onChange={e => setAddressInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleAddressSearch()}
-                placeholder="Adresa sau zona (ex: Floreasca, Drumul Taberei...)"
+                placeholder="Adresa, zona sau numele activitatii..."
                 className="w-full pl-12 pr-4 py-3.5 bg-[var(--color-card)] text-[var(--color-text-main)] rounded-xl shadow-sm text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-purple-300 placeholder:text-gray-400"
               />
             </div>
@@ -264,13 +259,13 @@ function ActivitatiPageContent() {
         {/* Status bar */}
         <div className="flex items-center justify-between mb-4 gap-2">
           <div className="min-w-0">
-            {searchLocation && (
+            {(searchLocation || nameFilter) && (
               <div className="flex items-center gap-1.5 text-xs sm:text-sm text-[var(--color-text-light)] flex-wrap mb-1">
                 <span className="font-semibold text-purple-600 bg-purple-50 px-2.5 py-0.5 rounded-full truncate max-w-[200px] sm:max-w-none">
-                  {searchLocation.label}
+                  {searchLocation ? searchLocation.label : nameFilter}
                 </span>
                 <button
-                  onClick={() => { setSearchLocation(null); setAddressInput(''); }}
+                  onClick={clearSearch}
                   className="text-[var(--color-danger)] text-xs flex-shrink-0"
                 >
                   ✕ Sterge
@@ -280,6 +275,7 @@ function ActivitatiPageContent() {
             <p className="text-sm text-[var(--color-text-light)]">
               <span className="font-semibold text-[var(--color-text-main)]">{clubs.length}</span> activități găsite
               {selectedCategory && ` · ${CLUB_CATEGORY_LABELS[selectedCategory]}`}
+              {nameFilter && ' · căutare după nume'}
               {searchLocation && !radiusKm && ' · ordonate după distanță'}
               {searchLocation && radiusKm && ` · în raza de ${radiusKm} km`}
             </p>
@@ -344,10 +340,12 @@ function ActivitatiPageContent() {
               <ul className="space-y-1">
                 <li><a href="/promovare" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Adaugă listarea</a></li>
                 <li><a href="/" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">After School-uri</a></li>
+                <li><a href="/catering" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Catering afterschool</a></li>
                 <li><a href="/login" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Contul meu</a></li>
               </ul>
             </div>
           </div>
+          <FacebookFollow />
           <div className="border-t border-[var(--color-border)] pt-4 text-center text-xs text-[var(--color-text-light)]">
             ActivKids · Activități pentru copii în București
           </div>
@@ -359,12 +357,15 @@ function ActivitatiPageContent() {
 
 export default function ActivitatiPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
-        <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    }>
-      <ActivitatiPageContent />
-    </Suspense>
+    <div className="min-h-screen bg-[var(--color-bg)]">
+      <Navbar />
+      <Suspense fallback={
+        <div className="flex justify-center py-20">
+          <div className="w-6 h-6 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }>
+        <ActivitatiPageContent />
+      </Suspense>
+    </div>
   );
 }

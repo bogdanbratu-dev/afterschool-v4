@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { isAuthenticated } from '@/lib/auth';
+import { nearestNeighborhood, resolveSector } from '@/lib/geo';
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!(await isAuthenticated())) {
@@ -11,26 +12,33 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const db = getDb();
   const body = await request.json();
 
+  // Sectorul e verificat prin geocodare cand avem coordonate (nu doar preluat orbeste din
+  // formular), iar cartierul e recalculat la orice editare de adresa/coordonate.
+  const lat = body.lat || 0;
+  const lng = body.lng || 0;
+  const sector = await resolveSector(lat, lng, body.sector || null);
+  const neighborhood = nearestNeighborhood(lat, lng);
+
   db.prepare(`
     UPDATE afterschools SET
-      name = ?, address = ?, sector = ?, lat = ?, lng = ?,
+      name = ?, address = ?, sector = ?, lat = ?, lng = ?, neighborhood = ?,
       phone = ?, email = ?, website = ?,
       price_min = ?, price_max = ?,
       pickup_time = ?, end_time = ?,
       age_min = ?, age_max = ?,
       description = ?, activities = ?,
-      is_premium = ?, contacts_hidden = ?,
+      is_premium = ?, premium_expires_at = ?, contacts_hidden = ?, leads_enabled = ?, is_paused = ?,
       banner_url = ?,
       editorial_summary = ?, photo_urls = ?
     WHERE id = ?
   `).run(
-    body.name, body.address, body.sector || null, body.lat || 0, body.lng || 0,
+    body.name, body.address, sector, lat, lng, neighborhood,
     body.phone || null, body.email || null, body.website || null,
     body.price_min || null, body.price_max || null,
     body.pickup_time || null, body.end_time || null,
     body.age_min || null, body.age_max || null,
     body.description || null, body.activities || null,
-    body.is_premium ?? 0, body.contacts_hidden ?? 0,
+    body.is_premium ?? 0, body.premium_expires_at ?? null, body.contacts_hidden ?? 0, body.leads_enabled ?? null, body.is_paused ?? 0,
     body.banner_url || null,
     body.editorial_summary || null, body.photo_urls || null,
     id

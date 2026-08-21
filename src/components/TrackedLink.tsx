@@ -1,6 +1,6 @@
 interface Props {
   href: string;
-  type: 'afterschool' | 'club';
+  type: 'afterschool' | 'club' | 'caterer' | 'professional' | 'kindergarten';
   itemId: number;
   itemName: string;
   linkType: string;

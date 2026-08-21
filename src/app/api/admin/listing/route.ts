@@ -21,7 +21,7 @@ export async function PATCH(request: Request) {
   const { type, id, field, value } = await request.json();
   if (!type || !id || !field) return NextResponse.json({ error: 'Parametri lipsa' }, { status: 400 });
 
-  const allowedFields = ['is_featured', 'is_premium'];
+  const allowedFields = ['is_featured', 'is_premium', 'leads_enabled'];
   if (!allowedFields.includes(field)) return NextResponse.json({ error: 'Camp invalid' }, { status: 400 });
 
   const db = getDb();

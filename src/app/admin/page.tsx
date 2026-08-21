@@ -4,6 +4,19 @@ import { useState, useEffect } from 'react';
 import { AnalyticsSection } from '@/components/AnalyticsSection';
 import GASection from '@/components/GASection';
 import AdminListings from '@/components/AdminListings';
+import OutreachTab from '@/components/OutreachTab';
+import CateringAdmin from '@/components/CateringAdmin';
+import ProfessionalsAdmin from '@/components/ProfessionalsAdmin';
+import KindergartensAdmin from '@/components/KindergartensAdmin';
+import TutorsAdmin from '@/components/TutorsAdmin';
+import ExpiringAlert from '@/components/ExpiringAlert';
+import MicrositesAdmin from '@/components/MicrositesAdmin';
+import FbOutreach from '@/components/FbOutreach';
+import FbAutoPost from '@/components/FbAutoPost';
+import WaOutreach from '@/components/WaOutreach';
+import MicrositePitchTab from '@/components/MicrositePitchTab';
+import CircSchoolsTab from '@/components/CircSchoolsTab';
+import AdCalibrationTab from '@/components/AdCalibrationTab';
 
 const CLUB_CATEGORIES = [
   { value: 'inot', label: '🏊 Înot' },
@@ -37,6 +50,7 @@ interface ClubData {
   availability: string;
   is_premium?: number;
   contacts_hidden?: number;
+  leads_enabled?: number | null;
 }
 
 interface AfterSchoolData {
@@ -58,10 +72,13 @@ interface AfterSchoolData {
   description: string | null;
   activities: string | null;
   is_premium?: number;
+  premium_expires_at?: string | null;
   contacts_hidden?: number;
+  is_paused?: number;
   banner_url?: string | null;
   editorial_summary?: string | null;
   photo_urls?: string | null;
+  leads_enabled?: number | null;
 }
 
 const emptyForm: Omit<AfterSchoolData, 'id'> = {
@@ -74,6 +91,10 @@ const emptyForm: Omit<AfterSchoolData, 'id'> = {
   banner_url: null,
   editorial_summary: null as string | null,
   photo_urls: null as string | null,
+  premium_expires_at: null as string | null,
+  is_premium: 0,
+  contacts_hidden: 0,
+  leads_enabled: null,
 };
 
 export default function AdminPage() {
@@ -81,7 +102,10 @@ export default function AdminPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'reports' | 'listings'>('afterschools');
+  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'saturation' | 'reports' | 'listings' | 'users' | 'outreach' | 'catering' | 'professionals' | 'kindergartens' | 'tutors' | 'microsites' | 'fboutreach' | 'fbautopost' | 'waoutreach' | 'micrositepitch' | 'circschools' | 'adcalibration'>('afterschools');
+  const [msResult, setMsResult] = useState<{ microsite_url: string; magic_link: string } | null>(null);
+  const [editMicrosite, setEditMicrosite] = useState<{ id: number; outreach_enabled: number; resend_api_key: string; outreach_from_email: string } | null>(null);
+  const [msCreating, setMsCreating] = useState<number | null>(null);
   const [reports, setReports] = useState<{
     id: number; timestamp: number; total_checked: number;
     changed_avail: number; changed_price: number; changed_schedule: number;
@@ -151,6 +175,15 @@ export default function AdminPage() {
   } | null>(null);
   const [businessMode, setBusinessMode] = useState(false);
   const [businessModeLoading, setBusinessModeLoading] = useState(false);
+  const [spotlight, setSpotlight] = useState<{ ratio: number; min: number; max: number; windowMin: number; alertRatio: number }>({ ratio: 0.25, min: 1, max: 4, windowMin: 15, alertRatio: 0.5 });
+  const [spotlightSaving, setSpotlightSaving] = useState(false);
+  const [spotlightSaved, setSpotlightSaved] = useState(false);
+  const [saturation, setSaturation] = useState<{ label: string; sector: number | null; total: number; premium: number; k: number; occupiedSlots: number; occupancy: number; untilHalf: number; alertLevel: 'ok' | 'near' | 'over' }[] | null>(null);
+  const [saturationLoading, setSaturationLoading] = useState(false);
+  const [zoneSaturation, setZoneSaturation] = useState<{ label: string; zone: string; total: number; premium: number; k: number; occupiedSlots: number; occupancy: number; untilHalf: number; alertLevel: 'ok' | 'near' | 'over' }[] | null>(null);
+  const [saturationView, setSaturationView] = useState<'sector' | 'zona'>('sector');
+  const [zoneOverrides, setZoneOverrides] = useState<{ table: string; sector: number | null; config: Record<string, number> }[]>([]);
+  const [overrideForm, setOverrideForm] = useState({ table: 'afterschools', sector: '', ratio: '', min: '', max: '', alertRatio: '' });
   const [cronLoading, setCronLoading] = useState(false);
   const [cronMessage, setCronMessage] = useState('');
   const [editingInterval, setEditingInterval] = useState(false);
@@ -159,6 +192,40 @@ export default function AdminPage() {
   const [clubBannerUploading, setClubBannerUploading] = useState(false);
   const [asSearch, setAsSearch] = useState('');
   const [clubSearch, setClubSearch] = useState('');
+  const [selectedAS, setSelectedAS] = useState<Set<number>>(new Set());
+  const [selectedClubs, setSelectedClubs] = useState<Set<number>>(new Set());
+  const [bulkLoading, setBulkLoading] = useState(false);
+  const [users, setUsers] = useState<any[]>([]);
+  const [outreachData, setOutreachData] = useState<Record<string, any[]> | null>(null);
+  const [outreachFilter, setOutreachFilter] = useState<string>('pending');
+
+  const loadUsers = async () => {
+    const res = await fetch('/api/admin/users');
+    const data = await res.json();
+    setUsers(Array.isArray(data) ? data : []);
+  };
+
+  const deleteUser = async (id: number) => {
+    if (!confirm('Stergi contul si resetezi listarea asociata?')) return;
+    const res = await fetch('/api/admin/users/' + id, { method: 'DELETE' });
+    if (!res.ok) { alert('Stergerea a esuat. Vezi consola/log-urile serverului.'); return; }
+    setUsers(u => u.filter((x: any) => x.id !== id));
+  };
+  const loadOutreach = async () => {
+    const res = await fetch('/api/admin/outreach');
+    const data = await res.json();
+    setOutreachData(data);
+  };
+
+  const updateOutreach = async (type: string, id: number, status: string) => {
+    await fetch('/api/admin/outreach', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ listing_type: type, listing_id: id, status }),
+    });
+    await loadOutreach();
+  };
+
   const [clubCategoryFilter, setClubCategoryFilter] = useState('');
 
   useEffect(() => {
@@ -172,7 +239,9 @@ export default function AdminPage() {
       loadAfterschools();
       loadClubs();
       loadCronStatus();
-      fetch('/api/settings').then(r => r.json()).then(d => setBusinessMode(d.business_mode));
+      fetch('/api/settings').then(r => r.json()).then(d => { setBusinessMode(d.business_mode); if (d.spotlight) setSpotlight(d.spotlight); });
+      loadSaturation();
+      loadZoneOverrides();
     }
   }, [authenticated]);
 
@@ -198,15 +267,30 @@ export default function AdminPage() {
     const url = editingClub ? `/api/admin/clubs/${editingClub.id}` : '/api/admin/clubs';
     const method = editingClub ? 'PUT' : 'POST';
     await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(clubForm) });
+    if (editMicrosite?.id) {
+      await fetch(`/api/admin/microsites/${editMicrosite.id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ outreach_enabled: editMicrosite.outreach_enabled, resend_api_key: editMicrosite.resend_api_key, outreach_from_email: editMicrosite.outreach_from_email }),
+      });
+    }
     setShowClubForm(false);
     setEditingClub(null);
     setClubForm({ name: '', address: '', sector: 1, lat: 44.4268, lng: 26.1025, phone: '', email: '', website: '', price_min: null, price_max: null, schedule: '', age_min: null, age_max: null, description: '', category: 'inot', availability: 'unknown', banner_url: null });
+    setEditMicrosite(null);
     loadClubs();
   };
 
-  const handleEditClub = (c: ClubData) => {
+  const handleEditClub = async (c: ClubData) => {
     setEditingClub(c);
     setClubForm({ name: c.name, address: c.address, sector: c.sector, lat: c.lat, lng: c.lng, phone: c.phone || '', email: c.email || '', website: c.website || '', price_min: c.price_min, price_max: c.price_max, schedule: c.schedule || '', age_min: c.age_min, age_max: c.age_max, description: c.description || '', category: c.category, availability: c.availability, banner_url: (c as any).banner_url || null, editorial_summary: (c as any).editorial_summary || '', photo_urls: (c as any).photo_urls || null } as any);
+    setClubForm(f => ({ ...f, premium_expires_at: (c as any).premium_expires_at || null, leads_enabled: (c as any).leads_enabled ?? null } as any));
+    // Fetch associated microsite for outreach config
+    try {
+      const mr = await fetch(`/api/admin/microsites?listing_type=club&listing_id=${c.id}`);
+      const md = await mr.json();
+      if (md && md.id) setEditMicrosite({ id: md.id, outreach_enabled: md.outreach_enabled ?? 0, resend_api_key: md.resend_api_key ?? '', outreach_from_email: md.outreach_from_email ?? '' });
+      else setEditMicrosite(null);
+    } catch { setEditMicrosite(null); }
     setShowClubForm(true);
   };
 
@@ -217,6 +301,22 @@ export default function AdminPage() {
   };
 
   const toggleClubPremium = async (id: number, currentVal: number) => {
+    if (!currentVal) {
+      const target = clubs.find(c => c.id === id);
+      if (target && target.sector != null) {
+        const sec = target.sector;
+        const inZone = clubs.filter(c => c.sector === sec);
+        const premiumInZone = inZone.filter(c => c.is_premium).length;
+        const total = inZone.length;
+        if (total >= 4 && (premiumInZone + 1) / total >= spotlight.alertRatio) {
+          const pct = Math.round(((premiumInZone + 1) / total) * 100);
+          const proceed = window.confirm(
+            `Atentie: in Sector ${sec} vei avea ${premiumInZone + 1} din ${total} activitati premium (${pct}%), peste pragul de ${Math.round(spotlight.alertRatio * 100)}%.\n\nContinui totusi?`
+          );
+          if (!proceed) return;
+        }
+      }
+    }
     await fetch(`/api/admin/clubs/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...clubs.find(c => c.id === id), is_premium: currentVal ? 0 : 1 }) });
     loadClubs();
   };
@@ -224,6 +324,42 @@ export default function AdminPage() {
   const toggleClubContactsHidden = async (id: number, currentVal: number) => {
     await fetch(`/api/admin/clubs/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...clubs.find(c => c.id === id), contacts_hidden: currentVal ? 0 : 1 }) });
     loadClubs();
+  };
+
+  const toggleClubSelect = (id: number) => {
+    setSelectedClubs(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+  const selectAllClubs = () => {
+    setSelectedClubs(prev => prev.size === filteredClubs.length ? new Set() : new Set(filteredClubs.map(c => c.id)));
+  };
+  const bulkSetClubContactsHidden = async (hidden: boolean) => {
+    setBulkLoading(true);
+    await fetch('/api/admin/clubs', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ids: [...selectedClubs], contacts_hidden: hidden }) });
+    setSelectedClubs(new Set());
+    await loadClubs();
+    setBulkLoading(false);
+  };
+
+  const toggleASSelect = (id: number) => {
+    setSelectedAS(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+  const selectAllAS = () => {
+    setSelectedAS(prev => prev.size === filteredAfterschools.length ? new Set() : new Set(filteredAfterschools.map(a => a.id)));
+  };
+  const bulkSetASContactsHidden = async (hidden: boolean) => {
+    setBulkLoading(true);
+    await fetch('/api/admin/afterschools', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ids: [...selectedAS], contacts_hidden: hidden }) });
+    setSelectedAS(new Set());
+    await loadAfterschools();
+    setBulkLoading(false);
   };
 
   const loadCronStatus = async () => {
@@ -262,6 +398,60 @@ export default function AdminPage() {
     if (res.ok) setReports(await res.json());
   };
 
+  const saveSpotlight = async () => {
+    setSpotlightSaving(true);
+    await fetch('/api/admin/settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ spotlight }),
+    });
+    setSpotlightSaving(false);
+    setSpotlightSaved(true);
+    setTimeout(() => setSpotlightSaved(false), 2000);
+  };
+
+  const loadSaturation = async () => {
+    setSaturationLoading(true);
+    const res = await fetch('/api/admin/saturation');
+    const d = await res.json();
+    setSaturation(d.rows || []);
+    setZoneSaturation(d.zoneRows || []);
+    setSaturationLoading(false);
+  };
+
+  const loadZoneOverrides = async () => {
+    const res = await fetch('/api/admin/zone-overrides');
+    if (res.ok) setZoneOverrides(await res.json());
+  };
+
+  const saveZoneOverride = async () => {
+    const { table, sector, ratio, min, max, alertRatio } = overrideForm;
+    const config: Record<string, number> = {};
+    if (ratio !== '') config.ratio = parseFloat(ratio);
+    if (min !== '') config.min = parseInt(min);
+    if (max !== '') config.max = parseInt(max);
+    if (alertRatio !== '') config.alertRatio = parseFloat(alertRatio);
+    if (Object.keys(config).length === 0) return;
+    await fetch('/api/admin/zone-overrides', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table, sector: sector !== '' ? parseInt(sector) : null, config }),
+    });
+    setOverrideForm({ table: 'afterschools', sector: '', ratio: '', min: '', max: '', alertRatio: '' });
+    loadZoneOverrides();
+    loadSaturation();
+  };
+
+  const deleteZoneOverride = async (table: string, sector: number | null) => {
+    await fetch('/api/admin/zone-overrides', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table, sector }),
+    });
+    loadZoneOverrides();
+    loadSaturation();
+  };
+
   const toggleBusinessMode = async () => {
     setBusinessModeLoading(true);
     const newVal = !businessMode;
@@ -275,6 +465,21 @@ export default function AdminPage() {
   };
 
   const togglePremium = async (id: number, currentVal: number) => {
+    const target = afterschools.find(a => a.id === id) as any;
+    // Avertizare la vanzare: activarea premium impinge sectorul peste pragul de alerta?
+    if (!currentVal && target && target.sector != null) {
+      const sec = target.sector;
+      const inZone = (afterschools as any[]).filter(a => a.sector === sec);
+      const premiumInZone = inZone.filter(a => a.is_premium).length;
+      const total = inZone.length;
+      if (total > 0 && (premiumInZone + 1) / total >= spotlight.alertRatio) {
+        const pct = Math.round(((premiumInZone + 1) / total) * 100);
+        const proceed = window.confirm(
+          `Atentie: in Sector ${sec} vei avea ${premiumInZone + 1} din ${total} afterschool-uri premium (${pct}%), peste pragul de ${Math.round(spotlight.alertRatio * 100)}%.\n\nCu cat sunt mai multe premium intr-o zona, cu atat valoarea scade pentru fiecare. Recomandare: creste pretul in zona asta, nu opri vanzarea.\n\nContinui totusi?`
+        );
+        if (!proceed) return;
+      }
+    }
     await fetch(`/api/admin/afterschools/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -288,6 +493,15 @@ export default function AdminPage() {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...afterschools.find(a => a.id === id), contacts_hidden: currentVal ? 0 : 1 }),
+    });
+    loadAfterschools();
+  };
+
+  const togglePaused = async (id: number, currentVal: number) => {
+    await fetch(`/api/admin/afterschools/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...afterschools.find(a => a.id === id), is_paused: currentVal ? 0 : 1 }),
     });
     loadAfterschools();
   };
@@ -340,13 +554,20 @@ export default function AdminPage() {
       body: JSON.stringify(form),
     });
 
+    if (editMicrosite?.id) {
+      await fetch(`/api/admin/microsites/${editMicrosite.id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ outreach_enabled: editMicrosite.outreach_enabled, resend_api_key: editMicrosite.resend_api_key, outreach_from_email: editMicrosite.outreach_from_email }),
+      });
+    }
     setShowForm(false);
     setEditing(null);
     setForm(emptyForm);
+    setEditMicrosite(null);
     loadAfterschools();
   };
 
-  const handleEdit = (as: AfterSchoolData) => {
+  const handleEdit = async (as: AfterSchoolData) => {
     setEditing(as);
     setForm({
       name: as.name,
@@ -368,7 +589,19 @@ export default function AdminPage() {
       banner_url: as.banner_url || null,
       editorial_summary: (as as any).editorial_summary || null,
       photo_urls: (as as any).photo_urls || null,
+      premium_expires_at: (as as any).premium_expires_at || null,
+      is_premium: (as as any).is_premium ?? 0,
+      contacts_hidden: (as as any).contacts_hidden ?? 0,
+      is_paused: (as as any).is_paused ?? 0,
+      leads_enabled: (as as any).leads_enabled ?? null,
     });
+    // Fetch associated microsite for outreach config
+    try {
+      const mr = await fetch(`/api/admin/microsites?listing_type=afterschool&listing_id=${as.id}`);
+      const md = await mr.json();
+      if (md && md.id) setEditMicrosite({ id: md.id, outreach_enabled: md.outreach_enabled ?? 0, resend_api_key: md.resend_api_key ?? '', outreach_from_email: md.outreach_from_email ?? '' });
+      else setEditMicrosite(null);
+    } catch { setEditMicrosite(null); }
     setShowForm(true);
   };
 
@@ -454,6 +687,18 @@ export default function AdminPage() {
     );
   }
 
+  const quickCreateMicrosite = async (type: string, id: number) => {
+    setMsCreating(id);
+    const res = await fetch('/api/admin/microsites/quick-create', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ listing_type: type, listing_id: id }),
+    });
+    const data = await res.json();
+    setMsCreating(null);
+    if (res.ok) setMsResult(data);
+    else alert(data.error || 'Eroare la creare microsite');
+  };
+
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
       {/* Admin Header */}
@@ -479,36 +724,120 @@ export default function AdminPage() {
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-slate-600">
+        <div className="flex gap-2 mb-6 border-b border-[var(--color-border)]">
           <button
             onClick={() => setActiveTab('afterschools')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'afterschools' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'afterschools' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
             After School-uri ({afterschools.length})
           </button>
           <button
             onClick={() => setActiveTab('clubs')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'clubs' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'clubs' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
             🎯 Activități ({clubs.length})
           </button>
           <button
             onClick={() => { setActiveTab('analytics'); loadAnalytics(analyticsDays); }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'analytics' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'analytics' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
             📊 Analytics
           </button>
           <button
+            onClick={() => setActiveTab('saturation')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'saturation' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🎯 Ocupare Premium
+          </button>
+          <button
             onClick={() => { setActiveTab('reports'); loadReports(); }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'reports' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'reports' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
             📋 Rapoarte
           </button>
           <button
             onClick={() => setActiveTab('listings')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'listings' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-300 hover:text-white'}`}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'listings' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
             🏢 Listari
+          </button>
+          <button
+            onClick={() => { setActiveTab('users'); loadUsers(); }}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'users' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            👥 Useri
+          </button>
+          <button
+            onClick={() => { setActiveTab('outreach'); loadOutreach(); }}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'outreach' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            📣 Outreach
+          </button>
+          <button
+            onClick={() => setActiveTab('catering')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'catering' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🍽️ Catering
+          </button>
+          <button
+            onClick={() => setActiveTab('professionals')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'professionals' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            👨‍🏫 Colaboratori
+          </button>
+          <button
+            onClick={() => setActiveTab('kindergartens')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'kindergartens' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🧸 Grădinițe
+          </button>
+          <button
+            onClick={() => setActiveTab('tutors')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'tutors' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            📚 Meditații
+          </button>
+          <button
+            onClick={() => setActiveTab('microsites')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'microsites' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🌐 Micro-site-uri
+          </button>
+          <button
+            onClick={() => setActiveTab('fboutreach')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'fboutreach' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            📣 Outreach FB
+          </button>
+          <button
+            onClick={() => setActiveTab('fbautopost')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'fbautopost' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🤖 Auto-postare FB
+          </button>
+          <button
+            onClick={() => setActiveTab('waoutreach')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'waoutreach' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            📱 Outreach WA
+          </button>
+          <button
+            onClick={() => setActiveTab('micrositepitch')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'micrositepitch' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🌐 Pachet site
+          </button>
+          <button
+            onClick={() => setActiveTab('circschools')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'circschools' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🏫 Circumscripții
+          </button>
+          <button
+            onClick={() => setActiveTab('adcalibration')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'adcalibration' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            📊 Calibrare reclame
           </button>
         </div>
 
@@ -544,7 +873,7 @@ export default function AdminPage() {
                 placeholder="Caută după nume sau adresă..."
                 value={asSearch}
                 onChange={e => setAsSearch(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-600 rounded-lg text-sm bg-slate-800 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)] text-[var(--color-text-main)] placeholder:text-[var(--color-text-light)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
               />
             )}
             {activeTab === 'clubs' && (
@@ -554,12 +883,12 @@ export default function AdminPage() {
                   placeholder="Caută după nume sau adresă..."
                   value={clubSearch}
                   onChange={e => setClubSearch(e.target.value)}
-                  className="flex-1 px-3 py-2 border border-slate-600 rounded-lg text-sm bg-slate-800 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)] text-[var(--color-text-main)] placeholder:text-[var(--color-text-light)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                 />
                 <select
                   value={clubCategoryFilter}
                   onChange={e => setClubCategoryFilter(e.target.value)}
-                  className="px-3 py-2 border border-slate-600 rounded-lg text-sm bg-slate-800 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)] text-[var(--color-text-main)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                 >
                   <option value="">Toate categoriile</option>
                   {CLUB_CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
@@ -711,6 +1040,64 @@ export default function AdminPage() {
                     )}
                   </div>
                 </div>
+                {editing && editMicrosite && (
+                  <div className="md:col-span-2 mt-2 border border-teal-200 rounded-xl p-4 bg-teal-50/40 space-y-3">
+                    <p className="text-sm font-semibold text-teal-800">Outreach partener</p>
+                    <div className="flex items-center gap-3">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={editMicrosite.outreach_enabled === 1} onChange={e => setEditMicrosite(m => m ? { ...m, outreach_enabled: e.target.checked ? 1 : 0 } : m)}
+                          className="w-4 h-4 text-teal-600 rounded" />
+                        <span className="text-sm font-medium text-teal-800">Activat</span>
+                      </label>
+                    </div>
+                    {editMicrosite.outreach_enabled === 1 && <>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Resend API Key</label>
+                        <input type="password" value={editMicrosite.resend_api_key} onChange={e => setEditMicrosite(m => m ? { ...m, resend_api_key: e.target.value } : m)}
+                          placeholder="re_..." className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Email expeditor (From)</label>
+                        <input type="email" value={editMicrosite.outreach_from_email} onChange={e => setEditMicrosite(m => m ? { ...m, outreach_from_email: e.target.value } : m)}
+                          placeholder="contact@expertcatering.ro" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                      </div>
+                    </>}
+                  </div>
+                )}
+                {editing && !editMicrosite && (
+                  <div className="md:col-span-2 mt-2 text-xs text-gray-400 italic">Creeaza mai intai un microsite pentru acest listing pentru a configura outreach-ul.</div>
+                )}
+                <div className="md:col-span-2 mt-1">
+                  <label className="block text-sm font-medium mb-1">Data expirare Premium</label>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <input
+                      type="date"
+                      value={(form as any).premium_expires_at || ''}
+                      onChange={e => setForm(f => ({ ...f, premium_expires_at: e.target.value || null }))}
+                      className="px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]"
+                    />
+                    {([['+ 1 lună', 1], ['+ 3 luni', 3], ['+ 6 luni', 6], ['+ 1 an', 12]] as [string, number][]).map(([lbl, mo]) => (
+                      <button key={lbl} type="button"
+                        onClick={() => { const d = new Date(); d.setMonth(d.getMonth() + mo); setForm(f => ({ ...f, premium_expires_at: d.toISOString().split('T')[0] })); }}
+                        className="text-xs px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded border border-amber-200 font-medium">
+                        {lbl}
+                      </button>
+                    ))}
+                    {(form as any).premium_expires_at && (
+                      <button type="button" onClick={() => setForm(f => ({ ...f, premium_expires_at: null }))}
+                        className="text-xs px-2 py-1 text-gray-400 hover:text-red-500">✕ Șterge data</button>
+                    )}
+                  </div>
+                </div>
+                <div className="md:col-span-2 flex items-center gap-2 text-sm">
+                  <span className="text-[var(--color-text-light)]">💬 Formular de contact (Solicită informații):</span>
+                  <select value={form.leads_enabled ?? ''} onChange={e => setForm(f => ({ ...f, leads_enabled: e.target.value === '' ? null : Number(e.target.value) }))}
+                    className="border border-[var(--color-border)] rounded-lg px-2 py-1 text-xs bg-[var(--color-bg)]">
+                    <option value="">Auto (după Premium)</option>
+                    <option value="1">Mereu activ</option>
+                    <option value="0">Mereu inactiv</option>
+                  </select>
+                </div>
                 <div className="flex gap-3 pt-2">
                   <button type="submit" className="px-6 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] font-medium">
                     {editing ? 'Salveaza modificarile' : 'Adauga'}
@@ -772,6 +1159,241 @@ export default function AdminPage() {
             </button>
           </div>
         </div>
+
+        {activeTab === 'saturation' && (
+        <div className="space-y-6">
+        {/* Premium Spotlight Panel */}
+        <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] p-5 mb-6">
+          <div className="mb-3">
+            <h3 className="font-semibold text-base">Spotlight Premium (rotatie)</h3>
+            <p className="text-xs text-[var(--color-text-light)] mt-0.5">
+              Cate listari premium se fixeaza sus per zona. Restul premium raman cu contactele deblocate, dar in pozitie normala. Peste capacitate, se rotesc echitabil intre ele.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <label className="text-sm">
+              <span className="block text-xs text-[var(--color-text-light)] mb-1">Procent zona (0-1)</span>
+              <input type="number" step="0.05" min="0" max="1" value={spotlight.ratio}
+                onChange={e => setSpotlight(s => ({ ...s, ratio: parseFloat(e.target.value) }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent" />
+            </label>
+            <label className="text-sm">
+              <span className="block text-xs text-[var(--color-text-light)] mb-1">Minim (podea)</span>
+              <input type="number" step="1" min="0" max="50" value={spotlight.min}
+                onChange={e => setSpotlight(s => ({ ...s, min: parseInt(e.target.value) }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent" />
+            </label>
+            <label className="text-sm">
+              <span className="block text-xs text-[var(--color-text-light)] mb-1">Maxim (plafon)</span>
+              <input type="number" step="1" min="1" max="100" value={spotlight.max}
+                onChange={e => setSpotlight(s => ({ ...s, max: parseInt(e.target.value) }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent" />
+            </label>
+            <label className="text-sm">
+              <span className="block text-xs text-[var(--color-text-light)] mb-1">Rotatie (min)</span>
+              <input type="number" step="1" min="1" max="1440" value={spotlight.windowMin}
+                onChange={e => setSpotlight(s => ({ ...s, windowMin: parseInt(e.target.value) }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent" />
+            </label>
+            <label className="text-sm">
+              <span className="block text-xs text-[var(--color-text-light)] mb-1">Alerta la % zona</span>
+              <input type="number" step="0.05" min="0" max="1" value={spotlight.alertRatio}
+                onChange={e => setSpotlight(s => ({ ...s, alertRatio: parseFloat(e.target.value) }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent" />
+            </label>
+          </div>
+          <div className="flex items-center gap-3 mt-3">
+            <div className="text-xs text-[var(--color-text-light)]">
+              Exemplu spotlight/zona: {[5, 10, 20].map(n => { const k = Math.min(spotlight.max, Math.max(spotlight.min, Math.round(n * spotlight.ratio))); return n + '→' + k; }).join('   ·   ')}
+            </div>
+            <button onClick={saveSpotlight} disabled={spotlightSaving}
+              className="ml-auto px-4 py-2 text-sm rounded-lg font-medium bg-indigo-600 hover:bg-indigo-700 text-white disabled:opacity-40">
+              {spotlightSaving ? 'Salvez...' : spotlightSaved ? '✓ Salvat' : 'Salveaza'}
+            </button>
+          </div>
+        </div>
+
+        {/* Grad de ocupare premium / zona */}
+        <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] p-5 mb-6">
+          <div className="flex items-center justify-between mb-3">
+
+            <div>
+
+              <h3 className="font-semibold text-base">Grad de ocupare premium</h3>
+
+              <p className="text-xs text-[var(--color-text-light)] mt-0.5">Sloturi = premium ocupate din capacitatea de spotlight. „Pana la 1/2” = cate vanzari mai poti face pana treci pragul de alerta. Rosu = depasit, galben = urmatoarea vanzare il trece.</p>
+
+            </div>
+
+            <div className="flex items-center gap-2">
+
+              <div className="flex rounded-lg overflow-hidden border border-[var(--color-border)] text-sm">
+
+                <button onClick={() => setSaturationView('sector')} className={`px-3 py-1.5 transition-colors ${saturationView === 'sector' ? 'bg-[var(--color-primary)] text-white' : 'hover:bg-[var(--color-bg)]'}`}>Per sector</button>
+
+                <button onClick={() => setSaturationView('zona')} className={`px-3 py-1.5 transition-colors ${saturationView === 'zona' ? 'bg-[var(--color-primary)] text-white' : 'hover:bg-[var(--color-bg)]'}`}>Per cartier</button>
+
+              </div>
+
+              <button onClick={loadSaturation} disabled={saturationLoading} className="px-4 py-2 text-sm rounded-lg font-medium bg-gray-200 hover:bg-gray-300 text-gray-700 disabled:opacity-40">
+
+                {saturationLoading ? 'Verific...' : 'Reincarca'}
+
+              </button>
+
+            </div>
+
+          </div>
+          {saturationView === 'sector' && saturation && saturation.some(r => r.alertLevel !== 'ok') && (
+            <div className="mb-3 text-sm rounded-lg px-3 py-2 bg-amber-50 border border-amber-200 text-amber-800">
+              ⚠ {saturation.filter(r => r.alertLevel === 'over').length} sectoare peste prag, {saturation.filter(r => r.alertLevel === 'near').length} aproape sa treaca. Ia in calcul cresterea pretului acolo.
+            </div>
+          )}
+          {saturationView === 'zona' && zoneSaturation && zoneSaturation.some(r => r.alertLevel !== 'ok') && (
+            <div className="mb-3 text-sm rounded-lg px-3 py-2 bg-amber-50 border border-amber-200 text-amber-800">
+              ⚠ {zoneSaturation.filter(r => r.alertLevel === 'over').length} cartiere peste prag, {zoneSaturation.filter(r => r.alertLevel === 'near').length} aproape sa treaca.
+            </div>
+          )}
+          {saturationView === 'sector' && saturation && (saturation.length === 0 ? (
+            <p className="text-xs text-[var(--color-text-light)]">Nicio zona inca.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead><tr className="text-left text-xs text-[var(--color-text-light)] border-b border-[var(--color-border)]">
+                  <th className="py-1.5 pr-3">Afacere</th><th className="pr-3">Sector</th><th className="pr-3">Listari</th><th className="pr-3">Premium</th><th className="pr-3 w-44">Grad ocupare</th><th className="pr-3">Sloturi</th><th className="pr-3">Pana la 1/2</th>
+                </tr></thead>
+                <tbody>
+                  {saturation.map((r, i) => (
+                    <tr key={i} className={`border-b border-[var(--color-border)] ${r.alertLevel === 'over' ? 'bg-red-100' : r.alertLevel === 'near' ? 'bg-amber-50' : ''}`}>
+                      <td className="py-1.5 pr-3 whitespace-nowrap">{r.label}</td>
+                      <td className="pr-3">{r.sector ?? '—'}</td>
+                      <td className="pr-3">{r.total}</td>
+                      <td className={`pr-3 ${r.alertLevel === 'over' ? 'text-red-600 font-semibold' : r.alertLevel === 'near' ? 'text-amber-700 font-semibold' : ''}`}>{r.premium}</td>
+                      <td className="pr-3">
+                        <div className="flex items-center gap-2">
+                          <div className="relative flex-1 h-2 rounded bg-gray-200 overflow-hidden min-w-[70px]">
+                            <div className={`h-full ${r.alertLevel === 'over' ? 'bg-red-500' : r.alertLevel === 'near' ? 'bg-amber-500' : 'bg-emerald-500'}`} style={{ width: `${Math.min(100, Math.round(r.occupancy * 100))}%` }} />
+                          </div>
+                          <span className="text-xs tabular-nums w-9 text-right">{Math.round(r.occupancy * 100)}%</span>
+                        </div>
+                      </td>
+                      <td className="pr-3 tabular-nums">{r.occupiedSlots}/{r.k}</td>
+                      <td className="pr-3 tabular-nums">{r.alertLevel === 'over' ? <span className="text-red-600 font-semibold">depasit</span> : r.untilHalf}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
+          {saturationView === 'zona' && zoneSaturation && (zoneSaturation.length === 0 ? (
+            <p className="text-xs text-[var(--color-text-light)]">Nicio zona detectata inca.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead><tr className="text-left text-xs text-[var(--color-text-light)] border-b border-[var(--color-border)]">
+                  <th className="py-1.5 pr-3">Afacere</th><th className="pr-3 min-w-[130px]">Cartier</th><th className="pr-3">Listari</th><th className="pr-3">Premium</th><th className="pr-3 w-44">Grad ocupare</th><th className="pr-3">Sloturi</th><th className="pr-3">Pana la 1/2</th>
+                </tr></thead>
+                <tbody>
+                  {zoneSaturation.map((r, i) => (
+                    <tr key={i} className={`border-b border-[var(--color-border)] ${r.alertLevel === 'over' ? 'bg-red-100' : r.alertLevel === 'near' ? 'bg-amber-50' : ''}`}>
+                      <td className="py-1.5 pr-3 whitespace-nowrap">{r.label}</td>
+                      <td className="pr-3 whitespace-nowrap font-medium">{r.zone}</td>
+                      <td className="pr-3">{r.total}</td>
+                      <td className={`pr-3 ${r.alertLevel === 'over' ? 'text-red-600 font-semibold' : r.alertLevel === 'near' ? 'text-amber-700 font-semibold' : ''}`}>{r.premium}</td>
+                      <td className="pr-3">
+                        <div className="flex items-center gap-2">
+                          <div className="relative flex-1 h-2 rounded bg-gray-200 overflow-hidden min-w-[70px]">
+                            <div className={`h-full ${r.alertLevel === 'over' ? 'bg-red-500' : r.alertLevel === 'near' ? 'bg-amber-500' : 'bg-emerald-500'}`} style={{ width: `${Math.min(100, Math.round(r.occupancy * 100))}%` }} />
+                          </div>
+                          <span className="text-xs tabular-nums w-9 text-right">{Math.round(r.occupancy * 100)}%</span>
+                        </div>
+                      </td>
+                      <td className="pr-3 tabular-nums">{r.occupiedSlots}/{r.k}</td>
+                      <td className="pr-3 tabular-nums">{r.alertLevel === 'over' ? <span className="text-red-600 font-semibold">depasit</span> : r.untilHalf}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
+        </div>
+
+        {/* Override per zona */}
+        <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] p-5 mb-6">
+          <h3 className="font-semibold text-base mb-1">Override per zona</h3>
+          <p className="text-xs text-[var(--color-text-light)] mb-4">Seteaza limite diferite pentru un anumit tip + sector. Campurile goale mostenesc valorile globale de sus.</p>
+          {zoneOverrides.length > 0 && (
+            <div className="mb-4 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead><tr className="text-left text-xs text-[var(--color-text-light)] border-b border-[var(--color-border)]">
+                  <th className="pr-3 py-1">Tip</th><th className="pr-3">Sector</th><th className="pr-3">Procent</th><th className="pr-3">Min</th><th className="pr-3">Max</th><th className="pr-3">Alerta</th><th></th>
+                </tr></thead>
+                <tbody>
+                  {zoneOverrides.map((ov, i) => (
+                    <tr key={i} className="border-b border-[var(--color-border)]">
+                      <td className="pr-3 py-1.5 capitalize">{ov.table}</td>
+                      <td className="pr-3">{ov.sector ?? '—'}</td>
+                      <td className="pr-3">{ov.config.ratio ?? '—'}</td>
+                      <td className="pr-3">{ov.config.min ?? '—'}</td>
+                      <td className="pr-3">{ov.config.max ?? '—'}</td>
+                      <td className="pr-3">{ov.config.alertRatio ?? '—'}</td>
+                      <td><button onClick={() => deleteZoneOverride(ov.table, ov.sector)} className="text-red-500 hover:text-red-700 text-xs">Sterge</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 items-end">
+            <label className="text-xs">
+              <span className="block text-[var(--color-text-light)] mb-1">Tip afacere</span>
+              <select value={overrideForm.table} onChange={e => setOverrideForm(f => ({ ...f, table: e.target.value }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent text-sm">
+                <option value="afterschools">Afterschool</option>
+                <option value="clubs">Activitati</option>
+                <option value="kindergartens">Gradinite</option>
+                <option value="professionals">Colaboratori</option>
+                <option value="tutors">Meditatii</option>
+                <option value="caterers">Catering</option>
+              </select>
+            </label>
+            <label className="text-xs">
+              <span className="block text-[var(--color-text-light)] mb-1">Sector (gol = fara sector)</span>
+              <input type="number" min="1" max="6" placeholder="1-6" value={overrideForm.sector}
+                onChange={e => setOverrideForm(f => ({ ...f, sector: e.target.value }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent text-sm" />
+            </label>
+            <label className="text-xs">
+              <span className="block text-[var(--color-text-light)] mb-1">Procent (0-1)</span>
+              <input type="number" step="0.05" min="0" max="1" placeholder="global" value={overrideForm.ratio}
+                onChange={e => setOverrideForm(f => ({ ...f, ratio: e.target.value }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent text-sm" />
+            </label>
+            <label className="text-xs">
+              <span className="block text-[var(--color-text-light)] mb-1">Min</span>
+              <input type="number" min="0" placeholder="global" value={overrideForm.min}
+                onChange={e => setOverrideForm(f => ({ ...f, min: e.target.value }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent text-sm" />
+            </label>
+            <label className="text-xs">
+              <span className="block text-[var(--color-text-light)] mb-1">Max</span>
+              <input type="number" min="1" placeholder="global" value={overrideForm.max}
+                onChange={e => setOverrideForm(f => ({ ...f, max: e.target.value }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent text-sm" />
+            </label>
+            <label className="text-xs">
+              <span className="block text-[var(--color-text-light)] mb-1">Alerta %</span>
+              <input type="number" step="0.05" min="0" max="1" placeholder="global" value={overrideForm.alertRatio}
+                onChange={e => setOverrideForm(f => ({ ...f, alertRatio: e.target.value }))}
+                className="w-full border border-[var(--color-border)] rounded px-2 py-1.5 bg-transparent text-sm" />
+            </label>
+          </div>
+          <button onClick={saveZoneOverride} className="mt-3 px-4 py-2 text-sm rounded-lg font-medium bg-indigo-600 hover:bg-indigo-700 text-white">
+            + Adauga override
+          </button>
+        </div>
+        </div>
+        )}
 
         {/* Cron Panel */}
         {cronStatus && (
@@ -1050,6 +1672,64 @@ export default function AdminPage() {
                     )}
                   </div>
                 </div>
+                {editingClub && editMicrosite && (
+                  <div className="md:col-span-2 mt-2 border border-teal-200 rounded-xl p-4 bg-teal-50/40 space-y-3">
+                    <p className="text-sm font-semibold text-teal-800">Outreach partener</p>
+                    <div className="flex items-center gap-3">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={editMicrosite.outreach_enabled === 1} onChange={e => setEditMicrosite(m => m ? { ...m, outreach_enabled: e.target.checked ? 1 : 0 } : m)}
+                          className="w-4 h-4 text-teal-600 rounded" />
+                        <span className="text-sm font-medium text-teal-800">Activat</span>
+                      </label>
+                    </div>
+                    {editMicrosite.outreach_enabled === 1 && <>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Resend API Key</label>
+                        <input type="password" value={editMicrosite.resend_api_key} onChange={e => setEditMicrosite(m => m ? { ...m, resend_api_key: e.target.value } : m)}
+                          placeholder="re_..." className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Email expeditor (From)</label>
+                        <input type="email" value={editMicrosite.outreach_from_email} onChange={e => setEditMicrosite(m => m ? { ...m, outreach_from_email: e.target.value } : m)}
+                          placeholder="contact@exemplu.ro" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+                      </div>
+                    </>}
+                  </div>
+                )}
+                {editingClub && !editMicrosite && (
+                  <div className="md:col-span-2 mt-2 text-xs text-gray-400 italic">Creeaza mai intai un microsite pentru acest listing pentru a configura outreach-ul.</div>
+                )}
+                <div className="md:col-span-2 mt-1">
+                  <label className="block text-sm font-medium mb-1">Data expirare Premium</label>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <input
+                      type="date"
+                      value={(clubForm as any).premium_expires_at || ''}
+                      onChange={e => setClubForm(f => ({ ...f, premium_expires_at: e.target.value || null } as any))}
+                      className="px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]"
+                    />
+                    {([['+ 1 lună', 1], ['+ 3 luni', 3], ['+ 6 luni', 6], ['+ 1 an', 12]] as [string, number][]).map(([lbl, mo]) => (
+                      <button key={lbl} type="button"
+                        onClick={() => { const d = new Date(); d.setMonth(d.getMonth() + mo); setClubForm(f => ({ ...f, premium_expires_at: d.toISOString().split('T')[0] } as any)); }}
+                        className="text-xs px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded border border-amber-200 font-medium">
+                        {lbl}
+                      </button>
+                    ))}
+                    {(clubForm as any).premium_expires_at && (
+                      <button type="button" onClick={() => setClubForm(f => ({ ...f, premium_expires_at: null } as any))}
+                        className="text-xs px-2 py-1 text-gray-400 hover:text-red-500">✕ Șterge data</button>
+                    )}
+                  </div>
+                </div>
+                <div className="md:col-span-2 flex items-center gap-2 text-sm">
+                  <span className="text-[var(--color-text-light)]">💬 Formular de contact (Solicită informații):</span>
+                  <select value={(clubForm as any).leads_enabled ?? ''} onChange={e => setClubForm(f => ({ ...f, leads_enabled: e.target.value === '' ? null : Number(e.target.value) } as any))}
+                    className="border border-[var(--color-border)] rounded-lg px-2 py-1 text-xs bg-[var(--color-bg)]">
+                    <option value="">Auto (după Premium)</option>
+                    <option value="1">Mereu activ</option>
+                    <option value="0">Mereu inactiv</option>
+                  </select>
+                </div>
                 <div className="flex gap-3 pt-2">
                   <button type="submit" className="px-6 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-dark)] font-medium">
                     {editingClub ? 'Salveaza' : 'Adauga'}
@@ -1065,11 +1745,24 @@ export default function AdminPage() {
 
         {/* Table */}
         {activeTab === 'clubs' ? (
+          <>
+          {selectedClubs.size > 0 && (
+            <div className="flex items-center gap-3 mb-3 px-4 py-2.5 bg-purple-50 border border-purple-200 rounded-lg">
+              <span className="text-sm font-semibold text-purple-800">{selectedClubs.size} selectate</span>
+              <button onClick={() => bulkSetClubContactsHidden(true)} disabled={bulkLoading} className="text-xs px-3 py-1.5 border border-red-300 text-red-700 rounded-lg hover:bg-red-100 disabled:opacity-50">
+                🔒 Ascunde contact (selectate)
+              </button>
+              <button onClick={() => bulkSetClubContactsHidden(false)} disabled={bulkLoading} className="text-xs px-3 py-1.5 border border-green-300 text-green-700 rounded-lg hover:bg-green-100 disabled:opacity-50">
+                ✓ Arata contact (selectate)
+              </button>
+            </div>
+          )}
           <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b border-[var(--color-border)]">
                   <tr>
+                    <th className="px-4 py-3"><input type="checkbox" checked={filteredClubs.length > 0 && selectedClubs.size === filteredClubs.length} onChange={selectAllClubs} /></th>
                     <th className="text-left px-4 py-3 font-medium">Nume</th>
                     <th className="text-left px-4 py-3 font-medium">Categorie</th>
                     <th className="text-left px-4 py-3 font-medium">Adresa</th>
@@ -1081,7 +1774,8 @@ export default function AdminPage() {
                 </thead>
                 <tbody>
                   {filteredClubs.map(c => (
-                    <tr key={c.id} className="border-b border-[var(--color-border)] hover:bg-gray-50">
+                    <tr key={c.id} className={`border-b border-[var(--color-border)] ${c.is_premium ? "bg-amber-500/15 border-l-4 border-l-amber-400" : "hover:bg-gray-50/5"}`}>
+                      <td className="px-4 py-3"><input type="checkbox" checked={selectedClubs.has(c.id)} onChange={() => toggleClubSelect(c.id)} /></td>
                       <td className="px-4 py-3 font-medium">{c.name}</td>
                       <td className="px-4 py-3 text-xs">{CLUB_CATEGORIES.find(cat => cat.value === c.category)?.label}</td>
                       <td className="px-4 py-3 text-[var(--color-text-light)]">{c.address}</td>
@@ -1099,6 +1793,10 @@ export default function AdminPage() {
                         </button>
                       </td>
                       <td className="px-4 py-3 text-right">
+                        <button onClick={() => quickCreateMicrosite('club', c.id)} disabled={msCreating === c.id}
+                          className="text-teal-600 hover:text-teal-700 hover:underline mr-3 disabled:opacity-50">
+                          {msCreating === c.id ? '...' : '🌐 Microsite'}
+                        </button>
                         <button onClick={() => handleEditClub(c)} className="text-[var(--color-primary)] hover:underline mr-3">Editeaza</button>
                         <button onClick={() => handleDeleteClub(c.id)} className="text-[var(--color-danger)] hover:underline">Sterge</button>
                       </td>
@@ -1108,12 +1806,26 @@ export default function AdminPage() {
               </table>
             </div>
           </div>
+          </>
         ) : activeTab === 'afterschools' ? (
+        <>
+        {selectedAS.size > 0 && (
+          <div className="flex items-center gap-3 mb-3 px-4 py-2.5 bg-purple-50 border border-purple-200 rounded-lg">
+            <span className="text-sm font-semibold text-purple-800">{selectedAS.size} selectate</span>
+            <button onClick={() => bulkSetASContactsHidden(true)} disabled={bulkLoading} className="text-xs px-3 py-1.5 border border-red-300 text-red-700 rounded-lg hover:bg-red-100 disabled:opacity-50">
+              🔒 Ascunde contact (selectate)
+            </button>
+            <button onClick={() => bulkSetASContactsHidden(false)} disabled={bulkLoading} className="text-xs px-3 py-1.5 border border-green-300 text-green-700 rounded-lg hover:bg-green-100 disabled:opacity-50">
+              ✓ Arata contact (selectate)
+            </button>
+          </div>
+        )}
         <div className="bg-[var(--color-card)] rounded-xl shadow-sm border border-[var(--color-border)] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-[var(--color-border)]">
                 <tr>
+                  <th className="px-4 py-3"><input type="checkbox" checked={filteredAfterschools.length > 0 && selectedAS.size === filteredAfterschools.length} onChange={selectAllAS} /></th>
                   <th className="text-left px-4 py-3 font-medium">Nume</th>
                   <th className="text-left px-4 py-3 font-medium">Adresa</th>
                   <th className="text-left px-4 py-3 font-medium">Sector</th>
@@ -1121,12 +1833,14 @@ export default function AdminPage() {
                   <th className="text-left px-4 py-3 font-medium">Program</th>
                   <th className="text-left px-4 py-3 font-medium">Premium</th>
                   <th className="text-left px-4 py-3 font-medium">Contacte</th>
+                  <th className="text-left px-4 py-3 font-medium">Pauza</th>
                   <th className="text-right px-4 py-3 font-medium">Actiuni</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredAfterschools.map((as) => (
-                  <tr key={as.id} className="border-b border-[var(--color-border)] hover:bg-gray-50">
+                  <tr key={as.id} className={`border-b border-[var(--color-border)] ${as.is_premium ? "bg-amber-500/15 border-l-4 border-l-amber-400" : "hover:bg-gray-50/5"} ${as.is_paused ? "opacity-50" : ""}`}>
+                    <td className="px-4 py-3"><input type="checkbox" checked={selectedAS.has(as.id)} onChange={() => toggleASSelect(as.id)} /></td>
                     <td className="px-4 py-3 font-medium">{as.name}</td>
                     <td className="px-4 py-3 text-[var(--color-text-light)]">{as.address}</td>
                     <td className="px-4 py-3">{as.sector}</td>
@@ -1156,7 +1870,27 @@ export default function AdminPage() {
                         {as.contacts_hidden ? '🔒 Ascunse' : '✓ Vizibile'}
                       </button>
                     </td>
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={() => togglePaused(as.id, as.is_paused ?? 0)}
+                        title="Opreste listarea de pe site fara sa o stergi, ca s-o poti relua ulterior"
+                        className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-colors ${
+                          as.is_paused
+                            ? 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                            : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                        }`}
+                      >
+                        {as.is_paused ? '⏸ Pauzat' : '▶ Activ'}
+                      </button>
+                    </td>
                     <td className="px-4 py-3 text-right">
+                      <button
+                        onClick={() => quickCreateMicrosite('afterschool', as.id)}
+                        disabled={msCreating === as.id}
+                        className="text-teal-600 hover:text-teal-700 hover:underline mr-3 disabled:opacity-50"
+                      >
+                        {msCreating === as.id ? '...' : '🌐 Microsite'}
+                      </button>
                       <button
                         onClick={() => handleEdit(as)}
                         className="text-[var(--color-primary)] hover:underline mr-3"
@@ -1176,6 +1910,7 @@ export default function AdminPage() {
             </table>
           </div>
         </div>
+        </>
         ) : null}
         {/* Reports Tab */}
         {activeTab === 'reports' && (
@@ -1237,6 +1972,104 @@ export default function AdminPage() {
         )}
 
         {activeTab === 'listings' && <AdminListings />}
+
+        {activeTab === 'users' && (
+          <div className="p-6">
+            <h2 className="text-lg font-bold text-[var(--color-text-main)] mb-4">Utilizatori ({users.length})</h2>
+            {users.length === 0 ? (
+              <p className="text-[var(--color-text-light)] text-sm">Niciun utilizator inregistrat.</p>
+            ) : (
+              <div className="space-y-3">
+                {users.map((u: any) => (
+                  <div key={u.id} className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-4 flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                        <span className="text-[var(--color-text-main)] font-medium">{u.name || '(fara nume)'}</span>
+                        {u.is_premium === 1 && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Premium</span>}
+                      </div>
+                      <p className="text-sm text-[var(--color-text-light)]">{u.email}</p>
+                      {u.phone && <p className="text-xs text-[var(--color-text-light)]">{u.phone}</p>}
+                      {u.listings && u.listings.length > 0 ? (
+                        u.listings.map((l: any) => (
+                          <p key={`${l.type}-${l.id}`} className="text-xs text-emerald-600 mt-1">🏢 {l.name}</p>
+                        ))
+                      ) : (
+                        <p className="text-xs text-[var(--color-text-light)] mt-1">Fara listare asociata</p>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => deleteUser(u.id)}
+                      className="shrink-0 px-3 py-1.5 bg-red-50 hover:bg-[var(--color-danger)] text-[var(--color-danger)] hover:text-white text-sm rounded-lg transition-colors border border-red-200 whitespace-nowrap"
+                    >
+                      Sterge cont
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        {activeTab === 'outreach' && (
+          <OutreachTab
+            outreachData={outreachData}
+            outreachFilter={outreachFilter}
+            setOutreachFilter={setOutreachFilter}
+            loadOutreach={loadOutreach}
+            updateOutreach={updateOutreach}
+          />
+        )}
+        {activeTab === 'catering' && <CateringAdmin />}
+        {activeTab === 'professionals' && <ProfessionalsAdmin />}
+        {activeTab === 'kindergartens' && <KindergartensAdmin />}
+        {activeTab === 'tutors' && <TutorsAdmin />}
+
+        {activeTab === 'microsites' && <MicrositesAdmin />}
+
+        {activeTab === 'fboutreach' && <FbOutreach />}
+        {activeTab === 'fbautopost' && <FbAutoPost />}
+
+        {activeTab === 'waoutreach' && <WaOutreach />}
+
+        {activeTab === 'micrositepitch' && <MicrositePitchTab />}
+
+        {activeTab === 'circschools' && <CircSchoolsTab />}
+        {activeTab === 'adcalibration' && <AdCalibrationTab />}
+      {msResult && (
+        <div className="fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center p-4" onClick={() => setMsResult(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-900">&#127760; Microsite creat!</h3>
+              <button onClick={() => setMsResult(null)} className="text-gray-400 hover:text-gray-600 text-xl font-bold leading-none">&times;</button>
+            </div>
+            <div className="space-y-3">
+              <div>
+                <p className="text-xs font-semibold text-gray-500 mb-1">Link site public</p>
+                <div className="flex items-center gap-2">
+                  <a href={msResult.microsite_url} target="_blank" rel="noopener noreferrer"
+                    className="flex-1 text-sm text-teal-600 font-medium bg-teal-50 px-3 py-2 rounded-lg truncate hover:underline">
+                    {msResult.microsite_url}
+                  </a>
+                  <button onClick={() => navigator.clipboard.writeText(msResult.microsite_url)}
+                    className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-xs font-medium">Copy</button>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-gray-500 mb-1">Link securizat dashboard (trimite clientului)</p>
+                <div className="flex items-center gap-2">
+                  <span className="flex-1 text-xs text-gray-600 bg-gray-50 border px-3 py-2 rounded-lg truncate font-mono">
+                    {msResult.magic_link}
+                  </span>
+                  <button onClick={() => navigator.clipboard.writeText(msResult.magic_link)}
+                    className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-xs font-medium">Copy</button>
+                </div>
+              </div>
+            </div>
+            <button onClick={() => setMsResult(null)} className="mt-5 w-full py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-sm font-semibold">
+              Inchide
+            </button>
+          </div>
+        </div>
+      )}
       </main>
     </div>
   );

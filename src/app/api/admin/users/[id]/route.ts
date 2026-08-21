@@ -18,6 +18,10 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
   db.prepare('DELETE FROM user_sessions WHERE user_id = ?').run(parseInt(id));
   db.prepare('DELETE FROM claim_requests WHERE user_id = ?').run(parseInt(id));
   db.prepare('DELETE FROM pending_listings WHERE user_id = ?').run(parseInt(id));
+  db.prepare('DELETE FROM access_tokens WHERE user_id = ?').run(parseInt(id));
+  db.prepare('DELETE FROM payments WHERE user_id = ?').run(parseInt(id));
+  db.prepare('DELETE FROM outreach_requests WHERE user_id = ?').run(parseInt(id));
+  db.prepare('DELETE FROM pending_edits WHERE user_id = ?').run(parseInt(id));
   db.prepare('DELETE FROM users WHERE id = ?').run(parseInt(id));
   return NextResponse.json({ ok: true });
 }
@@ -30,11 +34,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
   if (body.action === 'approve_premium') {
     const now = Date.now();
-    const thirtyDays = now + 30 * 24 * 60 * 60 * 1000;
-    db.prepare('UPDATE users SET is_premium = 1, premium_pending = 0, premium_until = ? WHERE id = ?').run(thirtyDays, parseInt(id));
-    // Salveaza plata in istoric
-    db.prepare('INSERT INTO payments (user_id, amount, currency, status, period_start, period_end) VALUES (?, 50, ?, ?, ?, ?)')
-      .run(parseInt(id), body.currency || 'RON', 'confirmed', now, thirtyDays);
+    const ninetyDays = now + 90 * 24 * 60 * 60 * 1000;
+    db.prepare('UPDATE users SET is_premium = 1, premium_pending = 0, premium_until = ? WHERE id = ?').run(ninetyDays, parseInt(id));
+    // Salveaza plata in istoric - suma e configurabila (ex. 50 RON pt. promotia din campania de outreach)
+    db.prepare('INSERT INTO payments (user_id, amount, currency, status, period_start, period_end) VALUES (?, ?, ?, ?, ?, ?)')
+      .run(parseInt(id), body.amount || 100, body.currency || 'RON', 'confirmed', now, ninetyDays);
     // Activeaza premium si pe listarea proprietarului
     const listing_as = db.prepare('SELECT id FROM afterschools WHERE owner_user_id = ?').get(parseInt(id)) as { id: number } | undefined;
     if (listing_as) db.prepare('UPDATE afterschools SET is_premium = 1 WHERE id = ?').run(listing_as.id);

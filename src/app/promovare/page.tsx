@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { getDb } from '@/lib/db';
 import PromovarePage from './PromovarePage';
 
 export const metadata: Metadata = {
@@ -13,5 +14,6 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PromovarePage />;
+  const { count } = getDb().prepare('SELECT COUNT(*) as count FROM afterschools').get() as { count: number };
+  return <PromovarePage afterschoolCount={count} />;
 }

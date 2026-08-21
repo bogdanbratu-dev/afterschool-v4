@@ -134,6 +134,14 @@ export function AnalyticsSection({
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
   const [selectedPage, setSelectedPage] = useState('');
+  const [indexUrl, setIndexUrl] = useState('https://activkids.ro');
+
+  const openUrlInspection = () => {
+    const url = new URL('https://search.google.com/search-console/inspect');
+    url.searchParams.set('resource_id', 'sc-domain:activkids.ro');
+    url.searchParams.set('text_query', indexUrl);
+    window.open(url.toString(), '_blank', 'noopener,noreferrer');
+  };
 
   const quickPresets = [
     { label: 'Azi', days: 1, from: todayStr(), to: todayStr() },
@@ -275,6 +283,24 @@ export function AnalyticsSection({
             </select>
           </div>
         )}
+      </div>
+
+      {/* Google Search Console - deschide URL Inspection pentru cerere manuala de reindexare */}
+      <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-4 flex flex-wrap items-center gap-3 mb-6">
+        <span className="text-sm font-semibold text-[var(--color-text-main)] flex-shrink-0">🔍 Google Search Console:</span>
+        <input
+          type="text"
+          value={indexUrl}
+          onChange={e => setIndexUrl(e.target.value)}
+          placeholder="https://activkids.ro/..."
+          className="flex-1 min-w-[220px] text-sm bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <button
+          onClick={openUrlInspection}
+          className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all whitespace-nowrap"
+        >
+          Deschide URL Inspection
+        </button>
       </div>
 
       {analyticsLoading ? (

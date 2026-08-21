@@ -5,6 +5,8 @@ import SearchBar from '@/components/SearchBar';
 import FilterPanel from '@/components/FilterPanel';
 import AfterSchoolCard from '@/components/AfterSchoolCard';
 import ActivitiesWidget from '@/components/ActivitiesWidget';
+import Navbar from '@/components/Navbar';
+import FacebookFollow from '@/components/FacebookFollow';
 
 interface AfterSchoolData {
   id: number;
@@ -92,43 +94,18 @@ export default function Home() {
 
   const handleSearch = (lat: number, lng: number, label: string) => {
     setSearchLocation({ lat, lng, label });
-    fetch('/api/analytics/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: label }),
-    });
   };
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
-      {/* Header */}
-      <header className="bg-[var(--color-card)] shadow-sm border-b border-[var(--color-border)]">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-[var(--color-primary)]">
-              AfterSchool Finder
-            </h1>
-            <p className="text-sm text-[var(--color-text-light)]">Gaseste after school-ul perfect pentru copilul tau</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <a href="/activitati" className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
-              <span className="hidden sm:inline-flex gap-1">⚽💃🏊🥋</span>
-              <span>Activități</span>
-            </a>
-            <a href="/promovare" className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-all">
-              <span>+</span>
-              <span className="hidden sm:inline">Adaugă listare</span>
-            </a>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Hero / Search */}
       <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-7 sm:py-12 px-4">
         <div className="max-w-6xl mx-auto text-center mb-5 sm:mb-8">
-          <h2 className="text-xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-3">
+          <h1 className="text-xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-3">
             Cauta after school-ul ideal in Bucuresti
-          </h2>
+          </h1>
           <p className="text-blue-100 text-sm sm:text-lg max-w-2xl mx-auto hidden sm:block">
             Introdu numarul scolii copilului tau sau o adresa si gaseste cele mai apropiate after school-uri,
             ordonate dupa distanta
@@ -271,6 +248,8 @@ export default function Home() {
         </div>
       </main>
 
+
+
       {/* Footer */}
       <footer className="bg-[var(--color-card)] border-t border-[var(--color-border)] mt-8 sm:mt-12 py-8">
         <div className="max-w-6xl mx-auto px-4">
@@ -303,10 +282,15 @@ export default function Home() {
               <ul className="space-y-1">
                 <li><a href="/promovare" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Adaugă listarea</a></li>
                 <li><a href="/activitati" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Activități copii</a></li>
+                <li><a href="/catering" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Catering afterschool</a></li>
+                <li><a href="/colaboratori" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Colaboratori pentru copii</a></li>
+                <li><a href="/terapii" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Terapii &amp; Consiliere</a></li>
+                <li><a href="/gradinite" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Gradinite si crese private</a></li>
                 <li><a href="/login" className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">Contul meu</a></li>
               </ul>
             </div>
           </div>
+          <FacebookFollow />
           <div className="border-t border-[var(--color-border)] pt-4 text-center text-xs text-[var(--color-text-light)]">
             ActivKids · Activități pentru copii în București
           </div>

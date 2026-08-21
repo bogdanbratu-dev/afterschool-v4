@@ -1,24 +1,66 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #3b82f6;
-  --color-primary-dark: #2563eb;
-  --color-accent: #f59e0b;
-  --color-bg: #0f172a;
-  --color-card: #1e293b;
-  --color-text-main: #f1f5f9;
-  --color-text-light: #94a3b8;
-  --color-border: #334155;
-  --color-success: #10b981;
-  --color-danger: #ef4444;
+  /* Brand core (albastru ACTIV + verde KIDS + accente) */
+  --color-primary: #1E73BE;
+  --color-primary-dark: #175A96;
+  --color-accent: #F5901E;
+  --color-green: #79B927;
+  --color-green-dark: #5C8F1B;
+  --color-yellow: #F6C22E;
+
+  /* Suprafete si text (tema light, coerenta) */
+  --color-bg: #F6F4EE;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F2F0E8;
+  --color-card: #FFFFFF;
+  --color-text-main: #13314C;
+  --color-text-light: #5F718A;
+  --color-border: #E7E2D6;
+
+  /* Semantic */
+  --color-success: #79B927;
+  --color-danger: #E4572E;
+  --color-star: #F6C22E;
+
+  /* Cod de culoare pe verticale */
+  --color-after: #1E73BE;
+  --color-activ: #79B927;
+  --color-gradi: #F5901E;
+  --color-medit: #5B57D8;
+  --color-colab: #12A296;
+  --color-cater: #E6A417;
+
+  /* Fonturi (variabilele vin din next/font in layout.tsx) */
+  --font-sans: var(--font-nunito), 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-baloo), ui-rounded, 'Segoe UI', system-ui, sans-serif;
+}
+
+:root {
+  /* Radius */
+  --r-lg: 22px;
+  --r-md: 16px;
+  --r-sm: 11px;
+  /* Umbre calde, biasate spre ink */
+  --shadow-sm: 0 1px 2px rgba(19,49,76,.06), 0 4px 14px rgba(19,49,76,.05);
+  --shadow-md: 0 6px 16px rgba(19,49,76,.10), 0 18px 44px rgba(19,49,76,.10);
+  --shadow-brand: 0 10px 28px rgba(30,115,190,.30);
+  /* Gradient + voal pentru hero (cover estompat) */
+  --hero-grad: linear-gradient(135deg, #e9f2fb 0%, #eef6e6 52%, #fff6e4 100%);
+  --hero-veil: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.10));
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   background: var(--color-bg);
   color: var(--color-text-main);
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 /* Safe areas pentru iPhone cu notch / Dynamic Island */
@@ -32,6 +74,6 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #c9d3dd;
   border-radius: 3px;
 }

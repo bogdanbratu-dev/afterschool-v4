@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 interface Props {
-  listingType: 'afterschool' | 'club';
+  listingType: 'afterschool' | 'club' | 'caterer' | 'professional' | 'kindergarten';
   listingId: number;
   listingName: string;
 }

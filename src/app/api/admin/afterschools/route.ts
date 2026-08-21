@@ -9,7 +9,7 @@ export async function GET() {
   }
   seedDatabase();
   const db = getDb();
-  const afterschools = db.prepare('SELECT * FROM afterschools ORDER BY name').all();
+  const afterschools = db.prepare('SELECT * FROM afterschools ORDER BY is_premium DESC, name').all();
   return NextResponse.json(afterschools);
 }
 
@@ -34,4 +34,19 @@ export async function POST(request: Request) {
   );
 
   return NextResponse.json({ id: result.lastInsertRowid, ...body });
+}
+
+export async function PATCH(request: Request) {
+  if (!(await isAuthenticated())) {
+    return NextResponse.json({ error: 'Neautorizat' }, { status: 401 });
+  }
+  const { ids, contacts_hidden } = await request.json();
+  if (!Array.isArray(ids) || ids.length === 0) {
+    return NextResponse.json({ error: 'ids lipsa' }, { status: 400 });
+  }
+  const db = getDb();
+  const stmt = db.prepare('UPDATE afterschools SET contacts_hidden = ? WHERE id = ?');
+  const value = contacts_hidden ? 1 : 0;
+  ids.forEach((i: number) => stmt.run(value, i));
+  return NextResponse.json({ ok: true });
 }

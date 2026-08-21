@@ -1,0 +1,1046 @@
+[
+  {
+    "id": 3,
+    "name": "COLEGIUL NATIONAL DE MUZICA \"GEORGE ENESCU\"",
+    "news_url": "https://www.colegiulnationaldemuzicageorgeenescu.ro",
+    "confidence": "high"
+  },
+  {
+    "id": 5,
+    "name": "LICEUL GRECO-CATOLIC \"TIMOTEI CIPARIU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 8,
+    "name": "LICEUL TEORETIC \"ALEXANDRU VLAHUTA\"",
+    "news_url": "https://lavlahuta.ro/cp/",
+    "confidence": "low"
+  },
+  {
+    "id": 11,
+    "name": "LICEUL TEORETIC \"JEAN MONNET\"",
+    "news_url": "https://jmonnet.ro/blog-noutati-publicatii/",
+    "confidence": "high"
+  },
+  {
+    "id": 15,
+    "name": "LICEUL TEORETIC \"NICOLAE IORGA\"",
+    "news_url": "https://ltni.ro/category/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 17,
+    "name": "LICEUL TEORETIC BILINGV \"MIGUEL DE CERVANTES\"",
+    "news_url": "https://www.liceulcervantes.ro/category/stiri/",
+    "confidence": "high"
+  },
+  {
+    "id": 18,
+    "name": "LICEUL TEORETIC BULGAR \"HRISTO BOTEV\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 23,
+    "name": "SCOALA GIMNAZIALA \"ALEXANDRU COSTESCU\"\"",
+    "news_url": "https://scoala182.ro/site/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 26,
+    "name": "SCOALA GIMNAZIALA \"ELENA VACARESCU\"",
+    "news_url": "https://www.scoalaelenavacarescu.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 28,
+    "name": "SCOALA GIMNAZIALA \"EUGEN BARBU\"",
+    "news_url": "https://www.eugenbarbu.ro/category/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 32,
+    "name": "SCOALA GIMNAZIALA \"GEO BOGZA\"",
+    "news_url": "https://www.scoala170.ro",
+    "confidence": "high"
+  },
+  {
+    "id": 37,
+    "name": "SCOALA GIMNAZIALA \"HERASTRAU\"",
+    "news_url": "https://www.scoala12bucuresti.ro",
+    "confidence": "high"
+  },
+  {
+    "id": 41,
+    "name": "SCOALA GIMNAZIALA \"ION HELIADE RADULESCU\"",
+    "news_url": "https://scoalaihradulescu.ro/despre-noi/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 49,
+    "name": "SCOALA GIMNAZIALA \"NICOLAE TITULESCU\"",
+    "news_url": "https://scoalantitulescu.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 51,
+    "name": "SCOALA GIMNAZIALA \"PETRE ISPIRESCU\"",
+    "news_url": "https://www.scoala171pi.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 52,
+    "name": "SCOALA GIMNAZIALA \"PIA BRATIANU\"",
+    "news_url": "https://scoala17pb.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 57,
+    "name": "SCOALA GIMNAZIALA \"SF.NICOLAE\"",
+    "news_url": "https://scoalasfantulnicolae.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 61,
+    "name": "SCOALA GIMNAZIALA \"SFINTII VOIEVOZI\"",
+    "news_url": "https://scoala1-sfintiivoievozi.ro/site/",
+    "confidence": "high"
+  },
+  {
+    "id": 62,
+    "name": "SCOALA GIMNAZIALA \"TITU MAIORESCU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 64,
+    "name": "SCOALA GIMNAZIALA \"URUGUAY\"",
+    "news_url": "https://scoala152.ro/category/info/",
+    "confidence": "high"
+  },
+  {
+    "id": 65,
+    "name": "SCOALA GIMNAZIALA \"VASILE ALECSANDRI\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 85,
+    "name": "SCOALA GIMNAZIALA NR. 13",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 94,
+    "name": "SCOALA GIMNAZIALA NR. 162",
+    "news_url": "https://scoala162.ro/noutati-2/",
+    "confidence": "high"
+  },
+  {
+    "id": 100,
+    "name": "SCOALA GIMNAZIALA NR. 178",
+    "news_url": "https://scoalanr178.ro/?page_id=676",
+    "confidence": "high"
+  },
+  {
+    "id": 101,
+    "name": "SCOALA GIMNAZIALA NR. 179",
+    "news_url": "https://www.scoala179.ro/anunțuri",
+    "confidence": "high"
+  },
+  {
+    "id": 102,
+    "name": "SCOALA GIMNAZIALA NR. 181",
+    "news_url": "https://www.scoala181.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 103,
+    "name": "SCOALA GIMNAZIALA NR. 183",
+    "news_url": "https://www.scoala183.ro/informatii.html#noutati",
+    "confidence": "high"
+  },
+  {
+    "id": 104,
+    "name": "SCOALA GIMNAZIALA NR. 184 (STRUCTURA ARONDATA LA SCOALA GIMNAZIALA NR. 181)",
+    "news_url": "https://scoala184.ro/site/category/arhiva/",
+    "confidence": "low"
+  },
+  {
+    "id": 107,
+    "name": "SCOALA GIMNAZIALA NR. 192",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 129,
+    "name": "SCOALA GIMNAZIALA NR. 5",
+    "news_url": "https://scoala5bucuresti.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 133,
+    "name": "SCOALA GIMNAZIALA NR. 6",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 136,
+    "name": "SCOALA GIMNAZIALA NR. 7",
+    "news_url": "https://scoala7.ro/anunturi-si-postari-2/",
+    "confidence": "high"
+  },
+  {
+    "id": 1,
+    "name": "COLEGIUL NATIONAL \"EMIL RACOVITA\"",
+    "news_url": "https://www.colegiulracovita.ro",
+    "confidence": "high"
+  },
+  {
+    "id": 4,
+    "name": "COLEGIUL NATIONAL „SCOALA CENTRALA”",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 6,
+    "name": "LICEUL TEHNOLOGIC \"CONSTANTIN BRANCUSI\"",
+    "news_url": "https://www.c-brancusi.ro/ultimele-articole/",
+    "confidence": "high"
+  },
+  {
+    "id": 12,
+    "name": "LICEUL TEORETIC \"LUCIAN BLAGA\"",
+    "news_url": "https://www.ltlb.ro",
+    "confidence": "high"
+  },
+  {
+    "id": 30,
+    "name": "SCOALA GIMNAZIALA \"FERDINAND I\"",
+    "news_url": "https://www.scoalaferdinand.com/index.php/avizier/noutati/anunturi",
+    "confidence": "high"
+  },
+  {
+    "id": 36,
+    "name": "SCOALA GIMNAZIALA \"GRIGORIE GHICA VOIEVOD\"",
+    "news_url": "https://grigorieghicavoievod.ro",
+    "confidence": "low"
+  },
+  {
+    "id": 38,
+    "name": "SCOALA GIMNAZIALA \"IANCULUI\"",
+    "news_url": "https://scoalaiancului.ro/category/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 44,
+    "name": "SCOALA GIMNAZIALA \"MAICA DOMNULUI\"",
+    "news_url": "https://scoalagimnazialamaicadomnului.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 46,
+    "name": "SCOALA GIMNAZIALA \"MARIA ROSETTI\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 50,
+    "name": "SCOALA GIMNAZIALA \"PETRE GHELMEZ\"",
+    "news_url": "https://scoalapetreghelmez.ro/category/new/",
+    "confidence": "high"
+  },
+  {
+    "id": 56,
+    "name": "SCOALA GIMNAZIALA \"SF. SILVESTRU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 63,
+    "name": "SCOALA GIMNAZIALA \"TUDOR ARGHEZI\"",
+    "news_url": "https://scoala19tudorarghezi.ro/?page_id=203",
+    "confidence": "high"
+  },
+  {
+    "id": 89,
+    "name": "SCOALA GIMNAZIALA NR. 145",
+    "news_url": "https://scoala145.ro/category/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 112,
+    "name": "SCOALA GIMNAZIALA NR. 24",
+    "news_url": "https://www.scoala24.eduteca.ro",
+    "confidence": "high"
+  },
+  {
+    "id": 113,
+    "name": "SCOALA GIMNAZIALA NR. 25",
+    "news_url": "https://scoalanr25.ro/category/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 114,
+    "name": "SCOALA GIMNAZIALA NR. 27",
+    "news_url": "https://scoala27bucuresti.blogspot.com/",
+    "confidence": "high"
+  },
+  {
+    "id": 116,
+    "name": "SCOALA GIMNAZIALA NR. 28",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 117,
+    "name": "SCOALA GIMNAZIALA NR. 307",
+    "news_url": "https://www.scoala307.ro",
+    "confidence": "high"
+  },
+  {
+    "id": 120,
+    "name": "SCOALA GIMNAZIALA NR. 31",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 122,
+    "name": "SCOALA GIMNAZIALA NR. 32",
+    "news_url": "https://scoala32buc.wordpress.com/",
+    "confidence": "high"
+  },
+  {
+    "id": 123,
+    "name": "SCOALA GIMNAZIALA NR. 39",
+    "news_url": "https://scoala39.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 124,
+    "name": "SCOALA GIMNAZIALA NR. 4",
+    "news_url": "https://scoala4buc.ro/category/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 125,
+    "name": "SCOALA GIMNAZIALA NR. 40",
+    "news_url": "https://scoala40.ro/anunturi-stiri/",
+    "confidence": "high"
+  },
+  {
+    "id": 126,
+    "name": "SCOALA GIMNAZIALA NR. 41",
+    "news_url": "https://scoala41.ro/noutati-anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 127,
+    "name": "SCOALA GIMNAZIALA NR. 46",
+    "news_url": "https://scoala46.ro/category/stiri/",
+    "confidence": "high"
+  },
+  {
+    "id": 128,
+    "name": "SCOALA GIMNAZIALA NR. 49",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 130,
+    "name": "SCOALA GIMNAZIALA NR. 51",
+    "news_url": "https://scoala51.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 131,
+    "name": "SCOALA GIMNAZIALA NR. 56",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 134,
+    "name": "SCOALA GIMNAZIALA NR. 62",
+    "news_url": "https://scoala62.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 135,
+    "name": "SCOALA GIMNAZIALA NR. 66",
+    "news_url": "https://scoala66.ro/category/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 137,
+    "name": "SCOALA GIMNAZIALA NR. 77",
+    "news_url": "http://anunturiimportantescoala77.blogspot.com",
+    "confidence": "high"
+  },
+  {
+    "id": 140,
+    "name": "SCOALA GIMNAZIALA NR. 85 - STRUCTURĂ LA ȘCOALA GIMNAZIALĂ NR. 77",
+    "news_url": "https://scoala85.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 14,
+    "name": "LICEUL TEORETIC \"NICHITA STANESCU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 19,
+    "name": "LICEUL TEORETIC DECEBAL",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 29,
+    "name": "SCOALA GIMNAZIALA \"FEDERICO GARCIA LORCA\"",
+    "news_url": "https://scoala196.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 66,
+    "name": "SCOALA GIMNAZIALA ALEXANDRU IOAN CUZA",
+    "news_url": "https://scoalacuza.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 67,
+    "name": "SCOALA GIMNAZIALA BARBU DELAVRANCEA (STRUCTURA ARONDATA LA SCOALA GIMNAZIALA NR. 95)",
+    "news_url": "https://scoala73.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 68,
+    "name": "SCOALA GIMNAZIALA CEZAR BOLLIAC",
+    "news_url": "https://scoalacezarbolliac.invatamantsector3.ro/noutati-2/",
+    "confidence": "high"
+  },
+  {
+    "id": 70,
+    "name": "SCOALA GIMNAZIALA LEONARDO DA VINCI",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 71,
+    "name": "SCOALA GIMNAZIALA LIVIU REBREANU",
+    "news_url": "https://scoalaliviurebreanu.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 72,
+    "name": "SCOALA GIMNAZIALA MIHAI BOTEZ",
+    "news_url": "https://scoalamihaibotez.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 73,
+    "name": "SCOALA GIMNAZIALA NICOLAE LABIS",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 90,
+    "name": "SCOALA GIMNAZIALA NR. 149",
+    "news_url": "https://scoala149.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 111,
+    "name": "SCOALA GIMNAZIALA NR. 22",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 139,
+    "name": "SCOALA GIMNAZIALA NR. 81",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 141,
+    "name": "SCOALA GIMNAZIALA NR. 95",
+    "news_url": "https://scoala95.ro/category/news/",
+    "confidence": "high"
+  },
+  {
+    "id": 145,
+    "name": "SCOALA GIMNAZIALA NR.112",
+    "news_url": "https://scoala112.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 146,
+    "name": "SCOALA GIMNAZIALA NR.116",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 154,
+    "name": "SCOALA GIMNAZIALA NR.195",
+    "news_url": "https://scoala195.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 155,
+    "name": "SCOALA GIMNAZIALA NR.20",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 156,
+    "name": "SCOALA GIMNAZIALA NR.200 - STRUCTURĂ ADONDATĂ LA ȘCOALA GIMNAZIALĂ NR. 112",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 158,
+    "name": "SCOALA GIMNAZIALA NR.47 - STRUCTURĂ ARONDATĂ LA ȘCOALA GIMNAZIALĂ NR. 78",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 159,
+    "name": "SCOALA GIMNAZIALA NR.54",
+    "news_url": "https://scoala54.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 160,
+    "name": "SCOALA GIMNAZIALA NR.55",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 161,
+    "name": "SCOALA GIMNAZIALA NR.67",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 162,
+    "name": "SCOALA GIMNAZIALA NR.78",
+    "news_url": "https://scoala78.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 163,
+    "name": "SCOALA GIMNAZIALA NR.80",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 164,
+    "name": "SCOALA GIMNAZIALA NR.82",
+    "news_url": "https://scoala82.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 165,
+    "name": "SCOALA GIMNAZIALA NR.84",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 166,
+    "name": "SCOALA GIMNAZIALA NR.86",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 167,
+    "name": "SCOALA GIMNAZIALA NR.88",
+    "news_url": "https://scoala88.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 168,
+    "name": "SCOALA GIMNAZIALA NR.92",
+    "news_url": "https://scoala92.invatamantsector3.ro/category/evenimente/",
+    "confidence": "high"
+  },
+  {
+    "id": 2,
+    "name": "COLEGIUL NATIONAL \"MIHAI EMINESCU\"",
+    "news_url": "https://www.eminescubucuresti.ro/category/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 24,
+    "name": "SCOALA GIMNAZIALA \"AVRAM IANCU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 27,
+    "name": "SCOALA GIMNAZIALA \"EMIL RACOVITA\"",
+    "news_url": "https://scoalaemilracovita.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 31,
+    "name": "SCOALA GIMNAZIALA \"GENERAL EREMIA GRIGORESCU\"",
+    "news_url": "https://scoalaeremiagrigorescu.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 33,
+    "name": "SCOALA GIMNAZIALA \"GEORGE BACOVIA\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 35,
+    "name": "SCOALA GIMNAZIALA \"GEORGE TOPARCEANU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 39,
+    "name": "SCOALA GIMNAZIALA \"IENACHITA VACARESCU\" -STRUCTURĂ LA ȘCOALA GIMNAZIALĂ ”MĂRȚIȘOR”",
+    "news_url": "https://scoalaienachitavacarescu.ro/category/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 42,
+    "name": "SCOALA GIMNAZIALA \"IONEL TEODOREANU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 47,
+    "name": "SCOALA GIMNAZIALA \"MARTISOR\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 55,
+    "name": "SCOALA GIMNAZIALA \"SERBAN-VODA\"",
+    "news_url": "https://www.serban-voda.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 77,
+    "name": "SCOALA GIMNAZIALA NR. 108",
+    "news_url": "https://www.scoala108.ro/",
+    "confidence": "high"
+  },
+  {
+    "id": 78,
+    "name": "SCOALA GIMNAZIALA NR. 113",
+    "news_url": "https://www.scoala113.ro/evenimente",
+    "confidence": "high"
+  },
+  {
+    "id": 80,
+    "name": "SCOALA GIMNAZIALA NR. 119",
+    "news_url": "https://scoalagimnaziala119.ro/?page_id=210",
+    "confidence": "high"
+  },
+  {
+    "id": 84,
+    "name": "SCOALA GIMNAZIALA NR. 129",
+    "news_url": "https://scoala129.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 86,
+    "name": "SCOALA GIMNAZIALA NR. 133",
+    "news_url": "https://www.scoalagimnaziala133.ro/index.php/anunturi",
+    "confidence": "high"
+  },
+  {
+    "id": 96,
+    "name": "SCOALA GIMNAZIALA NR. 165",
+    "news_url": "https://scoala165.ro/avizier/",
+    "confidence": "high"
+  },
+  {
+    "id": 105,
+    "name": "SCOALA GIMNAZIALA NR. 189",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 106,
+    "name": "SCOALA GIMNAZIALA NR. 190",
+    "news_url": "https://scoala190.ro/",
+    "confidence": "high"
+  },
+  {
+    "id": 108,
+    "name": "SCOALA GIMNAZIALA NR. 194",
+    "news_url": "https://www.scoala194.ro/blog/index.php",
+    "confidence": "high"
+  },
+  {
+    "id": 118,
+    "name": "SCOALA GIMNAZIALA NR. 308",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 138,
+    "name": "SCOALA GIMNAZIALA NR. 79",
+    "news_url": "https://scoala79.ro/category/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 142,
+    "name": "SCOALA GIMNAZIALA NR. 96",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 143,
+    "name": "SCOALA GIMNAZIALA NR. 97",
+    "news_url": "http://www.scoala97.ro/?page=noutati",
+    "confidence": "high"
+  },
+  {
+    "id": 144,
+    "name": "SCOALA GIMNAZIALA NR. 99",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 9,
+    "name": "LICEUL TEORETIC \"DIMITRIE BOLINTINEANU\"",
+    "news_url": "https://www.bolintineanu.ro",
+    "confidence": "high"
+  },
+  {
+    "id": 16,
+    "name": "LICEUL TEORETIC \"STEFAN ODOBLEJA\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 20,
+    "name": "LICEUL TEORETIC ION BARBU",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 21,
+    "name": "SCOALA GIMNAZIALA \" I. G. DUCA\"",
+    "news_url": "https://scoalaigduca.ro/blog/",
+    "confidence": "high"
+  },
+  {
+    "id": 34,
+    "name": "SCOALA GIMNAZIALA \"GEORGE CALINESCU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 43,
+    "name": "SCOALA GIMNAZIALA \"LUCEAFARUL\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 45,
+    "name": "SCOALA GIMNAZIALA \"MARIA LAZAR\" (FOSTA SCOALA GIMNAZIALA NR. 115 )",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 48,
+    "name": "SCOALA GIMNAZIALA \"MIRCEA SANTIMBREANU\"",
+    "news_url": "https://scoala-msantimbreanu.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 53,
+    "name": "SCOALA GIMNAZIALA \"PRINCIPESA MARGARETA\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 69,
+    "name": "SCOALA GIMNAZIALA ION I.C. BRATIANU",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 74,
+    "name": "SCOALA GIMNAZIALA NR 136",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 75,
+    "name": "SCOALA GIMNAZIALA NR 2",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 76,
+    "name": "SCOALA GIMNAZIALA NR. 103 (STRUCTURA ARONDATA LA SCOALA GIMNAZIALA GRIGORE TOCILESCU)",
+    "news_url": "https://scoala103.ro/anunturi/",
+    "confidence": "low"
+  },
+  {
+    "id": 81,
+    "name": "SCOALA GIMNAZIALA NR. 124",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 82,
+    "name": "SCOALA GIMNAZIALA NR. 125",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 83,
+    "name": "SCOALA GIMNAZIALA NR. 128",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 88,
+    "name": "SCOALA GIMNAZIALA NR. 143",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 147,
+    "name": "SCOALA GIMNAZIALA NR.126",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 148,
+    "name": "SCOALA GIMNAZIALA NR.127",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 149,
+    "name": "SCOALA GIMNAZIALA NR.131",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 150,
+    "name": "SCOALA GIMNAZIALA NR.134 (STRUCTURA ARONDATA LA SCOALA GIMNAZIALA NR. 136)",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 151,
+    "name": "SCOALA GIMNAZIALA NR.144",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 152,
+    "name": "SCOALA GIMNAZIALA NR.150",
+    "news_url": "https://www.scoala150.ro/new/anunturi/",
+    "confidence": "low"
+  },
+  {
+    "id": 153,
+    "name": "SCOALA GIMNAZIALA NR.188",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 157,
+    "name": "SCOALA GIMNAZIALA NR.280",
+    "news_url": "https://scoalanr280.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 170,
+    "name": "SCOALA GIMNAZIALA PETRACHE POENARU (STRUCTURA ARONDATA LA SCOALA GIMNAZIALA NR. 125)",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 172,
+    "name": "SCOALA GIMNAZIALA STEFAN CEL MARE",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 174,
+    "name": "SCOALA GIMNAZIALA\" GRIGORE TOCILESCU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 7,
+    "name": "LICEUL TEHNOLOGIC \"SF. ANTIM IVIREANU\"",
+    "news_url": "https://liceulantimivireanu.ro/proiecte-si-programe/",
+    "confidence": "high"
+  },
+  {
+    "id": 10,
+    "name": "LICEUL TEORETIC \"EUGEN LOVINESCU\"",
+    "news_url": "https://lovinescu.ro/stiri/",
+    "confidence": "high"
+  },
+  {
+    "id": 13,
+    "name": "LICEUL TEORETIC \"MARIN PREDA\"",
+    "news_url": "https://www.marinpreda.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 22,
+    "name": "SCOALA GIMNAZIALA \"ADRIAN PAUNESCU\"",
+    "news_url": "https://scoalaadrianpaunescu.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 25,
+    "name": "SCOALA GIMNAZIALA \"CONSTANTIN BRANCUSI\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 40,
+    "name": "SCOALA GIMNAZIALA \"ION DUMITRIU\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 54,
+    "name": "SCOALA GIMNAZIALA \"REGELE MIHAI I\"",
+    "news_url": "https://scoalaregelemihai1.ro/anunturi/",
+    "confidence": "low"
+  },
+  {
+    "id": 58,
+    "name": "SCOALA GIMNAZIALA \"SFANTA TREIME\"",
+    "news_url": "https://www.scoala160.ro/anunturi/",
+    "confidence": "high"
+  },
+  {
+    "id": 59,
+    "name": "SCOALA GIMNAZIALA \"SFANTUL ANDREI\"",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 60,
+    "name": "SCOALA GIMNAZIALA \"SFINTII CONSTANTIN SI ELENA\"",
+    "news_url": "https://scoalagimnaziala176.ro/category/informatii/",
+    "confidence": "high"
+  },
+  {
+    "id": 79,
+    "name": "SCOALA GIMNAZIALA NR. 117",
+    "news_url": "https://www.scoalagimnaziala117.ro/index.php/anunturi",
+    "confidence": "high"
+  },
+  {
+    "id": 87,
+    "name": "SCOALA GIMNAZIALA NR. 142",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 91,
+    "name": "SCOALA GIMNAZIALA NR. 153 (STRUCTURA ARONDATA LA SCOALA GIMNAZIALA NR. 161)",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 92,
+    "name": "SCOALA GIMNAZIALA NR. 156",
+    "news_url": "https://scoala156.ro/category/comunicare/",
+    "confidence": "high"
+  },
+  {
+    "id": 93,
+    "name": "SCOALA GIMNAZIALA NR. 161",
+    "news_url": "https://www.scoala161.ro/noutati/",
+    "confidence": "high"
+  },
+  {
+    "id": 95,
+    "name": "SCOALA GIMNAZIALA NR. 163",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 97,
+    "name": "SCOALA GIMNAZIALA NR. 167",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 98,
+    "name": "SCOALA GIMNAZIALA NR. 168",
+    "news_url": "https://www.scoala168.ro/anunturi-2026",
+    "confidence": "low"
+  },
+  {
+    "id": 99,
+    "name": "SCOALA GIMNAZIALA NR. 169",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 109,
+    "name": "SCOALA GIMNAZIALA NR. 197",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 110,
+    "name": "SCOALA GIMNAZIALA NR. 206",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 115,
+    "name": "SCOALA GIMNAZIALA NR. 279",
+    "news_url": "https://www.scoala279bucuresti.ro/noutati",
+    "confidence": "high"
+  },
+  {
+    "id": 119,
+    "name": "SCOALA GIMNAZIALA NR. 309",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 121,
+    "name": "SCOALA GIMNAZIALA NR. 311",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 132,
+    "name": "SCOALA GIMNAZIALA NR. 59",
+    "news_url": "https://www.scoala59.ro/home/",
+    "confidence": "high"
+  },
+  {
+    "id": 169,
+    "name": "SCOALA GIMNAZIALA ORIZONT",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 171,
+    "name": "SCOALA GIMNAZIALA REGINA MARIA",
+    "news_url": null,
+    "confidence": "low"
+  },
+  {
+    "id": 173,
+    "name": "SCOALA GIMNAZIALA \"SFANTUL CALINIC DE LA CERNICA\"",
+    "news_url": null,
+    "confidence": "low"
+  }
+]

@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { seedDatabase } from '@/lib/seed';
-import { calculateDistance } from '@/lib/distance';
+import { calculateDistance, PREMIUM_BOOST_RADIUS_KM } from '@/lib/distance';
+import { readSpotlightConfig, applyPremiumSpotlight } from '@/lib/premiumRanking';
+import { isContactVisible } from '@/lib/contactVisibility';
 import type { AfterSchool } from '@/lib/db';
 
 export async function GET(request: Request) {
@@ -20,7 +22,7 @@ export async function GET(request: Request) {
 
   const name = searchParams.get('name');
 
-  let query = 'SELECT * FROM afterschools WHERE 1=1';
+  let query = 'SELECT * FROM afterschools WHERE is_paused = 0';
   const params: (string | number)[] = [];
 
   if (name) {
@@ -68,18 +70,20 @@ export async function GET(request: Request) {
       ...as,
       distance: calculateDistance(lat, lng, as.lat, as.lng),
     }));
-    afterschools.sort((a, b) => (b.is_premium - a.is_premium) || (a.distance || 0) - (b.distance || 0));
   }
+
+  // Premium spotlight cu rotatie (inlocuieste floatarea premium-first)
+  afterschools = applyPremiumSpotlight(afterschools, readSpotlightConfig(db), {
+    tieBreak: (lat && lng) ? (a, b) => ((a.distance ?? 1e9) - (b.distance ?? 1e9)) : undefined,
+    spotlightEligible: (lat && lng) ? (x) => (x.distance ?? Infinity) <= PREMIUM_BOOST_RADIUS_KM : undefined,
+  });
 
   // Mascheaza contactele pentru listari non-premium cand business_mode e activ
   const businessMode = (db.prepare("SELECT value FROM settings WHERE key = 'business_mode'").get() as { value: string } | undefined)?.value === 'true';
   if (businessMode) {
-    afterschools = afterschools.map(as => (as.is_premium || !as.contacts_hidden) ? as : {
-      ...as,
-      phone: null,
-      email: null,
-      website: null,
-    });
+    afterschools = afterschools.map(as => isContactVisible(as)
+      ? { ...as, contacts_masked: false }
+      : { ...as, phone: null, email: null, contacts_masked: true, has_phone: !!as.phone, has_email: !!as.email });
   }
 
   return NextResponse.json(afterschools);

@@ -44,3 +44,14 @@ next-env.d.ts
 data/afterschool.db
 data/afterschool.db-shm
 data/afterschool.db-wal
+
+# server-only artifacts (never commit)
+credentials.json
+.backups/
+*.log
+*.bak
+*.bak-*
+
+# db backups (large binary dumps, not source)
+data/backups/
+data/*_pre-import_*.db
