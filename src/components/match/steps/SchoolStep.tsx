@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { logSearch } from '@/lib/logSearch';
 import type { StepProps } from '../types';
 
 interface Result {
@@ -34,7 +35,12 @@ export default function SchoolStep({ draft, update }: StepProps) {
       const param = numQuery ? `number=${encodeURIComponent(numQuery)}` : `name=${encodeURIComponent(trimmed)}`;
       fetch(`/api/circumscriptii?${param}`)
         .then((r) => r.json())
-        .then((d) => { setResults((d.results || []).filter((r: Result) => r.lat && r.lng)); setLoading(false); })
+        .then((d) => {
+          const filtered = (d.results || []).filter((r: Result) => r.lat && r.lng);
+          setResults(filtered);
+          setLoading(false);
+          if (filtered.length === 0) logSearch({ query: trimmed, source: 'potrivire_school', resolved: false });
+        })
         .catch(() => setLoading(false));
     }, 250);
     return () => clearTimeout(timer);
@@ -46,6 +52,7 @@ export default function SchoolStep({ draft, update }: StepProps) {
     setQuery(r.school_name);
     setResults([]);
     update({ lat: r.lat, lng: r.lng, schoolName: r.school_name, locationLabel: r.school_name });
+    logSearch({ query: r.school_name, source: 'potrivire_school', lat: r.lat, lng: r.lng, resolved: true });
   }
 
   return (

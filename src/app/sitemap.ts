@@ -37,6 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/meditatii`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/terapii`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/promovare`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/potrivire`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/circumscriptii`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     ...sectors.map(s => ({ url: `${BASE_URL}/circumscriptii/sector/${s}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 })),
     ...circSchools.map(s => ({ url: `${BASE_URL}/circumscriptii/${toSlug(s.name, s.id)}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 })),

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import MatchWizard from '@/components/match/MatchWizard';
+import { logSearch } from '@/lib/logSearch';
 import MatchResultCard from '@/components/match/MatchResultCard';
 import NearMissSection from '@/components/match/NearMissSection';
 import type { MatchDraft } from '@/components/match/types';
@@ -67,6 +68,13 @@ export default function PotrivirePage() {
       });
       if (!res.ok) throw new Error('request failed');
       const data: MatchResponse = await res.json();
+      logSearch({
+        query: `${listingType === 'kindergarten' ? 'Grădiniță' : 'Afterschool'} – ${draft.schoolName || draft.locationLabel || 'zonă nespecificată'}`,
+        source: 'potrivire',
+        lat: draft.lat ?? null,
+        lng: draft.lng ?? null,
+        resolved: data.matches.length > 0,
+      });
       setState({ phase: 'results', listingType, data, matchContext: answers });
     } catch {
       setState({ phase: 'error' });
@@ -74,7 +82,21 @@ export default function PotrivirePage() {
   }
 
   if (state.phase === 'wizard') {
-    return <MatchWizard onComplete={handleComplete} />;
+    return (
+      <>
+        <div className="hidden md:block max-w-xl mx-auto px-6 pt-8">
+          <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[var(--color-text-main)] mb-2">
+            Potrivire Afterschool &amp; Grădiniță în București
+          </h1>
+          <p className="text-sm text-[var(--color-text-light)]">
+            Răspunde la 6 întrebări despre școala sau adresa copilului, vârstă, buget și program. Primești gratuit un
+            top personalizat cu afterschool-urile sau grădinițele potrivite din București, fiecare cu scorul de
+            potrivire explicat pe criterii: distanță, preț, program și activități.
+          </p>
+        </div>
+        <MatchWizard onComplete={handleComplete} />
+      </>
+    );
   }
 
   if (state.phase === 'loading') {
