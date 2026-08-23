@@ -55,6 +55,7 @@ function draftToAnswers(draft: MatchDraft) {
 
 export default function PotrivirePage() {
   const [state, setState] = useState<ViewState>({ phase: 'wizard' });
+  const [started, setStarted] = useState(false);
 
   async function handleComplete(draft: MatchDraft) {
     const listingType = draft.listingType as MatchListingType;
@@ -82,21 +83,59 @@ export default function PotrivirePage() {
   }
 
   if (state.phase === 'wizard') {
-    return (
-      <>
-        <div className="hidden md:block max-w-xl mx-auto px-6 pt-8">
-          <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[var(--color-text-main)] mb-2">
-            Potrivire Afterschool &amp; Grădiniță în București
-          </h1>
-          <p className="text-sm text-[var(--color-text-light)]">
-            Răspunde la 6 întrebări despre școala sau adresa copilului, vârstă, buget și program. Primești gratuit un
-            top personalizat cu afterschool-urile sau grădinițele potrivite din București, fiecare cu scorul de
-            potrivire explicat pe criterii: distanță, preț, program și activități.
+    if (!started) {
+      return (
+        <div className="max-w-xl mx-auto px-6 py-10 sm:py-14">
+          <div className="text-center mb-8">
+            <div className="text-5xl mb-3">🎯</div>
+            <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[var(--color-text-main)] mb-2">
+              Potrivire Afterschool &amp; Grădiniță în București
+            </h1>
+            <p className="text-sm sm:text-base text-[var(--color-text-light)] max-w-md mx-auto">
+              Răspunde la 6 întrebări despre școala sau adresa copilului, vârstă, buget și program. Primești gratuit
+              un top personalizat cu afterschool-urile sau grădinițele potrivite din București, fiecare cu scorul de
+              potrivire explicat pe criterii: distanță, preț, program și activități.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 mb-8">
+            {[
+              { n: 1, text: 'Răspunzi la 6 întrebări scurte' },
+              { n: 2, text: 'Primești un top personalizat, cu scor explicat' },
+              { n: 3, text: 'Alegi și contactezi direct' },
+            ].map((step) => (
+              <div key={step.n} className="text-center">
+                <div className="w-11 h-11 mx-auto mb-2 rounded-full bg-blue-50 text-[var(--color-primary)] flex items-center justify-center text-lg font-bold">
+                  {step.n}
+                </div>
+                <p className="text-xs sm:text-sm text-[var(--color-text-light)]">{step.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-center flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--color-text-light)] mb-6">
+            <span>✅ 100% gratuit</span>
+            <span>⏱️ ~2 minute</span>
+            <span>🔒 Fără obligații</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setStarted(true)}
+            className="w-full py-4 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-bold text-base rounded-xl shadow-sm transition-colors"
+          >
+            Începe chestionarul →
+          </button>
+
+          <p className="text-xs text-center text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 mt-6">
+            🏫 Ai un afterschool sau o grădiniță? <a href="/promovare" className="underline font-semibold">Actualizează profilul</a> — cu
+            cât e mai complet (activități, preț, vârstă, program), cu atât apare mai des în recomandările din
+            Potrivire.
           </p>
         </div>
-        <MatchWizard onComplete={handleComplete} />
-      </>
-    );
+      );
+    }
+    return <MatchWizard onComplete={handleComplete} />;
   }
 
   if (state.phase === 'loading') {
