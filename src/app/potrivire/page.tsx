@@ -113,10 +113,19 @@ export default function PotrivirePage() {
             ))}
           </div>
 
-          <div className="flex items-center justify-center flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--color-text-light)] mb-6">
-            <span>✅ 100% gratuit</span>
-            <span>⏱️ ~2 minute</span>
-            <span>🔒 Fără obligații</span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6">
+            {[
+              '🎯 100% personalizat',
+              '📊 Scor explicat pe criterii',
+              '🔓 Fără cont necesar',
+              '🤝 Fără presiune, alegi tu',
+              '⏱️ ~2 minute',
+              '🔒 Fără obligații',
+            ].map((badge) => (
+              <div key={badge} className="text-center text-xs text-[var(--color-text-light)] bg-blue-50 rounded-lg py-1.5 px-2">
+                {badge}
+              </div>
+            ))}
           </div>
 
           <button
