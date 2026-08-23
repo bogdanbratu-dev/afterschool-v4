@@ -10,12 +10,21 @@ const LISTING_TABLES: Record<string, string> = {
   kindergarten: 'kindergartens',
 };
 
+const MIN_FORM_FILL_MS = 2500;
+
 export async function POST(request: Request) {
   try {
-    const { listing_type, listing_id, listing_name, parent_name, parent_phone, message, source, match_context } = await request.json();
+    const { listing_type, listing_id, listing_name, parent_name, parent_phone, message, source, match_context, website, form_opened_at } = await request.json();
 
     if (!listing_type || !listing_id || !parent_name || !parent_phone) {
       return NextResponse.json({ error: 'Date incomplete' }, { status: 400 });
+    }
+
+    // Anti-bot: camp honeypot completat, sau formular trimis prea rapid ca sa fie un om
+    // care a citit si scris efectiv (vezi si plafonul anti-bot din zoneInsights.ts).
+    const filledTooFast = typeof form_opened_at === 'number' && Date.now() - form_opened_at < MIN_FORM_FILL_MS;
+    if (website || filledTooFast) {
+      return NextResponse.json({ ok: true });
     }
 
     const db = getDb();

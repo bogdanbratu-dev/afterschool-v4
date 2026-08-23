@@ -15,9 +15,16 @@ export default function LeadModal({ listingType, listingId, listingName, source,
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState('');
+  const [openedAt, setOpenedAt] = useState(0);
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
+
+  const handleOpen = () => {
+    setOpenedAt(Date.now());
+    setOpen(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +35,11 @@ export default function LeadModal({ listingType, listingId, listingName, source,
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listing_type: listingType, listing_id: listingId, listing_name: listingName, parent_name: name, parent_phone: phone, message, source, match_context: matchContext }),
+        body: JSON.stringify({
+          listing_type: listingType, listing_id: listingId, listing_name: listingName,
+          parent_name: name, parent_phone: phone, message, source, match_context: matchContext,
+          website, form_opened_at: openedAt,
+        }),
       });
       if (res.ok) { setSent(true); }
       else { setError('A apărut o eroare. Încearcă din nou.'); }
@@ -41,7 +52,7 @@ export default function LeadModal({ listingType, listingId, listingName, source,
   return (
     <>
       <button
-        onClick={() => setOpen(true)}
+        onClick={handleOpen}
         className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-lg transition-colors"
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -88,6 +99,18 @@ export default function LeadModal({ listingType, listingId, listingName, source,
                   Lasă datele tale și {listingName} te va contacta.
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="absolute -left-[9999px]" aria-hidden="true">
+                    <label htmlFor="lead-website">Website</label>
+                    <input
+                      id="lead-website"
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={website}
+                      onChange={e => setWebsite(e.target.value)}
+                    />
+                  </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Numele tău *</label>
                     <input

@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import LeadCard from './LeadCard';
 
 interface PendingListing {
   id: number;
@@ -309,10 +310,10 @@ export default function AdminListings() {
   };
 
   const selectAllLeads = () => {
-    if (selectedLeads.size === leads.length) {
+    if (selectedLeads.size === generalLeads.length) {
       setSelectedLeads(new Set());
     } else {
-      setSelectedLeads(new Set(leads.map(l => l.id)));
+      setSelectedLeads(new Set(generalLeads.map(l => l.id)));
     }
   };
 
@@ -368,7 +369,8 @@ export default function AdminListings() {
   const pending = listings.filter(l => l.status === 'pending');
   const pendingClaims = claims.filter(c => c.status === 'pending');
   const pendingPay = users.filter(u => u.premium_pending === 1 && u.is_premium === 0);
-  const newLeads = leads.filter(l => l.status === 'new');
+  const generalLeads = leads.filter(l => l.source !== 'match');
+  const newLeads = generalLeads.filter(l => l.status === 'new');
   const pendingEditsList = pendingEdits.filter(e => e.status === 'pending');
   const now = Date.now();
   const threeDays = 3 * 24 * 60 * 60 * 1000;
@@ -713,11 +715,11 @@ export default function AdminListings() {
       {/* Lead-uri */}
       <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-          <h2 className="text-lg font-bold">💬 Lead-uri – cereri de informații ({leads.length})</h2>
-          {leads.length > 0 && (
+          <h2 className="text-lg font-bold">💬 Lead-uri – cereri de informații ({generalLeads.length})</h2>
+          {generalLeads.length > 0 && (
             <label className="flex items-center gap-2 text-sm cursor-pointer text-[var(--color-text-light)]">
-              <input type="checkbox" checked={selectedLeads.size === leads.length && leads.length > 0} onChange={selectAllLeads} />
-              Selectează toate ({leads.length})
+              <input type="checkbox" checked={selectedLeads.size === generalLeads.length && generalLeads.length > 0} onChange={selectAllLeads} />
+              Selectează toate ({generalLeads.length})
             </label>
           )}
         </div>
@@ -735,63 +737,21 @@ export default function AdminListings() {
             </button>
           </div>
         )}
-        {leads.length === 0 ? (
+        {generalLeads.length === 0 ? (
           <p className="text-sm text-[var(--color-text-light)]">Niciun lead încă.</p>
         ) : (
           <div className="space-y-2">
-            {leads.map(lead => {
-              const waText = encodeURIComponent(`Bună ziua! Aveți o cerere nouă de informații prin ActivKids.ro.\n\nNume: ${lead.parent_name}\nTelefon: ${lead.parent_phone}${lead.message ? `\nMesaj: "${lead.message}"` : ''}\n\nVă rugăm să îi contactați.`);
-              const ownerPhone = lead.owner_phone?.replace(/\s/g, '').replace(/^0/, '40');
-              const listingUrl = lead.listing_type === 'afterschool' ? `/afterschool` : `/activitati`;
-              return (
-                <div key={lead.id} className={`border rounded-xl p-4 ${lead.status === 'new' ? 'border-purple-300 bg-purple-50' : 'border-[var(--color-border)]'} ${selectedLeads.has(lead.id) ? 'ring-2 ring-purple-400' : ''}`}>
-                  <div className="flex items-start gap-3">
-                    <input type="checkbox" checked={selectedLeads.has(lead.id)} onChange={() => toggleLeadSelect(lead.id)} className="mt-1 flex-shrink-0 cursor-pointer w-4 h-4" />
-                    <div className="flex-1 min-w-0">
-                      {/* Parinte */}
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        {lead.status === 'new' && <span className="text-xs bg-purple-600 text-white px-2 py-0.5 rounded-full font-bold">Nou</span>}
-                        {lead.status === 'forwarded' && <span className="text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full font-bold">Trimis</span>}
-                        <span className="font-semibold text-sm">{lead.parent_name}</span>
-                        <a href={`tel:${lead.parent_phone}`} className="text-sm text-[var(--color-primary)] font-medium">{lead.parent_phone}</a>
-                        <span className="text-xs text-[var(--color-text-light)]">{new Date(lead.created_at).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
-                      </div>
-                      {lead.message && <p className="text-xs italic text-[var(--color-text-light)] mb-2">"{lead.message}"</p>}
-                      {/* Listare */}
-                      <div className="flex items-center gap-2 flex-wrap text-xs mt-1 pt-2 border-t border-[var(--color-border)]">
-                        <span className="text-[var(--color-text-light)]">Pentru:</span>
-                        <a href={listingUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--color-primary)] hover:underline">{lead.listing_name}</a>
-                        <span className="text-[var(--color-text-light)]">({lead.listing_type})</span>
-                        {lead.owner_phone && <a href={`tel:${lead.owner_phone}`} className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">📞 {lead.owner_phone}</a>}
-                        {lead.owner_email && <a href={`mailto:${lead.owner_email}`} className="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">✉ {lead.owner_email}</a>}
-                      </div>
-                    </div>
-                    {/* Actiuni */}
-                    <div className="flex flex-col gap-1 flex-shrink-0">
-                      {lead.status === 'new' && (
-                        <button onClick={() => markLeadSeen(lead.id)} className="text-xs px-3 py-1.5 border border-purple-300 text-purple-700 rounded-lg hover:bg-purple-100">
-                          Marchează văzut
-                        </button>
-                      )}
-                      {ownerPhone && (
-                        <a href={`https://wa.me/${ownerPhone}?text=${waText}`} target="_blank" rel="noopener noreferrer"
-                          className="text-xs px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white rounded-lg text-center">
-                          WhatsApp owner
-                        </a>
-                      )}
-                      {lead.owner_email && (
-                        <button onClick={() => forwardLeadEmail(lead.id)} className="text-xs px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
-                          Email owner
-                        </button>
-                      )}
-                      <button onClick={() => deleteLead(lead.id)} className="text-xs px-3 py-1.5 border border-red-300 text-red-600 rounded-lg hover:bg-red-50">
-                        Șterge
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {generalLeads.map(lead => (
+              <LeadCard
+                key={lead.id}
+                lead={lead}
+                selected={selectedLeads.has(lead.id)}
+                onToggleSelect={toggleLeadSelect}
+                onMarkSeen={markLeadSeen}
+                onForwardEmail={forwardLeadEmail}
+                onDelete={deleteLead}
+              />
+            ))}
           </div>
         )}
       </div>
