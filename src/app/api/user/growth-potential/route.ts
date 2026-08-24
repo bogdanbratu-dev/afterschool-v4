@@ -34,7 +34,12 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     radiusKm,
-    competition: { count: report.competition.count, densityPerKm2: report.competition.densityPerKm2 },
+    competition: {
+      count: report.competition.count,
+      densityPerKm2: report.competition.densityPerKm2,
+      schoolsInRadius: report.competition.schoolsInRadius,
+      kindergartensInRadius: report.competition.kindergartensInRadius,
+    },
     budgetEstimate: report.budgetEstimate,
     pricing: getEffectiveGrowthPricing(db),
   });

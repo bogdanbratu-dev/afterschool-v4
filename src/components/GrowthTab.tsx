@@ -19,7 +19,7 @@ interface BudgetEstimate {
 
 interface PotentialResponse {
   radiusKm: number;
-  competition: { count: number; densityPerKm2: number };
+  competition: { count: number; densityPerKm2: number; schoolsInRadius: number; kindergartensInRadius: number };
   budgetEstimate: BudgetEstimate | null;
   pricing: { tiers: PricingTier[] };
 }
@@ -60,6 +60,7 @@ export default function GrowthTab() {
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
   const [customBudget, setCustomBudget] = useState('');
   const [estimate, setEstimate] = useState<BudgetEstimate | null>(null);
+  const [context, setContext] = useState<{ count: number; schoolsInRadius: number; kindergartensInRadius: number } | null>(null);
   const [notEligible, setNotEligible] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -102,6 +103,7 @@ export default function GrowthTab() {
         if (!ok) { setNotEligible(true); setLoading(false); return; }
         setNotEligible(false);
         setEstimate(data.budgetEstimate);
+        if (data.competition) setContext(data.competition);
         if (data.pricing?.tiers?.length) {
           setTiers(data.pricing.tiers);
           setSelectedTier((prev) => prev ?? data.pricing.tiers[0].key);
@@ -182,6 +184,11 @@ export default function GrowthTab() {
               className="w-full accent-[var(--color-primary)]"
               aria-label="Raza de promovare in kilometri"
             />
+            {context && (
+              <p className="text-[11px] text-[var(--color-text-light)] mt-1.5">
+                În raza de {radiusKm} km: {context.count} concurenți, {context.schoolsInRadius} școli, {context.kindergartensInRadius} grădinițe.
+              </p>
+            )}
           </div>
 
           <div>
@@ -234,6 +241,7 @@ export default function GrowthTab() {
                 </div>
               </div>
               <p className="text-[11px] text-[var(--color-text-light)] mt-2">Estimare orientativă, nu date live Meta.</p>
+              <p className="text-[11px] text-[var(--color-text-light)] mt-1">Bugetul stabilește câte vizite/contacte estimăm — nu bugetul crește cu raza. Raza stabilește cui ajunge reclama (vezi mai sus câți concurenți/școli/grădinițe sunt incluse).</p>
             </div>
           )}
 
