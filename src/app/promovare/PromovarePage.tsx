@@ -277,7 +277,7 @@ export default function PromovarePage({ afterschoolCount }: { afterschoolCount?:
         </div>
 
         <p className="text-xs text-center text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
-          🎯 Un profil complet (activități, preț, vârstă, program) crește șansele să apari în recomandările din <a href="/potrivire" className="underline font-semibold">Potrivire</a>, unde părinții primesc sugestii personalizate.
+          🎯 Un profil complet (activități, preț, vârstă, program) crește șansele să apari în recomandările din <a href="/potrivire" className="underline font-semibold">Alege potrivit</a>, unde părinții primesc sugestii personalizate.
         </p>
 
         <div ref={addListingRef} className="bg-[var(--color-card)] rounded-2xl overflow-hidden border-2 border-[var(--color-primary)] shadow-lg shadow-blue-500/10">

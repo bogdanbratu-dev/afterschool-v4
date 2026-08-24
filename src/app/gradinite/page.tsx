@@ -54,7 +54,7 @@ export default function KindergartensPage() {
             href="/potrivire"
             className="flex-shrink-0 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white text-sm sm:text-base font-bold rounded-xl shadow-sm transition-colors whitespace-nowrap"
           >
-            Găsește potrivirea perfectă →
+            Alege potrivit →
           </a>
         </div>
       </section>

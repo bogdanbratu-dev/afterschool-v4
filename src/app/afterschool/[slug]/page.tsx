@@ -172,7 +172,7 @@ export default async function AfterSchoolPage({ params }: Props) {
                   )}
                   <p className="mt-1 text-xs text-[var(--color-text-light)]">
                     Nu ești sigur că e alegerea potrivită?{' '}
-                    <a href="/potrivire" className="text-amber-600 font-semibold hover:underline">Încearcă Potrivirea 🎯</a>
+                    <a href="/potrivire" className="text-amber-600 font-semibold hover:underline">Alege potrivit 🎯</a>
                   </p>
                 </div>
               </div>

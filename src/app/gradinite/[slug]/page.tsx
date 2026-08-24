@@ -120,7 +120,7 @@ export default async function KindergartenPage({ params }: Props) {
                   )}
                   <p className="mt-1 text-xs text-[var(--color-text-light)]">
                     Nu ești sigur că e alegerea potrivită?{' '}
-                    <a href="/potrivire" className="text-amber-600 font-semibold hover:underline">Încearcă Potrivirea 🎯</a>
+                    <a href="/potrivire" className="text-amber-600 font-semibold hover:underline">Alege potrivit 🎯</a>
                   </p>
                 </div>
                 {k.is_premium === 1 && (<span className="flex-shrink-0 inline-flex items-center gap-1 bg-amber-400 text-white px-3 py-1 rounded-full text-sm font-bold">★ Premium</span>)}

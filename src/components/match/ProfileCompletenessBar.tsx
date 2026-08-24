@@ -29,13 +29,13 @@ export default function ProfileCompletenessBar({ listing }: { listing: Completen
     <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 space-y-2">
       <div className="flex items-center justify-between text-sm">
         <span className="font-semibold text-amber-900">Profil completat {pct}%</span>
-        <span className="text-amber-700">🎯 Potrivire</span>
+        <span className="text-amber-700">🎯 Alege potrivit</span>
       </div>
       <div className="w-full h-2 bg-amber-100 rounded-full overflow-hidden">
         <div className={`h-full ${color} rounded-full transition-all`} style={{ width: `${pct}%` }} />
       </div>
       <p className="text-xs text-amber-700">
-        Profilurile complete (activități, preț, vârstă, program, telefon) apar mai des și mai sus în recomandările din Potrivire.
+        Profilurile complete (activități, preț, vârstă, program, telefon) apar mai des și mai sus în recomandările din Alege potrivit.
       </p>
     </div>
   );

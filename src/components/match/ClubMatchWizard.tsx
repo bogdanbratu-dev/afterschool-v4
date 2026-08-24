@@ -4,49 +4,59 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { logMatchProgress } from '@/lib/logMatchProgress';
-import { EMPTY_DRAFT, type MatchDraft } from './types';
-import ListingTypeStep from './steps/ListingTypeStep';
-import SchoolStep from './steps/SchoolStep';
-import AddressStep from './steps/AddressStep';
-import AgeStep from './steps/AgeStep';
-import BudgetStep from './steps/BudgetStep';
-import ScheduleStep from './steps/ScheduleStep';
-import PrioritiesStep from './steps/PrioritiesStep';
+import { COMPETITIVE_CATEGORIES } from '@/lib/clubMatchConstants';
+import { EMPTY_CLUB_DRAFT, type ClubMatchDraft } from './clubTypes';
+import ClubCategoryStep from './steps/club/ClubCategoryStep';
+import ClubLocationStep from './steps/club/ClubLocationStep';
+import ClubAgeStep from './steps/club/ClubAgeStep';
+import ClubEnergyStep from './steps/club/ClubEnergyStep';
+import ClubSocialStep from './steps/club/ClubSocialStep';
+import ClubGoalStep from './steps/club/ClubGoalStep';
+import ClubCompetitionStep from './steps/club/ClubCompetitionStep';
+import ClubBudgetStep from './steps/club/ClubBudgetStep';
 
-type StepId = 'listingType' | 'location' | 'age' | 'budget' | 'schedule' | 'priorities';
+type StepId = 'category' | 'location' | 'age' | 'energy' | 'social' | 'goal' | 'competition' | 'budget';
 
-const WIZARD_STEPS: StepId[] = ['listingType', 'location', 'age', 'budget', 'schedule', 'priorities'];
+// Ordinea e mereu aceeasi; singura ramificare e Competitie, sarita pentru categorii
+// necompetitive (dansuri, arte_creative, muzica, robotica, limbi_straine) - decizie
+// confirmata explicit cu userul, in loc de a face toate cele 4 intrebari de personalitate
+// adaptive (ar necesita un tabel de relevanta per-categorie mult mai mare, nejustificat la MVP).
+const ALL_STEPS: StepId[] = ['category', 'location', 'age', 'energy', 'social', 'goal', 'competition', 'budget'];
 
-function isStepValid(stepId: StepId, draft: MatchDraft): boolean {
+function isStepValid(stepId: StepId, draft: ClubMatchDraft): boolean {
   switch (stepId) {
-    case 'listingType': return draft.listingType != null;
+    case 'category': return draft.category != null;
     case 'location': return draft.lat != null && draft.lng != null;
     case 'age': return draft.age != null;
+    case 'energy': return draft.energy != null;
+    case 'social': return draft.social != null;
+    case 'goal': return draft.goal != null;
+    case 'competition': return draft.competition != null;
     case 'budget': return draft.budgetPicked;
-    case 'schedule': return draft.scheduleTime != null;
-    case 'priorities': return true;
   }
 }
 
-export default function MatchWizard({ sessionId, onComplete }: { sessionId: string; onComplete: (draft: MatchDraft) => void }) {
-  const [draft, setDraft] = useState<MatchDraft>(EMPTY_DRAFT);
+export default function ClubMatchWizard({ sessionId, onComplete }: { sessionId: string; onComplete: (draft: ClubMatchDraft) => void }) {
+  const [draft, setDraft] = useState<ClubMatchDraft>(EMPTY_CLUB_DRAFT);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
 
-  const steps = WIZARD_STEPS;
-  const stepId = steps[index];
+  const steps = draft.category && !COMPETITIVE_CATEGORIES.has(draft.category)
+    ? ALL_STEPS.filter((s) => s !== 'competition')
+    : ALL_STEPS;
+  const stepId = steps[Math.min(index, steps.length - 1)];
   const valid = isStepValid(stepId, draft);
   const isLast = index === steps.length - 1;
 
   useEffect(() => {
     logMatchProgress({
       sessionId, stepId, stepIndex: index, totalSteps: steps.length,
-      listingType: draft.listingType ?? null, draft,
+      listingType: 'club', draft,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepId]);
 
-  function update(patch: Partial<MatchDraft>) {
+  function update(patch: Partial<ClubMatchDraft>) {
     setDraft((d) => ({ ...d, ...patch }));
   }
 
@@ -65,12 +75,14 @@ export default function MatchWizard({ sessionId, onComplete }: { sessionId: stri
 
   function renderStep() {
     switch (stepId) {
-      case 'listingType': return <ListingTypeStep draft={draft} update={update} />;
-      case 'location': return draft.listingType === 'kindergarten' ? <AddressStep draft={draft} update={update} /> : <SchoolStep draft={draft} update={update} />;
-      case 'age': return <AgeStep draft={draft} update={update} />;
-      case 'budget': return <BudgetStep draft={draft} update={update} />;
-      case 'schedule': return <ScheduleStep draft={draft} update={update} />;
-      case 'priorities': return <PrioritiesStep draft={draft} update={update} />;
+      case 'category': return <ClubCategoryStep draft={draft} update={update} />;
+      case 'location': return <ClubLocationStep draft={draft} update={update} />;
+      case 'age': return <ClubAgeStep draft={draft} update={update} />;
+      case 'energy': return <ClubEnergyStep draft={draft} update={update} />;
+      case 'social': return <ClubSocialStep draft={draft} update={update} />;
+      case 'goal': return <ClubGoalStep draft={draft} update={update} />;
+      case 'competition': return <ClubCompetitionStep draft={draft} update={update} />;
+      case 'budget': return <ClubBudgetStep draft={draft} update={update} />;
     }
   }
 

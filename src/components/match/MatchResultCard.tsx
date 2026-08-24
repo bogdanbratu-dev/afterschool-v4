@@ -48,11 +48,12 @@ interface MatchListing {
   is_featured: number;
   price_min: number | null;
   price_max: number | null;
+  schedule?: string | null;
 }
 
 interface Props {
   listing: MatchListing;
-  listingType: 'afterschool' | 'kindergarten';
+  listingType: 'afterschool' | 'kindergarten' | 'club';
   score: number;
   breakdown: CriterionResult[];
   distanceKm: number;
@@ -61,8 +62,16 @@ interface Props {
   matchContext: unknown;
 }
 
+const DETAIL_BASE: Record<Props['listingType'], string> = {
+  kindergarten: '/gradinite', afterschool: '/afterschool', club: '/activitati',
+};
+const PRICE_UNIT: Record<Props['listingType'], string> = {
+  kindergarten: 'lei/lună', afterschool: 'lei/lună', club: 'lei/activitate',
+};
+
 export default function MatchResultCard({ listing, listingType, score, breakdown, distanceKm, recommendReason, rank, matchContext }: Props) {
-  const detailHref = listingType === 'kindergarten' ? `/gradinite/${toSlug(listing.name, listing.id)}` : `/afterschool/${toSlug(listing.name, listing.id)}`;
+  const detailHref = `${DETAIL_BASE[listingType]}/${toSlug(listing.name, listing.id)}`;
+  const priceUnit = PRICE_UNIT[listingType];
 
   return (
     <div className="bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] shadow-sm hover:shadow-md transition-shadow p-4 sm:p-5">
@@ -88,8 +97,11 @@ export default function MatchResultCard({ listing, listingType, score, breakdown
           <p className="text-xs sm:text-sm text-[var(--color-text-light)] mt-0.5 break-words">{cleanAddressDisplay(listing.address)}</p>
           {listing.price_min != null && (
             <p className="text-xs sm:text-sm text-[var(--color-text-light)] mt-0.5">
-              {listing.price_min === listing.price_max ? `${listing.price_min} lei/lună` : `${listing.price_min}-${listing.price_max} lei/lună`}
+              {listing.price_min === listing.price_max ? `${listing.price_min} ${priceUnit}` : `${listing.price_min}-${listing.price_max} ${priceUnit}`}
             </p>
+          )}
+          {listingType === 'club' && listing.schedule && (
+            <p className="text-xs sm:text-sm text-[var(--color-text-light)] mt-0.5">🕐 {listing.schedule}</p>
           )}
         </div>
         <div className="flex-shrink-0 bg-blue-50 text-[var(--color-primary)] px-2.5 py-1 rounded-full text-xs sm:text-sm font-semibold">

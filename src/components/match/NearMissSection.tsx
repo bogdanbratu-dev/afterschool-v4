@@ -20,14 +20,18 @@ interface NearMissItem {
 
 interface Props {
   items: NearMissItem[];
-  listingType: 'afterschool' | 'kindergarten';
+  listingType: 'afterschool' | 'kindergarten' | 'club';
 }
+
+const DETAIL_BASE: Record<Props['listingType'], string> = {
+  kindergarten: '/gradinite', afterschool: '/afterschool', club: '/activitati',
+};
 
 export default function NearMissSection({ items, listingType }: Props) {
   const [open, setOpen] = useState(false);
   if (items.length === 0) return null;
 
-  const detailBase = listingType === 'kindergarten' ? '/gradinite' : '/afterschool';
+  const detailBase = DETAIL_BASE[listingType];
 
   return (
     <div className="mt-8">

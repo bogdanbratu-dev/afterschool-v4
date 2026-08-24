@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import MatchWizard from '@/components/match/MatchWizard';
+import ClubMatchWizard from '@/components/match/ClubMatchWizard';
 import { logSearch } from '@/lib/logSearch';
 import { logMatchProgress } from '@/lib/logMatchProgress';
 import MatchResultCard from '@/components/match/MatchResultCard';
 import NearMissSection from '@/components/match/NearMissSection';
-import type { MatchDraft } from '@/components/match/types';
-import type { CriterionResult, HardFilterFailure, MatchListingType } from '@/lib/matchScoring';
+import { CLUB_CATEGORY_LABELS } from '@/lib/clubs';
+import type { ClubMatchDraft } from '@/components/match/clubTypes';
+import type { CriterionResult, HardFilterFailure } from '@/lib/matchScoring';
 
 interface ResultListing {
   id: number;
@@ -19,6 +20,7 @@ interface ResultListing {
   is_featured: number;
   price_min: number | null;
   price_max: number | null;
+  schedule: string | null;
 }
 
 interface MatchResultItem {
@@ -35,22 +37,26 @@ interface MatchResponse {
   nearMisses: MatchResultItem[];
 }
 
-type ViewState = { phase: 'wizard' } | { phase: 'loading'; listingType: MatchListingType } | { phase: 'error' } | { phase: 'results'; listingType: MatchListingType; data: MatchResponse; matchContext: unknown };
+type ViewState = { phase: 'wizard' } | { phase: 'loading' } | { phase: 'error' } | { phase: 'results'; data: MatchResponse; matchContext: unknown };
 
-function draftToAnswers(draft: MatchDraft, sessionId: string) {
+function draftToAnswers(draft: ClubMatchDraft, sessionId: string) {
   return {
-    listingType: draft.listingType as MatchListingType,
+    listingType: 'club' as const,
     lat: draft.lat as number,
     lng: draft.lng as number,
     locationLabel: draft.locationLabel,
-    schoolName: draft.schoolName,
     age: draft.age as number,
     budget: draft.budget,
-    budgetRequired: draft.budgetRequired,
-    scheduleTime: draft.scheduleTime,
-    scheduleRequired: draft.scheduleRequired,
-    desiredActivities: draft.desiredActivities,
-    requiredActivities: draft.requiredActivities,
+    budgetRequired: false,
+    scheduleTime: null,
+    scheduleRequired: false,
+    desiredActivities: [],
+    requiredActivities: [],
+    category: draft.category ?? undefined,
+    energy: draft.energy ?? undefined,
+    social: draft.social ?? undefined,
+    goal: draft.goal ?? undefined,
+    competition: draft.competition ?? undefined,
     matchSessionId: sessionId,
   };
 }
@@ -71,17 +77,16 @@ function PotrivireHeader() {
   );
 }
 
-export default function PotrivirePage() {
+export default function PotrivireActivitatiPage() {
   const [state, setState] = useState<ViewState>({ phase: 'wizard' });
   const [started, setStarted] = useState(false);
   const [sessionId] = useState(() => makeSessionId());
 
-  async function handleComplete(draft: MatchDraft) {
-    const listingType = draft.listingType as MatchListingType;
-    setState({ phase: 'loading', listingType });
+  async function handleComplete(draft: ClubMatchDraft) {
+    setState({ phase: 'loading' });
     const answers = draftToAnswers(draft, sessionId);
     try {
-      const res = await fetch('/api/match', {
+      const res = await fetch('/api/match-activitati', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers }),
@@ -89,14 +94,14 @@ export default function PotrivirePage() {
       if (!res.ok) throw new Error('request failed');
       const data: MatchResponse = await res.json();
       logSearch({
-        query: `${listingType === 'kindergarten' ? 'Grădiniță' : 'Afterschool'} – ${draft.schoolName || draft.locationLabel || 'zonă nespecificată'}`,
-        source: 'potrivire',
+        query: `Activitate – ${draft.category ? CLUB_CATEGORY_LABELS[draft.category] : ''} – ${draft.locationLabel || 'zonă nespecificată'}`,
+        source: 'potrivire-activitati',
         lat: draft.lat ?? null,
         lng: draft.lng ?? null,
         resolved: data.matches.length > 0,
       });
       logMatchProgress({ sessionId, completed: true });
-      setState({ phase: 'results', listingType, data, matchContext: answers });
+      setState({ phase: 'results', data, matchContext: answers });
     } catch {
       setState({ phase: 'error' });
     }
@@ -109,20 +114,20 @@ export default function PotrivirePage() {
         <PotrivireHeader />
         <div className="max-w-xl mx-auto px-6 py-10 sm:py-14">
           <div className="text-center mb-8">
-            <div className="text-5xl mb-3">🎯</div>
+            <div className="text-5xl mb-3">🏆</div>
             <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[var(--color-text-main)] mb-2">
-              Alege potrivit: Afterschool &amp; Grădiniță în București
+              Găsește activitatea potrivită pentru copilul tău
             </h1>
             <p className="text-sm sm:text-base text-[var(--color-text-light)] max-w-md mx-auto">
-              Răspunde la 6 întrebări despre școala sau adresa copilului, vârstă, buget și program. Primești gratuit
-              un top personalizat cu afterschool-urile sau grădinițele potrivite din București, fiecare cu scorul de
-              potrivire explicat pe criterii: distanță, preț, program și activități.
+              Răspunde la câteva întrebări despre interesele, personalitatea, vârsta și bugetul copilului. Primești
+              gratuit un top personalizat cu activități (înot, arte marțiale, dansuri, robotică și altele) din
+              București, fiecare cu scorul de potrivire explicat.
             </p>
           </div>
 
           <div className="grid grid-cols-3 gap-3 mb-8">
             {[
-              { n: 1, text: 'Răspunzi la 6 întrebări scurte' },
+              { n: 1, text: 'Răspunzi la câteva întrebări scurte' },
               { n: 2, text: 'Primești un top personalizat, cu scor explicat' },
               { n: 3, text: 'Alegi și contactezi direct' },
             ].map((step) => (
@@ -159,9 +164,9 @@ export default function PotrivirePage() {
           </button>
 
           <p className="text-xs text-center text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 mt-6">
-            🏫 Ai un afterschool sau o grădiniță? <a href="/promovare" className="underline font-semibold">Actualizează profilul</a> — cu
-            cât e mai complet (activități, preț, vârstă, program), cu atât apare mai des în recomandările din
-            Alege potrivit.
+            🏫 Ai un club sau o școală de activități? <a href="/promovare" className="underline font-semibold">Actualizează profilul</a> — cu
+            cât e mai complet (preț, vârstă, categorie), cu atât apare mai des în recomandările din
+            Potrivire Activități.
           </p>
         </div>
         </>
@@ -170,7 +175,7 @@ export default function PotrivirePage() {
     return (
       <>
         <PotrivireHeader />
-        <MatchWizard sessionId={sessionId} onComplete={handleComplete} />
+        <ClubMatchWizard sessionId={sessionId} onComplete={handleComplete} />
       </>
     );
   }
@@ -182,7 +187,7 @@ export default function PotrivirePage() {
       <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
         <div className="w-12 h-12 border-4 border-[var(--color-border)] border-t-[var(--color-primary)] rounded-full animate-spin mb-4" />
         <p className="font-display text-lg font-bold text-[var(--color-text-main)]">Calculăm recomandările...</p>
-        <p className="text-sm text-[var(--color-text-light)] mt-1">Comparăm răspunsurile tale cu {state.listingType === 'kindergarten' ? 'grădinițele' : 'afterschool-urile'} din zonă.</p>
+        <p className="text-sm text-[var(--color-text-light)] mt-1">Comparăm răspunsurile tale cu activitățile din zonă.</p>
       </div>
       </>
     );
@@ -207,8 +212,7 @@ export default function PotrivirePage() {
     );
   }
 
-  const { listingType, data, matchContext } = state;
-  const noun = listingType === 'kindergarten' ? 'grădinițe' : 'afterschool-uri';
+  const { data, matchContext } = state;
 
   return (
     <>
@@ -218,7 +222,7 @@ export default function PotrivirePage() {
         <div>
           <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[var(--color-text-main)]">Recomandările tale</h1>
           <p className="text-sm text-[var(--color-text-light)] mt-1">
-            {data.matches.length > 0 ? `${data.matches.length} ${noun} potrivite cu ce cauți` : `Nu am găsit ${noun} care să corespundă complet criteriilor tale`}
+            {data.matches.length > 0 ? `${data.matches.length} activități potrivite cu ce cauți` : 'Nu am găsit activități care să corespundă complet criteriilor tale'}
           </p>
         </div>
         <button type="button" onClick={() => setState({ phase: 'wizard' })} className="flex-shrink-0 text-sm font-semibold text-[var(--color-primary)] hover:underline whitespace-nowrap">
@@ -232,7 +236,7 @@ export default function PotrivirePage() {
             <MatchResultCard
               key={item.listing.id}
               listing={item.listing}
-              listingType={listingType}
+              listingType="club"
               score={item.score}
               breakdown={item.breakdown}
               distanceKm={item.distanceKm}
@@ -244,11 +248,11 @@ export default function PotrivirePage() {
         </div>
       ) : (
         <div className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-2xl p-6 text-center">
-          <p className="text-sm text-[var(--color-text-light)]">Încearcă să relaxezi unele criterii obligatorii sau bugetul pentru mai multe rezultate.</p>
+          <p className="text-sm text-[var(--color-text-light)]">Încearcă să relaxezi unele criterii sau bugetul pentru mai multe rezultate.</p>
         </div>
       )}
 
-      <NearMissSection items={data.nearMisses} listingType={listingType} />
+      <NearMissSection items={data.nearMisses} listingType="club" />
     </div>
     </>
   );
