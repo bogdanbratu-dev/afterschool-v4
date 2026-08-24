@@ -2,9 +2,11 @@
 import { useState, useEffect } from 'react';
 import LeadCard, { type Lead } from './LeadCard';
 import { BUDGET_BUCKETS } from '@/lib/matchConstants';
+import { CLUB_BUDGET_BUCKETS } from '@/lib/clubMatchConstants';
+import { CLUB_CATEGORY_LABELS, type ClubCategory } from '@/lib/clubs';
 
 interface MatchContext {
-  listingType?: 'afterschool' | 'kindergarten' | string;
+  listingType?: 'afterschool' | 'kindergarten' | 'club' | string;
   locationLabel?: string;
   schoolName?: string;
   age?: number | null;
@@ -14,6 +16,11 @@ interface MatchContext {
   scheduleRequired?: boolean;
   desiredActivities?: string[];
   requiredActivities?: string[];
+  category?: ClubCategory;
+  energy?: string;
+  social?: string;
+  goal?: string;
+  competition?: string;
 }
 
 function parseContext(raw: string | null): MatchContext | null {
@@ -26,9 +33,9 @@ function parseContext(raw: string | null): MatchContext | null {
   }
 }
 
-function budgetLabel(budget: number | null | undefined): string | null {
+function budgetLabel(budget: number | null | undefined, isClub: boolean): string | null {
   if (budget == null) return null;
-  const bucket = BUDGET_BUCKETS.find(b => b.value === budget);
+  const bucket = (isClub ? CLUB_BUDGET_BUCKETS : BUDGET_BUCKETS).find(b => b.value === budget);
   return bucket ? bucket.label : `până în ${budget} lei`;
 }
 
@@ -53,6 +60,11 @@ const STEP_LABELS: Record<string, string> = {
   budget: 'buget',
   schedule: 'program',
   priorities: 'priorități',
+  category: 'categoria activității',
+  energy: 'nivelul de energie',
+  social: 'cât de sociabil e copilul',
+  goal: 'obiectivul urmărit',
+  competition: 'nivelul de competitivitate',
 };
 
 function stepLabel(stepId: string): string {
@@ -61,15 +73,20 @@ function stepLabel(stepId: string): string {
 
 function FunnelContext({ ctx }: { ctx: MatchContext }) {
   const isKindergarten = ctx.listingType === 'kindergarten';
+  const isClub = ctx.listingType === 'club';
   const place = ctx.schoolName || ctx.locationLabel;
-  const budget = budgetLabel(ctx.budget);
+  const budget = budgetLabel(ctx.budget, isClub);
   const activities = (ctx.desiredActivities || []).map(a => ctx.requiredActivities?.includes(a) ? `${a} (obligatoriu)` : a);
+  const categoryLabel = ctx.category ? CLUB_CATEGORY_LABELS[ctx.category] : null;
+
+  const kindLabel = isClub ? 'activitate' : isKindergarten ? 'grădiniță' : 'afterschool';
 
   return (
     <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 mb-2 text-xs text-[var(--color-text-main)]">
       <div className="flex flex-wrap gap-x-4 gap-y-1">
-        <span>🎯 Caută <strong>{isKindergarten ? 'grădiniță' : 'afterschool'}</strong></span>
-        {place && <span>📍 {isKindergarten ? 'lângă' : 'lângă școala'} <strong>{place}</strong></span>}
+        <span>🎯 Caută <strong>{kindLabel}</strong></span>
+        {categoryLabel && <span>🏆 categorie <strong>{categoryLabel}</strong></span>}
+        {place && <span>📍 {isKindergarten || isClub ? 'lângă' : 'lângă școala'} <strong>{place}</strong></span>}
         {ctx.age != null && <span>🎂 vârstă <strong>{ctx.age}</strong></span>}
         {budget && <span>💰 buget <strong>{budget}</strong>{ctx.budgetRequired ? ' (obligatoriu)' : ''}</span>}
         {ctx.scheduleTime && <span>🕓 program până la <strong>{ctx.scheduleTime}</strong>{ctx.scheduleRequired ? ' (obligatoriu)' : ''}</span>}
@@ -110,6 +127,12 @@ export default function PotrivireLeadsTab() {
     await fetch('/api/admin/leads', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
     setLeads(prev => prev.filter(l => l.id !== id));
     setSelected(prev => { const next = new Set(prev); next.delete(id); return next; });
+  };
+
+  const deleteProgress = async (id: number) => {
+    if (!confirm('Ștergi această înregistrare din funnel?')) return;
+    await fetch('/api/admin/match-progress', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
+    setProgress(prev => prev.filter(p => p.id !== id));
   };
 
   const forwardEmail = async (id: number) => {
@@ -226,14 +249,16 @@ export default function PotrivireLeadsTab() {
           <div className="space-y-3">
             {finishedNotContacted.map(p => {
               const ctx = parseContext(p.draft);
+              const ctxWithType = ctx ? { ...ctx, listingType: p.listing_type ?? ctx.listingType } : null;
               return (
                 <div key={p.session_id}>
-                  {ctx && <FunnelContext ctx={ctx} />}
+                  {ctxWithType && <FunnelContext ctx={ctxWithType} />}
                   <div className="flex items-center gap-2 flex-wrap text-xs text-[var(--color-text-light)] pl-1">
                     <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold">
                       A văzut recomandările, nu a contactat
                     </span>
                     <span>{new Date(p.updated_at).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
+                    <button onClick={() => deleteProgress(p.id)} className="ml-auto text-red-600 hover:underline font-semibold">Șterge</button>
                   </div>
                 </div>
               );
@@ -255,14 +280,16 @@ export default function PotrivireLeadsTab() {
           <div className="space-y-3">
             {abandoned.map(p => {
               const ctx = parseContext(p.draft);
+              const ctxWithType = ctx ? { ...ctx, listingType: p.listing_type ?? ctx.listingType } : null;
               return (
                 <div key={p.session_id}>
-                  {ctx && <FunnelContext ctx={ctx} />}
+                  {ctxWithType && <FunnelContext ctx={ctxWithType} />}
                   <div className="flex items-center gap-2 flex-wrap text-xs text-[var(--color-text-light)] pl-1">
                     <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-semibold">
                       S-a oprit la: {stepLabel(p.step_id)} (pasul {p.step_index + 1}/{p.total_steps})
                     </span>
                     <span>{new Date(p.updated_at).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
+                    <button onClick={() => deleteProgress(p.id)} className="ml-auto text-red-600 hover:underline font-semibold">Șterge</button>
                   </div>
                 </div>
               );

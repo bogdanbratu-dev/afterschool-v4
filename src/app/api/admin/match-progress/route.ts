@@ -14,3 +14,17 @@ export async function GET() {
   `).all();
   return NextResponse.json({ rows });
 }
+
+export async function DELETE(request: Request) {
+  if (!(await isAuthenticated())) return NextResponse.json({ error: 'Neautorizat' }, { status: 401 });
+
+  const { id, ids } = await request.json();
+  const db = getDb();
+  if (ids && Array.isArray(ids)) {
+    const stmt = db.prepare('DELETE FROM match_progress WHERE id = ?');
+    ids.forEach((i: number) => stmt.run(i));
+  } else {
+    db.prepare('DELETE FROM match_progress WHERE id = ?').run(id);
+  }
+  return NextResponse.json({ ok: true });
+}

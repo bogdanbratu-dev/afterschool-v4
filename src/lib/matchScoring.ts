@@ -386,8 +386,21 @@ export function rankMatches<T extends AfterSchool | Kindergarten | Club>(
   }
 
   const byScoreThenDistance = (a: MatchResultItem<T>, b: MatchResultItem<T>) => b.score - a.score || a.distanceKm - b.distanceKm;
-  matches.sort(byScoreThenDistance);
-  nearMisses.sort(byScoreThenDistance);
+
+  // Categoria aleasa e semnalul principal, nu doar un criteriu de scor: fara asta, un club dintr-o
+  // alta categorie care se potriveste perfect pe energie/social/obiectiv/competitie poate depasi la
+  // scor un club chiar din categoria ceruta (penalizarea de 0.4x pe categorie e prea mica fata de cate
+  // 4 criterii de personalitate insumate). Categoria aleasa trece mereu inaintea altor categorii;
+  // alte categorii umplu doar sloturile ramase, cand categoria ceruta n-are suficiente rezultate bune.
+  if (config.weights.category > 0 && answers.category) {
+    const categoryRank = (item: MatchResultItem<T>) => (config.normalize(item.listing).category === answers.category ? 0 : 1);
+    const byCategoryThenScore = (a: MatchResultItem<T>, b: MatchResultItem<T>) => categoryRank(a) - categoryRank(b) || byScoreThenDistance(a, b);
+    matches.sort(byCategoryThenScore);
+    nearMisses.sort(byCategoryThenScore);
+  } else {
+    matches.sort(byScoreThenDistance);
+    nearMisses.sort(byScoreThenDistance);
+  }
 
   return { matches, nearMisses };
 }

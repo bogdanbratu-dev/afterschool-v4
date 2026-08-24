@@ -11,6 +11,11 @@ const LINKS = [
   { href: '/catering', label: 'Catering' },
 ];
 
+const MATCH_LINKS = [
+  { href: '/potrivire', icon: '🎯', label: 'Potrivire Afterschool/Grădiniță' },
+  { href: '/potrivire-activitati', icon: '🏆', label: 'Potrivire Activități și Sporturi' },
+];
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
@@ -26,19 +31,18 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-          <a href="/potrivire" className="px-3 py-1.5 rounded-lg font-semibold text-amber-600 hover:bg-amber-50 transition-colors whitespace-nowrap">
-            🎯 Alege potrivit
-          </a>
+          {MATCH_LINKS.map(l => (
+            <a key={l.href} href={l.href} className="px-3 py-1.5 rounded-lg font-semibold text-amber-600 hover:bg-amber-50 transition-colors whitespace-nowrap">
+              {l.icon} {l.label}
+            </a>
+          ))}
           <a href="/promovare" className="ml-3 inline-flex items-center gap-1 px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors whitespace-nowrap">
             + Adaugă listare
           </a>
         </nav>
 
-        {/* Mobile: CTA + hamburger */}
+        {/* Mobile: CTA + hamburger (Potrivire links live in the dropdown, see below) */}
         <div className="flex lg:hidden items-center gap-2">
-          <a href="/potrivire" className="inline-flex items-center gap-1 px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-lg transition-colors">
-            🎯 Alege potrivit
-          </a>
           <a href="/promovare" className="inline-flex items-center gap-1 px-3 py-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
             + Adaugă
           </a>
@@ -63,6 +67,16 @@ export default function Navbar() {
       {/* Mobile dropdown */}
       {open && (
         <div className="lg:hidden absolute top-14 left-0 right-0 bg-[var(--color-card)] border-b border-[var(--color-border)] shadow-lg">
+          {MATCH_LINKS.map(l => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="block px-5 py-3.5 text-sm font-semibold text-amber-600 hover:bg-amber-50 border-b border-[var(--color-border)] transition-colors"
+            >
+              {l.icon} {l.label}
+            </a>
+          ))}
           {LINKS.map(l => (
             <a
               key={l.href}
