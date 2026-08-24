@@ -255,7 +255,8 @@ async function main() {
 
       const priceMin = prices.length ? prices[0] : null;
       const priceMax = prices.length ? prices[prices.length - 1] : null;
-      const scheduleText = schedule.length ? schedule.join(' | ').substring(0, 500) : null;
+      const uniqueSchedule = [...new Set(schedule.map(s => s.trim()))];
+      const scheduleText = uniqueSchedule.length ? uniqueSchedule.join(' | ').substring(0, 500) : null;
 
       if (!priceMin && !scheduleText) {
         log(`❌ nimic gasit`);
