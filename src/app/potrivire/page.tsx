@@ -53,6 +53,17 @@ function draftToAnswers(draft: MatchDraft) {
   };
 }
 
+function PotrivireHeader() {
+  return (
+    <header className="bg-[var(--color-card)] shadow-sm border-b border-[var(--color-border)]">
+      <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" className="text-[var(--color-primary)] font-bold text-lg">ActivKids</a>
+        <a href="/" className="text-sm text-[var(--color-text-light)] hover:text-[var(--color-text)] px-3 py-1.5">← Acasă</a>
+      </div>
+    </header>
+  );
+}
+
 export default function PotrivirePage() {
   const [state, setState] = useState<ViewState>({ phase: 'wizard' });
   const [started, setStarted] = useState(false);
@@ -85,6 +96,8 @@ export default function PotrivirePage() {
   if (state.phase === 'wizard') {
     if (!started) {
       return (
+        <>
+        <PotrivireHeader />
         <div className="max-w-xl mx-auto px-6 py-10 sm:py-14">
           <div className="text-center mb-8">
             <div className="text-5xl mb-3">🎯</div>
@@ -142,23 +155,34 @@ export default function PotrivirePage() {
             Potrivire.
           </p>
         </div>
+        </>
       );
     }
-    return <MatchWizard onComplete={handleComplete} />;
+    return (
+      <>
+        <PotrivireHeader />
+        <MatchWizard onComplete={handleComplete} />
+      </>
+    );
   }
 
   if (state.phase === 'loading') {
     return (
+      <>
+      <PotrivireHeader />
       <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
         <div className="w-12 h-12 border-4 border-[var(--color-border)] border-t-[var(--color-primary)] rounded-full animate-spin mb-4" />
         <p className="font-display text-lg font-bold text-[var(--color-text-main)]">Calculăm potrivirile...</p>
         <p className="text-sm text-[var(--color-text-light)] mt-1">Comparăm răspunsurile tale cu {state.listingType === 'kindergarten' ? 'grădinițele' : 'afterschool-urile'} din zonă.</p>
       </div>
+      </>
     );
   }
 
   if (state.phase === 'error') {
     return (
+      <>
+      <PotrivireHeader />
       <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
         <p className="font-display text-lg font-bold text-[var(--color-text-main)] mb-2">A apărut o eroare</p>
         <p className="text-sm text-[var(--color-text-light)] mb-6">Nu am putut calcula potrivirile. Te rugăm încearcă din nou.</p>
@@ -170,6 +194,7 @@ export default function PotrivirePage() {
           Reia chestionarul
         </button>
       </div>
+      </>
     );
   }
 
@@ -177,6 +202,8 @@ export default function PotrivirePage() {
   const noun = listingType === 'kindergarten' ? 'grădinițe' : 'afterschool-uri';
 
   return (
+    <>
+    <PotrivireHeader />
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
       <div className="flex items-center justify-between gap-3 mb-6">
         <div>
@@ -214,5 +241,6 @@ export default function PotrivirePage() {
 
       <NearMissSection items={data.nearMisses} listingType={listingType} />
     </div>
+    </>
   );
 }
