@@ -259,7 +259,7 @@ export default function PromovarePage({ afterschoolCount }: { afterschoolCount?:
             ))}
           </div>
           <p className="text-xs text-center text-[var(--color-text-light)] mb-2">
-            Pe lângă bugetul de reclamă de mai sus, se percepe o <strong>taxă de gestionare a campaniei de 150 lei/lună</strong> (100 lei/lună pentru listările Premium).
+            Pe lângă bugetul de reclamă de mai sus, se percepe o <strong>taxă de gestionare de 150 lei la 3 luni</strong> (100 lei la 3 luni pentru listările Premium) — cât timp taxa e activă, poți lansa oricâte campanii vrei, fără cost suplimentar de gestionare.
           </p>
           <p className="text-[11px] text-center text-[var(--color-text-light)] mb-2">
             Tu alegi bugetul lunar, noi configurăm și gestionăm campania — la fel ca la Premium, fără nimic de făcut din partea ta după ce trimiți cererea. Solicitarea se face din contul tău (tab-ul &bdquo;🚀 Promovare&rdquo; din dashboard), după ce ai o listare pe ActivKids — funcționează și pentru listările Free, nu doar Premium.

@@ -271,12 +271,21 @@ function CampaignRow({ campaign, expanded, onToggle, onPatch }: {
 
 function PricingEditor() {
   const [tiers, setTiers] = useState<PricingTier[]>([]);
+  const [managementFeeLei, setManagementFeeLei] = useState(150);
+  const [managementFeePremiumLei, setManagementFeePremiumLei] = useState(100);
+  const [managementFeePeriodMonths, setManagementFeePeriodMonths] = useState(3);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    fetch('/api/admin/growth-pricing').then((r) => r.json()).then((d) => { setTiers(d.tiers || []); setLoading(false); });
+    fetch('/api/admin/growth-pricing').then((r) => r.json()).then((d) => {
+      setTiers(d.tiers || []);
+      if (Number.isFinite(d.managementFeeLei)) setManagementFeeLei(d.managementFeeLei);
+      if (Number.isFinite(d.managementFeePremiumLei)) setManagementFeePremiumLei(d.managementFeePremiumLei);
+      if (Number.isFinite(d.managementFeePeriodMonths)) setManagementFeePeriodMonths(d.managementFeePeriodMonths);
+      setLoading(false);
+    });
   }, []);
 
   const updateTier = (i: number, patch: Partial<PricingTier>) => {
@@ -290,7 +299,8 @@ function PricingEditor() {
     setSaving(true);
     setSaved(false);
     const res = await fetch('/api/admin/growth-pricing', {
-      method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tiers }),
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tiers, managementFeeLei, managementFeePremiumLei, managementFeePeriodMonths }),
     });
     if (res.ok) setSaved(true);
     setSaving(false);
@@ -299,22 +309,43 @@ function PricingEditor() {
   if (loading) return null;
 
   return (
-    <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5 space-y-3">
-      <h3 className="text-sm font-bold text-[var(--color-text-main)]">Tarife Growth (afișate proprietarilor)</h3>
-      <div className="space-y-2">
-        {tiers.map((t, i) => (
-          <div key={i} className="flex items-center gap-2">
-            <input value={t.label} onChange={(e) => updateTier(i, { label: e.target.value })} placeholder="Etichetă"
-              className="flex-1 px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
-            <input value={t.budgetLei} onChange={(e) => updateTier(i, { budgetLei: Number(e.target.value) })} type="number"
-              className="w-28 px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
-            <span className="text-xs text-[var(--color-text-light)]">lei</span>
-            <button onClick={() => removeTier(i)} className="text-xs px-2 py-1 text-red-600">Șterge</button>
-          </div>
-        ))}
-      </div>
-      <div className="flex items-center gap-2">
+    <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-5 space-y-4">
+      <div className="space-y-3">
+        <h3 className="text-sm font-bold text-[var(--color-text-main)]">Tarife Growth (afișate proprietarilor)</h3>
+        <div className="space-y-2">
+          {tiers.map((t, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input value={t.label} onChange={(e) => updateTier(i, { label: e.target.value })} placeholder="Etichetă"
+                className="flex-1 px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
+              <input value={t.budgetLei} onChange={(e) => updateTier(i, { budgetLei: Number(e.target.value) })} type="number"
+                className="w-28 px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
+              <span className="text-xs text-[var(--color-text-light)]">lei buget reclamă</span>
+              <button onClick={() => removeTier(i)} className="text-xs px-2 py-1 text-red-600">Șterge</button>
+            </div>
+          ))}
+        </div>
         <button onClick={addTier} className="text-xs px-3 py-1.5 border border-[var(--color-border)] rounded-lg">+ Adaugă tier</button>
+      </div>
+
+      <div className="space-y-2 border-t border-[var(--color-border)] pt-4">
+        <h3 className="text-sm font-bold text-[var(--color-text-main)]">Taxă de gestionare (separată de bugetul de reclamă)</h3>
+        <div className="flex items-center gap-2 flex-wrap">
+          <label className="text-xs text-[var(--color-text-light)]">Standard:</label>
+          <input value={managementFeeLei} onChange={(e) => setManagementFeeLei(Number(e.target.value))} type="number"
+            className="w-24 px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
+          <span className="text-xs text-[var(--color-text-light)]">lei</span>
+          <label className="text-xs text-[var(--color-text-light)] ml-2">Premium:</label>
+          <input value={managementFeePremiumLei} onChange={(e) => setManagementFeePremiumLei(Number(e.target.value))} type="number"
+            className="w-24 px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
+          <span className="text-xs text-[var(--color-text-light)]">lei</span>
+          <label className="text-xs text-[var(--color-text-light)] ml-2">la fiecare</label>
+          <input value={managementFeePeriodMonths} onChange={(e) => setManagementFeePeriodMonths(Number(e.target.value))} type="number"
+            className="w-16 px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
+          <span className="text-xs text-[var(--color-text-light)]">luni (campanii nelimitate în acest interval)</span>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 border-t border-[var(--color-border)] pt-4">
         <button onClick={save} disabled={saving} className="text-xs px-3 py-1.5 bg-[var(--color-primary)] text-white rounded-lg disabled:opacity-50">
           {saving ? 'Se salvează...' : 'Salvează tarifele'}
         </button>

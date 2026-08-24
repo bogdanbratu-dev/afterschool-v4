@@ -31,11 +31,25 @@ export async function PUT(request: Request) {
     tiers.push({ key, label, budgetLei });
   }
 
+  const managementFeeLei = Number(body.managementFeeLei);
+  const managementFeePremiumLei = Number(body.managementFeePremiumLei);
+  const managementFeePeriodMonths = Number(body.managementFeePeriodMonths);
+  if (!Number.isFinite(managementFeeLei) || managementFeeLei < 0) {
+    return NextResponse.json({ error: 'Taxă de gestionare invalidă' }, { status: 400 });
+  }
+  if (!Number.isFinite(managementFeePremiumLei) || managementFeePremiumLei < 0) {
+    return NextResponse.json({ error: 'Taxă de gestionare (Premium) invalidă' }, { status: 400 });
+  }
+  if (!Number.isFinite(managementFeePeriodMonths) || managementFeePeriodMonths <= 0) {
+    return NextResponse.json({ error: 'Perioada taxei invalidă' }, { status: 400 });
+  }
+
+  const pricing = { tiers, managementFeeLei, managementFeePremiumLei, managementFeePeriodMonths };
   const db = getDb();
   db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)').run(
     GROWTH_PRICING_SETTINGS_KEY,
-    JSON.stringify({ tiers })
+    JSON.stringify(pricing)
   );
 
-  return NextResponse.json({ ok: true, tiers });
+  return NextResponse.json({ ok: true, ...pricing });
 }

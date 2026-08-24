@@ -21,7 +21,7 @@ interface PotentialResponse {
   radiusKm: number;
   competition: { count: number; densityPerKm2: number; schoolsInRadius: number; kindergartensInRadius: number };
   budgetEstimate: BudgetEstimate | null;
-  pricing: { tiers: PricingTier[] };
+  pricing: { tiers: PricingTier[]; managementFeeLei: number; managementFeePremiumLei: number; managementFeePeriodMonths: number };
 }
 
 interface Campaign {
@@ -57,6 +57,9 @@ const STATUS_META: Record<Campaign['status'], { label: string; color: string }> 
 export default function GrowthTab({ listingName }: { listingName?: string }) {
   const [radiusKm, setRadiusKm] = useState(3);
   const [tiers, setTiers] = useState<PricingTier[]>([]);
+  const [feeLei, setFeeLei] = useState(150);
+  const [feePremiumLei, setFeePremiumLei] = useState(100);
+  const [feePeriodMonths, setFeePeriodMonths] = useState(3);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
   const [customBudget, setCustomBudget] = useState('');
   const [estimate, setEstimate] = useState<BudgetEstimate | null>(null);
@@ -112,6 +115,9 @@ export default function GrowthTab({ listingName }: { listingName?: string }) {
           setTiers(data.pricing.tiers);
           setSelectedTier((prev) => prev ?? data.pricing.tiers[0].key);
         }
+        if (Number.isFinite(data.pricing?.managementFeeLei)) setFeeLei(data.pricing.managementFeeLei);
+        if (Number.isFinite(data.pricing?.managementFeePremiumLei)) setFeePremiumLei(data.pricing.managementFeePremiumLei);
+        if (Number.isFinite(data.pricing?.managementFeePeriodMonths)) setFeePeriodMonths(data.pricing.managementFeePeriodMonths);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -222,7 +228,7 @@ export default function GrowthTab({ listingName }: { listingName?: string }) {
               className="w-full px-4 py-2.5 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             />
             <p className="text-[11px] text-[var(--color-text-light)] mt-2">
-              Pe lângă bugetul de mai sus, se percepe o taxă de gestionare a campaniei de 150 lei/lună (100 lei/lună dacă ai deja Premium).
+              Pe lângă bugetul de mai sus, se percepe o taxă de gestionare de {feeLei} lei la {feePeriodMonths} luni ({feePremiumLei} lei la {feePeriodMonths} luni dacă ai deja Premium) — cât timp taxa e activă, poți lansa oricâte campanii vrei, fără cost suplimentar de gestionare.
             </p>
           </div>
 
