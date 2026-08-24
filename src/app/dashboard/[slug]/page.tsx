@@ -59,6 +59,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<Tab>('listare');
   const [catererTarget, setCatererTarget] = useState<'afterschool' | 'kindergarten'>('afterschool');
+  const [growthBannerDismissed, setGrowthBannerDismissed] = useState(true);
 
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -97,6 +98,16 @@ export default function DashboardPage() {
     const expected = toSimpleSlug(listing.name);
     if (urlSlug !== expected) router.replace('/dashboard/' + expected);
   }, [urlSlug, listing, router]);
+
+  useEffect(() => {
+    if (!listing) return;
+    setGrowthBannerDismissed(localStorage.getItem(`growth-banner-dismissed-${listing.id}`) === '1');
+  }, [listing]);
+
+  const dismissGrowthBanner = () => {
+    if (listing) localStorage.setItem(`growth-banner-dismissed-${listing.id}`, '1');
+    setGrowthBannerDismissed(true);
+  };
 
   const loadStats = useCallback(() => {
     fetch('/api/user/stats').then(r => r.json()).then(setStats);
@@ -262,8 +273,11 @@ export default function DashboardPage() {
         <div className="max-w-2xl mx-auto px-2 flex overflow-x-auto">
           {tabs.map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
-              className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${tab === t.key ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)]'}`}>
+              className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors flex items-center gap-1.5 ${tab === t.key ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)]'}`}>
               {t.label}
+              {t.key === 'growth' && (
+                <span className="text-[10px] font-bold text-white bg-rose-500 rounded-full px-1.5 py-0.5 leading-none">NOU</span>
+              )}
             </button>
           ))}
         </div>
@@ -610,6 +624,21 @@ export default function DashboardPage() {
 
         {tab === 'growth' && (listingType === 'afterschool' || listingType === 'kindergarten' || listingType === 'club') && (
           <GrowthTab />
+        )}
+
+        {tab === 'listare' && !growthBannerDismissed && (listingType === 'afterschool' || listingType === 'kindergarten' || listingType === 'club') && (
+          <div className="relative bg-blue-50 border border-blue-200 rounded-2xl p-5">
+            <button onClick={dismissGrowthBanner} aria-label="Închide"
+              className="absolute top-3 right-3 text-blue-400 hover:text-blue-700 text-sm">✕</button>
+            <h3 className="font-semibold text-blue-800 mb-1">🚀 Nou: Promovare Growth</h3>
+            <p className="text-sm text-blue-700 mb-3">
+              Estimează câți părinți din zona ta poți atrage cu o campanie Meta Ads și solicită o promovare — noi o gestionăm, tu vezi vizitele și leadurile direct în cont.
+            </p>
+            <button onClick={() => { setTab('growth'); dismissGrowthBanner(); }}
+              className="inline-block text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors">
+              Vezi estimarea pentru zona mea →
+            </button>
+          </div>
         )}
 
         {listing.is_premium !== 1 && tab === 'listare' && (
