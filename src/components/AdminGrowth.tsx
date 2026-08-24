@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { parseAdCsv, type ParsedAdCsvRow } from '@/lib/adCsvParser';
 
 interface GrowthCampaign {
   id: number;
@@ -50,6 +51,70 @@ function todayDateValue(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+function CsvImportPicker({ onPick }: { onPick: (row: ParsedAdCsvRow) => void }) {
+  const [open, setOpen] = useState(false);
+  const [rows, setRows] = useState<ParsedAdCsvRow[]>([]);
+  const [error, setError] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleText = (text: string) => {
+    const parsed = parseAdCsv(text);
+    if (parsed.length === 0) {
+      setError('Niciun rând valid găsit în CSV. Verifică formatul exportului.');
+      setRows([]);
+      return;
+    }
+    setError('');
+    setRows(parsed);
+  };
+
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => handleText(String(reader.result || ''));
+    reader.readAsText(file);
+  };
+
+  if (!open) {
+    return (
+      <button type="button" onClick={() => setOpen(true)} className="text-xs px-3 py-1.5 border border-[var(--color-border)] rounded-lg text-[var(--color-text-main)]">
+        📄 Importă din CSV Meta Ads
+      </button>
+    );
+  }
+
+  return (
+    <div className="border border-[var(--color-border)] rounded-lg p-3 space-y-2 bg-[var(--color-bg)]">
+      <p className="text-xs text-[var(--color-text-light)]">
+        Export din Meta Ads Manager (Raportare → Export → .csv), apoi alege rândul campaniei potrivite mai jos.
+      </p>
+      <div className="flex items-center gap-2">
+        <input ref={fileInputRef} type="file" accept=".csv,text/csv" onChange={handleFile} className="text-xs" />
+        <button type="button" onClick={() => setOpen(false)} className="text-xs px-2 py-1 text-[var(--color-text-light)]">Închide</button>
+      </div>
+      {error && <p className="text-xs text-[var(--color-danger)]">{error}</p>}
+      {rows.length > 0 && (
+        <div className="space-y-1.5">
+          {rows.map((r, i) => (
+            <button
+              key={i} type="button"
+              onClick={() => { onPick(r); setOpen(false); }}
+              className="w-full text-left px-3 py-2 border border-[var(--color-border)] rounded-lg text-xs bg-[var(--color-card)] hover:border-[var(--color-primary)] transition-colors"
+            >
+              <span className="font-semibold text-[var(--color-text-main)]">{r.campaignName || 'Fără nume'}</span>
+              {(r.dateStart || r.dateStop) && <span className="text-[var(--color-text-light)]"> · {r.dateStart}–{r.dateStop}</span>}
+              <span className="block text-[var(--color-text-light)] mt-0.5">
+                {r.amountSpentLei ?? '-'} lei · {r.impressions ?? '-'} afișări · {r.linkClicks ?? '-'} clickuri
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ActualsEditor({ campaign, onSave }: { campaign: GrowthCampaign; onSave: (patch: Record<string, unknown>) => Promise<void> }) {
   const [spend, setSpend] = useState(campaign.spend_actual_lei != null ? String(campaign.spend_actual_lei) : '');
   const [impressions, setImpressions] = useState(campaign.impressions_actual != null ? String(campaign.impressions_actual) : '');
@@ -68,9 +133,16 @@ function ActualsEditor({ campaign, onSave }: { campaign: GrowthCampaign; onSave:
     setSaving(false);
   };
 
+  const applyCsvRow = (row: ParsedAdCsvRow) => {
+    if (row.amountSpentLei != null) setSpend(String(row.amountSpentLei));
+    if (row.impressions != null) setImpressions(String(row.impressions));
+    if (row.linkClicks != null) setClicks(String(row.linkClicks));
+  };
+
   return (
     <div className="space-y-2">
       <p className="text-xs font-semibold text-[var(--color-text-light)]">Cifre reale (din Meta Ads Manager)</p>
+      <CsvImportPicker onPick={applyCsvRow} />
       <div className="grid grid-cols-3 gap-2">
         <input value={spend} onChange={(e) => setSpend(e.target.value)} type="number" placeholder="Cheltuit (lei)"
           className="px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
@@ -79,6 +151,7 @@ function ActualsEditor({ campaign, onSave }: { campaign: GrowthCampaign; onSave:
         <input value={clicks} onChange={(e) => setClicks(e.target.value)} type="number" placeholder="Clickuri"
           className="px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
       </div>
+      <p className="text-[10px] text-[var(--color-text-light)]">Cifrele completate din CSV rămân editabile înainte de salvare.</p>
       <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Notă internă (opțional)" rows={2}
         className="w-full px-3 py-2 border border-[var(--color-border)] rounded-lg text-sm bg-[var(--color-bg)]" />
       <button onClick={save} disabled={saving} className="text-xs px-3 py-1.5 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-lg disabled:opacity-50">
