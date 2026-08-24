@@ -221,6 +221,9 @@ export default function GrowthTab({ listingName }: { listingName?: string }) {
               placeholder="Sau introdu un buget personalizat (lei)"
               className="w-full px-4 py-2.5 border border-[var(--color-border)] rounded-xl text-sm bg-[var(--color-bg)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             />
+            <p className="text-[11px] text-[var(--color-text-light)] mt-2">
+              Pe lângă bugetul de mai sus, se percepe o taxă de gestionare a campaniei de 150 lei/lună (100 lei/lună dacă ai deja Premium).
+            </p>
           </div>
 
           {loading && <p className="text-sm text-[var(--color-text-light)]">Se calculează estimarea...</p>}
@@ -244,7 +247,7 @@ export default function GrowthTab({ listingName }: { listingName?: string }) {
                   <p className="text-[10px] text-[var(--color-text-light)]">contacte potențiale</p>
                 </div>
               </div>
-              <p className="text-[11px] text-[var(--color-text-light)] mt-2">Estimare orientativă, nu date live Meta.</p>
+              <p className="text-[11px] text-[var(--color-text-light)] mt-2">Estimare orientativă, nu date live Meta. La cerere, îți putem trimite și date din Google Analytics ca dovadă că traficul e real, nu boți.</p>
               <p className="text-[11px] text-[var(--color-text-light)] mt-1">Bugetul stabilește câte vizite/contacte estimăm — nu bugetul crește cu raza. Raza stabilește cui ajunge reclama (vezi mai sus câți concurenți/școli/grădinițe sunt incluse).</p>
             </div>
           )}
@@ -375,6 +378,11 @@ export default function GrowthTab({ listingName }: { listingName?: string }) {
                       <p className="text-[10px] text-[var(--color-text-light)]">leaduri</p>
                     </div>
                   </div>
+                )}
+                {(c.status === 'active' || c.status === 'completed') && (
+                  <p className="text-[11px] text-[var(--color-text-light)]">
+                    Vizitele de mai sus vin din urmărirea proprie ActivKids. Dacă vrei o dovadă în plus, scrie-ne și îți trimitem export din Google Analytics pentru exact acest interval.
+                  </p>
                 )}
                 {c.admin_note && (
                   <p className="text-xs text-[var(--color-text-light)] bg-[var(--color-bg)] rounded-lg p-2">{c.admin_note}</p>

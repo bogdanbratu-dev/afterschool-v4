@@ -258,8 +258,14 @@ export default function PromovarePage({ afterschoolCount }: { afterschoolCount?:
               </div>
             ))}
           </div>
+          <p className="text-xs text-center text-[var(--color-text-light)] mb-2">
+            Pe lângă bugetul de reclamă de mai sus, se percepe o <strong>taxă de gestionare a campaniei de 150 lei/lună</strong> (100 lei/lună pentru listările Premium).
+          </p>
+          <p className="text-[11px] text-center text-[var(--color-text-light)] mb-2">
+            Tu alegi bugetul lunar, noi configurăm și gestionăm campania — la fel ca la Premium, fără nimic de făcut din partea ta după ce trimiți cererea. Solicitarea se face din contul tău (tab-ul &bdquo;🚀 Promovare&rdquo; din dashboard), după ce ai o listare pe ActivKids — funcționează și pentru listările Free, nu doar Premium.
+          </p>
           <p className="text-[11px] text-center text-[var(--color-text-light)] mb-4">
-            Tu alegi bugetul lunar, noi configurăm și gestionăm campania — la fel ca la Premium, fără nimic de făcut din partea ta după ce trimiți cererea. Solicitarea se face din contul tău (tab-ul &bdquo;🚀 Promovare&rdquo; din dashboard), după ce ai o listare pe ActivKids.
+            🔍 Vrei o dovadă clară că traficul e real? La cerere, pentru intervalul ales, îți trimitem și datele din Google Analytics — nu doar cifrele noastre, ca să vezi transparent că nu sunt boți sau clickuri artificiale.
           </p>
           <a
             href={GROWTH_WA_LINK} target="_blank" rel="noopener noreferrer"
