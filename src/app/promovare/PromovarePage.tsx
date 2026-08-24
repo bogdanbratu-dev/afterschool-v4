@@ -265,7 +265,7 @@ export default function PromovarePage({ afterschoolCount }: { afterschoolCount?:
             Tu alegi bugetul lunar, noi configurăm și gestionăm campania — la fel ca la Premium, fără nimic de făcut din partea ta după ce trimiți cererea. Solicitarea se face din contul tău (tab-ul &bdquo;🚀 Promovare&rdquo; din dashboard), după ce ai o listare pe ActivKids — funcționează și pentru listările Free, nu doar Premium.
           </p>
           <p className="text-[11px] text-center text-[var(--color-text-light)] mb-4">
-            🔍 Vrei o dovadă clară că traficul e real? La cerere, pentru intervalul ales, îți trimitem și datele din Google Analytics — nu doar cifrele noastre, ca să vezi transparent că nu sunt boți sau clickuri artificiale.
+            🔍 La cerere, pentru intervalul campaniei, îți putem trimite și datele din Google Analytics, pe lângă cifrele noastre.
           </p>
           <a
             href={GROWTH_WA_LINK} target="_blank" rel="noopener noreferrer"

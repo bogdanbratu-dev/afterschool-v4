@@ -253,7 +253,7 @@ export default function GrowthTab({ listingName }: { listingName?: string }) {
                   <p className="text-[10px] text-[var(--color-text-light)]">contacte potențiale</p>
                 </div>
               </div>
-              <p className="text-[11px] text-[var(--color-text-light)] mt-2">Estimare orientativă, nu date live Meta. La cerere, îți putem trimite și date din Google Analytics ca dovadă că traficul e real, nu boți.</p>
+              <p className="text-[11px] text-[var(--color-text-light)] mt-2">Estimare orientativă, nu date live Meta. La cerere, îți putem trimite și date din Google Analytics, pe lângă cifrele noastre.</p>
               <p className="text-[11px] text-[var(--color-text-light)] mt-1">Bugetul stabilește câte vizite/contacte estimăm — nu bugetul crește cu raza. Raza stabilește cui ajunge reclama (vezi mai sus câți concurenți/școli/grădinițe sunt incluse).</p>
             </div>
           )}
