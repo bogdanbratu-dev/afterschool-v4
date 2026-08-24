@@ -36,6 +36,13 @@ export async function POST(request: Request) {
       source || null, match_context ? JSON.stringify(match_context) : null
     );
 
+    const matchSessionId = (match_context as { matchSessionId?: string } | undefined)?.matchSessionId;
+    if (source === 'match' && matchSessionId) {
+      try {
+        db.prepare('UPDATE match_progress SET contacted = 1, updated_at = ? WHERE session_id = ?').run(Date.now(), matchSessionId);
+      } catch {}
+    }
+
     const table = LISTING_TABLES[listing_type];
     const ownerRow = table
       ? (db.prepare(`SELECT email FROM ${table} WHERE id = ?`).get(listing_id) as { email: string | null } | undefined)

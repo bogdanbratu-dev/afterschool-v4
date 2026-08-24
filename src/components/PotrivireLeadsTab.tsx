@@ -32,6 +32,33 @@ function budgetLabel(budget: number | null | undefined): string | null {
   return bucket ? bucket.label : `până în ${budget} lei`;
 }
 
+interface MatchProgressRow {
+  id: number;
+  session_id: string;
+  listing_type: string | null;
+  step_id: string;
+  step_index: number;
+  total_steps: number;
+  draft: string | null;
+  completed: number;
+  contacted: number;
+  created_at: number;
+  updated_at: number;
+}
+
+const STEP_LABELS: Record<string, string> = {
+  listingType: 'ce tip de listare caută',
+  location: 'locație',
+  age: 'vârsta copilului',
+  budget: 'buget',
+  schedule: 'program',
+  priorities: 'priorități',
+};
+
+function stepLabel(stepId: string): string {
+  return STEP_LABELS[stepId] || stepId;
+}
+
 function FunnelContext({ ctx }: { ctx: MatchContext }) {
   const isKindergarten = ctx.listingType === 'kindergarten';
   const place = ctx.schoolName || ctx.locationLabel;
@@ -54,14 +81,20 @@ function FunnelContext({ ctx }: { ctx: MatchContext }) {
 
 export default function PotrivireLeadsTab() {
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [progress, setProgress] = useState<MatchProgressRow[]>([]);
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [bulkLoading, setBulkLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const load = async () => {
-    const res = await fetch('/api/admin/leads');
-    const data = await res.json();
+    const [leadsRes, progressRes] = await Promise.all([
+      fetch('/api/admin/leads'),
+      fetch('/api/admin/match-progress'),
+    ]);
+    const data = await leadsRes.json();
     setLeads(Array.isArray(data) ? data.filter((l: Lead) => l.source === 'match') : []);
+    const progressData = await progressRes.json();
+    setProgress(Array.isArray(progressData.rows) ? progressData.rows : []);
     setLoading(false);
   };
 
@@ -121,6 +154,8 @@ export default function PotrivireLeadsTab() {
   };
 
   const newCount = leads.filter(l => l.status === 'new').length;
+  const finishedNotContacted = progress.filter(p => p.completed === 1);
+  const abandoned = progress.filter(p => p.completed === 0);
 
   if (loading) return <div className="flex justify-center py-12"><div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>;
 
@@ -128,7 +163,7 @@ export default function PotrivireLeadsTab() {
     <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-6">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <h2 className="text-lg font-bold">
-          🎯 Potrivire – leaduri din chestionar ({leads.length})
+          🎯 Potrivire – leaduri complete ({leads.length})
           {newCount > 0 && <span className="ml-2 inline-flex items-center justify-center w-6 h-6 bg-purple-600 text-white rounded-full text-xs font-bold align-middle">{newCount}</span>}
         </h2>
         {leads.length > 0 && (
@@ -177,6 +212,64 @@ export default function PotrivireLeadsTab() {
           })}
         </div>
       )}
+
+      <div className="mt-8 pt-6 border-t border-[var(--color-border)]">
+        <h3 className="text-sm font-bold mb-1">
+          👀 A văzut recomandările, nu a contactat încă ({finishedNotContacted.length})
+        </h3>
+        <p className="text-xs text-[var(--color-text-light)] mb-3">
+          Au terminat chestionarul și au ajuns la listă, dar n-au trimis nicio cerere de contact.
+        </p>
+        {finishedNotContacted.length === 0 ? (
+          <p className="text-sm text-[var(--color-text-light)]">Niciunul momentan.</p>
+        ) : (
+          <div className="space-y-3">
+            {finishedNotContacted.map(p => {
+              const ctx = parseContext(p.draft);
+              return (
+                <div key={p.session_id}>
+                  {ctx && <FunnelContext ctx={ctx} />}
+                  <div className="flex items-center gap-2 flex-wrap text-xs text-[var(--color-text-light)] pl-1">
+                    <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold">
+                      A văzut recomandările, nu a contactat
+                    </span>
+                    <span>{new Date(p.updated_at).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-[var(--color-border)]">
+        <h3 className="text-sm font-bold mb-1">
+          🚪 S-au oprit în chestionar ({abandoned.length})
+        </h3>
+        <p className="text-xs text-[var(--color-text-light)] mb-3">
+          Au început chestionarul Potrivire dar nu l-au terminat.
+        </p>
+        {abandoned.length === 0 ? (
+          <p className="text-sm text-[var(--color-text-light)]">Niciunul momentan.</p>
+        ) : (
+          <div className="space-y-3">
+            {abandoned.map(p => {
+              const ctx = parseContext(p.draft);
+              return (
+                <div key={p.session_id}>
+                  {ctx && <FunnelContext ctx={ctx} />}
+                  <div className="flex items-center gap-2 flex-wrap text-xs text-[var(--color-text-light)] pl-1">
+                    <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-semibold">
+                      S-a oprit la: {stepLabel(p.step_id)} (pasul {p.step_index + 1}/{p.total_steps})
+                    </span>
+                    <span>{new Date(p.updated_at).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

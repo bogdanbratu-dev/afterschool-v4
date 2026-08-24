@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import MatchWizard from '@/components/match/MatchWizard';
 import { logSearch } from '@/lib/logSearch';
+import { logMatchProgress } from '@/lib/logMatchProgress';
 import MatchResultCard from '@/components/match/MatchResultCard';
 import NearMissSection from '@/components/match/NearMissSection';
 import type { MatchDraft } from '@/components/match/types';
@@ -36,7 +37,7 @@ interface MatchResponse {
 
 type ViewState = { phase: 'wizard' } | { phase: 'loading'; listingType: MatchListingType } | { phase: 'error' } | { phase: 'results'; listingType: MatchListingType; data: MatchResponse; matchContext: unknown };
 
-function draftToAnswers(draft: MatchDraft) {
+function draftToAnswers(draft: MatchDraft, sessionId: string) {
   return {
     listingType: draft.listingType as MatchListingType,
     lat: draft.lat as number,
@@ -50,7 +51,13 @@ function draftToAnswers(draft: MatchDraft) {
     scheduleRequired: draft.scheduleRequired,
     desiredActivities: draft.desiredActivities,
     requiredActivities: draft.requiredActivities,
+    matchSessionId: sessionId,
   };
+}
+
+function makeSessionId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 }
 
 function PotrivireHeader() {
@@ -67,11 +74,12 @@ function PotrivireHeader() {
 export default function PotrivirePage() {
   const [state, setState] = useState<ViewState>({ phase: 'wizard' });
   const [started, setStarted] = useState(false);
+  const [sessionId] = useState(() => makeSessionId());
 
   async function handleComplete(draft: MatchDraft) {
     const listingType = draft.listingType as MatchListingType;
     setState({ phase: 'loading', listingType });
-    const answers = draftToAnswers(draft);
+    const answers = draftToAnswers(draft, sessionId);
     try {
       const res = await fetch('/api/match', {
         method: 'POST',
@@ -87,6 +95,7 @@ export default function PotrivirePage() {
         lng: draft.lng ?? null,
         resolved: data.matches.length > 0,
       });
+      logMatchProgress({ sessionId, completed: true });
       setState({ phase: 'results', listingType, data, matchContext: answers });
     } catch {
       setState({ phase: 'error' });
@@ -161,7 +170,7 @@ export default function PotrivirePage() {
     return (
       <>
         <PotrivireHeader />
-        <MatchWizard onComplete={handleComplete} />
+        <MatchWizard sessionId={sessionId} onComplete={handleComplete} />
       </>
     );
   }

@@ -751,6 +751,25 @@ function initializeDb(db: Database.Database) {
     CREATE UNIQUE INDEX IF NOT EXISTS idx_growth_campaigns_pending
       ON growth_campaigns(listing_type, listing_id) WHERE status = 'pending';
   `);
+
+  // Progres chestionar Potrivire - un rand per incercare de wizard (session_id generat client-side),
+  // suprascris pe masura ce userul avanseaza. Permite admin-ului sa vada si sesiunile care nu au
+  // ajuns la un lead: unde s-au oprit, sau daca au vazut recomandarile dar n-au contactat pe nimeni.
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS match_progress (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      session_id TEXT NOT NULL UNIQUE,
+      listing_type TEXT,
+      step_id TEXT NOT NULL,
+      step_index INTEGER NOT NULL,
+      total_steps INTEGER NOT NULL,
+      draft TEXT,
+      completed INTEGER NOT NULL DEFAULT 0,
+      contacted INTEGER NOT NULL DEFAULT 0,
+      created_at INTEGER NOT NULL,
+      updated_at INTEGER NOT NULL
+    );
+  `);
 }
 
 export interface School {

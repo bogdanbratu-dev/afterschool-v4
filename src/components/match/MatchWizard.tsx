@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
+import { logMatchProgress } from '@/lib/logMatchProgress';
 import { EMPTY_DRAFT, type MatchDraft } from './types';
 import ListingTypeStep from './steps/ListingTypeStep';
 import SchoolStep from './steps/SchoolStep';
@@ -27,7 +28,7 @@ function isStepValid(stepId: StepId, draft: MatchDraft): boolean {
   }
 }
 
-export default function MatchWizard({ onComplete }: { onComplete: (draft: MatchDraft) => void }) {
+export default function MatchWizard({ sessionId, onComplete }: { sessionId: string; onComplete: (draft: MatchDraft) => void }) {
   const [draft, setDraft] = useState<MatchDraft>(EMPTY_DRAFT);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -36,6 +37,14 @@ export default function MatchWizard({ onComplete }: { onComplete: (draft: MatchD
   const stepId = steps[index];
   const valid = isStepValid(stepId, draft);
   const isLast = index === steps.length - 1;
+
+  useEffect(() => {
+    logMatchProgress({
+      sessionId, stepId, stepIndex: index, totalSteps: steps.length,
+      listingType: draft.listingType ?? null, draft,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepId]);
 
   function update(patch: Partial<MatchDraft>) {
     setDraft((d) => ({ ...d, ...patch }));
