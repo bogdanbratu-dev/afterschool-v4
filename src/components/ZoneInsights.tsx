@@ -628,10 +628,10 @@ export default function ZoneInsights({ onWantPremium }: { onWantPremium?: () => 
             {report.budgetEstimate && (
               <div>
                 <h3 className="text-sm font-bold text-[var(--color-text-main)] mb-1 flex items-center gap-1.5">
-                  <span aria-hidden="true">💰</span> Cât te costă să aduci trafic pe site din Facebook
+                  <span aria-hidden="true">💰</span> Cât costă trafic plătit către listarea ta
                 </h3>
                 <p className="text-xs text-[var(--color-text-light)] mb-2">
-                  Cu un buget de {report.budgetEstimate.budgetLei} lei cheltuit pe reclame Facebook care trimit vizitatori pe site-ul tău, estimăm:
+                  Cu un buget de {report.budgetEstimate.budgetLei} lei cheltuit pe promovare online (campanie Meta Ads — Facebook și Instagram) care trimite vizitatori pe site-ul tău, estimăm:
                 </p>
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <div className="bg-[var(--color-bg)] rounded-xl p-3 text-center">
@@ -679,7 +679,7 @@ export default function ZoneInsights({ onWantPremium }: { onWantPremium?: () => 
               className="w-full py-3.5 text-white rounded-xl text-sm font-bold transition-transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
               style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))', boxShadow: 'var(--shadow-brand)' }}
             >
-              Vreau vizibilitate Premium în {report.zoneLabel} <span aria-hidden="true">→</span>
+              Vreau trafic plătit pentru {report.zoneLabel} <span aria-hidden="true">→</span>
             </button>
           </div>
         )}

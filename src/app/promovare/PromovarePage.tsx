@@ -47,6 +47,7 @@ const TYPE_API: Record<ListingType, string> = {
 };
 
 const PREMIUM_WA_LINK = 'https://wa.me/40747646543?text=' + encodeURIComponent('Bună ziua! Aș dori să iau și eu pachetul Premium.');
+const GROWTH_WA_LINK = 'https://wa.me/40747646543?text=' + encodeURIComponent('Bună ziua! Aș dori detalii despre trafic plătit (promovare Growth).');
 const LISTING_HELP_WA_LINK = 'https://wa.me/40747646543?text=' + encodeURIComponent('Bună ziua! Nu am timp să completez formularul, m-ați putea ajuta cu listarea?');
 
 // Centre aproximative de sector, folosite ca fallback cand nu avem geocodare exacta a adresei
@@ -236,6 +237,37 @@ export default function PromovarePage({ afterschoolCount }: { afterschoolCount?:
               ))}
             </div>
           </div>
+          <p className="text-[11px] text-center text-[var(--color-text-light)] mt-4">
+            Free și Premium îți dau o poziție mai bună <em>în</em> ActivKids. Pentru a aduce părinți noi din afara site-ului, vezi mai jos <strong>trafic plătit</strong>.
+          </p>
+        </div>
+
+        <div className="bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-primary)] p-6">
+          <div className="flex items-center gap-2 justify-center mb-1">
+            <span className="text-lg" aria-hidden="true">🚀</span>
+            <h2 className="font-bold text-center">Trafic plătit <span className="text-[var(--color-text-light)] font-normal">(promovare Growth)</span></h2>
+          </div>
+          <p className="text-xs text-center text-[var(--color-text-light)] mb-4">
+            Diferit de Free/Premium: în loc de o poziție mai bună printre listările existente, cumperi vizite noi — părinți din zona ta care încă nu știu de tine, aduși printr-o campanie de promovare online (Meta Ads — Facebook și Instagram). Estimarea de mai sus (secțiunea &bdquo;Potențialul zonei&rdquo;) arată exact la ce trafic te poți aștepta pentru un buget ales.
+          </p>
+          <div className="grid grid-cols-3 gap-2 text-xs text-center mb-4">
+            {[{ l: 'Start', p: '300' }, { l: 'Growth', p: '500' }, { l: 'Boost', p: '1000' }].map(t => (
+              <div key={t.l} className="bg-[var(--color-bg)] rounded-xl p-3">
+                <p className="font-semibold text-[var(--color-text-main)]">{t.l}</p>
+                <p className="font-bold text-[var(--color-primary)]">{t.p} lei<span className="font-normal text-[var(--color-text-light)]">/lună</span></p>
+              </div>
+            ))}
+          </div>
+          <p className="text-[11px] text-center text-[var(--color-text-light)] mb-4">
+            Tu alegi bugetul lunar, noi configurăm și gestionăm campania — la fel ca la Premium, fără nimic de făcut din partea ta după ce trimiți cererea. Solicitarea se face din contul tău (tab-ul &bdquo;🚀 Promovare&rdquo; din dashboard), după ce ai o listare pe ActivKids.
+          </p>
+          <a
+            href={GROWTH_WA_LINK} target="_blank" rel="noopener noreferrer"
+            className="block w-full text-center py-3 rounded-xl text-sm font-bold text-white transition-transform hover:-translate-y-0.5"
+            style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))', boxShadow: 'var(--shadow-brand)' }}
+          >
+            Întreabă despre trafic plătit →
+          </a>
         </div>
 
         <p className="text-xs text-center text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">

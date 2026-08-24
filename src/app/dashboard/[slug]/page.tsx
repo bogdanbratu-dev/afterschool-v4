@@ -630,9 +630,9 @@ export default function DashboardPage() {
           <div className="relative bg-blue-50 border border-blue-200 rounded-2xl p-5">
             <button onClick={dismissGrowthBanner} aria-label="Închide"
               className="absolute top-3 right-3 text-blue-400 hover:text-blue-700 text-sm">✕</button>
-            <h3 className="font-semibold text-blue-800 mb-1">🚀 Nou: Promovare Growth</h3>
+            <h3 className="font-semibold text-blue-800 mb-1">🚀 Nou: trafic plătit (Growth)</h3>
             <p className="text-sm text-blue-700 mb-3">
-              Estimează câți părinți din zona ta poți atrage cu o campanie Meta Ads și solicită o promovare — noi o gestionăm, tu vezi vizitele și leadurile direct în cont.
+              Estimează câți părinți noi din zona ta poți atrage cu o campanie de promovare online și solicită o campanie — noi o gestionăm, tu vezi vizitele și leadurile direct în cont.
             </p>
             <button onClick={() => { setTab('growth'); dismissGrowthBanner(); }}
               className="inline-block text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors">

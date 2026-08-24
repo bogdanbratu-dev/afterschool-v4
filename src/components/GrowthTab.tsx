@@ -171,7 +171,7 @@ export default function GrowthTab({ listingName }: { listingName?: string }) {
             <div className="w-11 h-11 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 bg-white/70 border border-white" aria-hidden="true">🚀</div>
             <div>
               <h2 className="font-display text-lg sm:text-xl font-bold text-[var(--color-text-main)]">Promovare Growth</h2>
-              <p className="text-xs sm:text-sm text-[var(--color-text-light)]">Campanie Facebook Ads gestionată de echipa ActivKids, pe raza ta</p>
+              <p className="text-xs sm:text-sm text-[var(--color-text-light)]">Campanie de trafic plătit (Meta Ads) gestionată de echipa ActivKids, pe raza ta</p>
             </div>
           </div>
         </div>
