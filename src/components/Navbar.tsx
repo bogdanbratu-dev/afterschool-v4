@@ -11,9 +11,10 @@ const LINKS = [
   { href: '/catering', label: 'Catering' },
 ];
 
+// /potrivire-activitati e ascuns temporar din meniu — chestionarul de activități mai are nevoie
+// de lucru (întrebările/logica nu se leagă bine încă), ruta rămâne activă și accesibilă direct.
 const MATCH_LINKS = [
   { href: '/potrivire', icon: '🎯', label: 'Potrivire Afterschool/Grădiniță' },
-  { href: '/potrivire-activitati', icon: '🏆', label: 'Potrivire Activități și Sporturi' },
 ];
 
 export default function Navbar() {
