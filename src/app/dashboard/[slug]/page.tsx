@@ -623,7 +623,7 @@ export default function DashboardPage() {
         )}
 
         {tab === 'growth' && (listingType === 'afterschool' || listingType === 'kindergarten' || listingType === 'club') && (
-          <GrowthTab />
+          <GrowthTab listingName={listing.name} />
         )}
 
         {tab === 'listare' && !growthBannerDismissed && (listingType === 'afterschool' || listingType === 'kindergarten' || listingType === 'club') && (

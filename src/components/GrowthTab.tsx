@@ -54,7 +54,7 @@ const STATUS_META: Record<Campaign['status'], { label: string; color: string }> 
   rejected: { label: 'Respinsă', color: 'var(--color-danger)' },
 };
 
-export default function GrowthTab() {
+export default function GrowthTab({ listingName }: { listingName?: string }) {
   const [radiusKm, setRadiusKm] = useState(3);
   const [tiers, setTiers] = useState<PricingTier[]>([]);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
@@ -80,6 +80,10 @@ export default function GrowthTab() {
   const budgetLei = selectedTier
     ? tiers.find((t) => t.key === selectedTier)?.budgetLei ?? 0
     : Number(customBudget) || 0;
+
+  const whatsappText = encodeURIComponent(
+    `Bună ziua! Aș dori să pornesc o promovare Growth${listingName ? ` pentru ${listingName}` : ''} (rază ${radiusKm} km, buget ${budgetLei || '—'} lei/lună).`
+  );
 
   async function loadCampaigns() {
     try {
@@ -300,6 +304,22 @@ export default function GrowthTab() {
                 >
                   {submitting ? 'Se trimite...' : 'Trimite cererea'}
                 </button>
+              </div>
+              <p className="text-xs text-center text-[var(--color-text-light)]">sau, dacă preferi să discuți direct</p>
+              <div className="flex gap-2">
+                <a
+                  href={`https://wa.me/40747646543?text=${whatsappText}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex-1 py-2.5 text-center text-sm font-bold text-white bg-green-500 hover:bg-green-600 rounded-xl transition-colors"
+                >
+                  WhatsApp →
+                </a>
+                <a
+                  href="tel:0747646543"
+                  className="flex-1 py-2.5 text-center text-sm font-bold text-[var(--color-primary)] border border-[var(--color-primary)] rounded-xl transition-colors"
+                >
+                  Sună-mă: 0747 646 543
+                </a>
               </div>
             </div>
           )}
