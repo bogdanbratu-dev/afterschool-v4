@@ -4,6 +4,7 @@ import OutreachTab from '@/components/DashboardOutreachTab';
 import CollaborationsTab from '@/components/CollaborationsTab';
 import FindProfessionalsTab from '@/components/FindProfessionalsTab';
 import ProfileCompletenessBar from '@/components/match/ProfileCompletenessBar';
+import GrowthTab from '@/components/GrowthTab';
 import { useRouter, useParams } from 'next/navigation';
 
 interface Listing {
@@ -25,7 +26,7 @@ interface Microsite {
   outreach_enabled: number | null;
 }
 
-type Tab = 'listare' | 'site' | 'statistici' | 'contacte' | 'outreach' | 'colaborari' | 'colaboratori';
+type Tab = 'listare' | 'site' | 'statistici' | 'contacte' | 'outreach' | 'colaborari' | 'colaboratori' | 'growth';
 
 function toSimpleSlug(name: string): string {
   return name.toLowerCase()
@@ -241,6 +242,7 @@ export default function DashboardPage() {
     ...(microsite?.outreach_enabled === 1 ? [{ key: 'outreach' as Tab, label: listingType === 'professional' ? 'Abordează parteneri' : listingType === 'afterschool' ? 'Găsește colaboratori' : listingType === 'caterer' ? 'Abordează parteneri' : 'Outreach' }] : []),
     ...((listingType === 'afterschool' || listingType === 'kindergarten') ? [{ key: 'colaboratori' as Tab, label: 'Colaboratori' }] : []),
     ...((listingType === 'afterschool' || listingType === 'professional' || listingType === 'kindergarten') ? [{ key: 'colaborari' as Tab, label: 'Colaborări' }] : []),
+    ...((listingType === 'afterschool' || listingType === 'kindergarten' || listingType === 'club') ? [{ key: 'growth' as Tab, label: '🚀 Promovare' }] : []),
   ];
 
   return (
@@ -604,6 +606,10 @@ export default function DashboardPage() {
 
         {tab === 'colaborari' && (listingType === 'afterschool' || listingType === 'professional' || listingType === 'kindergarten') && (
           <CollaborationsTab />
+        )}
+
+        {tab === 'growth' && (listingType === 'afterschool' || listingType === 'kindergarten' || listingType === 'club') && (
+          <GrowthTab />
         )}
 
         {listing.is_premium !== 1 && tab === 'listare' && (

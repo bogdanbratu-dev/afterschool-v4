@@ -710,6 +710,47 @@ function initializeDb(db: Database.Database) {
   // momentul relevant curent (generare cat timp e in coada, ora postarii reale cand devine
   // 'sent') - separate ca istoricul din admin sa poata arata ambele momente pt un rand.
   try { db.exec(`ALTER TABLE fb_post_log ADD COLUMN generated_at INTEGER`); } catch {}
+
+  // Cereri de campanie de promovare platita (ActivKids Growth) - proprietarul solicita o campanie
+  // Meta Ads, gestionata manual de admin (aprobare, activare, spend/impresii/clickuri introduse
+  // manual din Meta Ads Manager). Vizitele si leadurile NU se stocheaza aici - se calculeaza la
+  // citire din pageviews/leads pentru fereastra [campaign_start, campaign_end || acum], vezi
+  // src/lib/growthCampaigns.ts. Indexul unic partial de mai jos blocheaza o a doua cerere 'pending'
+  // pe aceeasi listare, in completarea verificarii explicite din POST /api/user/growth-campaigns.
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS growth_campaigns (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      listing_type TEXT NOT NULL,
+      listing_id INTEGER NOT NULL,
+      listing_name TEXT NOT NULL,
+      radius_km INTEGER NOT NULL,
+      budget_tier TEXT,
+      budget_lei INTEGER NOT NULL,
+      currency TEXT NOT NULL DEFAULT 'RON',
+      objective TEXT,
+      offer_text TEXT,
+      period_desired TEXT,
+      contact_name TEXT,
+      contact_phone TEXT,
+      contact_email TEXT,
+      est_reach_min INTEGER, est_reach_max INTEGER,
+      est_clicks_min INTEGER, est_clicks_max INTEGER,
+      est_leads_min INTEGER, est_leads_max INTEGER,
+      status TEXT NOT NULL DEFAULT 'pending',
+      spend_actual_lei INTEGER,
+      impressions_actual INTEGER,
+      clicks_actual INTEGER,
+      campaign_start INTEGER,
+      campaign_end INTEGER,
+      admin_note TEXT,
+      created_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+      reviewed_at INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_growth_campaigns_pending
+      ON growth_campaigns(listing_type, listing_id) WHERE status = 'pending';
+  `);
 }
 
 export interface School {

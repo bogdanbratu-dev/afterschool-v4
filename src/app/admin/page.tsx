@@ -5,6 +5,7 @@ import { AnalyticsSection } from '@/components/AnalyticsSection';
 import GASection from '@/components/GASection';
 import AdminListings from '@/components/AdminListings';
 import PotrivireLeadsTab from '@/components/PotrivireLeadsTab';
+import AdminGrowth from '@/components/AdminGrowth';
 import OutreachTab from '@/components/OutreachTab';
 import CateringAdmin from '@/components/CateringAdmin';
 import ProfessionalsAdmin from '@/components/ProfessionalsAdmin';
@@ -103,7 +104,7 @@ export default function AdminPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'saturation' | 'reports' | 'listings' | 'potrivireLeads' | 'users' | 'outreach' | 'catering' | 'professionals' | 'kindergartens' | 'tutors' | 'microsites' | 'fboutreach' | 'fbautopost' | 'waoutreach' | 'micrositepitch' | 'circschools' | 'adcalibration'>('afterschools');
+  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'saturation' | 'reports' | 'listings' | 'potrivireLeads' | 'growthCampaigns' | 'users' | 'outreach' | 'catering' | 'professionals' | 'kindergartens' | 'tutors' | 'microsites' | 'fboutreach' | 'fbautopost' | 'waoutreach' | 'micrositepitch' | 'circschools' | 'adcalibration'>('afterschools');
   const [msResult, setMsResult] = useState<{ microsite_url: string; magic_link: string } | null>(null);
   const [editMicrosite, setEditMicrosite] = useState<{ id: number; outreach_enabled: number; resend_api_key: string; outreach_from_email: string } | null>(null);
   const [msCreating, setMsCreating] = useState<number | null>(null);
@@ -767,6 +768,12 @@ export default function AdminPage() {
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'potrivireLeads' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
             🎯 Potrivire
+          </button>
+          <button
+            onClick={() => setActiveTab('growthCampaigns')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'growthCampaigns' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            🚀 Growth
           </button>
           <button
             onClick={() => { setActiveTab('users'); loadUsers(); }}
@@ -1981,6 +1988,7 @@ export default function AdminPage() {
         {activeTab === 'listings' && <AdminListings />}
 
         {activeTab === 'potrivireLeads' && <PotrivireLeadsTab />}
+        {activeTab === 'growthCampaigns' && <AdminGrowth />}
 
         {activeTab === 'users' && (
           <div className="p-6">

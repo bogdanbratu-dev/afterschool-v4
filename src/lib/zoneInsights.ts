@@ -20,7 +20,7 @@ export function clampRadiusKm(raw: unknown): number {
   return Math.min(5, Math.max(1, Math.round(n)));
 }
 
-const TABLE_FOR_TYPE: Record<BusinessType, string> = {
+export const TABLE_FOR_TYPE: Record<BusinessType, string> = {
   afterschool: 'afterschools',
   kindergarten: 'kindergartens',
   club: 'clubs',
@@ -34,7 +34,7 @@ const CLICK_TYPE_FOR_BUSINESS: Record<BusinessType, string> = {
 
 // Prefixul de ruta publica al fiecarui tip, pentru extragerea id-ului din slug-ul salvat in
 // pageviews.page (ex. "/afterschool/nume-listare-246" -> id 246).
-const PAGE_PREFIX: Record<BusinessType, RegExp> = {
+export const PAGE_PREFIX: Record<BusinessType, RegExp> = {
   afterschool: /^\/afterschool\/[^/]+-(\d+)\/?$/,
   club: /^\/activitati\/[^/]+-(\d+)\/?$/,
   kindergarten: /^\/gradinite\/[^/]+-(\d+)\/?$/,
