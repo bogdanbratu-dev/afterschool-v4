@@ -23,6 +23,7 @@ export default function ContactSuggestionsTab() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState<number | null>(null);
+  const [approvingAll, setApprovingAll] = useState(false);
 
   const load = async () => {
     const data = await fetch('/api/admin/contact-suggestions').then((r) => r.json());
@@ -30,6 +31,20 @@ export default function ContactSuggestionsTab() {
     setLoading(false);
   };
   useEffect(() => { load(); }, []);
+
+  const approveAll = async () => {
+    if (!confirm(`Aprobi toate cele ${suggestions.length} propuneri în așteptare?`)) return;
+    setApprovingAll(true);
+    const res = await fetch('/api/admin/contact-suggestions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'approve_all' }),
+    });
+    const data = await res.json();
+    setApprovingAll(false);
+    if (res.ok) alert(`Aplicate ${data.applied} din ${data.total}.`);
+    load();
+  };
 
   const act = async (id: number, action: 'approve' | 'reject') => {
     setActing(id);
@@ -54,13 +69,24 @@ export default function ContactSuggestionsTab() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold text-[var(--color-text-main)]">📇 Propuneri date de contact</h2>
-        <p className="text-xs text-[var(--color-text-light)] mt-1">
-          Generate de <code>scripts/crawl-contact-info.js</code>, care verifică emailul/telefonul afterschool-urilor
-          (cu website) contra a ceea ce e publicat chiar pe site-ul lor. Nu se aplică nimic automat — aprobă sau
-          respinge fiecare propunere aici.
-        </p>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--color-text-main)]">📇 Propuneri date de contact</h2>
+          <p className="text-xs text-[var(--color-text-light)] mt-1">
+            Generate de <code>scripts/crawl-contact-info.js</code>, care verifică emailul/telefonul afterschool-urilor
+            (cu website) contra a ceea ce e publicat chiar pe site-ul lor. Nu se aplică nimic automat — aprobă sau
+            respinge fiecare propunere aici.
+          </p>
+        </div>
+        {suggestions.length > 0 && (
+          <button
+            onClick={approveAll}
+            disabled={approvingAll}
+            className="text-xs bg-green-600 text-white px-4 py-1.5 rounded-lg disabled:opacity-40 whitespace-nowrap"
+          >
+            {approvingAll ? 'Se aprobă...' : `Aprobă tot (${suggestions.length})`}
+          </button>
+        )}
       </div>
 
       <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] overflow-x-auto">
