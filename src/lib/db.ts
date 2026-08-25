@@ -372,6 +372,24 @@ function initializeDb(db: Database.Database) {
     )
   `);
 
+  // Tabel contact_crawl_suggestions: propuneri de email/telefon gasite de crawler-ul
+  // scripts/crawl-contact-info.js, in asteptarea aprobarii unui admin (nu se aplica automat).
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS contact_crawl_suggestions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      listing_type TEXT NOT NULL DEFAULT 'afterschool',
+      listing_id INTEGER NOT NULL,
+      listing_name TEXT NOT NULL,
+      field TEXT NOT NULL,
+      old_value TEXT,
+      new_value TEXT NOT NULL,
+      source_url TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      created_at INTEGER NOT NULL DEFAULT (strftime('%s','now') * 1000),
+      reviewed_at INTEGER
+    )
+  `);
+
   // Coloane noi pe claim_requests (contact direct, fara cont)
   try { db.exec(`ALTER TABLE claim_requests ADD COLUMN first_name TEXT`); } catch {}
   try { db.exec(`ALTER TABLE claim_requests ADD COLUMN last_name TEXT`); } catch {}

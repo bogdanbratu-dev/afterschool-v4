@@ -19,6 +19,7 @@ import WaOutreach from '@/components/WaOutreach';
 import MicrositePitchTab from '@/components/MicrositePitchTab';
 import CircSchoolsTab from '@/components/CircSchoolsTab';
 import AdCalibrationTab from '@/components/AdCalibrationTab';
+import ContactSuggestionsTab from '@/components/ContactSuggestionsTab';
 
 const CLUB_CATEGORIES = [
   { value: 'inot', label: '🏊 Înot' },
@@ -104,7 +105,7 @@ export default function AdminPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'saturation' | 'reports' | 'listings' | 'potrivireLeads' | 'growthCampaigns' | 'users' | 'outreach' | 'catering' | 'professionals' | 'kindergartens' | 'tutors' | 'microsites' | 'fboutreach' | 'fbautopost' | 'waoutreach' | 'micrositepitch' | 'circschools' | 'adcalibration'>('afterschools');
+  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'saturation' | 'reports' | 'listings' | 'potrivireLeads' | 'growthCampaigns' | 'users' | 'outreach' | 'catering' | 'professionals' | 'kindergartens' | 'tutors' | 'microsites' | 'fboutreach' | 'fbautopost' | 'waoutreach' | 'micrositepitch' | 'circschools' | 'adcalibration' | 'contactSuggestions'>('afterschools');
   const [msResult, setMsResult] = useState<{ microsite_url: string; magic_link: string } | null>(null);
   const [editMicrosite, setEditMicrosite] = useState<{ id: number; outreach_enabled: number; resend_api_key: string; outreach_from_email: string } | null>(null);
   const [msCreating, setMsCreating] = useState<number | null>(null);
@@ -852,6 +853,12 @@ export default function AdminPage() {
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'adcalibration' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
           >
             📊 Calibrare reclame
+          </button>
+          <button
+            onClick={() => setActiveTab('contactSuggestions')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'contactSuggestions' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
+          >
+            📇 Contact crawler
           </button>
         </div>
 
@@ -2051,6 +2058,8 @@ export default function AdminPage() {
 
         {activeTab === 'circschools' && <CircSchoolsTab />}
         {activeTab === 'adcalibration' && <AdCalibrationTab />}
+
+        {activeTab === 'contactSuggestions' && <ContactSuggestionsTab />}
       {msResult && (
         <div className="fixed inset-0 bg-black/60 z-[9999] flex items-center justify-center p-4" onClick={() => setMsResult(null)}>
           <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
