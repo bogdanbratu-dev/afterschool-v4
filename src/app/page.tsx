@@ -135,7 +135,7 @@ export default function Home() {
             href="/potrivire"
             className="flex-shrink-0 px-7 py-3.5 bg-amber-500 hover:bg-amber-600 text-white text-base font-bold rounded-xl shadow-md hover:shadow-lg transition-all whitespace-nowrap"
           >
-            Începe testul →
+            Începe →
           </a>
         </div>
       </section>
