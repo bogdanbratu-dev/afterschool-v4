@@ -115,18 +115,27 @@ export default function Home() {
       </section>
 
       {/* Match CTA Banner */}
-      <section className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200">
-        <div className="max-w-6xl mx-auto px-4 py-5 sm:py-6 flex flex-col sm:flex-row items-center gap-4">
-          <div className="text-4xl sm:text-5xl flex-shrink-0">🎯</div>
+      <section className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 border-b border-amber-200">
+        <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8 flex flex-col sm:flex-row items-center gap-5 sm:gap-6">
+          <div className="text-5xl sm:text-6xl flex-shrink-0 drop-shadow-sm">🎯</div>
           <div className="flex-1 text-center sm:text-left">
-            <p className="text-base sm:text-lg font-display font-extrabold text-amber-900">Nu știi ce afterschool să alegi?</p>
-            <p className="text-sm text-amber-700 mt-0.5">Răspunde la câteva întrebări și îți arătăm potrivirile ideale pentru copilul tău, cu scor explicat</p>
+            <p className="text-lg sm:text-2xl font-display font-extrabold text-amber-900">
+              Personalizează căutarea după nevoile copilului tău
+            </p>
+            <p className="text-sm sm:text-base text-amber-700 mt-1">
+              Răspunde la câteva întrebări simple și primești un clasament cu potrivirile ideale, fiecare cu scor explicat.
+            </p>
+            <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3 justify-center sm:justify-start">
+              <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-amber-800">⏱️ Doar 2 minute</span>
+              <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-amber-800">🧠 Scor de potrivire explicat</span>
+              <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-amber-800">🆓 Complet gratuit</span>
+            </div>
           </div>
           <a
             href="/potrivire"
-            className="flex-shrink-0 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white text-sm sm:text-base font-bold rounded-xl shadow-sm transition-colors whitespace-nowrap"
+            className="flex-shrink-0 px-7 py-3.5 bg-amber-500 hover:bg-amber-600 text-white text-base font-bold rounded-xl shadow-md hover:shadow-lg transition-all whitespace-nowrap"
           >
-            Alege potrivit →
+            Începe testul →
           </a>
         </div>
       </section>
