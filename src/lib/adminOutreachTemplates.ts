@@ -144,17 +144,17 @@ Fiind adăugați pe activkids.ro, aveți gratuit:
 
 Dacă sunteți de acord, confirmarea e scurtă: bifați acordul cu termenii și politica de confidențialitate, iar apoi primiți acces direct la platformă, pe planul gratuit: {link}
 
-Am observat totuși că nu aveți un website propriu. Cu ajutorul platformei, vă putem crea și un domeniu, și un site de prezentare propriu, pe care să îl folosiți și în afara platformei, administrat cum doriți dvs. Site-ul include galerie foto, descriere, formular de contact, linkuri către rețelele sociale și statistici de vizualizări. Costă doar 50 lei, o singură dată, fără abonament.
+Am observat totuși că nu aveți un site propriu. Un site v-ar ajuta nu doar să vă îmbunătățiți listările pe astfel de platforme, dar potențialii clienți vă pot găsi și prin Google sau chiar prin ChatGPT în zilele acestea.
 
-Ca să vă faceți o idee mai clară, avem deja un exemplu construit, îl puteți vedea aici: https://academia-micilor-exploratori.activkids.ro (descriere, activități, galerie foto, formular de contact și linkuri către rețele sociale) - un site asemănător ar putea arăta așa și pentru dvs.
+Listarea pe activkids.ro este gratuită, iar pachetul Premium (100 lei/3 luni) vă aduce în plus poziție prioritară în rezultate, badge Premium, carusel foto mai vizibil, contact direct de la părinți, statistici de vizite și acces la catalogul nostru de colaboratori (logopezi, psihologi, meditatori).
 
-Dacă vreți ceva mai complet, avem și un pachet profesional: site propriu, cu domeniu propriu (de exemplu www.numecompanie.ro), optimizat pentru mobil, indexat pe Google și cu orice funcționalități aveți nevoie. Costă 500 lei o singură dată, plus 70 lei pe an taxa de domeniu, și include automat și listarea gratuită pe activkids.ro.
+Un site cu orice funcționalități doriți vi-l pot face cu 500 lei, o singură dată - și aș putea include în acei 500 lei și prețul unei listări Premium, ca să nu plătiți separat pentru ea. Mă ocup și de mentenanța sitului după aceea.
 
 Nu cer niciun avans: plata se face abia la final, după ce vedeți rezultatul și sunteți mulțumit.
 
-Dacă nu vă interesează niciuna dintre aceste variante, nicio problemă: listarea gratuită rămâne disponibilă oricum, pe baza altor linkuri pe care le aveți deja (rețele sociale, Google Maps etc.).
+Dacă nu vă interesează site-ul, nicio problemă: listarea gratuită rămâne disponibilă oricum, pe baza altor linkuri pe care le aveți deja (rețele sociale, Google Maps etc.).
 
-Dacă vă interesează una din variante sau aveți întrebări, răspundeți la acest email sau sunați-mă la 0747 646 543. Sunt flexibil și deschis la orice idee care v-ar ajuta.`,
+Dacă vă interesează sau aveți întrebări, răspundeți la acest email sau sunați-mă la 0747 646 543. Sunt flexibil și deschis la orice idee care v-ar ajuta.`,
 };
 
 function clicksText(type: OutreachTplType, clicks: number): string {
