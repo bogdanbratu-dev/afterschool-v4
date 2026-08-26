@@ -8,7 +8,7 @@ import { isContactVisible } from '@/lib/contactVisibility';
 import KindergartenCard from '@/components/KindergartenCard';
 import type { Kindergarten } from '@/lib/db';
 
-type Props = { params: Promise<{ sector: string }> };
+type Props = { params: Promise<{ sector: string }>; searchParams: Promise<{ type?: string }> };
 
 const SECTOR_NAMES: Record<string, string> = {
   '1': 'Sectorul 1', '2': 'Sectorul 2', '3': 'Sectorul 3',
@@ -92,11 +92,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title, description, alternates: { canonical }, openGraph: { title, description, url: canonical, siteName: 'ActivKids', locale: 'ro_RO', type: 'website' }, twitter: { card: 'summary', title, description } };
 }
 
-export default async function KindergartenSectorPage({ params }: Props) {
+export default async function KindergartenSectorPage({ params, searchParams }: Props) {
   const { sector } = await params;
+  const { type } = await searchParams;
   if (!SECTOR_NAMES[sector]) notFound();
+  const typeFilter = type === 'cresa' || type === 'gradinita' ? type : null;
   const db = getDb();
-  let items = db.prepare('SELECT * FROM kindergartens WHERE sector = ? ORDER BY is_featured DESC, is_premium DESC, rating IS NULL, rating DESC, name').all(parseInt(sector)) as Kindergarten[];
+  let items = (typeFilter
+    ? db.prepare('SELECT * FROM kindergartens WHERE sector = ? AND type = ? ORDER BY is_featured DESC, is_premium DESC, rating IS NULL, rating DESC, name').all(parseInt(sector), typeFilter)
+    : db.prepare('SELECT * FROM kindergartens WHERE sector = ? ORDER BY is_featured DESC, is_premium DESC, rating IS NULL, rating DESC, name').all(parseInt(sector))
+  ) as Kindergarten[];
 
   items = applyPremiumSpotlight(items, readSpotlightConfig(db));
 
@@ -138,11 +143,23 @@ export default async function KindergartenSectorPage({ params }: Props) {
       </header>
       <section className="bg-gradient-to-br from-pink-600 to-pink-800 text-white py-8">
         <div className="max-w-6xl mx-auto text-center px-4">
-          <h1 className="text-xl sm:text-3xl font-bold">Gradinite si crese private in Sectorul {sector}</h1>
+          <h1 className="text-xl sm:text-3xl font-bold">
+            {typeFilter === 'cresa' ? 'Crese private' : typeFilter === 'gradinita' ? 'Gradinite private' : 'Gradinite si crese private'} in Sectorul {sector}
+          </h1>
           <p className="text-pink-100 text-sm mt-2">{items.length} unitati gasite</p>
         </div>
       </section>
       <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex flex-wrap gap-2 mb-6">
+          {[['', 'Toate'], ['gradinita', 'Gradinite'], ['cresa', 'Crese']].map(([v, label]) => (
+            <a key={v} href={v ? `/gradinite/sector/${sector}?type=${v}` : `/gradinite/sector/${sector}`}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${(typeFilter || '') === v
+                ? 'bg-pink-600 text-white border-pink-600'
+                : 'bg-[var(--color-card)] text-[var(--color-text-light)] border-[var(--color-border)] hover:border-pink-600'}`}>
+              {label}
+            </a>
+          ))}
+        </div>
         {sectorInfo && (
           <div className="mb-8 space-y-5 max-w-2xl">
             <div>
@@ -169,7 +186,7 @@ export default async function KindergartenSectorPage({ params }: Props) {
 
         <div className="flex flex-wrap gap-2 mb-8">
           {Object.entries(SECTOR_NAMES).map(([s, name]) => (
-            <a key={s} href={`/gradinite/sector/${s}`}
+            <a key={s} href={typeFilter ? `/gradinite/sector/${s}?type=${typeFilter}` : `/gradinite/sector/${s}`}
               className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${s === sector
                 ? 'bg-pink-600 text-white border-pink-600'
                 : 'bg-[var(--color-card)] text-[var(--color-text-light)] border-[var(--color-border)] hover:border-pink-600'}`}>
