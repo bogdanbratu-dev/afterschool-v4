@@ -56,6 +56,13 @@ export default function WaOutreach() {
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [templates, setTemplates] = useState<Record<string, string>>({});
   const [editingTemplate, setEditingTemplate] = useState(false);
+  // WhatsApp Web tine o singura sesiune activa per browser - o a doua fereastra deschisa "fura"
+  // automat sesiunea de la prima, deci deschiderea mai multor tab-uri deodata (fostul sendBatch cu
+  // forEach) nu functioneaza niciodata pentru mai mult de unul. Solutia: coada secventiala, un tab
+  // per click real al adminului (vezi startWaQueue/advanceWaQueue).
+  const [seqQueue, setSeqQueue] = useState<Lead[]>([]);
+  const [seqTotal, setSeqTotal] = useState(0);
+  const [seqDone, setSeqDone] = useState(0);
 
   const load = () => {
     fetch('/api/admin/outreach/whatsapp-leads')
@@ -145,15 +152,28 @@ export default function WaOutreach() {
     markSent(lead, true);
   };
 
-  const sendBatch = (batch: Lead[]) => {
+  const startWaQueue = (batch: Lead[]) => {
     const unsent = batch.filter(l => !l.sentAt);
     if (unsent.length === 0) return;
-    unsent.forEach(l => {
-      const url = buildWaUrl(l.phone, l.name, l.link, currentTemplate);
-      if (url) window.open(url, '_blank');
-      markSent(l, true);
-    });
-    alert(`${unsent.length} tab-uri WhatsApp deschise. Dacă browserul a blocat popup-urile, permite-le și încearcă din nou.`);
+    const [first, ...rest] = unsent;
+    sendLead(first);
+    setSeqQueue(rest);
+    setSeqTotal(unsent.length);
+    setSeqDone(1);
+  };
+
+  const advanceWaQueue = () => {
+    if (seqQueue.length === 0) return;
+    const [next, ...rest] = seqQueue;
+    sendLead(next);
+    setSeqQueue(rest);
+    setSeqDone(d => d + 1);
+  };
+
+  const cancelWaQueue = () => {
+    setSeqQueue([]);
+    setSeqTotal(0);
+    setSeqDone(0);
   };
 
   if (loading) return <p className="text-[var(--color-text-light)] py-8 text-center">Se încarcă...</p>;
@@ -220,6 +240,23 @@ export default function WaOutreach() {
             <p className="text-xs text-[var(--color-text-light)] mt-2">Folosește <code>{'{name}'}</code> — se înlocuiește automat cu numele fiecărui contact{selectedGroup?.startsWith('afterschool_') ? <> și <code>{'{link}'}</code> — linkul unic de confirmare a listării</> : null}.</p>
           </div>
 
+          {/* Coada secventiala - un tab WhatsApp per click real, vezi comentariul de la seqQueue */}
+          {seqTotal > 0 && (
+            <div className="flex flex-wrap items-center gap-3 bg-green-50 border border-green-300 rounded-xl px-4 py-3">
+              <span className="text-sm text-[var(--color-text-main)] font-medium">📱 WhatsApp: {seqDone}/{seqTotal} deschise</span>
+              {seqQueue.length > 0 ? (
+                <button onClick={advanceWaQueue} className="text-xs bg-green-700 text-white px-3 py-1.5 rounded-lg hover:bg-green-600">
+                  Am trimis, deschide următorul ({seqQueue.length} rămase)
+                </button>
+              ) : (
+                <span className="text-xs text-[var(--color-text-light)]">Batch terminat.</span>
+              )}
+              <button onClick={cancelWaQueue} className="text-xs text-[var(--color-text-light)] hover:text-[var(--color-text-main)] ml-auto">
+                {seqQueue.length > 0 ? 'Anulează restul' : 'Închide'}
+              </button>
+            </div>
+          )}
+
           {/* Batch-uri */}
           <div className="space-y-3">
             {batches.map((batch, idx) => {
@@ -233,8 +270,8 @@ export default function WaOutreach() {
                       <span className="text-[var(--color-text-light)] text-xs ml-2">— {sentCount}/{batch.length} trimise</span>
                     </div>
                     <button
-                      onClick={() => sendBatch(batch)}
-                      disabled={allSent}
+                      onClick={() => startWaQueue(batch)}
+                      disabled={allSent || seqTotal > 0}
                       className="text-xs bg-green-700 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg font-medium disabled:opacity-50"
                     >
                       {sentCount > 0 ? '📱 Trimite restul' : '📱 Trimite batch'}

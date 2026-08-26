@@ -21,6 +21,8 @@ import CircSchoolsTab from '@/components/CircSchoolsTab';
 import AdCalibrationTab from '@/components/AdCalibrationTab';
 import ContactSuggestionsTab from '@/components/ContactSuggestionsTab';
 
+type AdminTab = 'afterschools' | 'clubs' | 'analytics' | 'saturation' | 'reports' | 'listings' | 'potrivireLeads' | 'growthCampaigns' | 'users' | 'outreach' | 'catering' | 'professionals' | 'kindergartens' | 'tutors' | 'microsites' | 'fboutreach' | 'fbautopost' | 'waoutreach' | 'micrositepitch' | 'circschools' | 'adcalibration' | 'contactSuggestions';
+
 const CLUB_CATEGORIES = [
   { value: 'inot', label: '🏊 Înot' },
   { value: 'fotbal', label: '⚽ Fotbal' },
@@ -105,7 +107,7 @@ export default function AdminPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'afterschools' | 'clubs' | 'analytics' | 'saturation' | 'reports' | 'listings' | 'potrivireLeads' | 'growthCampaigns' | 'users' | 'outreach' | 'catering' | 'professionals' | 'kindergartens' | 'tutors' | 'microsites' | 'fboutreach' | 'fbautopost' | 'waoutreach' | 'micrositepitch' | 'circschools' | 'adcalibration' | 'contactSuggestions'>('afterschools');
+  const [activeTab, setActiveTab] = useState<AdminTab>('afterschools');
   const [msResult, setMsResult] = useState<{ microsite_url: string; magic_link: string } | null>(null);
   const [editMicrosite, setEditMicrosite] = useState<{ id: number; outreach_enabled: number; resend_api_key: string; outreach_from_email: string } | null>(null);
   const [msCreating, setMsCreating] = useState<number | null>(null);
@@ -726,140 +728,62 @@ export default function AdminPage() {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-[var(--color-border)]">
-          <button
-            onClick={() => setActiveTab('afterschools')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'afterschools' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            After School-uri ({afterschools.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('clubs')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'clubs' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🎯 Activități ({clubs.length})
-          </button>
-          <button
-            onClick={() => { setActiveTab('analytics'); loadAnalytics(analyticsDays); }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'analytics' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📊 Analytics
-          </button>
-          <button
-            onClick={() => setActiveTab('saturation')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'saturation' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🎯 Ocupare Premium
-          </button>
-          <button
-            onClick={() => { setActiveTab('reports'); loadReports(); }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'reports' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📋 Rapoarte
-          </button>
-          <button
-            onClick={() => setActiveTab('listings')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'listings' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🏢 Listari
-          </button>
-          <button
-            onClick={() => setActiveTab('potrivireLeads')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'potrivireLeads' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🎯 Potrivire
-          </button>
-          <button
-            onClick={() => setActiveTab('growthCampaigns')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'growthCampaigns' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🚀 Growth
-          </button>
-          <button
-            onClick={() => { setActiveTab('users'); loadUsers(); }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'users' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            👥 Useri
-          </button>
-          <button
-            onClick={() => { setActiveTab('outreach'); loadOutreach(); }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'outreach' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📣 Outreach
-          </button>
-          <button
-            onClick={() => setActiveTab('catering')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'catering' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🍽️ Catering
-          </button>
-          <button
-            onClick={() => setActiveTab('professionals')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'professionals' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            👨‍🏫 Colaboratori
-          </button>
-          <button
-            onClick={() => setActiveTab('kindergartens')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'kindergartens' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🧸 Grădinițe
-          </button>
-          <button
-            onClick={() => setActiveTab('tutors')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'tutors' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📚 Meditații
-          </button>
-          <button
-            onClick={() => setActiveTab('microsites')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'microsites' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🌐 Micro-site-uri
-          </button>
-          <button
-            onClick={() => setActiveTab('fboutreach')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'fboutreach' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📣 Outreach FB
-          </button>
-          <button
-            onClick={() => setActiveTab('fbautopost')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'fbautopost' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🤖 Auto-postare FB
-          </button>
-          <button
-            onClick={() => setActiveTab('waoutreach')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'waoutreach' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📱 Outreach WA
-          </button>
-          <button
-            onClick={() => setActiveTab('micrositepitch')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'micrositepitch' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🌐 Pachet site
-          </button>
-          <button
-            onClick={() => setActiveTab('circschools')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'circschools' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            🏫 Circumscripții
-          </button>
-          <button
-            onClick={() => setActiveTab('adcalibration')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'adcalibration' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📊 Calibrare reclame
-          </button>
-          <button
-            onClick={() => setActiveTab('contactSuggestions')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'contactSuggestions' ? 'border-[var(--color-primary)] text-[var(--color-primary)]' : 'border-transparent text-[var(--color-text-light)] hover:text-[var(--color-text-main)]'}`}
-          >
-            📇 Contact crawler
-          </button>
+        {/* Tabs - grupate pe categorii, chip-uri care se aranjeaza pe mai multe randuri (flex-wrap)
+            in loc de un singur rand ce scroleaza la infinit - problema raportata pe mobil */}
+        <div className="mb-6 pb-5 border-b border-[var(--color-border)] space-y-3">
+          {([
+            { title: 'Listări', tabs: [
+              { key: 'afterschools' as AdminTab, label: `After School-uri (${afterschools.length})`, onClick: () => setActiveTab('afterschools') },
+              { key: 'clubs' as AdminTab, label: `🎯 Activități (${clubs.length})`, onClick: () => setActiveTab('clubs') },
+              { key: 'kindergartens' as AdminTab, label: '🧸 Grădinițe', onClick: () => setActiveTab('kindergartens') },
+              { key: 'tutors' as AdminTab, label: '📚 Meditații', onClick: () => setActiveTab('tutors') },
+              { key: 'professionals' as AdminTab, label: '👨‍🏫 Colaboratori', onClick: () => setActiveTab('professionals') },
+              { key: 'catering' as AdminTab, label: '🍽️ Catering', onClick: () => setActiveTab('catering') },
+              { key: 'listings' as AdminTab, label: '🏢 Listari', onClick: () => setActiveTab('listings') },
+            ]},
+            { title: 'Analiză', tabs: [
+              { key: 'analytics' as AdminTab, label: '📊 Analytics', onClick: () => { setActiveTab('analytics'); loadAnalytics(analyticsDays); } },
+              { key: 'saturation' as AdminTab, label: '🎯 Ocupare Premium', onClick: () => setActiveTab('saturation') },
+              { key: 'reports' as AdminTab, label: '📋 Rapoarte', onClick: () => { setActiveTab('reports'); loadReports(); } },
+              { key: 'adcalibration' as AdminTab, label: '📊 Calibrare reclame', onClick: () => setActiveTab('adcalibration') },
+            ]},
+            { title: 'Matching & Growth', tabs: [
+              { key: 'potrivireLeads' as AdminTab, label: '🎯 Potrivire', onClick: () => setActiveTab('potrivireLeads') },
+              { key: 'growthCampaigns' as AdminTab, label: '🚀 Growth', onClick: () => setActiveTab('growthCampaigns') },
+            ]},
+            { title: 'Outreach', tabs: [
+              { key: 'outreach' as AdminTab, label: '📣 Outreach', onClick: () => { setActiveTab('outreach'); loadOutreach(); } },
+              { key: 'fboutreach' as AdminTab, label: '📣 Outreach FB', onClick: () => setActiveTab('fboutreach') },
+              { key: 'fbautopost' as AdminTab, label: '🤖 Auto-postare FB', onClick: () => setActiveTab('fbautopost') },
+              { key: 'waoutreach' as AdminTab, label: '📱 Outreach WA', onClick: () => setActiveTab('waoutreach') },
+              { key: 'micrositepitch' as AdminTab, label: '🌐 Pachet site', onClick: () => setActiveTab('micrositepitch') },
+              { key: 'contactSuggestions' as AdminTab, label: '📇 Contact crawler', onClick: () => setActiveTab('contactSuggestions') },
+            ]},
+            { title: 'Instrumente', tabs: [
+              { key: 'microsites' as AdminTab, label: '🌐 Micro-site-uri', onClick: () => setActiveTab('microsites') },
+              { key: 'circschools' as AdminTab, label: '🏫 Circumscripții', onClick: () => setActiveTab('circschools') },
+              { key: 'users' as AdminTab, label: '👥 Useri', onClick: () => { setActiveTab('users'); loadUsers(); } },
+            ]},
+          ]).map(group => (
+            <div key={group.title} className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span className="w-full sm:w-auto text-[11px] font-semibold uppercase tracking-wide text-[var(--color-text-light)] sm:mr-1">
+                {group.title}
+              </span>
+              {group.tabs.map(t => (
+                <button
+                  key={t.key}
+                  onClick={t.onClick}
+                  className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+                    activeTab === t.key
+                      ? 'bg-[var(--color-primary)] text-white'
+                      : 'bg-gray-100 text-[var(--color-text-light)] hover:bg-gray-200'
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          ))}
         </div>
 
         {/* Add Button + Search */}

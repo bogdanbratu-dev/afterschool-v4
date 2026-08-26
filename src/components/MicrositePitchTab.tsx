@@ -25,10 +25,13 @@ const LISTING_TYPES: { v: string; label: string }[] = [
 
 type Filter = 'all' | 'no_email' | 'no_wa' | 'done' | 'today';
 
-// WhatsApp Web nu poate initializa multe sesiuni simultan intr-un browser - testat 2026-08-17,
-// un lot de 20 de tab-uri deschise deodata a ramas blocat pe ecranul de incarcare "Criptat integral"
-// la toate, niciunul nu a ajuns sa afiseze conversatia. Marit la cererea admin-ului (2026-08-26) de
-// la valoarea conservatoare de 3 - risc mai mare ca unele tab-uri sa ramana blocate de browser.
+// WhatsApp Web permite o singura sesiune activa per browser - a doua fereastra deschisa "fura"
+// automat sesiunea de la prima (ecranul de incarcare / "folosit in alta fereastra" pe cea veche),
+// asa ca deschiderea a N tab-uri deodata (testat cu 20, apoi cu 10, tot 2026-08-17/26) nu functioneaza
+// niciodata pentru mai mult de unul - nu e o problema de URL (wa.me vs web.whatsapp.com), e limitarea
+// reala a WhatsApp Web. Solutia: se deschide UN singur tab per click (vezi startWaQueue/advanceWaQueue
+// mai jos), fiecare tab nou preluand automat sesiunea de la cel anterior. BATCH_SIZE ramane doar
+// marimea de grupare a butoanelor "Lot" din UI, nu o limita tehnica.
 const BATCH_SIZE = 10;
 
 function toWaPhone(phone: string): string {
@@ -84,6 +87,11 @@ export default function MicrositePitchTab() {
   // deci NU marcam "trimis" doar pentru ca window.open() a reusit sa creeze fereastra. Marcarea reala
   // se face abia dupa ce adminul confirma manual, per contact sau in bloc.
   const [pendingConfirm, setPendingConfirm] = useState<Target[]>([]);
+  // Coada seceventiala de WhatsApp - vezi comentariul de la BATCH_SIZE. seqQueue tine tintele
+  // inca nedeschise; seqTotal/seqDone sunt doar pentru afisarea progresului "3/10".
+  const [seqQueue, setSeqQueue] = useState<Target[]>([]);
+  const [seqTotal, setSeqTotal] = useState(0);
+  const [seqDone, setSeqDone] = useState(0);
 
   const [templateSubject, setTemplateSubject] = useState('');
   const [templateMessage, setTemplateMessage] = useState('');
@@ -214,9 +222,7 @@ export default function MicrositePitchTab() {
 
   const sendWa = (t: Target) => {
     if (!t.phone) return;
-    window.open(micrositeWaLink(t.phone, t.name, t.link), '_blank');
-    addPending([t]);
-    setSelected(prev => { const next = new Set(prev); next.delete(keyOf(t)); return next; });
+    openWaTarget(t);
   };
 
   const toggleSelect = (key: string) => {
@@ -318,55 +324,39 @@ export default function MicrositePitchTab() {
     setBulkSendingEmail(false);
   };
 
-  // Deschide fiecare conversatie WhatsApp intr-un tab nou, sincron (fara setTimeout) - browserul
-  // permite mai multe window.open() consecutive doar cat timp raman in acelasi handler de click,
-  // orice apel amanat (async) pierde privilegiul si e blocat aproape sigur.
-  const bulkSendWa = () => {
-    if (selectedWaTargets.length === 0) return;
-    // Se deschid cel mult BATCH_SIZE deodata chiar daca sunt mai multe selectate - WhatsApp Web nu
-    // tine sesiuni multiple simultane (vezi comentariul de la BATCH_SIZE), restul raman selectate
-    // pentru un click urmator.
-    const toOpen = selectedWaTargets.slice(0, BATCH_SIZE);
-    let blocked = 0;
-    const opened: Target[] = [];
-    toOpen.forEach(t => {
-      const win = window.open(micrositeWaLink(t.phone as string, t.name, t.link), '_blank');
-      if (win) {
-        opened.push(t);
-        setSelected(prev => { const next = new Set(prev); next.delete(keyOf(t)); return next; });
-      } else {
-        blocked++;
-      }
-    });
-    if (opened.length > 0) addPending(opened);
-    const remaining = selectedWaTargets.length - toOpen.length;
-    const remainingMsg = remaining > 0 ? ` Mai sunt ${remaining} selectate, apasă din nou pentru următoarele.` : '';
-    if (blocked > 0) {
-      setBulkInfo(`${opened.length} conversații WhatsApp deschise, ${blocked} blocate de browser — permite ferestre pop-up pentru acest site (iconița din bara de adrese) și încearcă din nou pentru restul. Verifică jos care s-au încărcat efectiv înainte de a confirma trimiterea.${remainingMsg}`);
-    } else {
-      setBulkInfo(`${opened.length} conversații WhatsApp deschise într-un tab nou. Verifică jos care s-au încărcat efectiv înainte de a confirma trimiterea.${remainingMsg}`);
-    }
+  // Deschide UN tab WhatsApp - trebuie apelat direct dintr-un handler de click (gest real al
+  // userului), altfel browserul blocheaza fereastra ca pop-up. Fereastra noua preia automat
+  // sesiunea WhatsApp Web activa de la orice tab deschis anterior (vezi comentariul BATCH_SIZE).
+  const openWaTarget = (t: Target) => {
+    window.open(micrositeWaLink(t.phone as string, t.name, t.link), '_blank');
+    addPending([t]);
+    setSelected(prev => { const next = new Set(prev); next.delete(keyOf(t)); return next; });
   };
 
-  // Trimite un lot intreg (BATCH_SIZE) fara selectie manuala prealabila - acelasi principiu
-  // sincron (fara setTimeout) ca bulkSendWa, doar ca lotul e precalculat, nu ales din checkbox-uri.
-  const sendWaBatch = (batch: Target[]) => {
-    let blocked = 0;
-    const opened: Target[] = [];
-    batch.forEach(t => {
-      const win = window.open(micrositeWaLink(t.phone as string, t.name, t.link), '_blank');
-      if (win) {
-        opened.push(t);
-      } else {
-        blocked++;
-      }
-    });
-    if (opened.length > 0) addPending(opened);
-    if (blocked > 0) {
-      setBulkInfo(`${opened.length} conversații WhatsApp deschise, ${blocked} blocate de browser — permite ferestre pop-up pentru acest site (iconița din bara de adrese) și încearcă din nou pentru restul. Verifică jos care s-au încărcat efectiv înainte de a confirma trimiterea.`);
-    } else {
-      setBulkInfo(`${opened.length} conversații WhatsApp deschise într-un tab nou (lot). Verifică jos care s-au încărcat efectiv înainte de a confirma trimiterea.`);
-    }
+  // Porneste o coada secventiala: deschide primul tab acum (clic curent = gest valid), restul
+  // asteapta ca adminul sa apese "urmatorul" dupa fiecare trimitere - fiecare click e la randul
+  // lui un gest real, deci fiecare window.open() reuseste garantat.
+  const startWaQueue = (targets: Target[]) => {
+    if (targets.length === 0) return;
+    const [first, ...rest] = targets;
+    openWaTarget(first);
+    setSeqQueue(rest);
+    setSeqTotal(targets.length);
+    setSeqDone(1);
+  };
+
+  const advanceWaQueue = () => {
+    if (seqQueue.length === 0) return;
+    const [next, ...rest] = seqQueue;
+    openWaTarget(next);
+    setSeqQueue(rest);
+    setSeqDone(d => d + 1);
+  };
+
+  const cancelWaQueue = () => {
+    setSeqQueue([]);
+    setSeqTotal(0);
+    setSeqDone(0);
   };
 
   return (
@@ -475,11 +465,11 @@ export default function MicrositePitchTab() {
             {bulkSendingEmail ? 'Se trimite...' : `✉️ Trimite email la ${selectedEmailTargets.length}`}
           </button>
           <button
-            onClick={bulkSendWa}
-            disabled={selectedWaTargets.length === 0}
+            onClick={() => startWaQueue(selectedWaTargets)}
+            disabled={selectedWaTargets.length === 0 || seqTotal > 0}
             className="text-xs bg-green-700 text-white px-3 py-1.5 rounded-lg disabled:opacity-40"
           >
-            📱 Deschide WhatsApp pentru {Math.min(selectedWaTargets.length, BATCH_SIZE)}{selectedWaTargets.length > BATCH_SIZE ? ` din ${selectedWaTargets.length}` : ''}
+            📱 Deschide WhatsApp pentru {selectedWaTargets.length}
           </button>
           <button onClick={() => setSelected(new Set())} className="text-xs text-[var(--color-text-light)] hover:text-[var(--color-text-main)] ml-auto">
             Deselectează tot
@@ -525,19 +515,39 @@ export default function MicrositePitchTab() {
         </div>
       )}
 
-      {/* Loturi WhatsApp - deschide cate BATCH_SIZE conversatii dintr-o data, fara sa bifezi manual */}
+      {/* Coada secventiala WhatsApp - WhatsApp Web nu permite mai multe sesiuni simultane, deci
+          conversatiile se deschid una cate una, fiecare printr-un click real (vezi comentariul
+          BATCH_SIZE si startWaQueue/advanceWaQueue) */}
+      {seqTotal > 0 && (
+        <div className="flex flex-wrap items-center gap-3 bg-green-50 border border-green-300 rounded-xl px-4 py-3">
+          <span className="text-sm text-[var(--color-text-main)] font-medium">📱 WhatsApp: {seqDone}/{seqTotal} deschise</span>
+          {seqQueue.length > 0 ? (
+            <button onClick={advanceWaQueue} className="text-xs bg-green-700 text-white px-3 py-1.5 rounded-lg hover:bg-green-600">
+              Am trimis, deschide următorul ({seqQueue.length} rămase)
+            </button>
+          ) : (
+            <span className="text-xs text-[var(--color-text-light)]">Lot terminat.</span>
+          )}
+          <button onClick={cancelWaQueue} className="text-xs text-[var(--color-text-light)] hover:text-[var(--color-text-main)] ml-auto">
+            {seqQueue.length > 0 ? 'Anulează restul' : 'Închide'}
+          </button>
+        </div>
+      )}
+
+      {/* Loturi WhatsApp - pornesc o coada de cate BATCH_SIZE conversatii, fara sa bifezi manual */}
       {waBatches.length > 0 && (
         <div className="bg-[var(--color-card)] rounded-xl border border-[var(--color-border)] p-4">
           <h3 className="text-sm font-semibold text-[var(--color-text-main)] mb-1">📱 Loturi WhatsApp (câte {BATCH_SIZE})</h3>
           <p className="text-xs text-[var(--color-text-light)] mb-3">
-            Deschide pe rând câte {BATCH_SIZE} conversații WhatsApp din lista curentă (fără WhatsApp trimis deja), fără să selectezi manual fiecare rând.
+            WhatsApp Web ține o singură conversație activă per browser, deci se deschide un tab pe rând: apasă un lot ca să pornești coada, apoi „Am trimis, deschide următorul” după fiecare mesaj.
           </p>
           <div className="flex flex-wrap gap-2">
             {waBatches.map((batch, i) => (
               <button
                 key={i}
-                onClick={() => sendWaBatch(batch)}
-                className="text-xs bg-green-700 text-white px-3 py-1.5 rounded-lg hover:bg-green-600"
+                onClick={() => startWaQueue(batch)}
+                disabled={seqTotal > 0}
+                className="text-xs bg-green-700 text-white px-3 py-1.5 rounded-lg hover:bg-green-600 disabled:opacity-40"
               >
                 📱 Lot {i + 1} ({batch.length})
               </button>
