@@ -135,7 +135,7 @@ Profilul de baza e gratuit, puteti actualiza informatiile oricand. Daca vreti ma
 Daca am acordul dvs., va puteti inregistra aici: https://activkids.ro/promovare
 
 Daca aveti intrebari sau vreti sa discutam direct, ma puteti suna oricand la 0747 646 543. Sunt deschis la orice colaborare sau idee care credeti ca v-ar ajuta la promovare.`,
-  microsite_pitch: `Îmi cer scuze de deranj. Mă numesc Bogdan și am construit ActivKids.ro, un site prin care părinții din București caută afterschool-uri, grădinițe, cluburi de activități și alți furnizori de servicii pentru copii. Am căutat și am contactat mai multe astfel de afaceri din oraș ca să construiesc platforma, și am dat și de {nume}, așa că aș vrea, cu permisiunea dvs, să vă adaug gratuit.
+  microsite_pitch: `Îmi cer scuze de deranj. Mă numesc Bogdan și am construit ActivKids.ro, un site prin care părinții din București caută afterschool-uri, grădinițe, cluburi de sporturi și activități și alți furnizori de servicii pentru copii. Am căutat și am contactat mai multe astfel de afaceri din oraș ca să construiesc platforma, și am dat și de {nume}, așa că aș vrea, cu permisiunea dvs, să vă adaug gratuit.
 
 Fiind adăugați pe activkids.ro, aveți gratuit:
 • apariție în căutările părinților din zona dvs. care caută exact ce oferiți

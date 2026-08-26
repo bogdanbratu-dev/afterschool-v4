@@ -47,7 +47,7 @@ function keyOf(t: { listing_type: string; id: number }): string {
 // adaugati. Linkul de confirmare vine din API (confirm_token persistat in outreach_contacts).
 function micrositeWaLink(phone: string, name: string, link: string): string {
   const text = encodeURIComponent(
-    `Bună ziua! Îmi cer scuze de deranj. Mă numesc Bogdan și am construit ActivKids.ro, un site prin care părinții din București caută afterschool-uri, grădinițe, cluburi de activități și alți furnizori de servicii pentru copii.\n\n` +
+    `Bună ziua! Îmi cer scuze de deranj. Mă numesc Bogdan și am construit ActivKids.ro, un site prin care părinții din București caută afterschool-uri, grădinițe, cluburi de sporturi și activități și alți furnizori de servicii pentru copii.\n\n` +
     `Am căutat și am contactat mai multe astfel de afaceri din oraș ca să construiesc platforma, și am dat și de ${name}, așa că aș vrea, cu permisiunea dvs, să vă adaug gratuit.\n\n` +
     `Fiind adăugați pe activkids.ro, aveți gratuit: apariție în căutările părinților din zona dvs., profil complet cu poze, descriere, program și date de contact, și posibilitatea să actualizați oricând informațiile din propriul cont.\n\n` +
     `Dacă sunteți de acord, confirmarea e scurtă: ${link}\n\n` +
