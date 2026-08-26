@@ -58,7 +58,12 @@ function micrositeWaLink(phone: string, name: string, link: string): string {
     `Dacă nu vă interesează site-ul, nicio problemă, listarea gratuită rămâne disponibilă oricum.\n\n` +
     `Dacă aveți întrebări, răspundeți aici sau sunați-mă la 0747 646 543.`
   );
-  return 'https://wa.me/' + toWaPhone(phone) + '?text=' + text;
+  // web.whatsapp.com in loc de wa.me: wa.me redirecteaza spre api.whatsapp.com, care declanseaza
+  // dialogul "Open WhatsApp?" al browserului daca ai aplicatia desktop instalata - dialogul e modal
+  // per-fereastra si browserul rezolva interactiv doar unul deodata, deci la deschiderea mai multor
+  // tab-uri simultan (batch send) doar unul ajunge sa se deschida cu adevarat. web.whatsapp.com/send
+  // duce direct in clientul web, fara sa mai treaca prin acel handoff.
+  return 'https://web.whatsapp.com/send?phone=' + toWaPhone(phone) + '&text=' + text;
 }
 
 export default function MicrositePitchTab() {

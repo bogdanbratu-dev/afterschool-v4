@@ -61,7 +61,9 @@ function waLink(phone: string, name: string): string {
     "Daca am acordul dvs., va puteti inregistra aici: https://activkids.ro/promovare\n\n" +
     "Daca aveti intrebari sau vreti sa discutam direct, ma puteti suna la 0747 646 543. Sunt deschis la orice colaborare sau idee care credeti ca v-ar ajuta la promovare."
   );
-  return "https://wa.me/" + toWaPhone(phone) + "?text=" + text;
+  // web.whatsapp.com in loc de wa.me: wa.me redirecteaza spre api.whatsapp.com, care declanseaza
+  // dialogul "Open WhatsApp?" al browserului daca ai aplicatia desktop instalata.
+  return "https://web.whatsapp.com/send?phone=" + toWaPhone(phone) + "&text=" + text;
 }
 
 export default function OutreachTab({ outreachData, outreachFilter, setOutreachFilter, loadOutreach, updateOutreach }: Props) {

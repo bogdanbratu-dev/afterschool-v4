@@ -42,7 +42,12 @@ function buildWaUrl(phone: string, name: string, link: string | undefined, templ
     : digits.startsWith('40') && digits.length === 11 ? digits : digits;
   if (normalized.length < 10) return null;
   const msg = template.replaceAll('{name}', name).replaceAll('{link}', link || 'activkids.ro/promovare');
-  return `https://wa.me/${normalized}?text=${encodeURIComponent(msg)}`;
+  // web.whatsapp.com in loc de wa.me: wa.me redirecteaza spre api.whatsapp.com, care declanseaza
+  // dialogul "Open WhatsApp?" al browserului daca ai aplicatia desktop instalata - dialogul e modal
+  // per-fereastra si browserul rezolva interactiv doar unul deodata, deci la deschiderea mai multor
+  // tab-uri simultan (batch send) doar unul ajunge sa se deschida cu adevarat. web.whatsapp.com/send
+  // duce direct in clientul web, fara sa mai treaca prin acel handoff.
+  return `https://web.whatsapp.com/send?phone=${normalized}&text=${encodeURIComponent(msg)}`;
 }
 
 export default function WaOutreach() {
