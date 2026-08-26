@@ -27,9 +27,9 @@ type Filter = 'all' | 'no_email' | 'no_wa' | 'done' | 'today';
 
 // WhatsApp Web nu poate initializa multe sesiuni simultan intr-un browser - testat 2026-08-17,
 // un lot de 20 de tab-uri deschise deodata a ramas blocat pe ecranul de incarcare "Criptat integral"
-// la toate, niciunul nu a ajuns sa afiseze conversatia. 3 e o valoare conservatoare care lasa
-// fiecare tab sa apuce sa faca handshake-ul cu telefonul inainte sa se deschida urmatorul.
-const BATCH_SIZE = 3;
+// la toate, niciunul nu a ajuns sa afiseze conversatia. Marit la cererea admin-ului (2026-08-26) de
+// la valoarea conservatoare de 3 - risc mai mare ca unele tab-uri sa ramana blocate de browser.
+const BATCH_SIZE = 10;
 
 function toWaPhone(phone: string): string {
   const digits = phone.replace(/\D/g, '');
@@ -51,11 +51,11 @@ function micrositeWaLink(phone: string, name: string, link: string): string {
     `Am căutat și am contactat mai multe astfel de afaceri din oraș ca să construiesc platforma, și am dat și de ${name}, așa că aș vrea, cu permisiunea dvs, să vă adaug gratuit.\n\n` +
     `Fiind adăugați pe activkids.ro, aveți gratuit: apariție în căutările părinților din zona dvs., profil complet cu poze, descriere, program și date de contact, și posibilitatea să actualizați oricând informațiile din propriul cont.\n\n` +
     `Dacă sunteți de acord, confirmarea e scurtă: ${link}\n\n` +
-    `Am observat totuși că nu aveți un website propriu. Vă putem crea și un domeniu, și un site de prezentare propriu, pe care să îl folosiți și în afara platformei, administrat cum doriți dvs: galerie foto, descriere, formular de contact, linkuri către rețele sociale și statistici de vizualizări. Costă doar 50 lei, o singură dată, fără abonament.\n\n` +
-    `Ca să vă faceți o idee, avem deja un exemplu construit, îl puteți vedea aici: https://academia-micilor-exploratori.activkids.ro (descriere, activități, galerie foto, formular de contact și linkuri către rețele sociale) - un site asemănător ar putea arăta așa și pentru dvs.\n\n` +
-    `Dacă vă doriți ceva mai complet, avem și un pachet profesional: site propriu, cu domeniu propriu (de exemplu www.numecompanie.ro), optimizat pentru mobil, indexat pe Google și cu orice funcționalități aveți nevoie. Costă 500 lei o singură dată, plus 70 lei pe an taxa de domeniu, și include automat și listarea gratuită pe activkids.ro.\n\n` +
+    `Am observat totuși că nu aveți un site propriu. Un site v-ar ajuta nu doar să vă îmbunătățiți listările pe astfel de platforme, dar potențialii clienți vă pot găsi și prin Google sau chiar prin ChatGPT în zilele acestea.\n\n` +
+    `Listarea pe activkids.ro este gratuită, iar pachetul Premium (100 lei/3 luni) vă aduce în plus poziție prioritară în rezultate, badge Premium, carusel foto mai vizibil, contact direct de la părinți, statistici de vizite și acces la catalogul nostru de colaboratori (logopezi, psihologi, meditatori).\n\n` +
+    `Un site cu orice funcționalități doriți vi-l pot face cu 500 lei, o singură dată - și aș putea include în acei 500 lei și prețul unei listări Premium, ca să nu plătiți separat pentru ea. Mă ocup și de mentenanța sitului după aceea.\n\n` +
     `Nu cer niciun avans: plata se face abia la final, după ce vedeți rezultatul și sunteți mulțumit.\n\n` +
-    `Dacă nu vă interesează niciuna dintre aceste variante, nicio problemă, listarea gratuită rămâne disponibilă oricum.\n\n` +
+    `Dacă nu vă interesează site-ul, nicio problemă, listarea gratuită rămâne disponibilă oricum.\n\n` +
     `Dacă aveți întrebări, răspundeți aici sau sunați-mă la 0747 646 543.`
   );
   return 'https://wa.me/' + toWaPhone(phone) + '?text=' + text;
