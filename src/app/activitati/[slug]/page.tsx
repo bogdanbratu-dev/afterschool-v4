@@ -243,7 +243,7 @@ export default async function ClubPage({ params }: Props) {
                 {club.schedule && (
                   <div className="bg-amber-50 rounded-lg p-3 text-center">
                     <div className="text-xs text-[var(--color-text-light)]">Program</div>
-                    <div className="font-semibold text-xs text-[var(--color-accent)]">{club.schedule}</div>
+                    <div className="font-semibold text-xs text-[var(--color-accent)] line-clamp-3" title={club.schedule}>{club.schedule}</div>
                   </div>
                 )}
                 {club.age_min !== null && (

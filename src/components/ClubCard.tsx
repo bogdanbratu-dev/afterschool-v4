@@ -203,7 +203,7 @@ export default function ClubCard({ data, rank, businessMode }: ClubCardProps) {
           {data.schedule && (
             <div className="bg-amber-50 rounded-lg p-1.5 text-center">
               <div className="text-xs text-[var(--color-text-light)]">Program</div>
-              <div className="font-semibold text-xs text-[var(--color-accent)]">{data.schedule}</div>
+              <div className="font-semibold text-xs text-[var(--color-accent)] line-clamp-2" title={data.schedule}>{data.schedule}</div>
             </div>
           )}
           {data.age_min !== null && (

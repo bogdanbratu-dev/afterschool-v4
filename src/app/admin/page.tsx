@@ -288,7 +288,7 @@ export default function AdminPage() {
   const handleEditClub = async (c: ClubData) => {
     setEditingClub(c);
     setClubForm({ name: c.name, address: c.address, sector: c.sector, lat: c.lat, lng: c.lng, phone: c.phone || '', email: c.email || '', website: c.website || '', price_min: c.price_min, price_max: c.price_max, schedule: c.schedule || '', age_min: c.age_min, age_max: c.age_max, description: c.description || '', category: c.category, availability: c.availability, banner_url: (c as any).banner_url || null, editorial_summary: (c as any).editorial_summary || '', photo_urls: (c as any).photo_urls || null } as any);
-    setClubForm(f => ({ ...f, premium_expires_at: (c as any).premium_expires_at || null, leads_enabled: (c as any).leads_enabled ?? null } as any));
+    setClubForm(f => ({ ...f, premium_expires_at: (c as any).premium_expires_at || null, leads_enabled: (c as any).leads_enabled ?? null, is_premium: (c as any).is_premium ?? 0, contacts_hidden: (c as any).contacts_hidden ?? 0 } as any));
     // Fetch associated microsite for outreach config
     try {
       const mr = await fetch(`/api/admin/microsites?listing_type=club&listing_id=${c.id}`);
